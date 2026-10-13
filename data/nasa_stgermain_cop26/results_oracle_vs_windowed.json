@@ -1,0 +1,26 @@
+{
+ "talk": "nasa_stgermain_cop26",
+ "oracle_editor": "llm, full transcript",
+ "causal_editor": "llm, 9 independent windows of 90s, each sees transcript up to window end only",
+ "caveat": "NOT strictly causal: an event is decided with up to the rest of its window visible (lookahead below). Same model family as oracle; not independent evidence of correctness.",
+ "lookahead_s": {
+  "mean": 51.7,
+  "median": 53.0,
+  "max": 93.9
+ },
+ "comparison_oracle_vs_windowed": {
+  "ref_events": 32,
+  "cand_events": 39,
+  "matched": 26,
+  "recall": 0.812,
+  "precision": 0.667,
+  "function_agreement": 0.654,
+  "representation_agreement": 0.615,
+  "both_agree_of_ref": 0.406,
+  "median_onset_lag_s": 0.15,
+  "ref_screen_coverage": 0.579,
+  "cand_screen_coverage": 0.582
+ },
+ "representation_agreement_if_shuffled_chance": 0.182,
+ "dropped": "1 causal row dropped: started before its window (538.0-554.0 in window 540-630)"
+}

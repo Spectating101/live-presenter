@@ -1,5 +1,5 @@
 import unittest
-from editor_trace_tools_v10 import build_prompt, causal_checkpoints, extract_json_rows, validate_editor_rows
+from editor_trace_tools_v10 import build_prompt, causal_checkpoints, causal_windows, extract_json_rows, validate_editor_rows
 
 SEG = [{"start_s": 0, "end_s": 10, "text": "Sales doubled."}, {"start_s": 10, "end_s": 20, "text": "Because pumps push water."},
        {"start_s": 20, "end_s": 30, "text": "Later we discuss funding."}]
@@ -19,6 +19,14 @@ class PromptTests(unittest.TestCase):
         with self.assertRaises(ValueError): build_prompt(SEG, CTX, mode="causal")
     def test_checkpoints_end_at_talk_end(self):
         cps = list(causal_checkpoints(SEG, 15)); self.assertEqual(cps[0], 15); self.assertEqual(cps[-1], 30)
+
+class WindowTests(unittest.TestCase):
+    def test_windows_tile_talk_without_gaps(self):
+        w = causal_windows(SEG, 10); self.assertEqual(w[0][0], 0); self.assertEqual(w[-1][1], 30)
+        for a, b in zip(w, w[1:]): self.assertEqual(a[1], b[0])
+    def test_window_prompt_restricts_start_and_hides_future(self):
+        p = build_prompt(SEG, CTX, mode="causal", until_s=20, from_s=10)
+        self.assertIn("START at or after 10.0s", p); self.assertIn("pumps", p); self.assertNotIn("funding", p)
 
 class ValidateTests(unittest.TestCase):
     def test_good_row_kept(self):

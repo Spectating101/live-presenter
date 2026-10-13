@@ -1,0 +1,353 @@
+[
+ {
+  "start_s": 11.5,
+  "end_s": 20.0,
+  "function": "exemplify",
+  "representation": "media",
+  "confidence": 0.5,
+  "rationale": "Speaker mentions 23 satellites watching Earth, so imagery of the satellite fleet helps.",
+  "query": "NASA Earth-observing satellite fleet imagery"
+ },
+ {
+  "start_s": 36.6,
+  "end_s": 57.0,
+  "function": "exemplify",
+  "representation": "chart",
+  "confidence": 0.85,
+  "rationale": "Speaker presents sustained sea level height observations since 1993 as an example, which is a time series.",
+  "query": "NASA satellite sea level height time series 1993 to present"
+ },
+ {
+  "start_s": 57.0,
+  "end_s": 64.6,
+  "function": "quantify",
+  "representation": "metric",
+  "confidence": 0.7,
+  "rationale": "The key number is the 90 mm average sea level rise since the early 1990s.",
+  "query": "90 mm sea level rise since 1993"
+ },
+ {
+  "start_s": 74.5,
+  "end_s": 90.0,
+  "function": "explain",
+  "representation": "map",
+  "confidence": 0.85,
+  "rationale": "Speaker is about to show where and when carbon dioxide is emitted, using a color-adjusted global emissions visualization.",
+  "query": "NASA global carbon dioxide emissions map visualization"
+ },
+ {
+  "start_s": 92.3,
+  "end_s": 98.9,
+  "function": "exemplify",
+  "representation": "map",
+  "confidence": 0.6,
+  "rationale": "Speaker is pointing to where and when CO2 accumulates, which the pre-loaded global CO2 map shows spatially across seasons.",
+  "query": "NASA global CO2 concentration map, northern hemisphere winter accumulation"
+ },
+ {
+  "start_s": 99.2,
+  "end_s": 118.3,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.7,
+  "rationale": "Speaker describes a causal cycle: fossil fuel burning builds CO2 over winter, then spring vegetation removes it.",
+  "query": "Fossil fuel burning -> CO2 builds up over winter -> spring vegetation growth draws it down"
+ },
+ {
+  "start_s": 136.8,
+  "end_s": 149.6,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.6,
+  "rationale": "Methane's sources (fossil fuel extraction, agriculture, vegetation decay) are listed as inputs that lead to atmospheric methane.",
+  "query": "Methane sources: fossil fuel extraction, agriculture, vegetation decay -> atmospheric methane"
+ },
+ {
+  "start_s": 150.6,
+  "end_s": 162.0,
+  "function": "compare",
+  "representation": "comparison",
+  "confidence": 0.8,
+  "rationale": "Speaker contrasts methane and CO2 on potency (about 20x) and atmospheric lifetime (about a decade vs very long).",
+  "query": "CO2 vs methane: warming potency and atmospheric lifetime"
+ },
+ {
+  "start_s": 162.4,
+  "end_s": 174.8,
+  "function": "summarize",
+  "representation": "map",
+  "confidence": 0.35,
+  "rationale": "Closing point is that knowing where greenhouse gases come from matters for mitigation, which a global emissions map would illustrate.",
+  "query": "NASA global greenhouse gas emissions map, CO2 and methane sources"
+ },
+ {
+  "start_s": 181.5,
+  "end_s": 194.5,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.6,
+  "rationale": "Speaker explains the mechanism of greenhouse gases trapping solar energy and raising surface temperatures.",
+  "query": "greenhouse effect: sunlight in, heat trapped, land and ocean warming"
+ },
+ {
+  "start_s": 196.0,
+  "end_s": 205.0,
+  "function": "quantify",
+  "representation": "chart",
+  "confidence": 0.7,
+  "rationale": "Cumulative extra heat trapped in the Earth system since 2000 is a time series trend from satellite data.",
+  "query": "Earth energy imbalance accumulated heat time series since 2000"
+ },
+ {
+  "start_s": 211.5,
+  "end_s": 217.0,
+  "function": "quantify",
+  "representation": "metric",
+  "confidence": 0.85,
+  "rationale": "A single key number, 94% of heat going into the oceans, is the point.",
+  "query": "94% of excess heat absorbed by oceans"
+ },
+ {
+  "start_s": 232.0,
+  "end_s": 246.0,
+  "function": "exemplify",
+  "representation": "media",
+  "confidence": 0.6,
+  "rationale": "Currents and eddies carrying heat around the world are best shown with ocean circulation imagery.",
+  "query": "NASA ocean currents and eddies visualization"
+ },
+ {
+  "start_s": 253.5,
+  "end_s": 268.0,
+  "function": "exemplify",
+  "representation": "media",
+  "confidence": 0.8,
+  "rationale": "Speaker is explicitly showing Arctic sea ice extent data from this year as an example of ocean heat impact.",
+  "query": "NASA Arctic sea ice extent visualization this year"
+ },
+ {
+  "start_s": 275.7,
+  "end_s": 285.1,
+  "function": "quantify",
+  "representation": "chart",
+  "confidence": 0.6,
+  "rationale": "Speaker describes a decades-long decline in end-of-summer Arctic ice, a trend best shown as a time series.",
+  "query": "Arctic sea ice September minimum extent time series, 1979 to present"
+ },
+ {
+  "start_s": 288.6,
+  "end_s": 305.6,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.75,
+  "rationale": "Speaker explains the albedo mechanism: less white ice, less sunlight reflected, more absorbed.",
+  "query": "Ice-albedo feedback diagram: less ice, less reflected sunlight, more warming"
+ },
+ {
+  "start_s": 306.5,
+  "end_s": 315.6,
+  "function": "quantify",
+  "representation": "chart",
+  "confidence": 0.4,
+  "rationale": "This year's summer minimum is compared against recent decades, which a minimum-extent series with the current year highlighted would show.",
+  "query": "Arctic sea ice minimum extent this year vs recent decades"
+ },
+ {
+  "start_s": 328.1,
+  "end_s": 344.9,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.75,
+  "rationale": "Speaker describes a process: warm ocean erodes the glacier underside, the glacier thins and breaks off, and ice flow speeds up.",
+  "query": "Warm ocean undercutting a marine-terminating glacier, calving, speed-up of ice flow"
+ },
+ {
+  "start_s": 356.1,
+  "end_s": 359.9,
+  "function": "exemplify",
+  "representation": "map",
+  "confidence": 0.6,
+  "rationale": "Speaker names the two biggest ice sheets, so their locations matter.",
+  "query": "Map of Antarctica and Greenland ice sheets"
+ },
+ {
+  "start_s": 360.5,
+  "end_s": 371.5,
+  "function": "quantify",
+  "representation": "map",
+  "confidence": 0.7,
+  "rationale": "Speaker points to where ice flows from Antarctica and Greenland into the ocean and gives their one-third share of sea level rise.",
+  "query": "Antarctica and Greenland ice sheet flow velocity map"
+ },
+ {
+  "start_s": 373.5,
+  "end_s": 385.5,
+  "function": "explain",
+  "representation": "chart",
+  "confidence": 0.6,
+  "rationale": "Direct measurements of ice mass lost from the ice sheets are described, which is a time series of ice mass change.",
+  "query": "Greenland and Antarctica ice mass loss time series (satellite gravity)"
+ },
+ {
+  "start_s": 397.0,
+  "end_s": 406.5,
+  "function": "quantify",
+  "representation": "chart",
+  "confidence": 0.65,
+  "rationale": "A projected dramatic increase in sunny day high tide flooding is a trend that a projection chart shows.",
+  "query": "Projected high tide flooding days per year, US coasts"
+ },
+ {
+  "start_s": 412.6,
+  "end_s": 421.0,
+  "function": "define",
+  "representation": "media",
+  "confidence": 0.5,
+  "rationale": "Earth as a water planet is a single striking image that frames the shift to inland impacts.",
+  "query": "Blue Marble Earth ocean view from space"
+ },
+ {
+  "start_s": 428.0,
+  "end_s": 436.5,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.7,
+  "rationale": "Water moves from the ocean through the atmosphere to inland areas, which is the water cycle process.",
+  "query": "Water cycle: ocean evaporation, atmospheric transport, precipitation inland"
+ },
+ {
+  "start_s": 446.7,
+  "end_s": 450.0,
+  "function": "compare",
+  "representation": "map",
+  "confidence": 0.55,
+  "rationale": "Wet regions getting wetter and dry regions drier is a spatial contrast shown on a precipitation change map.",
+  "query": "Global precipitation change map, wetter and drier regions"
+ },
+ {
+  "start_s": 455.1,
+  "end_s": 470.5,
+  "function": "exemplify",
+  "representation": "media",
+  "confidence": 0.7,
+  "rationale": "Speaker gives hurricanes as a concrete example of wet regions getting wetter, so satellite imagery of a tropical storm helps.",
+  "query": "NASA satellite imagery of a hurricane over warm ocean"
+ },
+ {
+  "start_s": 471.6,
+  "end_s": 489.0,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.65,
+  "rationale": "Speaker describes a causal chain: ocean heat fuels hurricanes, which intensify rapidly and then drop moisture at landfall.",
+  "query": "Ocean heat -> rapid intensification -> landfall -> heavy rainfall and flooding"
+ },
+ {
+  "start_s": 496.2,
+  "end_s": 511.5,
+  "function": "exemplify",
+  "representation": "map",
+  "confidence": 0.5,
+  "rationale": "Inland flooding along rivers, watersheds and agricultural regions is spatial, so a flood extent map fits.",
+  "query": "NASA flood extent map along river basins and agricultural regions"
+ },
+ {
+  "start_s": 522.4,
+  "end_s": 534.6,
+  "function": "compare",
+  "representation": "comparison",
+  "confidence": 0.55,
+  "rationale": "Speaker contrasts two extremes affecting agriculture, wetter wet regions versus drier dry regions.",
+  "query": "Wet regions getting wetter vs dry regions getting drier, impact on agriculture"
+ },
+ {
+  "start_s": 558.0,
+  "end_s": 580.0,
+  "function": "exemplify",
+  "representation": "map",
+  "confidence": 0.85,
+  "rationale": "Speaker is showing global projected maize and wheat yield maps with red for lower and green for higher yield, so spatial patterns matter.",
+  "query": "NASA projected future maize and wheat yield change map, red lower yield, green higher yield"
+ },
+ {
+  "start_s": 616.0,
+  "end_s": 629.5,
+  "function": "exemplify",
+  "representation": "media",
+  "confidence": 0.7,
+  "rationale": "Speaker moves to wildfires and longer fire seasons, where a concrete wildfire image or satellite view helps.",
+  "query": "satellite imagery of wildfires, extended wildfire season"
+ },
+ {
+  "start_s": 631.7,
+  "end_s": 637.6,
+  "function": "exemplify",
+  "representation": "media",
+  "confidence": 0.5,
+  "rationale": "Speaker describes more severe, faster-growing wildfires, which a satellite image of a large fire makes concrete.",
+  "query": "NASA satellite imagery of rapidly spreading severe wildfire"
+ },
+ {
+  "start_s": 638.4,
+  "end_s": 660.0,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.6,
+  "rationale": "Speaker lays out a causal chain from wildfire to added CO2, worse air quality and landslide vulnerability.",
+  "query": "Wildfire -> CO2 in atmosphere / air quality / landslides when rains come"
+ },
+ {
+  "start_s": 688.0,
+  "end_s": 692.2,
+  "function": "define",
+  "representation": "visual",
+  "confidence": 0.55,
+  "rationale": "Speaker introduces the FIRMS tool by name, so a title card for it helps.",
+  "query": "NASA FIRMS fire information tool interface"
+ },
+ {
+  "start_s": 692.6,
+  "end_s": 715.8,
+  "function": "exemplify",
+  "representation": "map",
+  "confidence": 0.7,
+  "rationale": "Speaker describes the tool showing where fires are burning around the world and for how long.",
+  "query": "FIRMS global active fire map from visible and infrared satellite imagery"
+ },
+ {
+  "start_s": 721.5,
+  "end_s": 734.0,
+  "function": "define",
+  "representation": "visual",
+  "confidence": 0.6,
+  "rationale": "The speaker introduces the NASA-IPCC projection tool, so a single hero image of the tool's interface suffices.",
+  "query": "NASA IPCC AR6 sea level projection tool interface"
+ },
+ {
+  "start_s": 735.5,
+  "end_s": 754.5,
+  "function": "exemplify",
+  "representation": "map",
+  "confidence": 0.7,
+  "rationale": "The speaker describes locating a position on a map and zooming in to regional sea level rise, which is spatial.",
+  "query": "Regional sea level rise map, observed and projected, zoom to location"
+ },
+ {
+  "start_s": 774.6,
+  "end_s": 782.4,
+  "function": "summarize",
+  "representation": "flow",
+  "confidence": 0.65,
+  "rationale": "The recap chains observations to understanding to models to predictions, which is a process chain.",
+  "query": "Flow: satellite observations -> understanding -> models -> predictions"
+ },
+ {
+  "start_s": 784.9,
+  "end_s": 790.0,
+  "function": "quantify",
+  "representation": "metric",
+  "confidence": 0.6,
+  "rationale": "A single key number is the point: warming of about 1.2 degrees so far.",
+  "query": "1.2 degrees C global warming so far"
+ }
+]

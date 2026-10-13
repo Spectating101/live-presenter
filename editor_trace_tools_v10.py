@@ -40,12 +40,15 @@ def _fmt_transcript(segments: Sequence[Mapping[str, Any]]) -> str:
 
 
 def build_prompt(segments: Sequence[Mapping[str, Any]], context: Mapping[str, Any], *, brief: str = "",
-                 mode: str = "oracle", until_s: float | None = None) -> str:
+                 mode: str = "oracle", until_s: float | None = None, from_s: float | None = None) -> str:
     if mode not in {"oracle", "causal"}: raise ValueError(f"mode must be oracle|causal, got {mode!r}")
     if mode == "causal":
         if until_s is None: raise ValueError("causal mode needs until_s")
         segments = [s for s in segments if float(s.get("start_s", s.get("start", 0))) < until_s]
         scope = f"You can only see the transcript up to {until_s:.1f}s. Do not assume anything later."
+        if from_s is not None:
+            scope += (f" Earlier text is context only: emit events that START at or after {from_s:.1f}s and END by {until_s:.1f}s."
+                      " Do not emit events for text before that window.")
     else:
         scope = "You can see the whole transcript, including what is said later."
     reps = "\n".join(f"- {r}: {REPRESENTATION_HINTS[r]}" + ("" if representation_available(r, context) else " (NOT available)")
@@ -61,6 +64,17 @@ def causal_checkpoints(segments: Sequence[Mapping[str, Any]], step_s: float = 30
     t = step_s
     while t < end + step_s:
         yield min(t, end); t += step_s
+
+
+def causal_windows(segments: Sequence[Mapping[str, Any]], step_s: float = 90.0) -> List[Tuple[float, float]]:
+    """Consecutive (from_s, until_s) windows covering the talk; the last one is clipped to the talk's end."""
+    end = max((float(s.get("end_s", s.get("end", 0))) for s in segments), default=0.0)
+    out, a = [], 0.0
+    while a < end - 1e-6:
+        b = a + step_s
+        if end - b < step_s / 3: b = end          # fold a tiny tail into the last window
+        out.append((a, min(b, end))); a = b
+    return out
 
 
 def extract_json_rows(text: str) -> List[Dict[str, Any]]:
