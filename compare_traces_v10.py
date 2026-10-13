@@ -42,3 +42,11 @@ def compare(ref: Sequence[Mapping[str, Any]], cand: Sequence[Mapping[str, Any]],
             "both_agree_of_ref": round(sum(ref[i]["representation"] == cand[j]["representation"] and ref[i]["function"] == cand[j]["function"] for i, j in pairs) / len(ref), 3) if ref else None,
             "median_onset_lag_s": round(median(lags), 2) if lags else None,
             "ref_screen_coverage": cov(ref), "cand_screen_coverage": cov(cand)}
+
+
+if __name__ == "__main__":
+    import argparse, json
+    ap = argparse.ArgumentParser(description="Score a candidate editor trace against a reference trace.")
+    ap.add_argument("ref"); ap.add_argument("cand"); ap.add_argument("--talk-s", type=float, required=True)
+    a = ap.parse_args()
+    print(json.dumps(compare(json.load(open(a.ref)), json.load(open(a.cand)), talk_s=a.talk_s), indent=2))
