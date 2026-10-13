@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "live_presenter.oracle_bundle.v1",
+  "title": "Live Presenter Oracle Trace Bundle",
+  "type": "object",
+  "required": ["talk_id", "editors"],
+  "properties": {
+    "talk_id": {"type": "string", "minLength": 1},
+    "context": {
+      "type": "object",
+      "properties": {
+        "has_dataset": {"type": "boolean"},
+        "has_images": {"type": "boolean"},
+        "has_sources": {"type": "boolean"},
+        "graph_ready": {"type": "boolean"},
+        "has_map_data": {"type": "boolean"},
+        "has_timeline_data": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "source_uri": {"type": "string"},
+        "license": {"type": "string"},
+        "rights_basis": {"type": "string"},
+        "domain": {"type": "string"},
+        "language": {"type": "string"},
+        "fixture": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "transcript": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text"],
+        "properties": {
+          "start": {"type": "number", "minimum": 0},
+          "end": {"type": "number", "minimum": 0},
+          "start_s": {"type": "number", "minimum": 0},
+          "end_s": {"type": "number", "minimum": 0},
+          "text": {"type": "string"}
+        }
+      }
+    },
+    "editors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "shape", "events"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "shape": {"enum": ["generic", "autobroll", "video_alchemy"]},
+          "version": {"type": "string"},
+          "events": {"type": "array", "items": {"type": "object"}}
+        }
+      }
+    }
+  }
+}
