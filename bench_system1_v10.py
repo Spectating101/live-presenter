@@ -6,7 +6,7 @@ Prints p50/p95 latency, abstain rate, agreement with the count-table policy.
 Run it from the machine that will present (e.g. Taiwan); vendor latency figures are not yours.
 """
 import argparse, asyncio, json
-from assemble_oracle_bundle_v10 import parse_srt
+from transcript_io_v10 import parse_srt
 from representation_policy_v10 import OracleRepresentationPolicy
 from system1_v10 import JevBackend, System1Assessor
 
