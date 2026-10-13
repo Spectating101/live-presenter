@@ -1,0 +1,15 @@
+{
+  "compile_ms": {
+    "median": 27.12,
+    "p95": 28.98
+  },
+  "preview_ms": {
+    "median": 2.4,
+    "p95": 2.585
+  },
+  "commit_ms": {
+    "median": 8.464,
+    "p95": 9.165
+  },
+  "note": "Local internal timings only; excludes microphone, network retrieval, external model latency, and projector/display transport."
+}

@@ -1,0 +1,2 @@
+browser mutation median_ms=4.048 p95_ms=9.117 max_ms=21.320
+transition_counts {'enter': 1, 'morph': 40, 'crossfade': 1} morph_rate 0.952

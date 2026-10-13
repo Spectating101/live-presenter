@@ -1,0 +1,15 @@
+{
+  "preview": {
+    "median_ms": 5.204,
+    "p95_ms": 5.787,
+    "max_ms": 6.505
+  },
+  "commit": {
+    "median_ms": 9.158,
+    "p95_ms": 10.118,
+    "max_ms": 12.926
+  },
+  "claims": 10,
+  "evidence": 6,
+  "tests": "66 x 5 clean"
+}
