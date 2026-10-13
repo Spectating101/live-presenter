@@ -1,0 +1,5 @@
+aiohttp>=3.9
+playwright>=1.45
+scikit-learn>=1.4
+pypdf>=4
+python-docx>=1
