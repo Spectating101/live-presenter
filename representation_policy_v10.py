@@ -34,6 +34,7 @@ def context_signature(context: Optional[Mapping[str, Any]]) -> str:
     return ";".join(f"{k}={1 if bool(c.get(k)) else 0}" for k in keys)
 
 def representation_available(rep: str, context: Optional[Mapping[str, Any]]) -> bool:
+    if rep not in REPRESENTATIONS: return False
     c = dict(context or {})
     if rep == "chart": return bool(c.get("has_dataset"))
     if rep == "media": return bool(c.get("has_images"))
@@ -79,7 +80,8 @@ class OracleRepresentationPolicy:
             fn = str(ex.get("function") or "augment")
             rep = str(ex.get("representation") or "visual")
             if rep not in REPRESENTATIONS: rep = "visual"
-            w = max(.20, float(ex.get("confidence", 1.0) or 1.0))
+            raw_conf = ex.get("confidence")
+            w = max(.20, 1.0 if raw_conf is None else float(raw_conf))
             global_counts[rep] += w
             by_function[fn][rep] += w
             by_context[f"{fn}|{context_signature(ex.get('context'))}"][rep] += w

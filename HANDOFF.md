@@ -1,5 +1,8 @@
 # Live Presenter v10 — Canonical Handoff
 
+Current execution and measured results: see `RESEARCH_ROADMAP.md`. The checkpoint
+history below remains archival; `make doctor` reports what this checkout can run.
+
 ## Canonical repository
 
 Repository: `Spectating101/live-presenter`

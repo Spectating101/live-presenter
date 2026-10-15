@@ -1,0 +1,290 @@
+[
+ {
+  "start_s": 10.7,
+  "end_s": 20.0,
+  "function": "quantify",
+  "representation": "metric",
+  "confidence": 0.8,
+  "rationale": "Headline number: 23 satellites.",
+  "query": ""
+ },
+ {
+  "start_s": 21.8,
+  "end_s": 30.4,
+  "function": "define",
+  "representation": "media",
+  "confidence": 0.5,
+  "rationale": "Imagery of the Earth system: atmosphere, oceans, land.",
+  "query": ""
+ },
+ {
+  "start_s": 43.2,
+  "end_s": 64.6,
+  "function": "quantify",
+  "representation": "chart",
+  "confidence": 0.95,
+  "rationale": "Sea level height since 1993, about 90 mm rise: a time series.",
+  "query": ""
+ },
+ {
+  "start_s": 73.8,
+  "end_s": 91.1,
+  "function": "quantify",
+  "representation": "map",
+  "confidence": 0.85,
+  "rationale": "Where and when CO2 is emitted: global emission map.",
+  "query": ""
+ },
+ {
+  "start_s": 99.2,
+  "end_s": 118.3,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.65,
+  "rationale": "Fossil burning -> winter accumulation -> spring vegetation removal.",
+  "query": ""
+ },
+ {
+  "start_s": 136.8,
+  "end_s": 149.6,
+  "function": "compare",
+  "representation": "comparison",
+  "confidence": 0.8,
+  "rationale": "CO2 sources vs methane sources side by side.",
+  "query": ""
+ },
+ {
+  "start_s": 150.6,
+  "end_s": 162.0,
+  "function": "compare",
+  "representation": "comparison",
+  "confidence": 0.8,
+  "rationale": "Methane 20x more potent but lasts about a decade vs CO2.",
+  "query": ""
+ },
+ {
+  "start_s": 180.9,
+  "end_s": 194.6,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.8,
+  "rationale": "Greenhouse gases trap energy -> surface warming.",
+  "query": ""
+ },
+ {
+  "start_s": 211.3,
+  "end_s": 216.8,
+  "function": "quantify",
+  "representation": "metric",
+  "confidence": 0.95,
+  "rationale": "94% of the extra heat goes into the oceans.",
+  "query": ""
+ },
+ {
+  "start_s": 220.1,
+  "end_s": 227.7,
+  "function": "exemplify",
+  "representation": "media",
+  "confidence": 0.5,
+  "rationale": "Pot of water on the stove analogy for heat capacity.",
+  "query": ""
+ },
+ {
+  "start_s": 231.6,
+  "end_s": 246.2,
+  "function": "explain",
+  "representation": "map",
+  "confidence": 0.6,
+  "rationale": "Currents and eddies carry heat around the world.",
+  "query": ""
+ },
+ {
+  "start_s": 255.6,
+  "end_s": 267.1,
+  "function": "quantify",
+  "representation": "map",
+  "confidence": 0.6,
+  "rationale": "This year's Arctic sea-ice extent.",
+  "query": ""
+ },
+ {
+  "start_s": 268.0,
+  "end_s": 285.1,
+  "function": "quantify",
+  "representation": "chart",
+  "confidence": 0.75,
+  "rationale": "Decades of shrinking end-of-summer ice.",
+  "query": ""
+ },
+ {
+  "start_s": 288.6,
+  "end_s": 305.6,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.75,
+  "rationale": "White ice reflects sun; less ice -> less reflection.",
+  "query": ""
+ },
+ {
+  "start_s": 328.1,
+  "end_s": 344.9,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.7,
+  "rationale": "Warm ocean erodes glacier underside -> thinning -> faster ice flow (cork analogy).",
+  "query": ""
+ },
+ {
+  "start_s": 360.4,
+  "end_s": 372.2,
+  "function": "quantify",
+  "representation": "metric",
+  "confidence": 0.8,
+  "rationale": "Two ice sheets contribute one-third of sea level rise.",
+  "query": ""
+ },
+ {
+  "start_s": 396.8,
+  "end_s": 406.8,
+  "function": "quantify",
+  "representation": "chart",
+  "confidence": 0.75,
+  "rationale": "Projected rise in sunny-day high-tide flooding.",
+  "query": ""
+ },
+ {
+  "start_s": 423.3,
+  "end_s": 436.7,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.85,
+  "rationale": "Ocean -> atmosphere -> inland water: the water cycle.",
+  "query": ""
+ },
+ {
+  "start_s": 446.6,
+  "end_s": 450.1,
+  "function": "compare",
+  "representation": "comparison",
+  "confidence": 0.65,
+  "rationale": "Wet regions wetter, dry regions drier.",
+  "query": ""
+ },
+ {
+  "start_s": 463.9,
+  "end_s": 477.7,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.7,
+  "rationale": "Warm water fuels tropical storm intensification.",
+  "query": ""
+ },
+ {
+  "start_s": 477.7,
+  "end_s": 493.6,
+  "function": "exemplify",
+  "representation": "media",
+  "confidence": 0.6,
+  "rationale": "Hurricane intensification, landfall, stalling and flooding.",
+  "query": ""
+ },
+ {
+  "start_s": 522.4,
+  "end_s": 534.6,
+  "function": "compare",
+  "representation": "comparison",
+  "confidence": 0.7,
+  "rationale": "Two agricultural impacts: wetter extreme vs drier extreme.",
+  "query": ""
+ },
+ {
+  "start_s": 535.3,
+  "end_s": 554.6,
+  "function": "explain",
+  "representation": "flow",
+  "confidence": 0.6,
+  "rationale": "Higher temperature -> higher plant water demand -> drought stress.",
+  "query": ""
+ },
+ {
+  "start_s": 557.8,
+  "end_s": 580.0,
+  "function": "quantify",
+  "representation": "map",
+  "confidence": 0.95,
+  "rationale": "Projected maize and wheat yield change, red lower, green higher.",
+  "query": ""
+ },
+ {
+  "start_s": 581.5,
+  "end_s": 601.2,
+  "function": "exemplify",
+  "representation": "media",
+  "confidence": 0.55,
+  "rationale": "Household products made from maize.",
+  "query": ""
+ },
+ {
+  "start_s": 615.3,
+  "end_s": 637.6,
+  "function": "exemplify",
+  "representation": "media",
+  "confidence": 0.6,
+  "rationale": "Wildfire season changes shown with imagery.",
+  "query": ""
+ },
+ {
+  "start_s": 638.4,
+  "end_s": 650.3,
+  "function": "relate",
+  "representation": "flow",
+  "confidence": 0.6,
+  "rationale": "Fires add CO2: links back to the greenhouse-gas thread.",
+  "query": ""
+ },
+ {
+  "start_s": 688.0,
+  "end_s": 715.8,
+  "function": "define",
+  "representation": "map",
+  "confidence": 0.75,
+  "rationale": "FIRMS fire-detection tool: where fires are and how long they burn.",
+  "query": ""
+ },
+ {
+  "start_s": 721.0,
+  "end_s": 754.9,
+  "function": "exemplify",
+  "representation": "map",
+  "confidence": 0.8,
+  "rationale": "NASA-IPCC projection tool: zoom to a region, see local sea level rise.",
+  "query": ""
+ },
+ {
+  "start_s": 765.8,
+  "end_s": 782.4,
+  "function": "summarize",
+  "representation": "flow",
+  "confidence": 0.85,
+  "rationale": "Observe -> understand -> model -> predict.",
+  "query": ""
+ },
+ {
+  "start_s": 784.8,
+  "end_s": 790.0,
+  "function": "quantify",
+  "representation": "metric",
+  "confidence": 0.85,
+  "rationale": "About 1.2 degrees of warming so far.",
+  "query": ""
+ },
+ {
+  "start_s": 790.4,
+  "end_s": 799.4,
+  "function": "compare",
+  "representation": "comparison",
+  "confidence": 0.5,
+  "rationale": "Range between best and worst outcomes.",
+  "query": ""
+ }
+]

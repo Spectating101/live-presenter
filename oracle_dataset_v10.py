@@ -15,6 +15,7 @@ from hashlib import sha256
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 import json
+from urllib.parse import urlparse
 
 from editorial_trace_v9 import EditorialEvent, from_autobroll, from_generic, from_video_alchemy
 from oracle_benchmark_v9 import consensus_trace
@@ -110,6 +111,15 @@ def load_bundle(path: Path | str) -> TraceBundle:
     if not talk_id:
         raise ValueError("talk_id is required")
     transcript = [TranscriptSegment.from_dict(x) for x in (raw.get("transcript") or [])]
+    from eval_system1_v10 import validate_segments
+    validate_segments([asdict(s) for s in transcript])
+    metadata = dict(raw.get("metadata") or {})
+    source = urlparse(str(metadata.get("source_uri") or ""))
+    if source.hostname == "svs.gsfc.nasa.gov" and source.path.strip("/").isdigit():
+        expected_group = "nasa_page_" + source.path.strip("/")
+        if metadata.get("split_group") and metadata["split_group"] != expected_group:
+            raise ValueError("NASA source group conflicts with source URI")
+        metadata["split_group"] = expected_group
     names, traces = [], []
     for editor in raw.get("editors") or []:
         name, trace = _adapt_editor(editor)
@@ -123,7 +133,7 @@ def load_bundle(path: Path | str) -> TraceBundle:
         traces=traces,
         editor_names=names,
         context=_normalize_context(raw.get("context")),
-        metadata=dict(raw.get("metadata") or {}),
+        metadata=metadata,
     )
 
 
@@ -171,26 +181,39 @@ def build_dataset(bundles: Sequence[TraceBundle], *, eval_fraction: float = 0.25
         raise ValueError("eval_fraction must be in [0, 1)")
     examples: List[OracleExample] = []
     bundle_rows = []
+    talk_seen, text_seen = set(), set()
     for bundle in bundles:
+        if bundle.talk_id in talk_seen:
+            raise ValueError(f"duplicate talk_id: {bundle.talk_id}")
+        talk_seen.add(bundle.talk_id)
+        text = " ".join(" ".join(s.text.lower().split()) for s in bundle.transcript)
+        text_hash = sha256(text.encode()).hexdigest()
+        if text and text_hash in text_seen:
+            raise ValueError("duplicate transcript under different talk IDs")
+        text_seen.add(text_hash)
         rows = examples_from_bundle(bundle, tolerance_s=tolerance_s, min_votes=min_votes)
         examples.extend(rows)
         bundle_rows.append({"talk_id": bundle.talk_id, "editors": list(bundle.editor_names), "editor_count": len(bundle.traces), "consensus_examples": len(rows), "context": dict(bundle.context)})
 
     splits = {"train": [], "eval": []}
+    group_for = lambda ex: str(ex.metadata["bundle_metadata"].get("split_group") or ex.talk_id)
     for ex in examples:
-        splits[_split_for_talk(ex.talk_id, eval_fraction)].append(ex.to_dict())
+        splits[_split_for_talk(group_for(ex), eval_fraction)].append(ex.to_dict())
 
     talk_ids = sorted({x.talk_id for x in examples})
-    if len(talk_ids) >= 2 and (not splits["train"] or not splits["eval"]):
-        eval_talk = talk_ids[-1]
+    group_ids = sorted({group_for(ex) for ex in examples})
+    if eval_fraction > 0 and len(group_ids) >= 2 and (not splits["train"] or not splits["eval"]):
+        eval_group = group_ids[-1]
         splits = {"train": [], "eval": []}
         for ex in examples:
-            splits["eval" if ex.talk_id == eval_talk else "train"].append(ex.to_dict())
+            splits["eval" if group_for(ex) == eval_group else "train"].append(ex.to_dict())
 
     function_counts = Counter(x.function for x in examples)
     representation_counts = Counter(x.representation for x in examples)
     pair_counts = Counter((x.function, x.representation) for x in examples)
     warnings = []
+    if not splits["train"] or not splits["eval"]:
+        warnings.append("empty train or eval split: no held-out quality claim is possible")
     if len(talk_ids) < 4:
         warnings.append("fewer than 4 talks: evaluation is only a pipeline check")
     if any(x.editor_count < 2 for x in examples):
@@ -214,6 +237,8 @@ def build_dataset(bundles: Sequence[TraceBundle], *, eval_fraction: float = 0.25
             "eval_examples": len(splits["eval"]),
             "train_talks": sorted(train_talks),
             "eval_talks": sorted(eval_talks),
+            "split_group_count": len(group_ids),
+            "min_consensus_votes": min((x.votes for x in examples), default=0),
             "function_counts": dict(sorted(function_counts.items())),
             "representation_counts": dict(sorted(representation_counts.items())),
             "function_representation_counts": {f"{a}:{b}": n for (a, b), n in sorted(pair_counts.items())},
