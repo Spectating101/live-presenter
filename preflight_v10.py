@@ -16,7 +16,7 @@ def report(root=ROOT):
     required = ("editorial_trace_v9", "oracle_benchmark_v9", "oracle_dataset_v10",
                 "representation_policy_v10", "system1_v10", "eval_system1_v10")
     imports = {}
-    for name in (*required, "runtime_v10"):
+    for name in (*required, "runtime_v10", "presenter.server"):
         try:
             importlib.import_module(name)
             imports[name] = "ok"
@@ -38,6 +38,8 @@ def report(root=ROOT):
     corpus = audit(bundles)
     return {"schema": "live_presenter.readiness.v1", "python": platform.python_version(),
             "offline_modules_ready": all(imports[n] == "ok" for n in required),
+            "studio_available": imports['presenter.server'] == 'ok',
+            "studio_browser_verification": "not checked by preflight",
             "stage_ready": imports["runtime_v10"] == "ok" and not any(
                 n.startswith(("stage", "rehearsal")) for n in missing),
             "jev_key_available": load_jev_env(), "imports": imports,

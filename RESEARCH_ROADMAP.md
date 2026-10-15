@@ -3,6 +3,11 @@
 Updated 2026-10-15. This is the current continuation of the v10 handoff, not a
 claim that the historical full runtime has been restored or validated.
 
+The subsequent preparation-first product implementation is documented in
+`STUDIO.md` and starts with `make studio`. It runs independently of the missing
+checkpoint. Historical runtime recovery below is no longer a prerequisite for
+trying the new local preparation/approval/rehearsal flow.
+
 ## Verified working baseline
 
 - Python 3.13.5; offline tests, pilot comparison and mock causal replay run here.

@@ -1,11 +1,20 @@
-# Live Presenter v10
+# Live Presenter
 
-Live Presenter is a **causal semantic visual editor for live explanation**: it listens to an unfolding presentation, tracks the semantic/argument state, prepares likely nearby representations backstage, and updates a continuous Chromium stage under conservative grounding and intervention rules.
+Prepare the meaning together, then let speech guide the visuals. Supply your
+material, discuss the audience and unresolved questions with the preparation
+partner, review the visual alternatives and approve a version. During the talk,
+the app follows your explanation through that prepared material while you retain
+direct stage controls.
 
-V10 adds an **oracle-distilled representation policy in shadow mode** on top of the v9 provider/visual-grammar architecture. The learned layer can recommend and warm representations, but the semantic broker, grounding rules, visual grammar, intervention policy, and stage lock remain authoritative.
+The new local studio implements this preparation-to-stage loop. It is a functional
+prototype with backend acceptance checks; browser layout and physical microphone/
+projector operation remain unverified. The repository also contains the v10
+research lane for evaluating causal visual editing and an advisory learned policy.
 
 ## Start here
 
+- `make studio` — run the new preparation-first local app; open its terminal access URL
+- `STUDIO.md` — intake, clarification, visual review, approval, rehearsal and projector guide
 - `RESEARCH_ROADMAP.md` — current execution plan, measured results, acceptance gates and blockers
 - `make verify` — reproducible offline checks from this checkout
 - `HANDOFF.md` — canonical project handoff and restart instructions
@@ -16,9 +25,17 @@ V10 adds an **oracle-distilled representation policy in shadow mode** on top of 
 
 ## What runs in this repository today
 
+The new `presenter/` studio provides a complete local product path independently
+of the missing historical runtime: import material, discuss the meaning with the
+existing Copilot CLI, review prepared visuals and source quotes, approve a version,
+then rehearse using typed utterances or browser speech recognition. A separate
+projector displays prepared content under presenter controls. Jev advice is an
+explicit optional switch; Source outline plus typed rehearsal works without AI
+calls. See `STUDIO.md` for verified behavior and remaining limits.
+
 This checkout runs the v10 empirical lane and System-1 (Jev) layer. The trace adapters,
 consensus benchmark and several inherited modules have been integrated from `main`.
-The complete runtime and Chromium stage remain blocked on recovery of the frozen
+The historical runtime and its original Chromium stage remain blocked on recovery of the frozen
 source package: `runtime_v10.py` still cannot import `runtime_v9`.
 
 ```bash

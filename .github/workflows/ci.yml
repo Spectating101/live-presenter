@@ -10,5 +10,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: Offline research verification (full runtime still needs the frozen checkpoint)
+      - name: Offline studio and research verification
         run: make verify
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Browser module syntax
+        run: |
+          node --check presenter/web/studio.js
+          node --check presenter/web/stage.js
+          node --check presenter/web/visuals.js
