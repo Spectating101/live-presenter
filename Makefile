@@ -3,8 +3,9 @@ PILOT = data/nasa_stgermain_cop26
 CORPUS_DIR ?= artifacts/corpus_tranche1
 CORPUS_SOURCES ?= data/corpus_sources_v10.json
 
-.PHONY: help test pilot eval-mock eval-jev bench clean verify doctor corpus-acquire corpus-audit corpus-jobs
+.PHONY: help test pilot eval-mock eval-jev bench clean verify doctor corpus-acquire corpus-audit corpus-jobs studio
 help:
+	@echo "make studio     open the preparation-first local app (use the access URL printed in the terminal)"
 	@echo "make test       run the unit tests (stdlib only, no network, no key)"
 	@echo "make pilot      score the windowed editor trace against the oracle trace (NASA pilot)"
 	@echo "make eval-mock  run the strictly causal System-1 harness with the mock backend (plumbing check)"
@@ -18,6 +19,9 @@ help:
 
 test:
 	$(PY) -m unittest discover -p "test_*.py"
+
+studio:
+	$(PY) -m presenter.server
 
 pilot:
 	$(PY) compare_traces_v10.py $(PILOT)/trace_llm_oracle.json $(PILOT)/trace_llm_causal.json --talk-s 815.42
