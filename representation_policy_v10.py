@@ -34,6 +34,7 @@ def context_signature(context: Optional[Mapping[str, Any]]) -> str:
     return ";".join(f"{k}={1 if bool(c.get(k)) else 0}" for k in keys)
 
 def representation_available(rep: str, context: Optional[Mapping[str, Any]]) -> bool:
+    if rep not in REPRESENTATIONS: return False
     c = dict(context or {})
     if rep == "chart": return bool(c.get("has_dataset"))
     if rep == "media": return bool(c.get("has_images"))

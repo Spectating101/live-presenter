@@ -1,4 +1,5 @@
 import asyncio, json, threading, unittest
+from unittest.mock import patch
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from representation_policy_v10 import OracleRepresentationPolicy
 from system1_v10 import (JevBackend, MockBackend, System1Assessor, System1Error, build_questions, parse_answers)
@@ -23,6 +24,11 @@ class QuestionTests(unittest.TestCase):
                            "c": {"type": "score", "score": 1.7, "confidence": .6, "legend": {}, "probabilities": {"1": 1.0}}})
         self.assertAlmostEqual(a["a"].confidence, .8); self.assertEqual(a["b"].value, "x"); self.assertEqual(a["c"].value, 1.7)
         with self.assertRaises(System1Error): parse_answers({"d": {"type": "wat"}})
+    def test_malformed_and_nonfinite_answers_rejected(self):
+        for raw in ({"a":{}},{"a":{"type":"noul","noul":2}},
+                    {"a":{"type":"noul","noul":float('nan')}},
+                    {"a":{"type":"choice","choice":"x","confidence":float('inf'),"probabilities":{}}}):
+            with self.assertRaises(System1Error):parse_answers(raw)
 
 class AssessorTests(unittest.IsolatedAsyncioTestCase):
     async def test_confident_answer(self):
@@ -89,6 +95,18 @@ class JevClientTests(unittest.IsolatedAsyncioTestCase):
     async def test_unreachable_degrades(self):
         a = await System1Assessor(JevBackend("k", base_url="http://127.0.0.1:9", timeout_s=.5)).assess("x", context=CTX)
         self.assertTrue(a.abstain); self.assertIsNotNone(a.error)
+    async def test_bad_response_and_deadline_degrade_to_abstention(self):
+        backend=JevBackend('k',base_url=self.url,timeout_s=.02)
+        for raw in ([], {}, {'answers':{'discourse_act':{'type':'noul','noul':.9}}}):
+            with patch.object(backend,'_call',return_value=raw):
+                a=await System1Assessor(backend).assess('x',context=CTX)
+                self.assertTrue(a.abstain);self.assertEqual(a.source,'none')
+        def slow(*args):
+            import time;time.sleep(.08)
+            return {}
+        with patch.object(backend,'_call',side_effect=slow):
+            a=await System1Assessor(backend).assess('x',context=CTX)
+            self.assertIn('deadline',a.error);self.assertGreater(a.latency_ms,0)
     def test_missing_key(self):
         import os; os.environ.pop("JEV_API_KEY", None); os.environ.pop("TYPESAFE_API_KEY", None)
         with self.assertRaises(System1Error): JevBackend()

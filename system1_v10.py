@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import math
 import os
 import time
 import urllib.error
@@ -90,6 +91,23 @@ class System1Backend(Protocol):
 
 
 def parse_answers(raw: Mapping[str, Mapping[str, Any]]) -> Dict[str, Answer]:
+    try:
+        out = _parse_answers(raw)
+        for a in out.values():
+            if not math.isfinite(a.confidence) or not 0 <= a.confidence <= 1:
+                raise ValueError("confidence outside 0..1")
+            if a.type in {"noul", "score"} and not math.isfinite(a.value):
+                raise ValueError("non-finite answer")
+            if a.type == "noul" and not 0 <= a.value <= 1:
+                raise ValueError("noul outside 0..1")
+            if any(not math.isfinite(p) or not 0 <= p <= 1 for p in a.probabilities.values()):
+                raise ValueError("probability outside 0..1")
+        return out
+    except (KeyError, TypeError, ValueError, AttributeError, OverflowError) as e:
+        raise System1Error(f"invalid backend answers: {e}") from None
+
+
+def _parse_answers(raw: Mapping[str, Mapping[str, Any]]) -> Dict[str, Answer]:
     out: Dict[str, Answer] = {}
     for name, a in raw.items():
         kind = a.get("type")
@@ -116,6 +134,8 @@ class JevBackend:
         self.api_key = api_key or os.environ.get("JEV_API_KEY") or os.environ.get("TYPESAFE_API_KEY")
         if not self.api_key:
             raise System1Error("no Jev API key: set JEV_API_KEY (or TYPESAFE_API_KEY)")
+        if not math.isfinite(timeout_s) or timeout_s <= 0:
+            raise ValueError("timeout_s must be finite and positive")
         self.model, self.base_url, self.timeout_s = model, base_url.rstrip("/"), timeout_s
 
     def _call(self, method: str, path: str, body: Optional[dict]) -> dict:
@@ -125,9 +145,13 @@ class JevBackend:
             headers={"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"})
         try:
             with urllib.request.urlopen(req, timeout=self.timeout_s) as r:
-                return json.loads(r.read())
+                data = json.loads(r.read(1_000_001))
+                if not isinstance(data, dict):
+                    raise System1Error("jev returned non-object JSON")
+                return data
         except urllib.error.HTTPError as e:
-            raise System1Error(f"jev http {e.code}: {e.read()[:300]!r}") from None
+            # Response bodies can echo request data; never put them in artifacts.
+            raise System1Error(f"jev http {e.code}") from None
         except (urllib.error.URLError, TimeoutError, OSError, ValueError) as e:
             raise System1Error(f"jev unreachable: {e}") from None
 
@@ -137,11 +161,26 @@ class JevBackend:
     async def ask(self, state, questions) -> System1Response:
         t0 = time.perf_counter()
         body = {"state": state, "model": self.model, "questions": dict(questions)}
-        raw = await asyncio.to_thread(self._call, "POST", "/v1/systemone", body)
+        try:
+            raw = await asyncio.wait_for(asyncio.to_thread(self._call, "POST", "/v1/systemone", body), self.timeout_s)
+        except TimeoutError:
+            raise System1Error("jev request deadline exceeded") from None
         ms = (time.perf_counter() - t0) * 1000
-        usage = raw.get("usage") or {}
-        return System1Response(self.name, raw.get("model", self.model), parse_answers(raw["answers"]), ms,
-                               int(usage.get("input_tokens", 0)), int(usage.get("output_tokens", 0)))
+        try:
+            usage = raw.get("usage") or {}
+            answers = parse_answers(raw["answers"])
+            for name, q in questions.items():
+                if name not in answers or answers[name].type != q["type"]:
+                    raise System1Error(f"missing or mismatched answer: {name}")
+                a = answers[name]
+                if a.type == "choice" and a.value not in q["criteria"]:
+                    raise System1Error(f"unknown choice for {name}")
+                if a.type == "score" and not 0 <= a.value <= len(q["criteria"]) - 1:
+                    raise System1Error(f"score outside rubric for {name}")
+            return System1Response(self.name, raw.get("model", self.model), answers, ms,
+                                   int(usage.get("input_tokens", 0)), int(usage.get("output_tokens", 0)))
+        except (KeyError, TypeError, ValueError, AttributeError) as e:
+            raise System1Error(f"invalid Jev response: {type(e).__name__}") from None
 
 
 class MockBackend:
@@ -221,26 +260,38 @@ class System1Assessor:
         self.min_choice_confidence, self.min_noul_confidence = min_choice_confidence, min_noul_confidence
         self.window_chars = window_chars
         self.history: List[Dict[str, Any]] = []
+        self.models: set[str] = set()
+        self.input_tokens = self.output_tokens = 0
 
-    def _state(self, transcript: str, current_topic: str, topics: Sequence[str], context: Mapping[str, Any]) -> Dict[str, Any]:
+    def _state(self, transcript: str, current_topic: str, topics: Sequence[str], context: Mapping[str, Any], recent_context: str = "") -> Dict[str, Any]:
         return {"latest_utterance": transcript[-self.window_chars:], "current_topic": current_topic,
+                "recent_context": recent_context[-self.window_chars:],
                 "known_topics": list(topics)[:40], "available_assets": {k: bool(v) for k, v in context.items()}}
 
     async def assess(self, transcript: str, *, current_topic: str = "", topics: Sequence[str] = (),
-                     context: Optional[Mapping[str, Any]] = None) -> Assessment:
+                     context: Optional[Mapping[str, Any]] = None, recent_context: str = "") -> Assessment:
         ctx = dict(context or {})
         questions = build_questions(ctx)
         reasons: List[str] = []
+        t0 = time.perf_counter()
         try:
-            r = await self.backend.ask(self._state(transcript, current_topic, topics, ctx), questions)
+            r = await self.backend.ask(self._state(transcript, current_topic, topics, ctx, recent_context), questions)
         except System1Error as e:
             a = self._fallback(ctx, str(e))
+            a = Assessment(**{**a.to_dict(), "latency_ms": round((time.perf_counter() - t0) * 1000, 1)})
             self._record(a, None)
             return a
         ans = r.answers
+        self.models.add(r.model)
+        self.input_tokens += r.input_tokens
+        self.output_tokens += r.output_tokens
         act, rep, shift, warm, urg = (ans.get(k) for k in
                                       ("discourse_act", "representation_family", "topic_shift", "warm_now", "intervention_urgency"))
-        abstain = False
+        abstain = not act or not rep
+        if not act or not rep:
+            reasons.append("missing discourse act or representation")
+        if act and act.value not in DEFAULT_ACTS:
+            abstain = True; reasons.append("unknown discourse act")
         if act and act.confidence < self.min_choice_confidence:
             abstain = True; reasons.append(f"act confidence {act.confidence:.2f} < {self.min_choice_confidence:.2f}")
         if rep and rep.confidence < self.min_choice_confidence:
@@ -277,6 +328,7 @@ class System1Assessor:
         both = [h for h in ok if h["table_representation"] and h["representation"]]
         pct = lambda q: round(lat[min(len(lat) - 1, int(q * len(lat)))], 1) if lat else None
         return {"calls": len(self.history), "backend_failures": len(self.history) - len(ok),
+                "models": sorted(self.models), "input_tokens": self.input_tokens, "output_tokens": self.output_tokens,
                 "abstain_rate": round(sum(h["abstain"] for h in ok) / len(ok), 3) if ok else None,
                 "latency_ms_p50": pct(.5), "latency_ms_p95": pct(.95),
                 "agreement_with_count_table": round(sum(h["representation"] == h["table_representation"] for h in both) / len(both), 3) if both else None}

@@ -9,7 +9,10 @@ def row(**k): return {**{"start_s": 0, "end_s": 5, "function": "quantify", "repr
 class PromptTests(unittest.TestCase):
     def test_causal_hides_future(self):
         p = build_prompt(SEG, CTX, mode="causal", until_s=15)
-        self.assertIn("pumps", p); self.assertNotIn("funding", p)
+        self.assertIn("Sales doubled.", p); self.assertNotIn("pumps", p); self.assertNotIn("funding", p)
+    def test_caption_crossing_checkpoint_is_hidden(self):
+        self.assertNotIn("Sales doubled.", build_prompt(SEG, CTX, mode="causal", until_s=5))
+        self.assertIn("Sales doubled.", build_prompt(SEG, CTX, mode="causal", until_s=10))
     def test_oracle_sees_all(self): self.assertIn("funding", build_prompt(SEG, CTX))
     def test_unavailable_flagged(self):
         lines = {l.split(":")[0].lstrip("- "): l for l in build_prompt(SEG, CTX).splitlines() if l.startswith("- ")}
@@ -19,6 +22,10 @@ class PromptTests(unittest.TestCase):
         with self.assertRaises(ValueError): build_prompt(SEG, CTX, mode="causal")
     def test_checkpoints_end_at_talk_end(self):
         cps = list(causal_checkpoints(SEG, 15)); self.assertEqual(cps[0], 15); self.assertEqual(cps[-1], 30)
+    def test_invalid_step_rejected(self):
+        for step in (0, -1, float("nan"), float("inf")):
+            with self.assertRaises(ValueError): list(causal_checkpoints(SEG, step))
+            with self.assertRaises(ValueError): causal_windows(SEG, step)
 
 class WindowTests(unittest.TestCase):
     def test_windows_tile_talk_without_gaps(self):

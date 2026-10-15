@@ -11,11 +11,12 @@ ORACLE_BENCHMARK_V9.md:
 The gap between the two is the price of causality.  Editors never run in the live
 path; their output enters training only after validate_editor_rows() and the rights manifest.
 
-Row keys (UNVERIFIED against editorial_trace_v9.from_generic -- check when the checkpoint lands):
+Row keys (compatible with editorial_trace_v9.from_generic):
   start_s, end_s, function, representation, confidence, rationale, query
 """
 from __future__ import annotations
 import json
+import math
 from typing import Any, Dict, Iterator, List, Mapping, Sequence, Tuple
 
 from representation_policy_v10 import REPRESENTATIONS, representation_available
@@ -44,7 +45,9 @@ def build_prompt(segments: Sequence[Mapping[str, Any]], context: Mapping[str, An
     if mode not in {"oracle", "causal"}: raise ValueError(f"mode must be oracle|causal, got {mode!r}")
     if mode == "causal":
         if until_s is None: raise ValueError("causal mode needs until_s")
-        segments = [s for s in segments if float(s.get("start_s", s.get("start", 0))) < until_s]
+        if not math.isfinite(until_s) or until_s < 0:
+            raise ValueError("until_s must be finite and nonnegative")
+        segments = [s for s in segments if float(s.get("end_s", s.get("end", 0))) <= until_s]
         scope = f"You can only see the transcript up to {until_s:.1f}s. Do not assume anything later."
         if from_s is not None:
             scope += (f" Earlier text is context only: emit events that START at or after {from_s:.1f}s and END by {until_s:.1f}s."
@@ -60,6 +63,8 @@ def build_prompt(segments: Sequence[Mapping[str, Any]], context: Mapping[str, An
 
 
 def causal_checkpoints(segments: Sequence[Mapping[str, Any]], step_s: float = 30.0) -> Iterator[float]:
+    if not math.isfinite(step_s) or step_s <= 0:
+        raise ValueError("step_s must be finite and positive")
     end = max((float(s.get("end_s", s.get("end", 0))) for s in segments), default=0.0)
     t = step_s
     while t < end + step_s:
@@ -68,6 +73,8 @@ def causal_checkpoints(segments: Sequence[Mapping[str, Any]], step_s: float = 30
 
 def causal_windows(segments: Sequence[Mapping[str, Any]], step_s: float = 90.0) -> List[Tuple[float, float]]:
     """Consecutive (from_s, until_s) windows covering the talk; the last one is clipped to the talk's end."""
+    if not math.isfinite(step_s) or step_s <= 0:
+        raise ValueError("step_s must be finite and positive")
     end = max((float(s.get("end_s", s.get("end", 0))) for s in segments), default=0.0)
     out, a = [], 0.0
     while a < end - 1e-6:

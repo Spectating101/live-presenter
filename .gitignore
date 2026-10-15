@@ -9,6 +9,7 @@ artifacts/
 *.log
 playwright-report/
 test-results/
+.council/
 .DS_Store
 
 !.env.example

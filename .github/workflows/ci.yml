@@ -10,7 +10,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: Unit tests (stdlib only; the full v1-v10 suite needs the frozen checkpoint)
-        run: python -m unittest discover -p "test_*.py"
-      - name: Eval harness plumbing (mock backend, no network)
-        run: python eval_system1_v10.py --backend mock > /dev/null
+      - name: Offline research verification (full runtime still needs the frozen checkpoint)
+        run: make verify

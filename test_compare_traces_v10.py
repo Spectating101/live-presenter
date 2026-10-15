@@ -16,4 +16,11 @@ class T(unittest.TestCase):
         self.assertEqual(len(match_events([ev(0, 10), ev(1, 9)], [ev(0, 10)])), 1)
     def test_empty(self):
         m = compare([], [], talk_s=10); self.assertIsNone(m["recall"])
+    def test_coverage_is_clipped_union_not_sum(self):
+        m=compare([ev(0,8),ev(3,12)],[],talk_s=10)
+        self.assertEqual(m['ref_screen_coverage'],1.0)
+    def test_invalid_time_rejected(self):
+        for t in (0,-1,float('nan')):
+            with self.assertRaises(ValueError):compare([],[],talk_s=t)
+        with self.assertRaises(ValueError):compare([ev(5,4)],[],talk_s=10)
 if __name__ == "__main__": unittest.main()

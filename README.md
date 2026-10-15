@@ -6,6 +6,8 @@ V10 adds an **oracle-distilled representation policy in shadow mode** on top of 
 
 ## Start here
 
+- `RESEARCH_ROADMAP.md` — current execution plan, measured results, acceptance gates and blockers
+- `make verify` — reproducible offline checks from this checkout
 - `HANDOFF.md` — canonical project handoff and restart instructions
 - `ENGINEERING_PLAN_V10.md` — empirical/oracle engineering plan
 - `PROJECT_STATUS_V10.md` — checkpoint status and non-claims
@@ -14,17 +16,36 @@ V10 adds an **oracle-distilled representation policy in shadow mode** on top of 
 
 ## What runs in this repository today
 
-This repo holds the v10 empirical lane plus the System-1 (Jev) layer. The v1-v9 runtime, stage and the 101-test suite live in the
-frozen checkpoint and are still being migrated here (`runtime_v10.py` needs `runtime_v9`, so it does not import yet).
+This checkout runs the v10 empirical lane and System-1 (Jev) layer. The trace adapters,
+consensus benchmark and several inherited modules have been integrated from `main`.
+The complete runtime and Chromium stage remain blocked on recovery of the frozen
+source package: `runtime_v10.py` still cannot import `runtime_v9`.
 
 ```bash
-make test        # 37 stdlib-only tests: policy, System-1 client, editor tools, trace comparison, strictly causal harness
+make verify      # offline tests, pilot comparison, causal mock replay, readiness report
+make test        # stdlib-only tests; no key or network needed
 make pilot       # score the windowed editor trace against the oracle trace for the NASA pilot talk
 make eval-mock   # run the strictly causal System-1 harness with a mock backend (plumbing check)
-cp .env.example .env && export JEV_API_KEY=...   # then:
-make bench       # real Jev latency from this machine
-make eval-jev    # real strictly causal comparison against the oracle trace -> artifacts/jev_eval.json
+# Set JEV_API_KEY / TYPESAFE_API_KEY, put it in an ignored .env file,
+# or point JEV_ENV_FILE at an existing credentials file. Then:
+make bench       # real Jev latency -> artifacts/jev_bench.json
+make eval-jev    # serial, latency-adjusted caption replay -> artifacts/jev_eval.json
+make corpus-acquire  # download the pinned 30 NASA caption candidates (network)
+make corpus-audit    # timing, duplicate, rights/context and editor checks
+make corpus-jobs     # 60 independent editor job prompts; does not run models
 ```
+
+The replay reads a caption only when it ends and timestamps its candidate decision
+after inference completes. It records every assessment, backend failure, resolved
+model and token usage. It is an **offline advisory replay**, excluding STT and
+stage rendering. The older windowed pilot has lookahead and is not directly
+comparable to this stricter result.
+
+The 30-source catalog is pinned in `data/corpus_sources_v10.json`; downloaded
+captions and jobs live in ignored `artifacts/`. The first tranche covers NASA
+science material, including talks, narrated explanations and interviews. These
+are candidates pending source/asset review and independent annotation, not a
+completed empirical training corpus. See `RESEARCH_ROADMAP.md` for the workflow.
 
 | Piece | File |
 |---|---|
@@ -36,7 +57,7 @@ make eval-jev    # real strictly causal comparison against the oracle trace -> a
 | Real pilot data and caveats | `data/nasa_stgermain_cop26/` |
 | Why the video-editing demos matter | `EDITOR_REFERENCES_V10.md` |
 
-Python 3.13, standard library only for everything above. CI runs `make test` and the mock harness (`.github/workflows/ci.yml`).
+Python 3.13, standard library only for everything above. CI runs `make verify` (`.github/workflows/ci.yml`).
 
 ## Core invariant
 
@@ -90,6 +111,12 @@ Dependencies are recorded in `requirements.txt`. Chromium/Playwright availabilit
 
 ## Current restart point
 
-Build the first rights-clean real editorial corpus (target: 30 talks, at least two independent editor traces per talk), train/evaluate by **held-out talk**, and keep the learned policy in shadow mode until the formal promotion gate is earned.
+Complete source/context reviews and independent editor traces for the acquired
+tranche; fill missing domain strata; train/evaluate by **held-out source group**
+(which also isolates talks). Normal training rejects ineligible bundles and empty
+splits. `--pipeline-only` permits explicit plumbing checks and cannot earn promotion.
+Dataset/evaluation artifacts are bound to source hashes, and the gate reproduces
+the transparent baseline before accepting measurements. Browser rehearsal remains
+a separately supplied evidence assertion; the gate cannot certify human quality.
 
 This repository is public, but no open-source license is granted yet. Third-party systems referenced in the docs are architectural/integration precedents; the project should keep source/provenance and licensing boundaries explicit.

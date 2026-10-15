@@ -6,6 +6,7 @@ Events match greedily when they overlap by >= `min_overlap` of the shorter event
 """
 from __future__ import annotations
 from statistics import median
+import math
 from typing import Any, Dict, List, Mapping, Sequence
 
 
@@ -30,12 +31,24 @@ def match_events(ref: Sequence[Mapping[str, Any]], cand: Sequence[Mapping[str, A
 
 
 def compare(ref: Sequence[Mapping[str, Any]], cand: Sequence[Mapping[str, Any]], *, talk_s: float, **kw) -> Dict[str, Any]:
+    if not math.isfinite(talk_s) or talk_s <= 0:
+        raise ValueError("talk_s must be finite and positive")
+    for trace in (ref, cand):
+        for e in trace:
+            if not (math.isfinite(e["start_s"]) and math.isfinite(e["end_s"]) and 0 <= e["start_s"] < e["end_s"]):
+                raise ValueError("event times must be finite, nonnegative and increasing")
     pairs = match_events(ref, cand, **kw)
     n = len(pairs)
     fn = sum(ref[i]["function"] == cand[j]["function"] for i, j in pairs)
     rep = sum(ref[i]["representation"] == cand[j]["representation"] for i, j in pairs)
     lags = [cand[j]["start_s"] - ref[i]["start_s"] for i, j in pairs]
-    cov = lambda t: round(sum(e["end_s"] - e["start_s"] for e in t) / talk_s, 3) if talk_s else 0.0
+    def cov(trace):
+        total, until = 0.0, 0.0
+        for e in sorted(trace, key=lambda e: e["start_s"]):
+            start, end = max(e["start_s"], until), min(e["end_s"], talk_s)
+            total += max(0.0, end - start)
+            until = max(until, end)
+        return round(total / talk_s, 3)
     return {"ref_events": len(ref), "cand_events": len(cand), "matched": n,
             "recall": round(n / len(ref), 3) if ref else None, "precision": round(n / len(cand), 3) if cand else None,
             "function_agreement": round(fn / n, 3) if n else None, "representation_agreement": round(rep / n, 3) if n else None,

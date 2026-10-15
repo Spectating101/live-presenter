@@ -1,14 +1,15 @@
 import json, unittest
 from pathlib import Path
-from eval_system1_v10 import DEFAULT_BUNDLE, DEFAULT_ORACLE, evaluate, events_from_assessments
+from eval_system1_v10 import DEFAULT_BUNDLE, DEFAULT_ORACLE, evaluate, events_from_assessments, decision_times
 from system1_v10 import Answer, MockBackend, System1Assessor, System1Response
 
 class SpyBackend:
     """Confident 'chart' on any text containing 'sales', else low urgency.  Records every state it was shown."""
     name = "spy"
-    def __init__(self): self.seen = []
+    def __init__(self): self.seen = []; self.contexts = []
     async def ask(self, state, questions):
         self.seen.append(state["latest_utterance"])
+        self.contexts.append(state.get("recent_context", ""))
         hot = "sales" in state["latest_utterance"].split(" ")[-3:] or state["latest_utterance"].rstrip(".").endswith("sales")
         ch = lambda k: Answer("choice", k, .9, {k: .9})
         return System1Response("spy", "spy", {"discourse_act": ch("quantify"), "representation_family": ch("chart"),
@@ -24,20 +25,41 @@ class T(unittest.IsolatedAsyncioTestCase):
     async def test_never_sees_future_text(self):
         spy = SpyBackend(); await evaluate(BUNDLE, ORACLE, System1Assessor(spy))
         self.assertEqual(len(spy.seen), 4)
-        for text in spy.seen:                     # call i sees at most segments[:i+1]; the longest is the full talk
-            self.assertTrue(any(text == " ".join(s["text"] for s in BUNDLE["transcript"][:i + 1]) for i in range(4)))
-        self.assertNotIn("Unrelated.", min(spy.seen, key=len))
+        self.assertEqual(spy.seen, [s["text"] for s in BUNDLE["transcript"]])
+        for i, past in enumerate(spy.contexts):
+            self.assertEqual(past, " ".join(s["text"] for s in BUNDLE["transcript"][:i]))
     async def test_events_and_scoring(self):
         r = await evaluate(BUNDLE, ORACLE, System1Assessor(SpyBackend()))
-        self.assertEqual([(e["start_s"], e["end_s"], e["representation"]) for e in r["events"]], [(5.0, 15.0, "chart")])
-        self.assertEqual((r["vs_oracle"]["recall"], r["vs_oracle"]["both_agree_of_ref"]), (1.0, 1.0)); self.assertTrue(r["strictly_causal"])
+        self.assertEqual([(round(e["start_s"], 3), e["end_s"], e["representation"]) for e in r["events"]], [(10.001, 20.0, "chart")])
+        self.assertTrue(r["strictly_causal"])
+        self.assertTrue(all(d["ready_s"] >= d["input_available_s"] for d in r["decisions"]))
     async def test_mock_default_makes_no_events(self):
         r = await evaluate(BUNDLE, ORACLE, System1Assessor(MockBackend())); self.assertEqual(r["events"], [])
     def test_abstain_and_short_events_dropped(self):
         from system1_v10 import Assessment
         mk = lambda ab, u: Assessment("x", "explain", .9, 0, "flow", .9, .9, u, ab, [], 1.0)
         seg = [{"start_s": 0, "end_s": 1, "text": ""}, {"start_s": 10, "end_s": 14, "text": ""}]
-        self.assertEqual(events_from_assessments(seg, [mk(False, 3), mk(True, 3)]), [])   # 1 s too short; abstain dropped
+        self.assertEqual(events_from_assessments(seg, [mk(True, 3), mk(False, 3)]), [])  # final caption finishes after talk end
+
+    def test_latency_queue_and_abstention_end_events(self):
+        from system1_v10 import Assessment
+        mk = lambda ab, ms: Assessment("x", "explain", .9, 0, "flow", .9, .9, 3, ab, [], ms)
+        seg = [{"start_s": i, "end_s": i+1, "text": "x"} for i in range(4)]
+        a = [mk(False, 1500), mk(True, 100), mk(False, 0), mk(False, 0)]
+        self.assertEqual(decision_times(seg,a), [2.5, 2.6, 3.0, 4.0])
+        events = events_from_assessments(seg,a)
+        self.assertEqual([(e["start_s"],e["end_s"]) for e in events],[(2.5,2.6),(3.0,4.0)])
+
+    async def test_empty_unordered_and_parallel_replay_rejected(self):
+        for transcript in ([], list(reversed(BUNDLE["transcript"]))):
+            with self.assertRaises(ValueError):
+                await evaluate({**BUNDLE,"transcript":transcript}, ORACLE, System1Assessor(MockBackend()))
+        with self.assertRaises(ValueError):
+            await evaluate(BUNDLE, ORACLE, System1Assessor(MockBackend()), concurrency=8)
+
+    async def test_all_failures_are_not_success(self):
+        r = await evaluate(BUNDLE, ORACLE, System1Assessor(MockBackend(fail=True)))
+        self.assertEqual(r["status"], "backend_failed")
     async def test_real_pilot_runs_with_mock(self):
         b = json.loads(Path(DEFAULT_BUNDLE).read_text()); o = json.loads(Path(DEFAULT_ORACLE).read_text())
         r = await evaluate(b, o, System1Assessor(MockBackend())); self.assertEqual(r["segments"], 106)
