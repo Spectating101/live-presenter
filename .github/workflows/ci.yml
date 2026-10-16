@@ -20,3 +20,4 @@ jobs:
           node --check presenter/web/studio.js
           node --check presenter/web/stage.js
           node --check presenter/web/visuals.js
+          node --check presenter/web/recording.js

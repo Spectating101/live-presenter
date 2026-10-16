@@ -8,6 +8,11 @@ The subsequent preparation-first product implementation is documented in
 checkpoint. Historical runtime recovery below is no longer a prerequisite for
 trying the new local preparation/approval/rehearsal flow.
 
+The recorded-audio experiment in `RECORDED_TALKS.md` now exercises that controller
+on an entire TED recording using local chunked recognition, with an original-video
+comparison. It remains development evidence, separate from corpus eligibility or
+policy promotion; coarse alignment does not establish audience usefulness.
+
 ## Verified working baseline
 
 - Python 3.13.5; offline tests, pilot comparison and mock causal replay run here.

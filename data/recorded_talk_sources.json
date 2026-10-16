@@ -1,0 +1,33 @@
+{
+  "schema": "live_presenter.recorded_talk_catalog.v1",
+  "selection": "Initial development talk plus two unrun candidates selected for contrasting presentation styles. This is not a representative corpus or a completed benchmark.",
+  "records": [
+    {
+      "id": "ted_rosling_washing_machine",
+      "url": "https://www.ted.com/talks/hans_rosling_the_magic_washing_machine",
+      "title": "The magic washing machine",
+      "speaker": "Hans Rosling",
+      "status": "development_audio_replay_complete",
+      "style": "Narrative, data comparison, animated projection, photographs and physical prop",
+      "preparation": "Same-talk untimed transcript; upper-bound condition"
+    },
+    {
+      "id": "ted_marshall_talk_nerdy",
+      "url": "https://www.ted.com/talks/melissa_marshall_talk_nerdy_to_me",
+      "title": "Talk nerdy to me",
+      "speaker": "Melissa Marshall",
+      "status": "reserved_unrun",
+      "style": "Short conceptual explanation about communicating scientific ideas",
+      "preparation": "Not acquired or prepared yet"
+    },
+    {
+      "id": "ted_mccandless_data_visualization",
+      "url": "https://www.ted.com/talks/david_mccandless_the_beauty_of_data_visualization",
+      "title": "The beauty of data visualization",
+      "speaker": "David McCandless",
+      "status": "reserved_unrun",
+      "style": "Visual-heavy data explanation; likely to expose missing datasets and image assets",
+      "preparation": "Not acquired or prepared yet"
+    }
+  ]
+}

@@ -104,11 +104,12 @@ class Store:
 
 
 class Studio:
-    def __init__(self, store, *, planner=None, live_assessor=None, dwell_s=2.5):
+    def __init__(self, store, *, planner=None, live_assessor=None, dwell_s=2.5, clock=None):
         self.store = store
         self.planner = planner or CopilotPreparation()
         self.live_assessor = live_assessor
         self.dwell_s = dwell_s
+        self.clock = clock or time.time
         # Recover interrupted preparation jobs; never resume a public stage after restart.
         for path in store.root.glob("*.json"):
             with store.change(path.stem) as p:
@@ -247,14 +248,13 @@ class Studio:
                 raise ValueError("Unknown stage control.")
         return self.store.read(pid)
 
-    @staticmethod
-    def show(live, scene_id, reason, *, remember=True):
+    def show(self, live, scene_id, reason, *, remember=True):
         if scene_id != live["current_scene_id"]:
             if live["current_scene_id"] and remember:
                 live["history"].append(live["current_scene_id"])
                 live["history"] = live["history"][-100:]
             live["current_scene_id"] = scene_id
-            live["last_change"] = time.time()
+            live["last_change"] = self.clock()
         live["decision"] = {"action": "SHOW", "scene_id": scene_id, "reason": reason}
 
     def transcript(self, pid, utterance, seq, *, final=True, generation=None):
@@ -271,7 +271,7 @@ class Studio:
             if not final or seq <= live["last_seq"]:
                 return p
             live["last_seq"] = seq
-            live["transcript"].append({"text": utterance, "seq": seq, "at": time.time()})
+            live["transcript"].append({"text": utterance, "seq": seq, "at": self.clock()})
             live["transcript"] = live["transcript"][-150:]
             session = live["generation"]
             use_adviser = live.get('adviser_enabled', False)
@@ -320,7 +320,7 @@ class Studio:
             if live["locked"]:
                 reason = "Stage held by presenter; recommendation stays backstage."
             elif candidate and recommendation["score"] >= .45:
-                if time.time() - live["last_change"] < self.dwell_s:
+                if self.clock() - live["last_change"] < self.dwell_s:
                     reason = "Current visual is still inside its minimum display time."
                 elif recommendation["confirmed"] or recommendation["score"] >= .88 or live["candidate_count"] >= 2:
                     self.show(live, candidate, "Prepared visual matched the spoken explanation.")

@@ -1,0 +1,216 @@
+{
+  "schema": "live_presenter.recorded_pilot_summary.v1",
+  "source_url": "https://www.ted.com/talks/hans_rosling_the_magic_washing_machine",
+  "title": "The magic washing machine",
+  "scope": "First recorded-audio pilot, final verification run. Not an independent benchmark, audience evaluation or corpus promotion.",
+  "duration_s": 538.6333125,
+  "audio_chunks": 90,
+  "chunk_s": 6,
+  "asr": {
+    "schema": "live_presenter.chunk_asr.v1",
+    "audio_sha256": "691374838078ac4b630d942ef01d954b5fa71a19fc88364fff843d2ead8d2f1a",
+    "model": "tiny.en",
+    "recognizer": "openai-whisper 20250625",
+    "device": "cpu",
+    "threads": 4,
+    "chunk_s": 6.0,
+    "model_ready_s": 3.2803055760014104,
+    "complete": true,
+    "future_audio_visible": false,
+    "official_captions_visible": false
+  },
+  "source": {
+    "title": "The magic washing machine",
+    "speaker": "Hans Rosling",
+    "page_url": "https://www.ted.com/talks/hans_rosling_the_magic_washing_machine",
+    "media_url": "https://py.tedcdn.com/consus/projects/00/12/54/004/products/2010w-hans-rosling-004-fallback-1afbe1a95078dd6a2aa28ffd6d25c985-1200k.mp4",
+    "video_sha256": "5d9dd496392f310dcf097b72966469288e366155723fc6b0ffa759aa274cf8b5",
+    "reference_only": [
+      "original_video",
+      "official_caption_timing"
+    ],
+    "preparation_mode": "same-talk transcript supplied in advance, upper-bound preparation condition; no timed cues or frames passed to follower",
+    "schema": "live_presenter.recording_source.v1",
+    "audio_sha256": "691374838078ac4b630d942ef01d954b5fa71a19fc88364fff843d2ead8d2f1a",
+    "preparation_sha256": "848ef63d4c50b9d2fa476126edb570a5a96e3cb39434ed72fce277fcb0eb8d0a",
+    "preparation_condition": "same-talk untimed transcript supplied in advance (upper-bound preparation)",
+    "distribution": "Local evaluation only; media and transcript not committed or republished.",
+    "usage_policy": "https://www.ted.com/about/our-organization/our-policies-terms/ted-talks-usage-policy"
+  },
+  "package_hash": "9252f787a51e58f78b8f8db9f4a425ff0fc0c8902145a71345c7fd9e97918aac",
+  "controller_sha256": "d9d9e1fe2b7bb33318cd95f1f5a440dcb28287f71705e935d3b24005f92fc1a5",
+  "runner_sha256": "bc91ee8a2b3be3fc914c99674a4b4a5a84f08917de1d3ca145d0e264db5f53b2",
+  "asr_sha256": "6dc5281c73e7b14993ba63b3034ec70c0205d2af5b9de13d2e9c4320a4495248",
+  "reference_sha256": "5ef444053f4653bd1e7c2f83ea9425c20335de9541f49c802919bd7d6b6e9f45",
+  "independent_reference": false,
+  "preparation_condition": "Same-talk untimed transcript supplied in advance; upper-bound preparation.",
+  "metrics": {
+    "local": {
+      "development_chapter_alignment": 0.6540933414330823,
+      "scored_s": 438.20000000000005,
+      "aligned_s": 286.62370221597666,
+      "chapters": [
+        {
+          "label": "Family opening",
+          "scored_s": 68.0,
+          "aligned_s": 68.0,
+          "fraction": 1.0,
+          "first_matching_visual_lag_s": 0.0,
+          "original_visual": "Physical washing-machine prop; speaker"
+        },
+        {
+          "label": "Historical access and consumption",
+          "scored_s": 79.10000000000001,
+          "aligned_s": 48.01515980500554,
+          "fraction": 0.6070184551833823,
+          "first_matching_visual_lag_s": 37.08484019499447,
+          "original_visual": "Icon groups, income thresholds, wash line"
+        },
+        {
+          "label": "Hand-washing burden and fairness challenge",
+          "scored_s": 90.6,
+          "aligned_s": 72.5577845589869,
+          "fraction": 0.8008585492161909,
+          "first_matching_visual_lag_s": 24.0422154410131,
+          "original_visual": "Historical hand-washing image and speaker"
+        },
+        {
+          "label": "Historical energy distribution",
+          "scored_s": 34.39999999999998,
+          "aligned_s": 11.066160698994622,
+          "fraction": 0.32169071799402993,
+          "first_matching_visual_lag_s": 29.333839301005355,
+          "original_visual": "Energy-unit diagram with 2010 total 12"
+        },
+        {
+          "label": "2050 energy projection",
+          "scored_s": 56.80000000000001,
+          "aligned_s": 43.87088421899824,
+          "fraction": 0.7723747221654619,
+          "first_matching_visual_lag_s": 18.92911578100177,
+          "original_visual": "Animated 2010 to 2050 diagram"
+        },
+        {
+          "label": "Efficiency, green energy and fairness",
+          "scored_s": 53.30000000000001,
+          "aligned_s": 43.11371293399134,
+          "fraction": 0.8088876723075296,
+          "first_matching_visual_lag_s": 16.186287066008674,
+          "original_visual": "Energy diagram, speaker, electricity-access footage"
+        },
+        {
+          "label": "Books and learning conclusion",
+          "scored_s": 56.0,
+          "aligned_s": 0,
+          "fraction": 0.0,
+          "first_matching_visual_lag_s": null,
+          "original_visual": "Physical book reveal from the washing-machine prop"
+        }
+      ],
+      "visual_changes_during_audio": 5,
+      "ideas_displayed_during_audio": 6,
+      "prepared_ideas": 7,
+      "asr_processing_s": 36.32225199896493,
+      "asr_processing_real_time_factor": 0.067434098775621,
+      "chunk_end_to_decision_p50_s": 0.3974103629880119,
+      "chunk_end_to_decision_p95_s": 0.555963425009395,
+      "adviser_calls": 0,
+      "adviser_failures": 0,
+      "adviser_models": [],
+      "causality_violations": 0,
+      "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness."
+    },
+    "jev": {
+      "development_chapter_alignment": 0.8215965122752431,
+      "scored_s": 438.20000000000005,
+      "aligned_s": 360.0235916790116,
+      "chapters": [
+        {
+          "label": "Family opening",
+          "scored_s": 68.0,
+          "aligned_s": 68.0,
+          "fraction": 1.0,
+          "first_matching_visual_lag_s": 0.0,
+          "original_visual": "Physical washing-machine prop; speaker"
+        },
+        {
+          "label": "Historical access and consumption",
+          "scored_s": 79.10000000000001,
+          "aligned_s": 47.65080431399693,
+          "fraction": 0.6024121910745502,
+          "first_matching_visual_lag_s": 37.44919568600308,
+          "original_visual": "Icon groups, income thresholds, wash line"
+        },
+        {
+          "label": "Hand-washing burden and fairness challenge",
+          "scored_s": 90.6,
+          "aligned_s": 84.28379062900785,
+          "fraction": 0.9302846647793362,
+          "first_matching_visual_lag_s": 12.31620937099214,
+          "original_visual": "Historical hand-washing image and speaker"
+        },
+        {
+          "label": "Historical energy distribution",
+          "scored_s": 34.39999999999998,
+          "aligned_s": 22.680026801003237,
+          "fraction": 0.659303104680327,
+          "first_matching_visual_lag_s": 17.71997319899674,
+          "original_visual": "Energy-unit diagram with 2010 total 12"
+        },
+        {
+          "label": "2050 energy projection",
+          "scored_s": 56.80000000000001,
+          "aligned_s": 43.62111832699446,
+          "fraction": 0.7679774353344094,
+          "first_matching_visual_lag_s": 19.17888167300555,
+          "original_visual": "Animated 2010 to 2050 diagram"
+        },
+        {
+          "label": "Efficiency, green energy and fairness",
+          "scored_s": 53.30000000000001,
+          "aligned_s": 48.841709867003374,
+          "fraction": 0.9163547817449036,
+          "first_matching_visual_lag_s": 10.458290132996638,
+          "original_visual": "Energy diagram, speaker, electricity-access footage"
+        },
+        {
+          "label": "Books and learning conclusion",
+          "scored_s": 56.0,
+          "aligned_s": 44.946141741005704,
+          "fraction": 0.8026096739465304,
+          "first_matching_visual_lag_s": 17.053858258994296,
+          "original_visual": "Physical book reveal from the washing-machine prop"
+        }
+      ],
+      "visual_changes_during_audio": 6,
+      "ideas_displayed_during_audio": 7,
+      "prepared_ideas": 7,
+      "asr_processing_s": 36.32225199896493,
+      "asr_processing_real_time_factor": 0.067434098775621,
+      "chunk_end_to_decision_p50_s": 0.6575080699840328,
+      "chunk_end_to_decision_p95_s": 0.917379462000099,
+      "adviser_calls": 89,
+      "adviser_failures": 1,
+      "adviser_models": [
+        "jev-1.13.0"
+      ],
+      "causality_violations": 0,
+      "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness."
+    }
+  },
+  "limitations": [
+    "Accelerated serial-worker simulation with measured ASR and adviser time; no browser rendering or device latency.",
+    "Same-talk transcript supplied in advance: an upper-bound preparation condition.",
+    "Original video is a reference, not the only valid visual design or a gold editorial trace.",
+    "One development talk; no held-out accuracy or audience-usefulness claim.",
+    "Coarse reference written by the implementation operator; boundary exclusion and approximate intro offset.",
+    "Initial opening visual is preselected. No visual-quality score.",
+    "Reference permits neighboring fairness/burden topics during a passage without its own prepared idea.",
+    "Comparison-player layout and synchronization remain browser-unverified."
+  ],
+  "result_sha256": {
+    "local": "a9355f8a9e037ca6fd9cd12a1b953fabc8f168a7b7e8739281c0734ede797eab",
+    "jev": "bf9eaead261236937c4f2debc93c7d5ef5d7eb6d27801a24db5d0473b1ccadcb"
+  },
+  "run_note": "Initial runs are retained privately; this summary records the final verification run of the checked-in runner."
+}
