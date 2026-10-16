@@ -158,6 +158,8 @@ required before using this for a real presentation.
 
 Matching is intentionally bounded by prepared concepts and cues. This is not a
 claim of universal speech understanding or slide-deck replacement quality.
+`RECORDED_TALKS.md` documents an actual bounded-audio replay and a synchronized
+original-video comparison, including observed late transitions and visual gaps.
 Images/video, mathematical typesetting, map/timeline renderers, fully local STT,
 and audience evaluation remain future work. The separate 30-source research
 tranche still needs independent editorial traces and source/context review.
