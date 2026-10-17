@@ -17,7 +17,9 @@ two talks. It separates millisecond controller reaction from the remaining
 speech-recognition delays and stale-audio backlog; no instantaneous live claim.
 `BOUNDED_AUDIO.md` continues that work with limited single-pass decoding and
 explicit latest-available scheduling simulations, keeping the cue controller and
-approved packages fixed. The microphone implementation remains a separate step.
+approved packages fixed. `LIVE_AUDIO.md` adds the opt-in browser PCM connection,
+bounded local worker and actual wall-clock HTTP-to-stage probes. Browser capture,
+paint and physical microphone/projector timing still require verification.
 
 ## Verified working baseline
 

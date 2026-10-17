@@ -25,6 +25,35 @@ class Conflict(ValueError):
     pass
 
 
+class DeadlineAdviser:
+    """At most one outstanding advisory call; late results have no authority."""
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.busy = False
+
+    def ask(self, assessor, package, utterance, timeout):
+        with self.lock:
+            if self.busy or timeout <= 0:
+                raise TimeoutError('Live adviser is busy or its input expired.')
+            self.busy = True
+        completed, result = threading.Event(), {}
+        def request():
+            try:
+                result['value'] = assessor(package,utterance)
+            except Exception as error:
+                result['error'] = error
+            finally:
+                with self.lock:
+                    self.busy = False
+                completed.set()
+        threading.Thread(target=request,daemon=True,name='presenter-advice').start()
+        if not completed.wait(timeout):
+            raise TimeoutError('Live advice exceeded the current audio deadline.')
+        if 'error' in result:
+            raise result['error']
+        return result['value']
+
+
 def fresh_live():
     return {"active": False, "locked": False, "adviser_enabled": False, "reflex_enabled": False, "current_scene_id": None, "history": [],
             "transcript": [], "last_seq": -1, "generation": uuid.uuid4().hex, "last_change": 0,
@@ -117,6 +146,7 @@ class Studio:
         self.store = store
         self.planner = planner or CopilotPreparation()
         self.live_assessor = live_assessor
+        self.deadline_adviser = DeadlineAdviser()
         self.dwell_s = dwell_s
         self.clock = clock or time.time
         self.cue_indexes = {}
@@ -281,7 +311,17 @@ class Studio:
                 self.cue_indexes[key] = CueIndex(self.package(project), project['sources'])
             return self.cue_indexes[key]
 
-    def transcript(self, pid, utterance, seq, *, final=True, generation=None):
+    def invalidate_input(self, pid, generation):
+        """Cancel pending input without changing the presenter's chosen visual."""
+        with self.store.change(pid) as p:
+            self.package(p)
+            if not p['live']['active'] or p['live']['generation'] != generation:
+                raise Conflict('This input belongs to an older rehearsal.')
+            clear_candidate(p['live'])
+            p['live']['generation'] = uuid.uuid4().hex
+        return self.store.read(pid)
+
+    def transcript(self, pid, utterance, seq, *, final=True, generation=None, expires_at=None):
         utterance = utterance.strip()[:3000]
         if not utterance:
             raise ValueError("Add an utterance first.")
@@ -292,6 +332,10 @@ class Studio:
                 raise Conflict("Start the rehearsal first.")
             if generation != live["generation"]:
                 raise Conflict("This transcript belongs to an older rehearsal session.")
+            if expires_at is not None and self.clock() > expires_at:
+                raise Conflict('This audio has expired.')
+            if seq is None:
+                seq = live['last_seq'] + 1  # Internal PCM worker allocates under the project lock.
             if not final or seq <= live["last_seq"]:
                 return p
             live["last_seq"] = seq
@@ -308,7 +352,12 @@ class Studio:
         if self.live_assessor and use_adviser and (not index or (
                 not recommendation.get('reflex_ready') and recommendation.get('supported_concepts'))):
             try:
-                advice = self.live_assessor({**package,'_live_context':context} if index else package, utterance)
+                advice_package = {**package,'_live_context':context} if index else package
+                if expires_at is None:
+                    advice = self.live_assessor(advice_package, utterance)
+                else:
+                    advice = self.deadline_adviser.ask(self.live_assessor,advice_package,utterance,
+                        min(1.2,max(0,expires_at-self.clock()-.02)))
                 if (not isinstance(advice,dict) or not isinstance(advice.get('confidence'),(int,float))
                         or not math.isfinite(advice['confidence']) or not 0 <= advice['confidence'] <= 1
                         or (advice.get('scene_id') is not None and not isinstance(advice['scene_id'],str))):
@@ -341,6 +390,10 @@ class Studio:
             live = p["live"]
             if live["generation"] != session or seq != live["last_seq"] or not live["active"]:
                 return p  # Delayed advice cannot change a newer session/utterance.
+            if expires_at is not None and self.clock() > expires_at:
+                clear_candidate(live)
+                live['decision'] = {'action':'HOLD', 'reason':'Audio expired before matching completed; retaining the stage.'}
+                return p
             candidate = recommendation["scene_id"]
             live["candidate_count"] = live["candidate_count"] + 1 if candidate == live["candidate_id"] else 1
             live["candidate_id"] = candidate

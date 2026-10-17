@@ -21,3 +21,6 @@ jobs:
           node --check presenter/web/stage.js
           node --check presenter/web/visuals.js
           node --check presenter/web/recording.js
+          node --check presenter/web/microphone.js
+          node --check presenter/web/pcm-worklet.js
+          node --test test_microphone.mjs
