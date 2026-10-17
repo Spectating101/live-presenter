@@ -171,12 +171,12 @@ This runner does not grant redistribution rights or imply TED endorsement.
 
 `PREPARED_REFLEX.md` records the subsequent one-second rolling-audio experiment
 on Rosling and Melissa Marshall's short concept-driven talk, including a speech
-recognition backlog failure. `data/recorded_talk_sources.json` still reserves the
-visual/data-heavy talk by David McCandless, which has not been run or scored.
+recognition backlog failure. `VIDEO_COMPARISONS.md` now records full tests on
+David McCandless and Derek Sivers with a subsequently frozen controller, including
+partial versus assisted preparation and comparison with the original visual evidence.
 `BOUNDED_AUDIO.md` documents the subsequent limited-decoding and stale-window
 experiment on the same two recordings; the old baseline remains available.
-Test that recording with the frozen controller before tuning on its results.
-Also add a condition with separately supplied notes/datasets rather than the
+Add a condition with separately supplied notes/datasets rather than the
 complete talk transcript, and a second reviewer who cannot see system outputs.
 
 The first engineering target is earlier reliable topic transitions from recent

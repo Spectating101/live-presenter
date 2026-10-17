@@ -1,6 +1,6 @@
 {
   "schema": "live_presenter.recorded_talk_catalog.v1",
-  "selection": "Two completed development recordings and one reserved unrun candidate; not a representative corpus or completed independent benchmark.",
+  "selection": "Four completed development recordings; two new sources tested with frozen controller. Not a representative corpus or completed independent benchmark.",
   "records": [
     {
       "id": "ted_rosling_washing_machine",
@@ -25,9 +25,18 @@
       "url": "https://www.ted.com/talks/david_mccandless_the_beauty_of_data_visualization",
       "title": "The beauty of data visualization",
       "speaker": "David McCandless",
-      "status": "reserved_unrun",
-      "style": "Visual-heavy data explanation; likely to expose missing datasets and image assets",
-      "preparation": "Not acquired or prepared yet"
+      "status": "frozen_controller_full_audio_comparison_complete",
+      "style": "Visual-heavy data explanation; exposed incomplete preparation and missing datasets/image assets",
+      "preparation": "Same-talk untimed transcript; original partial five-idea and operator-assisted ten-idea conditions"
+    },
+    {
+      "id": "ted_sivers_start_movement",
+      "url": "https://www.ted.com/talks/derek_sivers_how_to_start_a_movement",
+      "title": "How to start a movement",
+      "speaker": "Derek Sivers",
+      "status": "frozen_controller_full_audio_comparison_complete",
+      "style": "Narrated crowd-footage demonstration; exposed missing temporal visual evidence",
+      "preparation": "Same-talk untimed transcript; source-reviewed five-idea package after clarification"
     }
   ]
 }

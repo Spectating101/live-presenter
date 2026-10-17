@@ -1,0 +1,479 @@
+{
+  "schema": "live_presenter.expanded_video_references.v1",
+  "independent": false,
+  "conditions": {
+    "sivers": {
+      "reference": {
+        "package_hash": "dc0007c64aa6cf05e2fe5c20a1dd21f7dc998272ed01c56f2c2ee7f08d4a30d5",
+        "reviewer": "Codex implementation operator",
+        "independent": false,
+        "fixed_before_follower_replay": true,
+        "boundary_exclusion_s": 6,
+        "timing_basis": "Official cue boundaries plus approximate 3.3-second media intro; sampled original frames. Camera cuts are not topic changes.",
+        "ambiguous_passages": [
+          "The recap explicitly returns to the first-follower idea, so either that idea or the combined recap/conclusion idea is acceptable there. The final exhortation is scored as the conclusion."
+        ],
+        "visual_comparison_notes": "The original hillside footage is the concrete evidence for the explanation. Prepared flows/comparisons can summarize the argument, but this transcript-only package cannot show or coordinate that footage. Rhetorical crowd counts are not general empirical thresholds.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 14.3,
+            "label": "Introducing the demonstration",
+            "acceptable_concept_ids": [
+              "concept_d8382e54ed5e"
+            ],
+            "original_visual": "Speaker with the hillside clip on screen"
+          },
+          {
+            "start": 14.3,
+            "end": 53.54,
+            "label": "Initiator and first follower",
+            "acceptable_concept_ids": [
+              "concept_f3cfda6b1d07"
+            ],
+            "original_visual": "Footage of the lone dancer, first joiner and welcoming interaction"
+          },
+          {
+            "start": 53.54,
+            "end": 70.3,
+            "label": "Followers become publicly visible",
+            "acceptable_concept_ids": [
+              "concept_1a22f9491773"
+            ],
+            "original_visual": "Additional dancers join; observers can see ordinary followers"
+          },
+          {
+            "start": 70.3,
+            "end": 106.24,
+            "label": "Momentum and lower participation risk",
+            "acceptable_concept_ids": [
+              "concept_b5c885f43db9"
+            ],
+            "original_visual": "The group rapidly grows across the hillside"
+          },
+          {
+            "start": 106.24,
+            "end": 124.4,
+            "label": "Recap: nurture early followers",
+            "acceptable_concept_ids": [
+              "concept_f3cfda6b1d07",
+              "concept_8285d62d0154"
+            ],
+            "original_visual": "Speaker recaps alongside the continuing crowd footage"
+          },
+          {
+            "start": 124.4,
+            "end": 159.3,
+            "label": "Concluding lesson about following",
+            "acceptable_concept_ids": [
+              "concept_8285d62d0154"
+            ],
+            "original_visual": "Speaker and crowd footage; spoken argument challenges the focus on leaders"
+          }
+        ]
+      },
+      "visual_review": {
+        "schema": "live_presenter.visual_input_review.v1",
+        "reviewer": "Codex implementation operator",
+        "independent": false,
+        "timing": "Written after inspecting source frames and approved package, before follower replay outputs.",
+        "package_hash": "dc0007c64aa6cf05e2fe5c20a1dd21f7dc998272ed01c56f2c2ee7f08d4a30d5",
+        "reference_sha256": "eddd1a85c1159ed7e785d5532b0a090ab31713d36907d03cc2ada27e65afab71",
+        "frame_manifest_sha256": "95188f57b6f2d992d8a4de0023cb451c7704348b748e78247a12ec04ae126350",
+        "preparation_inputs": {
+          "untimed_transcript": true,
+          "original_footage_as_asset": false,
+          "dataset": false
+        },
+        "prepared_scene_kinds": [
+          "comparison",
+          "definition",
+          "evidence",
+          "flow",
+          "metric"
+        ],
+        "observations": [
+          {
+            "section": "Initiator and first follower",
+            "reference_evidence": "Visible solo dancer and first joiner",
+            "prepared_relation": "Flow and role comparison preserve the verbal explanation",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Followers become publicly visible",
+            "reference_evidence": "Actual people joining and being imitated",
+            "prepared_relation": "Comparison explains leader/follower roles",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Momentum and lower participation risk",
+            "reference_evidence": "The temporal growth of the crowd",
+            "prepared_relation": "Ordered flow summarizes the described progression",
+            "essential_visual_evidence_supplied": false
+          }
+        ],
+        "finding": "Potentially useful argument summary; does not replace the demonstration footage. No audience-usefulness score."
+      }
+    },
+    "mccandless-default": {
+      "reference": {
+        "package_hash": "a4c675a3c6bb84223f5757df587c58e9b86d215e02aba2ee2137f0a971a4c8b7",
+        "reviewer": "Codex implementation operator",
+        "independent": false,
+        "fixed_before_follower_replay": true,
+        "boundary_exclusion_s": 6,
+        "timing_basis": "Official cue section boundaries plus approximate 3.3-second media intro; sampled original frames. Six-second boundary exclusion.",
+        "ambiguous_passages": [
+          "The partial draft explicitly mentions evidence compression and updateable exploration, so its broad conclusion concept is accepted during curation and living-image sections. It has no supplied topic-specific idea for data-soil/Facebook, visual-CV/senses or political perspectives; those sections remain in the denominator with no acceptable idea."
+        ],
+        "visual_comparison_notes": "Topic matching does not establish chart fidelity or audience usefulness. Neither condition receives the original figures, CSV datasets, visual CV, political map or interactive application.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 29.3,
+            "label": "Information overload",
+            "acceptable_concept_ids": [
+              "concept_52d752948192"
+            ],
+            "original_visual": "Speaker introduces visualization"
+          },
+          {
+            "start": 29.3,
+            "end": 166.3,
+            "label": "Billion-dollar scale",
+            "acceptable_concept_ids": [
+              "concept_b5e9801ea5be"
+            ],
+            "original_visual": "Area-scaled financial boxes"
+          },
+          {
+            "start": 166.3,
+            "end": 297.3,
+            "label": "Media fear patterns",
+            "acceptable_concept_ids": [
+              "concept_991437d7f91b"
+            ],
+            "original_visual": "Fear timelines and media peaks"
+          },
+          {
+            "start": 297.3,
+            "end": 452.3,
+            "label": "Data soil and Facebook breakups",
+            "acceptable_concept_ids": [],
+            "original_visual": "Seasonal breakup pattern and reveal"
+          },
+          {
+            "start": 452.3,
+            "end": 609.3,
+            "label": "Visual literacy and sensory language",
+            "acceptable_concept_ids": [],
+            "original_visual": "Visual CV and sensory bandwidth graphic"
+          },
+          {
+            "start": 609.3,
+            "end": 737.3,
+            "label": "Relative military measures",
+            "acceptable_concept_ids": [
+              "concept_935a85cf0830"
+            ],
+            "original_visual": "Absolute and relative military comparisons"
+          },
+          {
+            "start": 737.3,
+            "end": 826.3,
+            "label": "Historical supplement evidence and curation",
+            "acceptable_concept_ids": [
+              "concept_d63ae8660fec"
+            ],
+            "original_visual": "Evidence versus popularity bubble chart"
+          },
+          {
+            "start": 826.3,
+            "end": 877.3,
+            "label": "Living spreadsheet images",
+            "acceptable_concept_ids": [
+              "concept_d63ae8660fec"
+            ],
+            "original_visual": "Interactive filtering of the bubble chart"
+          },
+          {
+            "start": 877.3,
+            "end": 986.3,
+            "label": "Political perspectives",
+            "acceptable_concept_ids": [],
+            "original_visual": "Connected map of political ideas"
+          },
+          {
+            "start": 986.3,
+            "end": 1071.3,
+            "label": "Information design and volcano",
+            "acceptable_concept_ids": [
+              "concept_d63ae8660fec"
+            ],
+            "original_visual": "Information design conclusion and emissions area comparison"
+          }
+        ]
+      },
+      "visual_review": {
+        "schema": "live_presenter.visual_input_review.v1",
+        "reviewer": "Codex implementation operator",
+        "independent": false,
+        "timing": "Source-frame and package review fixed before either McCandless follower output.",
+        "package_hash": "a4c675a3c6bb84223f5757df587c58e9b86d215e02aba2ee2137f0a971a4c8b7",
+        "reference_sha256": "af15551e5598e0ef42d223d8072a35143389310ea961556ba90dabbdb57bca0c",
+        "frame_manifest_sha256": "2dca46d6d03f6eb01e8e479234db70b781162e7bacd5c3e5d1d4d4b6ebcebaad",
+        "preparation_inputs": {
+          "untimed_transcript": true,
+          "original_figures_as_assets": false,
+          "dataset": false
+        },
+        "prepared_scene_kinds": [
+          "comparison",
+          "definition",
+          "evidence",
+          "flow"
+        ],
+        "observations": [
+          {
+            "section": "Billion-dollar scale",
+            "reference_evidence": "Area-scaled financial boxes",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Media fear patterns",
+            "reference_evidence": "Fear timelines and media peaks",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Data soil and Facebook breakups",
+            "reference_evidence": "Seasonal breakup pattern and reveal",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Visual literacy and sensory language",
+            "reference_evidence": "Visual CV and sensory bandwidth graphic",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Relative military measures",
+            "reference_evidence": "Absolute and relative military comparisons",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Historical supplement evidence and curation",
+            "reference_evidence": "Evidence versus popularity bubble chart",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Living spreadsheet images",
+            "reference_evidence": "Interactive filtering of the bubble chart",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Political perspectives",
+            "reference_evidence": "Connected map of political ideas",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Information design and volcano",
+            "reference_evidence": "Information design conclusion and emissions area comparison",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          }
+        ],
+        "finding": "Summary cards cannot reproduce the quantitative patterns, shapes, visual joke/reveal, worldview map or interactive filtering demonstrated in the original. The expanded condition improves source-topic coverage but does not add those visual assets. No audience-usefulness score."
+      }
+    },
+    "mccandless": {
+      "reference": {
+        "package_hash": "ca7b04449b255505f5e139b19056099a21471167bc1e5105347d8a6f06f50e5c",
+        "reviewer": "Codex implementation operator",
+        "independent": false,
+        "fixed_before_follower_replay": true,
+        "boundary_exclusion_s": 6,
+        "timing_basis": "Official cue section boundaries plus approximate 3.3-second media intro; sampled original frames. Six-second boundary exclusion.",
+        "ambiguous_passages": [
+          "The partial draft explicitly mentions evidence compression and updateable exploration, so its broad conclusion concept is accepted during curation and living-image sections. It has no supplied topic-specific idea for data-soil/Facebook, visual-CV/senses or political perspectives; those sections remain in the denominator with no acceptable idea."
+        ],
+        "visual_comparison_notes": "Topic matching does not establish chart fidelity or audience usefulness. Neither condition receives the original figures, CSV datasets, visual CV, political map or interactive application.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 29.3,
+            "label": "Information overload",
+            "acceptable_concept_ids": [
+              "concept_761d4a5727f4"
+            ],
+            "original_visual": "Speaker introduces visualization"
+          },
+          {
+            "start": 29.3,
+            "end": 166.3,
+            "label": "Billion-dollar scale",
+            "acceptable_concept_ids": [
+              "concept_4c0c46f676ab"
+            ],
+            "original_visual": "Area-scaled financial boxes"
+          },
+          {
+            "start": 166.3,
+            "end": 297.3,
+            "label": "Media fear patterns",
+            "acceptable_concept_ids": [
+              "concept_7255be39776b"
+            ],
+            "original_visual": "Fear timelines and media peaks"
+          },
+          {
+            "start": 297.3,
+            "end": 452.3,
+            "label": "Data soil and Facebook breakups",
+            "acceptable_concept_ids": [
+              "concept_77ce4f712933"
+            ],
+            "original_visual": "Seasonal breakup pattern and reveal"
+          },
+          {
+            "start": 452.3,
+            "end": 609.3,
+            "label": "Visual literacy and sensory language",
+            "acceptable_concept_ids": [
+              "concept_2e839691c2eb"
+            ],
+            "original_visual": "Visual CV and sensory bandwidth graphic"
+          },
+          {
+            "start": 609.3,
+            "end": 737.3,
+            "label": "Relative military measures",
+            "acceptable_concept_ids": [
+              "concept_bc4d978ebc95"
+            ],
+            "original_visual": "Absolute and relative military comparisons"
+          },
+          {
+            "start": 737.3,
+            "end": 826.3,
+            "label": "Historical supplement evidence and curation",
+            "acceptable_concept_ids": [
+              "concept_e7b369d80933"
+            ],
+            "original_visual": "Evidence versus popularity bubble chart"
+          },
+          {
+            "start": 826.3,
+            "end": 877.3,
+            "label": "Living spreadsheet images",
+            "acceptable_concept_ids": [
+              "concept_d1f96d69cbf5"
+            ],
+            "original_visual": "Interactive filtering of the bubble chart"
+          },
+          {
+            "start": 877.3,
+            "end": 986.3,
+            "label": "Political perspectives",
+            "acceptable_concept_ids": [
+              "concept_6348cd21a8cd"
+            ],
+            "original_visual": "Connected map of political ideas"
+          },
+          {
+            "start": 986.3,
+            "end": 1071.3,
+            "label": "Information design and volcano",
+            "acceptable_concept_ids": [
+              "concept_8afbb9835ebb"
+            ],
+            "original_visual": "Information design conclusion and emissions area comparison"
+          }
+        ]
+      },
+      "visual_review": {
+        "schema": "live_presenter.visual_input_review.v1",
+        "reviewer": "Codex implementation operator",
+        "independent": false,
+        "timing": "Source-frame and package review fixed before either McCandless follower output.",
+        "package_hash": "ca7b04449b255505f5e139b19056099a21471167bc1e5105347d8a6f06f50e5c",
+        "reference_sha256": "8d003fadf1df1338a81a35d1c6f8a6b8fc5ba1e2914ab3d037ae6681303f2621",
+        "frame_manifest_sha256": "2dca46d6d03f6eb01e8e479234db70b781162e7bacd5c3e5d1d4d4b6ebcebaad",
+        "preparation_inputs": {
+          "untimed_transcript": true,
+          "original_figures_as_assets": false,
+          "dataset": false
+        },
+        "prepared_scene_kinds": [
+          "comparison",
+          "definition",
+          "evidence",
+          "flow"
+        ],
+        "observations": [
+          {
+            "section": "Billion-dollar scale",
+            "reference_evidence": "Area-scaled financial boxes",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Media fear patterns",
+            "reference_evidence": "Fear timelines and media peaks",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Data soil and Facebook breakups",
+            "reference_evidence": "Seasonal breakup pattern and reveal",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Visual literacy and sensory language",
+            "reference_evidence": "Visual CV and sensory bandwidth graphic",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Relative military measures",
+            "reference_evidence": "Absolute and relative military comparisons",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Historical supplement evidence and curation",
+            "reference_evidence": "Evidence versus popularity bubble chart",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Living spreadsheet images",
+            "reference_evidence": "Interactive filtering of the bubble chart",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Political perspectives",
+            "reference_evidence": "Connected map of political ideas",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Information design and volcano",
+            "reference_evidence": "Information design conclusion and emissions area comparison",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          }
+        ],
+        "finding": "Summary cards cannot reproduce the quantitative patterns, shapes, visual joke/reveal, worldview map or interactive filtering demonstrated in the original. The expanded condition improves source-topic coverage but does not add those visual assets. No audience-usefulness score."
+      }
+    }
+  }
+}

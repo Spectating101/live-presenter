@@ -1,6 +1,6 @@
 # Research execution roadmap
 
-Updated 2026-10-17. This is the current continuation of the v10 handoff, not a
+Updated 2026-10-18. This is the current continuation of the v10 handoff, not a
 claim that the historical full runtime has been restored or validated.
 
 The subsequent preparation-first product implementation is documented in
@@ -20,6 +20,11 @@ explicit latest-available scheduling simulations, keeping the cue controller and
 approved packages fixed. `LIVE_AUDIO.md` adds the opt-in browser PCM connection,
 bounded local worker and actual wall-clock HTTP-to-stage probes. Browser capture,
 paint and physical microphone/projector timing still require verification.
+`VIDEO_COMPARISONS.md` extends development testing to four TED recordings with
+two new frozen-controller full-audio comparisons. McCandless exposes incomplete
+preparation, missing source graphics and within-topic view selection despite high
+coarse alignment after operator assistance. These are development observations;
+independent editorial and audience evaluation remain outstanding.
 
 ## Verified working baseline
 

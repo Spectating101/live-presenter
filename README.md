@@ -19,6 +19,7 @@ research lane for evaluating causal visual editing and an advisory learned polic
 - `PREPARED_REFLEX.md` — experimental prepared-cue reaction, faster audio replay and latency limits
 - `BOUNDED_AUDIO.md` — limited decoding, repetitive-output rejection and explicit stale-window replay
 - `LIVE_AUDIO.md` — opt-in local English microphone input and wall-clock HTTP/ASR/stage probes (`make studio-local`)
+- `VIDEO_COMPARISONS.md` — two additional TED tests, original-video comparison, preparation coverage and missing visual evidence
 - `RESEARCH_ROADMAP.md` — current execution plan, measured results, acceptance gates and blockers
 - `make verify` — reproducible offline checks from this checkout
 - `HANDOFF.md` — canonical project handoff and restart instructions
