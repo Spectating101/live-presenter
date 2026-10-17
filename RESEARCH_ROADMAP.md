@@ -15,6 +15,9 @@ policy promotion; coarse alignment does not establish audience usefulness.
 `PREPARED_REFLEX.md` adds a measured local cue path and rolling-audio tests on
 two talks. It separates millisecond controller reaction from the remaining
 speech-recognition delays and stale-audio backlog; no instantaneous live claim.
+`BOUNDED_AUDIO.md` continues that work with limited single-pass decoding and
+explicit latest-available scheduling simulations, keeping the cue controller and
+approved packages fixed. The microphone implementation remains a separate step.
 
 ## Verified working baseline
 

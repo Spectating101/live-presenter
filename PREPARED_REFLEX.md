@@ -81,6 +81,8 @@ despite much lower typical processing times. It was not an actual new thought by
 the presentation agent. The current replay preserves this backlog rather than
 hiding it. Bounded decoder work, non-speech handling and explicit stale-window
 dropping need validation before this recognizer configuration is suitable live.
+The subsequent [bounded recognition experiment](BOUNDED_AUDIO.md) tests those
+changes while preserving the original results described here.
 
 ## Reproduce
 

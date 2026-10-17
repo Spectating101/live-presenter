@@ -17,6 +17,7 @@ research lane for evaluating causal visual editing and an advisory learned polic
 - `STUDIO.md` — intake, clarification, visual review, approval, rehearsal and projector guide
 - `RECORDED_TALKS.md` — real audio replay, original-video comparison and measured pilot limitations
 - `PREPARED_REFLEX.md` — experimental prepared-cue reaction, faster audio replay and latency limits
+- `BOUNDED_AUDIO.md` — limited decoding, repetitive-output rejection and explicit stale-window replay
 - `RESEARCH_ROADMAP.md` — current execution plan, measured results, acceptance gates and blockers
 - `make verify` — reproducible offline checks from this checkout
 - `HANDOFF.md` — canonical project handoff and restart instructions
