@@ -169,9 +169,11 @@ This runner does not grant redistribution rights or imply TED endorsement.
 
 ## Next experiments
 
-`data/recorded_talk_sources.json` reserves a short concept-driven talk by Melissa
-Marshall and a visual/data-heavy talk by David McCandless. Neither has been run
-or scored. Test those with the frozen controller before tuning on their results.
+`PREPARED_REFLEX.md` records the subsequent one-second rolling-audio experiment
+on Rosling and Melissa Marshall's short concept-driven talk, including a speech
+recognition backlog failure. `data/recorded_talk_sources.json` still reserves the
+visual/data-heavy talk by David McCandless, which has not been run or scored.
+Test that recording with the frozen controller before tuning on its results.
 Also add a condition with separately supplied notes/datasets rather than the
 complete talk transcript, and a second reviewer who cannot see system outputs.
 

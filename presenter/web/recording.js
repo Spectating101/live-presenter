@@ -22,7 +22,7 @@ function updateRecording() {
   }
   const chapter = recording.reference.spans.find(s => s.start <= at && s.end > at);
   document.getElementById('chapter').textContent = chapter ? `${chapter.label} · ${chapter.original_visual}` : 'Reference outside the scored argument sections.';
-  document.getElementById('heard').textContent = row ? `${timestamp(row.start)}–${timestamp(row.end)}: ${row.text || '(no recognized speech)'}` : 'No audio chunk has completed recognition yet.';
+  document.getElementById('heard').textContent = row ? `${timestamp(row.window_start ?? row.start)}–${timestamp(row.end)}: ${row.text || '(no recognized speech)'}` : 'No audio chunk has completed recognition yet.';
   document.getElementById('decision').textContent = row ? `${row.decision.action} · ${row.decision.reason}` : 'Approved opening visual.';
   if (referenceVideo.readyState && Math.abs(referenceVideo.currentTime - at) > .35) referenceVideo.currentTime = Math.min(at, referenceVideo.duration || at);
 }
@@ -53,6 +53,12 @@ function drawRecordingSummary() {
     const stats = recording.metrics[m]; latency.append(el('td', '', `${stats.chunk_end_to_decision_p50_s.toFixed(2)}s / ${stats.chunk_end_to_decision_p95_s.toFixed(2)}s`));
   });
   table.append(latency);
+  const mistakes = el('tr'); mistakes.append(el('td', '', 'Visual changes outside coarse section expectations'));
+  ['local','jev'].forEach(m => mistakes.append(el('td', '', recording.metrics[m].misaligned_changes_within_scored_sections?.length || 0)));
+  table.append(mistakes);
+  const calls = el('tr'); calls.append(el('td', '', 'Adviser calls / unavailable calls'));
+  ['local','jev'].forEach(m => calls.append(el('td', '', `${recording.metrics[m].adviser_calls} / ${recording.metrics[m].adviser_failures}`)));
+  table.append(calls);
   document.getElementById('metrics').replaceChildren(table, el('p', 'metric-note', `Alignment excludes ${recording.reference.boundary_exclusion_s} seconds on each side of coarse chapter boundaries. This reference is not independent and does not score visual quality. Processing times exclude waiting for a ${result.asr.chunk_s}-second chunk to fill.`));
   updateRecording();
 }

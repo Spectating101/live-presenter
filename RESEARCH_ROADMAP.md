@@ -1,6 +1,6 @@
 # Research execution roadmap
 
-Updated 2026-10-15. This is the current continuation of the v10 handoff, not a
+Updated 2026-10-17. This is the current continuation of the v10 handoff, not a
 claim that the historical full runtime has been restored or validated.
 
 The subsequent preparation-first product implementation is documented in
@@ -12,6 +12,9 @@ The recorded-audio experiment in `RECORDED_TALKS.md` now exercises that controll
 on an entire TED recording using local chunked recognition, with an original-video
 comparison. It remains development evidence, separate from corpus eligibility or
 policy promotion; coarse alignment does not establish audience usefulness.
+`PREPARED_REFLEX.md` adds a measured local cue path and rolling-audio tests on
+two talks. It separates millisecond controller reaction from the remaining
+speech-recognition delays and stale-audio backlog; no instantaneous live claim.
 
 ## Verified working baseline
 

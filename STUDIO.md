@@ -91,6 +91,10 @@ python3 -m presenter.server --no-jev
 
 Use **Hold stage**, **Resume following**, **Next idea**, **Back**, or a prepared
 visual thumbnail to take control. Stage changes have a 2.5-second minimum dwell.
+**React to prepared cues · experimental** compiles a source-bound cue index and
+uses a local path for clear cues. Ambiguity retains the stage or uses optional
+Jev advice; presenter controls still apply. See `PREPARED_REFLEX.md` for measured
+processing time and the distinction from microphone-to-projector latency.
 Delayed recommendations cannot override a newer utterance or manual selection.
 Repeated transcript sequence numbers are ignored. Starting a new rehearsal resets
 the sequence and pending matches; manual controls clear pending automatic switches.

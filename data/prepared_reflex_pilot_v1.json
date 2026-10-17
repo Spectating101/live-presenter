@@ -1,0 +1,445 @@
+{
+  "schema": "live_presenter.prepared_reflex_pilot.v1",
+  "scope": "Two recorded-audio development experiments, not independent editorial accuracy or measured microphone-to-projector latency.",
+  "http_cue_latency": {
+    "schema": "live_presenter.prepared_cue_latency.v1",
+    "samples": 40,
+    "cue_to_stage_api_ms_p50": 11.944600992137566,
+    "cue_to_stage_api_ms_p95": 24.732659017900005,
+    "cue_to_stage_api_ms_max": 25.972933013690636,
+    "measurements_ms": [
+      15.2902000118047,
+      20.65090200630948,
+      10.115183016750962,
+      8.544337993953377,
+      10.026066011050716,
+      12.411863019224256,
+      15.731813997263089,
+      10.559079004451632,
+      15.064976003486663,
+      11.405506025766954,
+      15.136219008127227,
+      10.995667020324618,
+      10.550410981522873,
+      21.877674997085705,
+      9.912025998346508,
+      16.167565976502374,
+      14.861909992760047,
+      10.798909002915025,
+      18.82915699388832,
+      12.888758996268734,
+      25.972933013690636,
+      24.732659017900005,
+      24.606373975984752,
+      17.536608007503673,
+      15.429998020408675,
+      11.251075979089364,
+      11.07029800186865,
+      9.202376997563988,
+      9.08677201368846,
+      13.02176498575136,
+      9.247315989341587,
+      9.567022003466263,
+      11.944600992137566,
+      10.887999989790842,
+      9.428355988347903,
+      9.797173988772556,
+      9.691326005849987,
+      16.716324986191466,
+      21.536602987907827,
+      11.642168974503875
+    ],
+    "package_hash": "9252f787a51e58f78b8f8db9f4a425ff0fc0c8902145a71345c7fd9e97918aac",
+    "controller_sha256": "2e103d02026f485c75b310ff011f28710463218f75c57b4e690de3c96e154f21",
+    "cue_index_sha256": "ef35942bb5a6d345dfdeb35337c48d2d30070fac69e6222bba26455baa82b261",
+    "scope": "Best-case exact prepared titles, warm cue index, eligible dwell, localhost HTTP, read-only stage capability. Excludes ASR, browser paint, display/device latency and ambiguous speech.",
+    "network_adviser_used": false,
+    "dwell_disabled": false
+  },
+  "recordings": {
+    "rosling": {
+      "source_url": "https://www.ted.com/talks/hans_rosling_the_magic_washing_machine",
+      "title": "The magic washing machine",
+      "duration_s": 538.6333125,
+      "audio_updates": 539,
+      "asr": {
+        "schema": "live_presenter.chunk_asr.v1",
+        "audio_sha256": "691374838078ac4b630d942ef01d954b5fa71a19fc88364fff843d2ead8d2f1a",
+        "model": "tiny.en",
+        "recognizer": "openai-whisper 20250625",
+        "device": "cpu",
+        "threads": 4,
+        "chunk_s": 1.0,
+        "window_s": 4.0,
+        "overlapping_windows": true,
+        "model_ready_s": 1.7000095320108812,
+        "complete": true,
+        "future_audio_visible": false,
+        "official_captions_visible": false
+      },
+      "asr_sha256": "820878719f7d2885da5bebcfb29eaa79472666c6c91b54afaa4ee4e17c61f481",
+      "package_hash": "9252f787a51e58f78b8f8db9f4a425ff0fc0c8902145a71345c7fd9e97918aac",
+      "controller_sha256": "2e103d02026f485c75b310ff011f28710463218f75c57b4e690de3c96e154f21",
+      "cue_index_sha256": "ef35942bb5a6d345dfdeb35337c48d2d30070fac69e6222bba26455baa82b261",
+      "language_sha256": "88a6b267389ccd7695ef55b134cda60f61277cef25774224599adcae10ae2c82",
+      "runner_sha256": "73fde78887bf92c02b26893934aff03af234a5556bcdd27cd9ff6379d64de0e0",
+      "reference_sha256": "5ef444053f4653bd1e7c2f83ea9425c20335de9541f49c802919bd7d6b6e9f45",
+      "result_sha256": {
+        "local": "eb58792aa0bbca171940fc90e713bb3b51fda4aa4d174047d9bb06db862632d8",
+        "jev": "284c543003b4b06fb744d236a330e2c8aba821e8bd6e9c947d69c5beb77e09dc"
+      },
+      "metrics": {
+        "local": {
+          "development_chapter_alignment": 0.9538675892174603,
+          "scored_s": 438.20000000000005,
+          "aligned_s": 417.98477759509115,
+          "chapters": [
+            {
+              "label": "Family opening",
+              "scored_s": 68.0,
+              "aligned_s": 68.0,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 0.0,
+              "original_visual": "Physical washing-machine prop; speaker"
+            },
+            {
+              "label": "Historical access and consumption",
+              "scored_s": 79.10000000000001,
+              "aligned_s": 75.910410789022,
+              "fraction": 0.9596764954364347,
+              "first_matching_visual_lag_s": 9.189589210978014,
+              "original_visual": "Icon groups, income thresholds, wash line"
+            },
+            {
+              "label": "Hand-washing burden and fairness challenge",
+              "scored_s": 90.6,
+              "aligned_s": 90.6,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 4.954958306968905,
+              "original_visual": "Historical hand-washing image and speaker"
+            },
+            {
+              "label": "Historical energy distribution",
+              "scored_s": 34.39999999999998,
+              "aligned_s": 34.39999999999998,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 0.0,
+              "original_visual": "Energy-unit diagram with 2010 total 12"
+            },
+            {
+              "label": "2050 energy projection",
+              "scored_s": 56.80000000000001,
+              "aligned_s": 47.0439465000469,
+              "fraction": 0.8282384947191354,
+              "first_matching_visual_lag_s": 3.1193494579871412,
+              "original_visual": "Animated 2010 to 2050 diagram"
+            },
+            {
+              "label": "Efficiency, green energy and fairness",
+              "scored_s": 53.30000000000001,
+              "aligned_s": 46.03042030602228,
+              "fraction": 0.8636101370735886,
+              "first_matching_visual_lag_s": 13.269579693977732,
+              "original_visual": "Energy diagram, speaker, electricity-access footage"
+            },
+            {
+              "label": "Books and learning conclusion",
+              "scored_s": 56.0,
+              "aligned_s": 56.0,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 1.901470999000594,
+              "original_visual": "Physical book reveal from the washing-machine prop"
+            }
+          ],
+          "visual_changes_during_audio": 7,
+          "ideas_displayed_during_audio": 7,
+          "prepared_ideas": 7,
+          "asr_processing_s": 282.3995926711941,
+          "asr_processing_real_time_factor": 0.5242891334746291,
+          "chunk_end_to_decision_p50_s": 0.464928240980953,
+          "chunk_end_to_decision_p95_s": 1.885532563959714,
+          "adviser_calls": 0,
+          "adviser_failures": 0,
+          "clear_cue_reflex_decisions": 362,
+          "misaligned_changes_within_scored_sections": [
+            {
+              "at": 376.4439465000469,
+              "scene_id": "concept_000492b8b4b2_0",
+              "expected_section": "2050 energy projection"
+            }
+          ],
+          "adviser_models": [],
+          "causality_violations": 0,
+          "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness."
+        },
+        "jev": {
+          "development_chapter_alignment": 0.9783506743267698,
+          "scored_s": 438.20000000000005,
+          "aligned_s": 428.7132654899906,
+          "chapters": [
+            {
+              "label": "Family opening",
+              "scored_s": 68.0,
+              "aligned_s": 68.0,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 0.0,
+              "original_visual": "Physical washing-machine prop; speaker"
+            },
+            {
+              "label": "Historical access and consumption",
+              "scored_s": 79.10000000000001,
+              "aligned_s": 75.9227819219872,
+              "fraction": 0.9598328940832767,
+              "first_matching_visual_lag_s": 9.177218078012814,
+              "original_visual": "Icon groups, income thresholds, wash line"
+            },
+            {
+              "label": "Hand-washing burden and fairness challenge",
+              "scored_s": 90.6,
+              "aligned_s": 90.6,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 4.953928922006156,
+              "original_visual": "Historical hand-washing image and speaker"
+            },
+            {
+              "label": "Historical energy distribution",
+              "scored_s": 34.39999999999998,
+              "aligned_s": 34.39999999999998,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 0.0,
+              "original_visual": "Energy-unit diagram with 2010 total 12"
+            },
+            {
+              "label": "2050 energy projection",
+              "scored_s": 56.80000000000001,
+              "aligned_s": 50.49048356800341,
+              "fraction": 0.888916964225412,
+              "first_matching_visual_lag_s": 4.89595587300721,
+              "original_visual": "Animated 2010 to 2050 diagram"
+            },
+            {
+              "label": "Efficiency, green energy and fairness",
+              "scored_s": 53.30000000000001,
+              "aligned_s": 53.30000000000001,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 2.361578007997025,
+              "original_visual": "Energy diagram, speaker, electricity-access footage"
+            },
+            {
+              "label": "Books and learning conclusion",
+              "scored_s": 56.0,
+              "aligned_s": 56.0,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 1.9017805299954489,
+              "original_visual": "Physical book reveal from the washing-machine prop"
+            }
+          ],
+          "visual_changes_during_audio": 14,
+          "ideas_displayed_during_audio": 7,
+          "prepared_ideas": 7,
+          "asr_processing_s": 282.3995926711941,
+          "asr_processing_real_time_factor": 0.5242891334746291,
+          "chunk_end_to_decision_p50_s": 0.4931570909975562,
+          "chunk_end_to_decision_p95_s": 2.0020664910261985,
+          "adviser_calls": 77,
+          "adviser_failures": 2,
+          "clear_cue_reflex_decisions": 362,
+          "misaligned_changes_within_scored_sections": [
+            {
+              "at": 376.4467471730022,
+              "scene_id": "concept_000492b8b4b2_0",
+              "expected_section": "2050 energy projection"
+            }
+          ],
+          "adviser_models": [
+            "jev-1.13.0"
+          ],
+          "causality_violations": 0,
+          "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness."
+        }
+      },
+      "independent_reference": false,
+      "preparation_condition": "same-talk untimed transcript supplied in advance (upper-bound preparation)"
+    },
+    "marshall": {
+      "source_url": "https://www.ted.com/talks/melissa_marshall_talk_nerdy_to_me",
+      "title": "Talk nerdy to me",
+      "duration_s": 257.3931875,
+      "audio_updates": 258,
+      "asr": {
+        "schema": "live_presenter.chunk_asr.v1",
+        "audio_sha256": "2c3b871ea293d6ad458e8e8bd1ef37cbd4b3adb3e154f5d49c401b4988e57980",
+        "model": "tiny.en",
+        "recognizer": "openai-whisper 20250625",
+        "device": "cpu",
+        "threads": 4,
+        "chunk_s": 1.0,
+        "window_s": 4.0,
+        "overlapping_windows": true,
+        "model_ready_s": 2.793274908006424,
+        "complete": true,
+        "future_audio_visible": false,
+        "official_captions_visible": false
+      },
+      "asr_sha256": "4c2a0c4ad26f90f2645a754e93f529dcc8d26e105fcb8ea9d60a92bdeae2b4b6",
+      "package_hash": "559ee38587977637afba5444dd2fced364527acfa2aa7fa3134d54a1bab28635",
+      "controller_sha256": "2e103d02026f485c75b310ff011f28710463218f75c57b4e690de3c96e154f21",
+      "cue_index_sha256": "ef35942bb5a6d345dfdeb35337c48d2d30070fac69e6222bba26455baa82b261",
+      "language_sha256": "88a6b267389ccd7695ef55b134cda60f61277cef25774224599adcae10ae2c82",
+      "runner_sha256": "73fde78887bf92c02b26893934aff03af234a5556bcdd27cd9ff6379d64de0e0",
+      "reference_sha256": "f530c1bc6565f23700f6aba62f6b1360dfe8dee631a7834963f6a3f298e456a2",
+      "result_sha256": {
+        "local": "bc065a07f7522a2f34dffb9c247d9095c05e038bb7d1b5ae9986f1e1a1401f02",
+        "jev": "1c1c0d3edd69601314e5915dc8f0d5909cd2091e34a62c159ac6db3679f3ca19"
+      },
+      "metrics": {
+        "local": {
+          "development_chapter_alignment": 0.9743268567060078,
+          "scored_s": 187.37,
+          "aligned_s": 182.5596231410047,
+          "chapters": [
+            {
+              "label": "Wonderland opening",
+              "scored_s": 35.64,
+              "aligned_s": 35.64,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 0.0,
+              "original_visual": "Speaker and introductory metaphor"
+            },
+            {
+              "label": "Why public communication matters",
+              "scored_s": 24.0,
+              "aligned_s": 24.0,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 5.2829923760751285,
+              "original_visual": "Speaker explaining the public invitation"
+            },
+            {
+              "label": "Relevance and so what",
+              "scored_s": 15.990000000000009,
+              "aligned_s": 15.990000000000009,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 3.119747330116809,
+              "original_visual": "Relevance Venn diagram"
+            },
+            {
+              "label": "Accessible language and visuals",
+              "scored_s": 92.48999999999998,
+              "aligned_s": 87.6796231410047,
+              "fraction": 0.947990303178773,
+              "first_matching_visual_lag_s": 3.4470837760239306,
+              "original_visual": "Examples, readable sentence and bone/Eiffel-Tower image"
+            },
+            {
+              "label": "Communication equation and conclusion",
+              "scored_s": 19.25,
+              "aligned_s": 19.25,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 0.0,
+              "original_visual": "Progressively built communication equation"
+            }
+          ],
+          "visual_changes_during_audio": 4,
+          "ideas_displayed_during_audio": 5,
+          "prepared_ideas": 5,
+          "asr_processing_s": 197.58350556934602,
+          "asr_processing_real_time_factor": 0.7676330033767735,
+          "chunk_end_to_decision_p50_s": 0.8015705119760241,
+          "chunk_end_to_decision_p95_s": 12.278771268029232,
+          "adviser_calls": 0,
+          "adviser_failures": 0,
+          "clear_cue_reflex_decisions": 232,
+          "misaligned_changes_within_scored_sections": [
+            {
+              "at": 208.6096231410047,
+              "scene_id": "concept_fd68f8c5e523_0",
+              "expected_section": "Accessible language and visuals"
+            }
+          ],
+          "adviser_models": [],
+          "causality_violations": 0,
+          "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness."
+        },
+        "jev": {
+          "development_chapter_alignment": 0.9742911874366138,
+          "scored_s": 187.37,
+          "aligned_s": 182.55293978999833,
+          "chapters": [
+            {
+              "label": "Wonderland opening",
+              "scored_s": 35.64,
+              "aligned_s": 35.64,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 0.0,
+              "original_visual": "Speaker and introductory metaphor"
+            },
+            {
+              "label": "Why public communication matters",
+              "scored_s": 24.0,
+              "aligned_s": 24.0,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 5.288410376061222,
+              "original_visual": "Speaker explaining the public invitation"
+            },
+            {
+              "label": "Relevance and so what",
+              "scored_s": 15.990000000000009,
+              "aligned_s": 15.990000000000009,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 3.119509433078349,
+              "original_visual": "Relevance Venn diagram"
+            },
+            {
+              "label": "Accessible language and visuals",
+              "scored_s": 92.48999999999998,
+              "aligned_s": 87.67293978999834,
+              "fraction": 0.9479180429235415,
+              "first_matching_visual_lag_s": 3.4210361930238946,
+              "original_visual": "Examples, readable sentence and bone/Eiffel-Tower image"
+            },
+            {
+              "label": "Communication equation and conclusion",
+              "scored_s": 19.25,
+              "aligned_s": 19.25,
+              "fraction": 1.0,
+              "first_matching_visual_lag_s": 0.0,
+              "original_visual": "Progressively built communication equation"
+            }
+          ],
+          "visual_changes_during_audio": 4,
+          "ideas_displayed_during_audio": 5,
+          "prepared_ideas": 5,
+          "asr_processing_s": 197.58350556934602,
+          "asr_processing_real_time_factor": 0.7676330033767735,
+          "chunk_end_to_decision_p50_s": 0.8336715699988417,
+          "chunk_end_to_decision_p95_s": 12.281920443027047,
+          "adviser_calls": 11,
+          "adviser_failures": 0,
+          "clear_cue_reflex_decisions": 232,
+          "misaligned_changes_within_scored_sections": [
+            {
+              "at": 208.60293978999835,
+              "scene_id": "concept_fd68f8c5e523_0",
+              "expected_section": "Accessible language and visuals"
+            }
+          ],
+          "adviser_models": [
+            "jev-1.13.0"
+          ],
+          "causality_violations": 0,
+          "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness."
+        }
+      },
+      "independent_reference": false,
+      "preparation_condition": "same-talk untimed transcript supplied in advance (upper-bound preparation)"
+    }
+  },
+  "limitations": [
+    "Best-case cue-to-stage HTTP timing excludes speech recognition, browser paint and physical display latency.",
+    "One-second audio updates use four-second past windows; this is a recorded-file replay, not an integrated streaming microphone path.",
+    "Intro-audio ASR hallucinations stalled recognition up to 9.5 seconds and caused approximately 12.3 seconds p95 queued delay in the Marshall replay.",
+    "References are coarse and written by the implementation operator; one reference disagreement remains in each recording.",
+    "Both recordings receive their untimed transcript as preparation; no independent audience or generalization claims.",
+    "Browser microphone endpointing, layout, player synchronization and physical projector behavior remain unverified."
+  ]
+}

@@ -8,7 +8,7 @@ import wave
 
 from presenter.engine import Conflict, Store, Studio
 from presenter.materials import ingest
-from presenter.recording import audio_chunks, build_report, file_hash, recording_store, replay, save, score_replay, validate_chunks
+from presenter.recording import audio_chunks, audio_windows, build_report, file_hash, recording_store, replay, save, score_replay, validate_chunks
 from research_evidence_v10 import json_hash
 
 
@@ -66,6 +66,18 @@ class RecordedTalkTests(unittest.TestCase):
         with self.assertRaises(ValueError):validate_chunks(bad)
         bad=copy.deepcopy(asr);bad['chunks'][0]['asr_s']=float('nan')
         with self.assertRaises(ValueError):validate_chunks(bad)
+
+    def test_rolling_recognition_window_contains_no_future_samples(self):
+        path=self.folder/'distinct.wav'
+        with wave.open(str(path),'wb') as f:
+            f.setparams((1,2,16000,0,'NONE','not compressed'))
+            for value in range(1,6):f.writeframes(bytes([value,0])*16000)
+        windows=list(audio_windows(path,1,3))
+        self.assertEqual([(a,b,c) for a,b,c,_ in windows],[(0,1,0),(1,2,0),(2,3,0),(3,4,1),(4,5,2)])
+        for _,end,_,data in windows:
+            self.assertLessEqual(max(data[::2]),end)
+            self.assertEqual(data[-2],end)
+        with self.assertRaises(ValueError):list(audio_windows(path,2,1))
 
     def test_replay_keeps_asr_queue_delay_and_leaves_original_workspace_untouched(self):
         p,_=self.fixture();before=(self.folder/'studio'/(p['id']+'.json')).read_bytes()

@@ -1,6 +1,6 @@
 {
   "schema": "live_presenter.recorded_talk_catalog.v1",
-  "selection": "Initial development talk plus two unrun candidates selected for contrasting presentation styles. This is not a representative corpus or a completed benchmark.",
+  "selection": "Two completed development recordings and one reserved unrun candidate; not a representative corpus or completed independent benchmark.",
   "records": [
     {
       "id": "ted_rosling_washing_machine",
@@ -16,9 +16,9 @@
       "url": "https://www.ted.com/talks/melissa_marshall_talk_nerdy_to_me",
       "title": "Talk nerdy to me",
       "speaker": "Melissa Marshall",
-      "status": "reserved_unrun",
+      "status": "development_reflex_audio_replay_complete",
       "style": "Short conceptual explanation about communicating scientific ideas",
-      "preparation": "Not acquired or prepared yet"
+      "preparation": "Same-talk untimed transcript; upper-bound condition"
     },
     {
       "id": "ted_mccandless_data_visualization",

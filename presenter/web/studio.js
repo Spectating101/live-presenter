@@ -204,6 +204,7 @@ function renderLive(p) {
   $('live-decision').textContent = p.live.decision.reason;
   $('use-adviser').disabled = !adviserAvailable;
   $('use-adviser').checked = !!p.live.adviser_enabled;
+  $('use-reflex').checked = !!p.live.reflex_enabled;
   $('adviser-status').textContent = p.live.adviser_enabled && adviserAvailable ? 'Utterances and approved context are sent to Jev.' : 'Prepared content matching · local';
   $('live-decision').classList.toggle('held', p.live.locked);
   $('live-transcript').replaceChildren(...p.live.transcript.slice(-25).map(row => el('p', '', row.text)));
@@ -291,6 +292,7 @@ $('close-visual').onclick = () => $('visual-dialog').close();
 ['start', 'stop', 'back', 'next'].forEach(id => { $(id).onclick = () => action('control', { action: id }).catch(e => notify(e.message)); });
 $('hold').onclick = () => action('control', { action: project.live.locked ? 'resume' : 'hold' }).catch(e => notify(e.message));
 $('use-adviser').onchange = () => action('control', { action: 'adviser', enabled: $('use-adviser').checked }).catch(e => notify(e.message));
+$('use-reflex').onchange = () => action('control', { action: 'reflex', enabled: $('use-reflex').checked }).catch(e => notify(e.message));
 
 function sendUtterance(text) {
   return new Promise(resolve => {
