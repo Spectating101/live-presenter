@@ -17,6 +17,8 @@ from research_evidence_v10 import json_hash
 from system1_v10 import JevBackend, System1Error
 from .materials import ingest
 from .planning import CopilotPreparation, PlanError, source_outline
+from .language import tokens
+from .reflex import CueIndex
 
 
 class Conflict(ValueError):
@@ -24,7 +26,7 @@ class Conflict(ValueError):
 
 
 def fresh_live():
-    return {"active": False, "locked": False, "adviser_enabled": False, "current_scene_id": None, "history": [],
+    return {"active": False, "locked": False, "adviser_enabled": False, "reflex_enabled": False, "current_scene_id": None, "history": [],
             "transcript": [], "last_seq": -1, "generation": uuid.uuid4().hex, "last_change": 0,
             "candidate_id": None, "candidate_count": 0, "decision": {"action": "HOLD", "reason": "Start a rehearsal after approving the material."}}
 
@@ -39,6 +41,7 @@ def reset_live(project):
         project['rehearsals'] = project['rehearsals'][-10:]
     project['live'] = fresh_live()
     project['live']['adviser_enabled'] = previous.get('adviser_enabled', False)
+    project['live']['reflex_enabled'] = previous.get('reflex_enabled', False)
 
 
 def clear_candidate(live):
@@ -52,6 +55,11 @@ class Store:
         self.root.mkdir(parents=True, exist_ok=True, mode=0o700)
         self.root.chmod(0o700)
         self.locks = defaultdict(threading.RLock)
+        self.conditions = {}
+
+    def condition(self, pid):
+        self.path(pid)
+        return self.conditions.setdefault(pid, threading.Condition(self.locks[pid]))
 
     def path(self, pid):
         if not re.fullmatch(r"[0-9a-f]{32}", pid):
@@ -79,6 +87,7 @@ class Store:
             project['state_version'] = project.get('state_version',0) + 1
             project["updated_at"] = time.time()
             self.save(project)
+            self.condition(pid).notify_all()
 
     def create(self, *, title, brief, audience, sources, provider="copilot"):
         if provider not in {"copilot", "outline"}:
@@ -110,6 +119,8 @@ class Studio:
         self.live_assessor = live_assessor
         self.dwell_s = dwell_s
         self.clock = clock or time.time
+        self.cue_indexes = {}
+        self.cue_lock = threading.RLock()
         # Recover interrupted preparation jobs; never resume a public stage after restart.
         for path in store.root.glob("*.json"):
             with store.change(path.stem) as p:
@@ -204,7 +215,7 @@ class Studio:
         with self.store.change(pid) as p:
             package = self.package(p)
             live, scenes = p["live"], package["scenes"]
-            if action not in {'start','adviser','stop'} and not live['active']:
+            if action not in {'start','adviser','reflex','stop'} and not live['active']:
                 raise Conflict('Start the rehearsal before using stage controls.')
             if action == "start":
                 if live['active']:
@@ -212,6 +223,7 @@ class Studio:
                 reset_live(p)
                 live = p['live']
                 live["active"] = True
+                self.cue_index(p)
                 live["locked"] = False
                 if live["current_scene_id"] is None:
                     self.show(live, scenes[0]["id"], "Presenter started the rehearsal.")
@@ -228,9 +240,11 @@ class Studio:
                 clear_candidate(live)
                 live["locked"] = False
                 live["generation"] = uuid.uuid4().hex
-            elif action == 'adviser':
+            elif action in {'adviser','reflex'}:
                 clear_candidate(live)
-                live['adviser_enabled'] = enabled is True
+                live[action + '_enabled'] = enabled is True
+                if action == 'reflex' and enabled is True:
+                    self.cue_index(p)
                 live['generation'] = uuid.uuid4().hex
             elif action in {"next", "back", "show"}:
                 ids = [s["id"] for s in scenes]
@@ -257,6 +271,16 @@ class Studio:
             live["last_change"] = self.clock()
         live["decision"] = {"action": "SHOW", "scene_id": scene_id, "reason": reason}
 
+    def cue_index(self, project):
+        key = (project['approval']['package_hash'], project['approval']['source_hash'])
+        with self.cue_lock:
+            if key not in self.cue_indexes:
+                # Compile before speech starts; reuse the bound finite index.
+                if len(self.cue_indexes) >= 8:
+                    self.cue_indexes.pop(next(iter(self.cue_indexes)))
+                self.cue_indexes[key] = CueIndex(self.package(project), project['sources'])
+            return self.cue_indexes[key]
+
     def transcript(self, pid, utterance, seq, *, final=True, generation=None):
         utterance = utterance.strip()[:3000]
         if not utterance:
@@ -275,10 +299,16 @@ class Studio:
             live["transcript"] = live["transcript"][-150:]
             session = live["generation"]
             use_adviser = live.get('adviser_enabled', False)
-        recommendation = recommend(package, utterance)
-        if self.live_assessor and use_adviser:
+            index = self.cue_index(p) if live.get('reflex_enabled', False) else None
+            current = next((s for s in package['scenes'] if s['id']==live['current_scene_id']),None)
+            context = {'current_concept_id':current['concept_id'] if current else None,
+                       'recent_utterances':[r['text'] for r in live['transcript'][-4:-1]
+                                            if self.clock()-r['at'] <= 8]}
+        recommendation = index.match(utterance, preferred_kind(utterance)) if index else recommend(package, utterance)
+        if self.live_assessor and use_adviser and (not index or (
+                not recommendation.get('reflex_ready') and recommendation.get('supported_concepts'))):
             try:
-                advice = self.live_assessor(package, utterance)
+                advice = self.live_assessor({**package,'_live_context':context} if index else package, utterance)
                 if (not isinstance(advice,dict) or not isinstance(advice.get('confidence'),(int,float))
                         or not math.isfinite(advice['confidence']) or not 0 <= advice['confidence'] <= 1
                         or (advice.get('scene_id') is not None and not isinstance(advice['scene_id'],str))):
@@ -322,22 +352,14 @@ class Studio:
             elif candidate and recommendation["score"] >= .45:
                 if self.clock() - live["last_change"] < self.dwell_s:
                     reason = "Current visual is still inside its minimum display time."
-                elif recommendation["confirmed"] or recommendation["score"] >= .88 or live["candidate_count"] >= 2:
+                elif recommendation["confirmed"] or (not index and (
+                        recommendation["score"] >= .88 or live["candidate_count"] >= 2)):
                     self.show(live, candidate, "Prepared visual matched the spoken explanation.")
                     return p
                 else:
                     reason = "Possible match prepared backstage; waiting for stronger support."
             live["decision"] = {"action": "WARM" if candidate else "HOLD", "reason": reason}
         return self.store.read(pid)
-
-
-STOP = set("a an the of to in is it and or for with this that we you our can are as be from on at by have has what how why now let about explain first then through before after they these those did do does not so which more alone using".split())
-
-
-def tokens(s):
-    words = (t.lower() for t in re.findall(r"[A-Za-z0-9]+", s))
-    return {w[:-1] if w.endswith('s') and not w.endswith(('ss','us','is')) else w
-            for w in words if len(w) > 2 and w not in STOP}
 
 
 def recommend(package, utterance):
@@ -394,6 +416,9 @@ def jev_adviser(package, utterance):
         'representation': {'type':'choice', 'instructions':'Which visual form would support the way the speaker is explaining the idea? Evidence is for explicit source requests, not every factual claim.',
                            'criteria': {k:v for k,v in hints.items() if any(s['kind'] == k for s in package['scenes'])}}}
     state = {"utterance": utterance, "prepared_concepts": package["concepts"]}
+    if '_live_context' in package:
+        state.update(recent_past=package['_live_context'], context_rule=
+            'Classify the latest utterance in light of recent past. Do not move to a new idea solely because earlier context mentioned it.')
     response = asyncio.run(JevBackend(timeout_s=1.2).ask(state, questions))
     answer, representation = response.answers['concept'], response.answers['representation']
     scenes = [s for s in package['scenes'] if s['concept_id'] == answer.value]

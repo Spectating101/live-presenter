@@ -145,11 +145,23 @@ def audio_chunks(path, chunk_s):
             cursor = end
 
 
-def transcribe_audio(audio, output, *, model_name='tiny.en', chunk_s=6, threads=4):
+def audio_windows(path, chunk_s, window_s):
+    if not math.isfinite(window_s) or not chunk_s <= window_s <= 30:
+        raise ValueError('Audio context must be between the update interval and 30 seconds.')
+    buffered = b''
+    for start,end,data in audio_chunks(path,chunk_s):
+        buffered = (buffered + data)[-round(window_s * 32000):]
+        yield start,end,end-len(buffered)/32000,buffered
+
+
+def transcribe_audio(audio, output, *, model_name='tiny.en', chunk_s=6, threads=4, window_s=None):
     # Optional local dependency; importing the studio itself never imports Torch.
     import numpy as np
     import torch
     import whisper
+    window_s = chunk_s if window_s is None else window_s
+    if not math.isfinite(window_s) or not chunk_s <= window_s <= 30:
+        raise ValueError('Audio context must be between the update interval and 30 seconds.')
     torch.set_num_threads(threads)
     ready = time.perf_counter()
     model = whisper.load_model(model_name, device='cpu')
@@ -158,14 +170,16 @@ def transcribe_audio(audio, output, *, model_name='tiny.en', chunk_s=6, threads=
     result = {'schema': 'live_presenter.chunk_asr.v1', 'audio_sha256': file_hash(audio),
               'model': model_name, 'recognizer': 'openai-whisper ' + importlib.metadata.version('openai-whisper'),
               'device': 'cpu', 'threads': threads, 'chunk_s': chunk_s,
+              'window_s': window_s, 'overlapping_windows': window_s > chunk_s,
               'model_ready_s': time.perf_counter() - ready, 'complete': False,
               'future_audio_visible': False, 'official_captions_visible': False, 'chunks': []}
-    for start, end, data in audio_chunks(audio, chunk_s):
-        samples = np.frombuffer(data, dtype=np.int16).astype(np.float32) / 32768
+    for start, end, window_start, buffered in audio_windows(audio, chunk_s, window_s):
+        samples = np.frombuffer(buffered, dtype=np.int16).astype(np.float32) / 32768
         begun = time.perf_counter()
         recognized = model.transcribe(samples, language='en', fp16=False, temperature=0,
                                      condition_on_previous_text=False, verbose=None)
         row = {'start': start, 'end': end, 'asr_s': time.perf_counter() - begun,
+               'window_start': window_start,
                'text': recognized['text'].strip()}
         result['chunks'].append(row)
         save(output, result)
@@ -221,22 +235,28 @@ def validate_chunks(asr):
                 or row['start'] != previous or row['end'] <= row['start'] or row['asr_s'] < 0
                 or not isinstance(row['text'], str)):
             raise ValueError('ASR chunks must be finite, contiguous and in audio order.')
+        if 'window_start' in row and (not isinstance(row['window_start'],(int,float))
+                or not math.isfinite(row['window_start']) or not 0 <= row['window_start'] <= row['start']):
+            raise ValueError('Recognition context must contain only current or past audio.')
         previous = row['end']
     if not asr['chunks'] or asr.get('future_audio_visible') is not False or asr.get('official_captions_visible') is not False:
         raise ValueError('Recognition must exclude future audio and official captions.')
 
 
-def replay(folder, asr_path, *, mode='local', output=None):
+def replay(folder, asr_path, *, mode='local', output=None, reflex=False):
     if mode not in {'local','jev'}:
         raise ValueError('Unknown replay mode.')
-    with recording_store(Path(folder) / ('replay-' + mode)) as store:
-        return _replay(folder, asr_path, mode=mode, output=output, store=store)
+    tag = mode + ('-reflex' if reflex else '')
+    with recording_store(Path(folder) / ('replay-' + tag)) as store:
+        return _replay(folder, asr_path, mode=mode, output=output, store=store, reflex=reflex, tag=tag)
 
 
-def _replay(folder, asr_path, *, mode, output, store):
+def _replay(folder, asr_path, *, mode, output, store, reflex, tag):
     folder, asr_path = Path(folder), Path(asr_path)
     controller_hash = file_hash(Path(__file__).with_name('engine.py'))
     runner_hash = file_hash(__file__)
+    cue_hash = file_hash(Path(__file__).with_name('reflex.py'))
+    language_hash = file_hash(Path(__file__).with_name('language.py'))
     asr = json.loads(asr_path.read_text())
     validate_chunks(asr)
     if asr['audio_sha256'] != file_hash(folder / 'audio.wav'):
@@ -255,6 +275,8 @@ def _replay(folder, asr_path, *, mode, output, store):
     clock = ReplayClock()
     studio = Studio(store, live_assessor=jev_adviser if mode == 'jev' else None, clock=clock)
     p = studio.control(pid, 'start')
+    if reflex:
+        p = studio.control(pid, 'reflex', enabled=True)
     if mode == 'jev':
         if not load_jev_env():
             raise ValueError('No existing Jev credential is available. Use local mode or configure JEV_ENV_FILE.')
@@ -282,9 +304,11 @@ def _replay(folder, asr_path, *, mode, output, store):
             events.append({'at': stage_available, 'scene_id': p['live']['current_scene_id'], 'reason': p['live']['decision']['reason']})
         print(f'Replay {chunk["end"]:.0f}s → {row["decision"]["action"]} · delay {row["audio_to_decision_s"]:.2f}s', flush=True)
     result = {'schema': 'live_presenter.recorded_replay.v1', 'mode': mode, 'complete': True,
+              'reflex_enabled': reflex,
               'source': source,
               'controller_sha256': controller_hash,
               'runner_sha256': runner_hash,
+              'cue_index_sha256': cue_hash, 'language_sha256': language_hash,
               'dwell_s': studio.dwell_s,
               'asr': {k:v for k,v in asr.items() if k != 'chunks'}, 'asr_sha256': file_hash(asr_path),
               'package_hash': original['approval']['package_hash'], 'package': original['approval']['package'],
@@ -293,7 +317,7 @@ def _replay(folder, asr_path, *, mode, output, store):
                               'Same-talk transcript supplied in advance: an upper-bound preparation condition.',
                               'Original video is a reference, not the only valid visual design or a gold editorial trace.',
                               'One development talk; no held-out accuracy or audience-usefulness claim.']}
-    save(output or folder / ('result-' + mode + '.json'), result)
+    save(output or folder / ('result-' + tag + '.json'), result)
     return result
 
 
@@ -341,6 +365,11 @@ def score_replay(result, reference):
     latencies = [r['audio_to_decision_s'] for r in rows]
     adviser = [r['recommendation']['advice'] for r in rows
                if r.get('recommendation') and 'advice' in r['recommendation']]
+    mismatches = []
+    for event in events[1:]:
+        span = next((s for s in reference['spans'] if s['start']+exclusion <= event['at'] < s['end']-exclusion), None)
+        if span and scenes[event['scene_id']]['concept_id'] not in span['acceptable_concept_ids']:
+            mismatches.append({'at':event['at'],'scene_id':event['scene_id'],'expected_section':span['label']})
     return {'development_chapter_alignment': correct / total if total else None,
             'scored_s': total, 'aligned_s': correct, 'chapters': chapters,
             'visual_changes_during_audio': sum(0 < e['at'] <= duration for e in events),
@@ -351,19 +380,22 @@ def score_replay(result, reference):
             'chunk_end_to_decision_p50_s': percentile(latencies, .5),
             'chunk_end_to_decision_p95_s': percentile(latencies, .95),
             'adviser_calls': len(adviser), 'adviser_failures': sum('error' in a for a in adviser),
+            'clear_cue_reflex_decisions':sum(bool((r.get('recommendation') or {}).get('reflex_ready')) for r in rows),
+            'misaligned_changes_within_scored_sections':mismatches,
             'adviser_models': sorted({a['model'] for a in adviser if 'model' in a}),
             'causality_violations': sum(r['decision_completed_at'] < r['asr_available_at'] or r['asr_available_at'] < r['end'] for r in rows),
             'scope': 'Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness.'}
 
 
-def build_report(folder):
+def build_report(folder, *, reflex=False):
     folder = Path(folder)
     reference = json.loads((folder / 'reference.json').read_text())
-    results = {mode: json.loads((folder / ('result-' + mode + '.json')).read_text()) for mode in ('local','jev')}
+    suffix = '-reflex' if reflex else ''
+    results = {mode: json.loads((folder / ('result-' + mode + suffix + '.json')).read_text()) for mode in ('local','jev')}
     if len({(r['package_hash'], r['asr_sha256'], r['controller_sha256']) for r in results.values()}) != 1:
         raise ValueError('Comparison requires the same prepared package, ASR trace and controller.')
     metrics = {mode: score_replay(r, reference) for mode,r in results.items()}
-    save(folder / 'comparison.json', {'schema':'live_presenter.recording_comparison.v1',
+    save(folder / ('comparison' + suffix + '.json'), {'schema':'live_presenter.recording_comparison.v1',
         'reference_sha256': file_hash(folder / 'reference.json'), 'reference':reference, 'metrics':metrics})
     assets = Path(__file__).with_name('web')
     css = (assets / 'style.css').read_text() + (assets / 'recording.css').read_text()
@@ -377,6 +409,8 @@ def build_report(folder):
         raise ValueError('The reference source needs an HTTP(S) page URL.')
     source_link = html_module.escape(page_url, quote=True)
     chunk_s = results['local']['asr']['chunk_s']
+    window_s = results['local']['asr'].get('window_s',chunk_s)
+    reflex_note = ' Prepared reflex is enabled; clear source cues use the local index.' if reflex else ''
     visual_notes = html_module.escape(reference.get('visual_comparison_notes',
         'Compare the original visual forms against the prepared alternatives. Topic alignment does not score visual design.'))
     jev_stats = metrics['jev']
@@ -389,13 +423,13 @@ def build_report(folder):
     markup = f'''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} — recorded-talk comparison</title><style>{css}</style>
 <main class="recording-report"><p class="eyebrow">LIVE PRESENTER · RECORDED AUDIO EXPERIMENT</p>
-<h1>{title}</h1><p class="report-intro">Original presentation on the left. The actual prepared-scene renderer on the right, selected from bounded audio recognition. Local development replay; no browser/device timing claim.</p>
+<h1>{title}</h1><p class="report-intro">Original presentation on the left. The actual prepared-scene renderer on the right, selected from bounded audio recognition. Local development replay; no browser/device timing claim.{reflex_note}</p>
 <p class="report-findings">{html_module.escape(findings)}</p>
 <div class="report-controls"><label>Follower <select id="mode"><option value="local">Local prepared matching</option><option value="jev" selected>Jev-assisted matching</option></select></label><span id="summary"></span></div>
 <div class="comparison-panels"><section><h2>Original visual reference</h2><video id="reference-video" src="video.mp4" muted playsinline preload="metadata"></video><p id="chapter"></p></section>
 <section><h2>Live Presenter output</h2><div id="replay-stage"></div><p id="decision"></p></section></div>
 <audio id="audio" controls preload="metadata" src="audio.wav"></audio>
-<p class="audio-note">Audio controls both views. {chunk_s:g}-second recognition chunks introduce up to {chunk_s:g} seconds of waiting before processing. Seeking reconstructs the saved result; it does not rerun inference.</p>
+<p class="audio-note">Audio controls both views. {chunk_s:g}-second updates introduce up to {chunk_s:g} seconds of waiting before processing; recognition sees at most {window_s:g} seconds of current and past audio. Seeking reconstructs the saved result; it does not rerun inference.</p>
 <div class="heard"><span class="eyebrow">LAST PROCESSED AUDIO CHUNK</span><p id="heard">Start playback to compare.</p></div>
 <h2>Jump to an argument section</h2><nav id="chapters"></nav>
 <h2>Where the saved stage actually changed</h2><nav id="changes"></nav>
@@ -405,8 +439,8 @@ def build_report(folder):
 <p>Preparation received the same talk’s complete untimed transcript in advance. The live follower received only the current recognized chunk and the approved package. Original video frames and caption timing were held out from the follower.</p>
 <p>Local media and transcript remain outside Git. Original talk: {speaker}. <a href="{source_link}" target="_blank" rel="noopener">View source and attribution</a>. No TED endorsement is implied.</p></details>
 </main><script type="application/json" id="recording-data">{payload}</script><script>{renderer}\n{script}</script></html>'''
-    (folder / 'comparison.html').write_text(markup)
-    (folder / 'comparison.html').chmod(0o600)
+    (folder / ('comparison' + suffix + '.html')).write_text(markup)
+    (folder / ('comparison' + suffix + '.html')).chmod(0o600)
     return metrics
 
 
@@ -422,6 +456,7 @@ def main():
     transcribe.add_argument('--model', default='tiny.en')
     transcribe.add_argument('--chunk-s', type=float, default=6)
     transcribe.add_argument('--threads', type=int, default=4)
+    transcribe.add_argument('--window-s', type=float)
     prepare = sub.add_parser('prepare')
     prepare.add_argument('--folder', type=Path, required=True)
     prepare.add_argument('--provider', choices=['copilot','outline'], default='copilot')
@@ -434,18 +469,21 @@ def main():
     run.add_argument('--folder', type=Path, required=True)
     run.add_argument('--asr', type=Path, required=True)
     run.add_argument('--mode', choices=['local','jev'], default='local')
+    run.add_argument('--reflex', action='store_true')
+    run.add_argument('--out', type=Path)
     report = sub.add_parser('report')
     report.add_argument('--folder', type=Path, required=True)
+    report.add_argument('--reflex', action='store_true')
     args = parser.parse_args()
     if args.command == 'acquire-ted':
         print(json.dumps(acquire_ted(args.url, args.folder), indent=2))
     elif args.command == 'transcribe':
-        transcribe_audio(args.audio, args.out, model_name=args.model, chunk_s=args.chunk_s, threads=args.threads)
+        transcribe_audio(args.audio, args.out, model_name=args.model, chunk_s=args.chunk_s, threads=args.threads, window_s=args.window_s)
     elif args.command == 'prepare':
         p = prepare_recording(args.folder, args.provider)
         print(json.dumps({'project_id':p['id'], 'revision':p['revision'], 'job':p['job'], 'plan':p['plan']}, indent=2))
     elif args.command == 'run':
-        replay(args.folder, args.asr, mode=args.mode)
+        replay(args.folder, args.asr, mode=args.mode, reflex=args.reflex, output=args.out)
     elif args.command == 'approve':
         with recording_store(args.folder / 'studio') as store:
             pid = json.loads((args.folder / 'project.json').read_text())['project_id']
@@ -456,7 +494,7 @@ def main():
                 p['approval']['reviewed_by'] = args.reviewer
         print('Approved for development replay:', p['approval']['package_hash'])
     elif args.command == 'report':
-        print(json.dumps(build_report(args.folder), indent=2))
+        print(json.dumps(build_report(args.folder, reflex=args.reflex), indent=2))
 
 
 if __name__ == '__main__':

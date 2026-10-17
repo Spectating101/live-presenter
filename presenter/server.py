@@ -8,12 +8,13 @@ import hmac
 import json
 import mimetypes
 import os
+import re
 from pathlib import Path
 import shutil
 import secrets
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import urlparse
+from urllib.parse import urlparse, parse_qs
 
 from jev_credentials_v10 import load_jev_env
 from .engine import Conflict, Store, Studio, jev_adviser
@@ -124,12 +125,21 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                 if len(parts) in {3, 4} and parts[:2] == ["api", "projects"]:
                     p = store.read(parts[2])
                     if len(parts) == 4 and parts[3] == "stage":
+                        after = parse_qs(urlparse(self.path).query).get('after', [None])[0]
+                        if after is not None:
+                            if not re.fullmatch(r'-?\d{1,18}', after):
+                                return self.reply(400, {'error':'Invalid stage version.'})
+                            changed = store.condition(p['id'])
+                            with changed:
+                                changed.wait_for(lambda: store.read(p['id']).get('state_version',0) > int(after), timeout=15)
+                                p = store.read(p['id'])
                         try:
                             package = studio.package(p)
                         except Conflict:
                             package = None
                         scene = next((s for s in package["scenes"] if s["id"] == p["live"]["current_scene_id"]), None) if package and p['live']['active'] else None
                         return self.reply(200, {"title": package["title"] if package else p["title"], "scene": scene,
+                                                'reflex_enabled':p['live'].get('reflex_enabled',False),
                                                 "state_version": p.get('state_version',0),
                                                 "package_hash": p["approval"]["package_hash"] if package else None,
                                                 "scenes": package["scenes"] if package else []})

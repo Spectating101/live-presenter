@@ -5,3 +5,5 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 .adviser-row{display:flex;gap:14px;align-items:center;margin:10px 0 14px;font-size:11px;color:#718069;flex-wrap:wrap}.adviser-row label{display:flex;align-items:center;gap:7px}.adviser-row input{accent-color:var(--green)}.adviser-row .muted{font-size:10px}
+
+.projector main[data-reflex=true] .scene{animation:none}

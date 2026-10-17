@@ -287,5 +287,29 @@ class HTTPAcceptance(unittest.TestCase):
         self.assertEqual(e.exception.code,403)
         with self.assertRaises(RuntimeError):make_server(self.store,port=0,use_jev=False)
 
+    def test_projector_long_poll_wakes_on_change_without_exposing_operator_state(self):
+        _,p=self.call('/api/projects',{**EXAMPLE,'provider':'outline'})
+        for _ in range(50):
+            _,p=self.call('/api/projects/'+p['id'])
+            if p['job']['status']=='ready':break
+            time.sleep(.01)
+        _,p=self.call(f"/api/projects/{p['id']}/approve",{'revision':p['revision'],'reviewed':True})
+        _,p=self.call(f"/api/projects/{p['id']}/control",{'action':'start'})
+        entered=threading.Event();original=self.store.condition
+        def observe(pid):entered.set();return original(pid)
+        self.store.condition=observe
+        results=[]
+        worker=threading.Thread(target=lambda:results.append(self.call(f"/api/projects/{p['id']}/stage?after={p['state_version']}",headers={'X-Presenter-Key':p['stage_access']})))
+        worker.start();self.assertTrue(entered.wait(2))
+        self.call(f"/api/projects/{p['id']}/control",{'action':'next'})
+        worker.join(2)
+        self.assertFalse(worker.is_alive())
+        stage=results[0][1]
+        self.assertGreater(stage['state_version'],p['state_version'])
+        self.assertNotIn('sources',stage);self.assertNotIn('messages',stage)
+        with self.assertRaises(urllib.error.HTTPError) as e:
+            self.call(f"/api/projects/{p['id']}/stage?after=invalid")
+        self.assertEqual(e.exception.code,400)
+
 
 if __name__=='__main__':unittest.main()

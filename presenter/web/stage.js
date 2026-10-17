@@ -10,12 +10,13 @@ let current = '', packageHash = '', cache = new Map(), lastVersion = -1;
 
 async function update() {
   try {
-    const response = await fetch(`/api/projects/${encodeURIComponent(pid)}/stage`, { headers: { 'X-Presenter-Key': sessionStorage.getItem('presenter_stage_' + pid) || '' } });
-    if (!response.ok) return;
+    const response = await fetch(`/api/projects/${encodeURIComponent(pid)}/stage?after=${lastVersion}`, { headers: { 'X-Presenter-Key': sessionStorage.getItem('presenter_stage_' + pid) || '' } });
+    if (!response.ok) throw new Error('Projector connection unavailable.');
     const state = await response.json();
     if ((state.state_version || 0) < lastVersion) return;
     lastVersion = state.state_version || 0;
     document.title = `${state.title} · Projector`;
+    root.dataset.reflex = String(!!state.reflex_enabled);
     if (packageHash !== state.package_hash) {
       cache = new Map(state.scenes.map(scene => [scene.id, renderScene(scene)]));
       packageHash = state.package_hash;
@@ -32,10 +33,12 @@ async function update() {
         root.replaceChildren(standby);
       }
     };
-    if (document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(replace);
+    if (!state.reflex_enabled && document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(replace);
     else replace();
-  } catch { /* Keep the last approved visual if the connection drops. */ }
+  } catch {
+    // Keep the last approved visual and retry a dropped long poll.
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  }
 }
 root.addEventListener('dblclick', () => document.documentElement.requestFullscreen?.());
-await update();
-setInterval(update, 500);
+while (true) await update();
