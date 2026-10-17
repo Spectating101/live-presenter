@@ -15,6 +15,7 @@ import json
 import math
 import os
 from pathlib import Path
+import re
 import subprocess
 import time
 import urllib.request
@@ -154,7 +155,38 @@ def audio_windows(path, chunk_s, window_s):
         yield start,end,end-len(buffered)/32000,buffered
 
 
-def transcribe_audio(audio, output, *, model_name='tiny.en', chunk_s=6, threads=4, window_s=None):
+def recognition_rejection(text):
+    """Conservative output heuristic, not voice activity or semantic validation."""
+    compact = re.sub(r'\s+', '', text).lower()
+    if re.search(r'(.)\1{11,}', compact):
+        return 'repeated_character'
+    words = re.findall(r"[a-z0-9']+", text.lower())
+    for width in range(1, 5):
+        if len(words) >= max(12, width * 4):
+            for start in range(len(words) - width * 4 + 1):
+                phrase = words[start:start + width]
+                if words[start:start + width * 4] == phrase * 4:
+                    return 'repeated_phrase'
+    return None
+
+
+def bounded_recognition(model, samples, whisper, max_tokens):
+    # One decoder call, no timestamp-seek loop or temperature retries. This
+    # bounds generated tokens, not wall time on a shared CPU.
+    mel = whisper.log_mel_spectrogram(whisper.pad_or_trim(samples), n_mels=model.dims.n_mels)
+    decoded = model.decode(mel, whisper.DecodingOptions(
+        language='en', fp16=False, temperature=0, without_timestamps=True, sample_len=max_tokens))
+    raw = decoded.text.strip()
+    rejection = recognition_rejection(raw)
+    if decoded.no_speech_prob > .6 and decoded.avg_logprob < -1:
+        rejection = rejection or 'low_confidence_non_speech'
+    return {'text': '' if rejection else raw, 'raw_text': raw, 'rejection': rejection,
+            'tokens_generated': len(decoded.tokens), 'token_budget_reached': len(decoded.tokens) >= max_tokens,
+            'no_speech_prob': decoded.no_speech_prob, 'avg_logprob': decoded.avg_logprob}
+
+
+def transcribe_audio(audio, output, *, model_name='tiny.en', chunk_s=6, threads=4, window_s=None,
+                     bounded=False, max_tokens=48):
     # Optional local dependency; importing the studio itself never imports Torch.
     import numpy as np
     import torch
@@ -162,25 +194,37 @@ def transcribe_audio(audio, output, *, model_name='tiny.en', chunk_s=6, threads=
     window_s = chunk_s if window_s is None else window_s
     if not math.isfinite(window_s) or not chunk_s <= window_s <= 30:
         raise ValueError('Audio context must be between the update interval and 30 seconds.')
+    if isinstance(max_tokens, bool) or not isinstance(max_tokens, int) or not 1 <= max_tokens <= 224:
+        raise ValueError('Use a decoding token budget between 1 and 224.')
     torch.set_num_threads(threads)
     ready = time.perf_counter()
     model = whisper.load_model(model_name, device='cpu')
-    model.transcribe(np.zeros(16000, dtype=np.float32), language='en', fp16=False,
-                     temperature=0, condition_on_previous_text=False)
+    if bounded:
+        bounded_recognition(model, np.zeros(16000, dtype=np.float32), whisper, max_tokens)
+    else:
+        model.transcribe(np.zeros(16000, dtype=np.float32), language='en', fp16=False,
+                         temperature=0, condition_on_previous_text=False)
     result = {'schema': 'live_presenter.chunk_asr.v1', 'audio_sha256': file_hash(audio),
               'model': model_name, 'recognizer': 'openai-whisper ' + importlib.metadata.version('openai-whisper'),
               'device': 'cpu', 'threads': threads, 'chunk_s': chunk_s,
               'window_s': window_s, 'overlapping_windows': window_s > chunk_s,
+              'decoding': 'single_pass' if bounded else 'transcribe',
+              'max_tokens': max_tokens if bounded else None,
               'model_ready_s': time.perf_counter() - ready, 'complete': False,
               'future_audio_visible': False, 'official_captions_visible': False, 'chunks': []}
     for start, end, window_start, buffered in audio_windows(audio, chunk_s, window_s):
         samples = np.frombuffer(buffered, dtype=np.int16).astype(np.float32) / 32768
         begun = time.perf_counter()
-        recognized = model.transcribe(samples, language='en', fp16=False, temperature=0,
-                                     condition_on_previous_text=False, verbose=None)
+        if bounded:
+            recognized = bounded_recognition(model, samples, whisper, max_tokens)
+        else:
+            recognized = model.transcribe(samples, language='en', fp16=False, temperature=0,
+                                         condition_on_previous_text=False, verbose=None)
         row = {'start': start, 'end': end, 'asr_s': time.perf_counter() - begun,
                'window_start': window_start,
                'text': recognized['text'].strip()}
+        if bounded:
+            row.update(recognized)
         result['chunks'].append(row)
         save(output, result)
         print(f'Audio {end:.1f}s · recognition {row["asr_s"]:.2f}s · {row["text"][:100]}', flush=True)
@@ -243,15 +287,35 @@ def validate_chunks(asr):
         raise ValueError('Recognition must exclude future audio and official captions.')
 
 
-def replay(folder, asr_path, *, mode='local', output=None, reflex=False):
+def schedule_chunks(chunks, fresh=False):
+    """Counterfactual serial ASR schedule using separately measured window costs.
+
+    When busy, select the latest window whose audio has already arrived. All
+    omitted windows are reported; no future text or duration guides selection.
+    """
+    available, index = 0, 0
+    while index < len(chunks):
+        selected = index
+        if fresh:
+            while selected + 1 < len(chunks) and chunks[selected + 1]['end'] <= available:
+                selected += 1
+        started = max(available, chunks[selected]['end'])
+        dropped = [{'seq': i, 'start': chunks[i]['start'], 'end': chunks[i]['end'],
+                    'skipped_at': started, 'reason': 'superseded_before_asr'} for i in range(index, selected)]
+        available = started + chunks[selected]['asr_s']
+        yield selected, chunks[selected], started, available, dropped
+        index = selected + 1
+
+
+def replay(folder, asr_path, *, mode='local', output=None, reflex=False, fresh=False):
     if mode not in {'local','jev'}:
         raise ValueError('Unknown replay mode.')
-    tag = mode + ('-reflex' if reflex else '')
+    tag = mode + ('-reflex' if reflex else '') + ('-fresh' if fresh else '')
     with recording_store(Path(folder) / ('replay-' + tag)) as store:
-        return _replay(folder, asr_path, mode=mode, output=output, store=store, reflex=reflex, tag=tag)
+        return _replay(folder, asr_path, mode=mode, output=output, store=store, reflex=reflex, tag=tag, fresh=fresh)
 
 
-def _replay(folder, asr_path, *, mode, output, store, reflex, tag):
+def _replay(folder, asr_path, *, mode, output, store, reflex, tag, fresh):
     folder, asr_path = Path(folder), Path(asr_path)
     controller_hash = file_hash(Path(__file__).with_name('engine.py'))
     runner_hash = file_hash(__file__)
@@ -283,19 +347,18 @@ def _replay(folder, asr_path, *, mode, output, store, reflex, tag):
         p = studio.control(pid, 'adviser', enabled=True)
     clock.set(0)
     events = [{'at': 0, 'scene_id': p['live']['current_scene_id'], 'reason': 'Approved opening visual.'}]
-    rows, asr_available, stage_available = [], 0, 0
-    for seq, chunk in enumerate(asr['chunks']):
+    rows, dropped, stage_available = [], [], 0
+    for seq, chunk, asr_started, asr_available, skipped in schedule_chunks(asr['chunks'], fresh):
         # ASR and stage are separate serial workers. No complete chunk is
         # available until its audio end, then measured recognition finishes.
-        asr_started = max(chunk['end'], asr_available)
-        asr_available = asr_started + chunk['asr_s']
+        dropped.extend(skipped)
         started = max(asr_available, stage_available)
         clock.set(started)
         before = p['live']['current_scene_id']
         if chunk['text'].strip():
             p = studio.transcript(pid, chunk['text'], seq, generation=p['live']['generation'])
         stage_available = clock()
-        row = {**chunk, 'seq': seq, 'asr_available_at': asr_available, 'decision_started_at': started,
+        row = {**chunk, 'seq': seq, 'asr_started_at': asr_started, 'asr_available_at': asr_available, 'decision_started_at': started,
                'decision_completed_at': stage_available, 'audio_to_decision_s': stage_available - chunk['end'],
                'scene_id': p['live']['current_scene_id'], 'decision': copy.deepcopy(p['live']['decision']),
                'recommendation': copy.deepcopy(p['live'].get('recommendation')) if chunk['text'].strip() else None}
@@ -305,6 +368,7 @@ def _replay(folder, asr_path, *, mode, output, store, reflex, tag):
         print(f'Replay {chunk["end"]:.0f}s → {row["decision"]["action"]} · delay {row["audio_to_decision_s"]:.2f}s', flush=True)
     result = {'schema': 'live_presenter.recorded_replay.v1', 'mode': mode, 'complete': True,
               'reflex_enabled': reflex,
+              'audio_queue_policy': 'latest_available' if fresh else 'all_windows', 'dropped_windows': dropped,
               'source': source,
               'controller_sha256': controller_hash,
               'runner_sha256': runner_hash,
@@ -316,7 +380,8 @@ def _replay(folder, asr_path, *, mode, output, store, reflex, tag):
               'limitations': ['Accelerated serial-worker simulation with measured ASR and adviser time; no browser rendering or device latency.',
                               'Same-talk transcript supplied in advance: an upper-bound preparation condition.',
                               'Original video is a reference, not the only valid visual design or a gold editorial trace.',
-                              'One development talk; no held-out accuracy or audience-usefulness claim.']}
+                              'Within-talk development evaluation; no held-out accuracy or audience-usefulness claim.',
+                              'Freshness policy is simulated from independently measured per-window costs, not an actual microphone stream.']}
     save(output or folder / ('result-' + tag + '.json'), result)
     return result
 
@@ -379,6 +444,10 @@ def score_replay(result, reference):
             'asr_processing_real_time_factor': sum(r['asr_s'] for r in rows) / duration,
             'chunk_end_to_decision_p50_s': percentile(latencies, .5),
             'chunk_end_to_decision_p95_s': percentile(latencies, .95),
+            'chunk_end_to_decision_max_s': max(latencies) if latencies else None,
+            'processed_windows': len(rows), 'dropped_windows': len(result.get('dropped_windows', [])),
+            'rejected_windows': sum(bool(r.get('rejection')) for r in rows),
+            'token_budget_reached_windows': sum(bool(r.get('token_budget_reached')) for r in rows),
             'adviser_calls': len(adviser), 'adviser_failures': sum('error' in a for a in adviser),
             'clear_cue_reflex_decisions':sum(bool((r.get('recommendation') or {}).get('reflex_ready')) for r in rows),
             'misaligned_changes_within_scored_sections':mismatches,
@@ -387,13 +456,17 @@ def score_replay(result, reference):
             'scope': 'Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness.'}
 
 
-def build_report(folder, *, reflex=False):
+def build_report(folder, *, reflex=False, fresh=False):
     folder = Path(folder)
     reference = json.loads((folder / 'reference.json').read_text())
-    suffix = '-reflex' if reflex else ''
+    suffix = ('-reflex' if reflex else '') + ('-fresh' if fresh else '')
     results = {mode: json.loads((folder / ('result-' + mode + suffix + '.json')).read_text()) for mode in ('local','jev')}
-    if len({(r['package_hash'], r['asr_sha256'], r['controller_sha256']) for r in results.values()}) != 1:
-        raise ValueError('Comparison requires the same prepared package, ASR trace and controller.')
+    if len({(r['package_hash'], r['asr_sha256'], r['controller_sha256'],
+             r['runner_sha256'], r.get('audio_queue_policy', 'all_windows')) for r in results.values()}) != 1:
+        raise ValueError('Comparison requires the same prepared package, ASR trace, controller, runner and queue policy.')
+    if any(r.get('audio_queue_policy', 'all_windows') != ('latest_available' if fresh else 'all_windows')
+           for r in results.values()):
+        raise ValueError('Report queue policy differs from the selected experiment.')
     metrics = {mode: score_replay(r, reference) for mode,r in results.items()}
     save(folder / ('comparison' + suffix + '.json'), {'schema':'live_presenter.recording_comparison.v1',
         'reference_sha256': file_hash(folder / 'reference.json'), 'reference':reference, 'metrics':metrics})
@@ -411,6 +484,8 @@ def build_report(folder, *, reflex=False):
     chunk_s = results['local']['asr']['chunk_s']
     window_s = results['local']['asr'].get('window_s',chunk_s)
     reflex_note = ' Prepared reflex is enabled; clear source cues use the local index.' if reflex else ''
+    if fresh:
+        reflex_note += ' Stale audio windows are explicitly skipped in a latest-available replay simulation.'
     visual_notes = html_module.escape(reference.get('visual_comparison_notes',
         'Compare the original visual forms against the prepared alternatives. Topic alignment does not score visual design.'))
     jev_stats = metrics['jev']
@@ -457,6 +532,8 @@ def main():
     transcribe.add_argument('--chunk-s', type=float, default=6)
     transcribe.add_argument('--threads', type=int, default=4)
     transcribe.add_argument('--window-s', type=float)
+    transcribe.add_argument('--bounded', action='store_true', help='One decode pass with an output token budget')
+    transcribe.add_argument('--max-tokens', type=int, default=48)
     prepare = sub.add_parser('prepare')
     prepare.add_argument('--folder', type=Path, required=True)
     prepare.add_argument('--provider', choices=['copilot','outline'], default='copilot')
@@ -470,20 +547,23 @@ def main():
     run.add_argument('--asr', type=Path, required=True)
     run.add_argument('--mode', choices=['local','jev'], default='local')
     run.add_argument('--reflex', action='store_true')
+    run.add_argument('--fresh', action='store_true', help='Simulate selecting latest available audio after a stall')
     run.add_argument('--out', type=Path)
     report = sub.add_parser('report')
     report.add_argument('--folder', type=Path, required=True)
     report.add_argument('--reflex', action='store_true')
+    report.add_argument('--fresh', action='store_true')
     args = parser.parse_args()
     if args.command == 'acquire-ted':
         print(json.dumps(acquire_ted(args.url, args.folder), indent=2))
     elif args.command == 'transcribe':
-        transcribe_audio(args.audio, args.out, model_name=args.model, chunk_s=args.chunk_s, threads=args.threads, window_s=args.window_s)
+        transcribe_audio(args.audio, args.out, model_name=args.model, chunk_s=args.chunk_s, threads=args.threads,
+                         window_s=args.window_s, bounded=args.bounded, max_tokens=args.max_tokens)
     elif args.command == 'prepare':
         p = prepare_recording(args.folder, args.provider)
         print(json.dumps({'project_id':p['id'], 'revision':p['revision'], 'job':p['job'], 'plan':p['plan']}, indent=2))
     elif args.command == 'run':
-        replay(args.folder, args.asr, mode=args.mode, reflex=args.reflex, output=args.out)
+        replay(args.folder, args.asr, mode=args.mode, reflex=args.reflex, fresh=args.fresh, output=args.out)
     elif args.command == 'approve':
         with recording_store(args.folder / 'studio') as store:
             pid = json.loads((args.folder / 'project.json').read_text())['project_id']
@@ -494,7 +574,7 @@ def main():
                 p['approval']['reviewed_by'] = args.reviewer
         print('Approved for development replay:', p['approval']['package_hash'])
     elif args.command == 'report':
-        print(json.dumps(build_report(args.folder, reflex=args.reflex), indent=2))
+        print(json.dumps(build_report(args.folder, reflex=args.reflex, fresh=args.fresh), indent=2))
 
 
 if __name__ == '__main__':

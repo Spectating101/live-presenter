@@ -173,6 +173,8 @@ This runner does not grant redistribution rights or imply TED endorsement.
 on Rosling and Melissa Marshall's short concept-driven talk, including a speech
 recognition backlog failure. `data/recorded_talk_sources.json` still reserves the
 visual/data-heavy talk by David McCandless, which has not been run or scored.
+`BOUNDED_AUDIO.md` documents the subsequent limited-decoding and stale-window
+experiment on the same two recordings; the old baseline remains available.
 Test that recording with the frozen controller before tuning on its results.
 Also add a condition with separately supplied notes/datasets rather than the
 complete talk transcript, and a second reviewer who cannot see system outputs.

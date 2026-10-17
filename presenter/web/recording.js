@@ -53,6 +53,18 @@ function drawRecordingSummary() {
     const stats = recording.metrics[m]; latency.append(el('td', '', `${stats.chunk_end_to_decision_p50_s.toFixed(2)}s / ${stats.chunk_end_to_decision_p95_s.toFixed(2)}s`));
   });
   table.append(latency);
+  const worst = el('tr'); worst.append(el('td', '', 'Chunk end → decision, maximum'));
+  ['local','jev'].forEach(m => {
+    const value = recording.metrics[m].chunk_end_to_decision_max_s;
+    worst.append(el('td', '', value == null ? 'Not recorded' : `${value.toFixed(2)}s`));
+  });
+  table.append(worst);
+  const skipped = el('tr'); skipped.append(el('td', '', 'Stale windows skipped / processed outputs rejected'));
+  ['local','jev'].forEach(m => {
+    const stats = recording.metrics[m];
+    skipped.append(el('td', '', `${stats.dropped_windows || 0} / ${stats.rejected_windows || 0}`));
+  });
+  table.append(skipped);
   const mistakes = el('tr'); mistakes.append(el('td', '', 'Visual changes outside coarse section expectations'));
   ['local','jev'].forEach(m => mistakes.append(el('td', '', recording.metrics[m].misaligned_changes_within_scored_sections?.length || 0)));
   table.append(mistakes);

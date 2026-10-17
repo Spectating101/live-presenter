@@ -3,12 +3,15 @@ import copy
 import json
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 import unittest
+from unittest.mock import Mock
 import wave
 
 from presenter.engine import Conflict, Store, Studio
 from presenter.materials import ingest
-from presenter.recording import audio_chunks, audio_windows, build_report, file_hash, recording_store, replay, save, score_replay, validate_chunks
+from presenter.recording import (audio_chunks, audio_windows, bounded_recognition, build_report,
+    file_hash, recognition_rejection, recording_store, replay, save, schedule_chunks, score_replay, validate_chunks)
 from research_evidence_v10 import json_hash
 
 
@@ -88,6 +91,57 @@ class RecordedTalkTests(unittest.TestCase):
         self.assertEqual(result['rows'][-1]['decision']['action'],'HOLD')
         self.assertEqual(result['rows'][-1]['scene_id'],result['rows'][-2]['scene_id'])
 
+    def test_bounded_decode_is_one_pass_and_rejected_output_never_becomes_text(self):
+        whisper = Mock()
+        model = Mock(dims=SimpleNamespace(n_mels=80))
+        model.decode.return_value = SimpleNamespace(text=' A' + 'h'*40, tokens=list(range(48)),
+                                                    no_speech_prob=.3, avg_logprob=-.2)
+        row = bounded_recognition(model, 'samples', whisper, 48)
+        model.decode.assert_called_once()
+        whisper.DecodingOptions.assert_called_once_with(language='en', fp16=False, temperature=0,
+                                                        without_timestamps=True, sample_len=48)
+        self.assertEqual(row['text'], '')
+        self.assertEqual(row['rejection'], 'repeated_character')
+        self.assertTrue(row['token_budget_reached'])
+        self.assertTrue(row['raw_text'])
+        model.decode.return_value = SimpleNamespace(text='The radiator releases heat.', tokens=[1,2,3],
+                                                    no_speech_prob=.8, avg_logprob=-.2)
+        # Confidence overrides the nonspeech probability, as in the baseline.
+        self.assertEqual(bounded_recognition(model,'samples',whisper,48)['text'], 'The radiator releases heat.')
+        model.decode.return_value.avg_logprob = -1.5
+        self.assertEqual(bounded_recognition(model,'samples',whisper,48)['rejection'], 'low_confidence_non_speech')
+
+    def test_repetition_filter_preserves_short_emphasis_and_normal_prepared_cues(self):
+        for text in ('No, no, no.', 'The washing machine frees time for reading.', '',
+                     'Energy energy energy: we need more energy.'):
+            self.assertIsNone(recognition_rejection(text))
+        self.assertEqual(recognition_rejection('Thank you so much ' * 4), 'repeated_phrase')
+
+    def test_latest_window_policy_accounts_for_every_drop_and_never_selects_future_audio(self):
+        chunks = [{'start':i,'end':i+1,'asr_s':4 if i==0 else .1,'text':str(i)} for i in range(8)]
+        scheduled = list(schedule_chunks(chunks, fresh=True))
+        self.assertEqual([seq for seq,*_ in scheduled], [0,4,5,6,7])
+        dropped = [d for *_,drops in scheduled for d in drops]
+        self.assertEqual([d['seq'] for d in dropped], [1,2,3])
+        self.assertEqual(sorted([seq for seq,*_ in scheduled]+[d['seq'] for d in dropped]), list(range(8)))
+        self.assertEqual(scheduled[1][2],5)
+        self.assertTrue(all(chunk['end'] <= start <= ready for _,chunk,start,ready,_ in scheduled))
+        self.assertTrue(all(d['end'] <= d['skipped_at'] for d in dropped))
+        self.assertEqual(len(list(schedule_chunks(chunks, fresh=False))),8)
+
+    def test_fresh_replay_records_drops_without_replaying_their_text(self):
+        p,asr = self.fixture()
+        asr['chunks'][0]['asr_s'] = 3
+        save(self.folder/'asr.json',asr)
+        result = replay(self.folder,self.folder/'asr.json',reflex=True,fresh=True)
+        self.assertEqual([r['seq'] for r in result['rows']], [0,2])
+        self.assertEqual([r['seq'] for r in result['dropped_windows']], [1])
+        self.assertEqual(result['audio_queue_policy'],'latest_available')
+        self.assertTrue((self.folder/'result-local-reflex-fresh.json').exists())
+        live = Store(self.folder/'replay-local-reflex-fresh').read(p['id'])['live']
+        self.assertEqual([r['text'] for r in live['transcript']],
+                         ['Radiator', 'Quantum entanglement and qubits'])
+
     def test_approval_and_audio_source_binding_are_required(self):
         p,asr=self.fixture(approve=False)
         with self.assertRaises(Conflict):replay(self.folder,self.folder/'asr.json')
@@ -158,6 +212,10 @@ class RecordedTalkTests(unittest.TestCase):
         self.assertNotIn(attack,html)
         self.assertIn('function renderScene(',html)
         self.assertIn('\\u003c/script>',html)
+        for field,value in [('runner_sha256','other-runner'),('audio_queue_policy','latest_available')]:
+            bad=copy.deepcopy(result);bad[field]=value
+            save(self.folder/'result-jev.json',bad)
+            with self.assertRaises(ValueError):build_report(self.folder)
         result['package']['title']='changed after approval'
         save(self.folder/'result-jev.json',result)
         with self.assertRaises(ValueError):build_report(self.folder)
