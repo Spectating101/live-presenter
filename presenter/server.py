@@ -19,6 +19,7 @@ from urllib.parse import urlparse, parse_qs
 from jev_credentials_v10 import load_jev_env
 from .engine import Conflict, Store, Studio, jev_adviser
 from .materials import ingest
+from .live_audio import LiveAudio, SubprocessRecognizer
 
 STATIC = Path(__file__).parent / "web"
 
@@ -51,7 +52,7 @@ def public_project(project):
     return project
 
 
-def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=True, dwell_s=2.5):
+def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=True, dwell_s=2.5, audio_decoder=None):
     writer_lock = (store.root / '.server.lock').open('a')
     try:
         fcntl.flock(writer_lock,fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -76,6 +77,7 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
         return {**public_project(p),'stage_access':stage_token(p['id'])}
 
     studio = Studio(store, planner=planner, live_assessor=jev_adviser if use_jev else None, dwell_s=dwell_s)
+    audio = LiveAudio(studio, audio_decoder) if audio_decoder else None
 
     class Handler(BaseHTTPRequestHandler):
         server_version = "LivePresenter/1"
@@ -116,7 +118,8 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                         raise PermissionError('Open the studio URL printed by make studio to access your workspace.')
                 if path == "/api/status":
                     return self.reply(200, {"conversation_available": bool(shutil.which(studio.planner.command)) if hasattr(studio.planner, "command") else True,
-                                            "live_adviser": "jev" if use_jev else "prepared_cues", "formats": ["TXT", "MD", "CSV", "TSV", "PDF", "DOCX"]})
+                                            "live_adviser": "jev" if use_jev else "prepared_cues", 'local_audio': audio is not None,
+                                            "formats": ["TXT", "MD", "CSV", "TSV", "PDF", "DOCX"]})
                 if path == "/api/example":
                     return self.reply(200, EXAMPLE)
                 if path == "/api/projects":
@@ -124,6 +127,8 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                 parts = path.strip("/").split("/")
                 if len(parts) in {3, 4} and parts[:2] == ["api", "projects"]:
                     p = store.read(parts[2])
+                    if len(parts) == 4 and parts[3] == 'audio':
+                        return self.reply(200, audio.snapshot(p['id']) if audio else {'status':'disabled'})
                     if len(parts) == 4 and parts[3] == "stage":
                         after = parse_qs(urlparse(self.path).query).get('after', [None])[0]
                         if after is not None:
@@ -148,7 +153,7 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                     raise KeyError("Unknown route.")
                 file = "stage.html" if path.startswith("/stage/") else "index.html" if path == "/" else path.lstrip("/")
                 # Fixed allowlist prevents exposing source files or saved project data.
-                if file not in {"index.html", "stage.html", "studio.js", "visuals.js", "stage.js", "style.css"}:
+                if file not in {"index.html", "stage.html", "studio.js", "visuals.js", "stage.js", "style.css", 'microphone.js', 'pcm-worklet.js'}:
                     raise KeyError("Unknown page.")
                 target = STATIC / file
                 return self.reply(200, target.read_bytes(), mimetypes.guess_type(file)[0] or "text/plain")
@@ -200,6 +205,21 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                     result = studio.approve(pid, body.get("revision"), body.get("reviewed"))
                 elif action == "control":
                     result = studio.control(pid, body.get("action"), body.get("scene_id"), body.get('enabled'))
+                    if audio:
+                        audio.invalidate(pid)
+                        result = store.read(pid)
+                elif action == 'audio':
+                    if not audio:
+                        raise Conflict('Local audio is disabled. Start the studio with --asr-python.')
+                    if body.get('action') == 'start':
+                        result = audio.start(pid,body.get('generation'))
+                    elif body.get('action') == 'chunk':
+                        result = audio.submit(pid,body)
+                    elif body.get('action') == 'stop':
+                        result = audio.stop(pid,body.get('stream_id'))
+                    else:
+                        raise ValueError('Unknown microphone action.')
+                    return self.reply(200,result)
                 elif action == "transcript":
                     if isinstance(body.get("seq"), bool) or not isinstance(body.get("seq"), int):
                         raise ValueError("Transcript sequence must be an integer.")
@@ -223,16 +243,21 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
 
     class LocalServer(ThreadingHTTPServer):
         def server_close(self):
+            if audio:
+                audio.close()
             super().server_close()
             if not writer_lock.closed:writer_lock.close()
     try:
         server = LocalServer((host, port), Handler)
     except Exception:
+        if audio:
+            audio.close()
         writer_lock.close()
         raise
     server.studio = studio
     server.access_token = access_token
     server.stage_token = stage_token
+    server.audio = audio
     server.daemon_threads = True
     return server
 
@@ -243,10 +268,12 @@ def main():
     ap.add_argument("--data-dir", type=Path, default=Path("artifacts/studio"))
     ap.add_argument("--no-jev", action="store_true")
     ap.add_argument("--env-file")
+    ap.add_argument('--asr-python', type=Path, help='Enable local PCM recognition with this optional ASR Python environment')
     args = ap.parse_args()
     load_jev_env(args.env_file)
     enabled = not args.no_jev and bool(os.getenv("JEV_API_KEY") or os.getenv("TYPESAFE_API_KEY"))
-    server = make_server(Store(args.data_dir), port=args.port, use_jev=enabled)
+    server = make_server(Store(args.data_dir), port=args.port, use_jev=enabled,
+                         audio_decoder=SubprocessRecognizer(args.asr_python) if args.asr_python else None)
     print(f"Live Presenter studio: http://127.0.0.1:{server.server_port}/#access={server.access_token}", flush=True)
     print("Sources, conversations and approval packages stay in " + str(args.data_dir.resolve()), flush=True)
     try:

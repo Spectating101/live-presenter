@@ -3,6 +3,8 @@
 This continues the [prepared reflex experiment](PREPARED_REFLEX.md). Preparation
 and approved cue matching stay fixed. The change targets speech recognition
 stalls before the prepared cue can reach the controller.
+The subsequent [local microphone implementation](LIVE_AUDIO.md) connects these
+parts to actual PCM arrivals and adds wall-clock interruption checks.
 
 ## Mechanism
 

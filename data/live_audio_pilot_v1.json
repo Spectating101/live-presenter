@@ -1,0 +1,190 @@
+{
+  "schema": "live_presenter.live_audio_pilot.v1",
+  "created_utc": "2026-10-17T15:56:18.757025+00:00",
+  "scope": "Two wall-clock-paced WAV excerpts through the real local PCM HTTP API, ASR worker, controller and read-only stage observer. No browser capture or physical display measurement.",
+  "conditions": {
+    "same_talk_untimed_transcript_preparation": true,
+    "cue_rules_changed": false,
+    "recognizer": "openai-whisper tiny.en, CPU, 4 threads, single pass, 48 tokens",
+    "update_s": 1,
+    "past_context_s": 4,
+    "decoder_deadline_s": 2,
+    "freshness_s": 2,
+    "optional_adviser_enabled": true,
+    "normal_display_dwell_s": 2.5,
+    "machine_workload_controlled": false
+  },
+  "recordings": {
+    "marshall": {
+      "source_url": "https://www.ted.com/talks/melissa_marshall_talk_nerdy_to_me",
+      "source_audio_sha256": "2c3b871ea293d6ad458e8e8bd1ef37cbd4b3adb3e154f5d49c401b4988e57980",
+      "package_hash": "559ee38587977637afba5444dd2fced364527acfa2aa7fa3134d54a1bab28635",
+      "asr": "openai-whisper tiny.en, CPU, 4 threads, 48 tokens, 2 s subprocess deadline",
+      "fingerprints": {
+        "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+        "server.py": "abaf72765d79276130006a6a7bbf2fa8a4adee01c8f11fbc3b194ba68f69f9d1",
+        "engine.py": "cdef7066fabb754b7a54111036467fbd49da3182ad3489eac1f1775f1d33f963",
+        "recording.py": "14ce7e3f3d02443538106b7741a171d5bed37853cdc15d612123f7314433f3b3",
+        "reflex.py": "ef35942bb5a6d345dfdeb35337c48d2d30070fac69e6222bba26455baa82b261",
+        "live_probe.py": "0126d87971d89fea318ce25ccd6eadd0e45e3035d684317578c7a78730b22725"
+      },
+      "capture_fingerprints": {
+        "microphone.js": "5b3aee08b7f6bbd6a1cd1e6379d607b6f00a6e240c75c1dca9b7c892c42b32b7",
+        "pcm-worklet.js": "fc394d4e7794dd4f7cfebfd3b052d91e1144ac73e913d4620cc1152c6530f1df",
+        "stage.js": "f6265579e85da54421ce01d4498fb44b86f0ca87afb2cadfda7be86164b405d9",
+        "studio.js": "66bc82c59ad6d6c17fe07010b1e23772cfe0d76f7d4945555964ebd3f6ada958"
+      },
+      "offset_s": 40,
+      "duration_s": 90,
+      "elapsed_s": 90.32333941798424,
+      "model_ready_s": 2.773771439999109,
+      "use_jev": true,
+      "timing_model": "Measured wall time, one-second PCM arrivals over authenticated loopback HTTP.",
+      "metrics": {
+        "processed": 90,
+        "dropped": 0,
+        "rejected": 0,
+        "timeouts": 0,
+        "stage_observer_errors": 0,
+        "expired_windows": 0,
+        "received_to_decision_p50_s": 0.28206129200407304,
+        "received_to_decision_p95_s": 0.5686031509831082,
+        "received_to_decision_max_s": 0.6976622430083808,
+        "ideas_observed": 4,
+        "visual_changes_observed": 3
+      },
+      "observed_switch_latencies": [
+        {
+          "seq": 13,
+          "scene_id": "concept_e117a671960d_0",
+          "audio_end_s": 14.0,
+          "observed_at_s": 14.218990352994297,
+          "chunk_end_to_stage_api_s": 0.2189903529942967
+        },
+        {
+          "seq": 48,
+          "scene_id": "concept_3c0105e3296a_0",
+          "audio_end_s": 49.0,
+          "observed_at_s": 49.26640363098704,
+          "chunk_end_to_stage_api_s": 0.26640363098704256
+        },
+        {
+          "seq": 77,
+          "scene_id": "concept_d5413a541720_0",
+          "audio_end_s": 78.0,
+          "observed_at_s": 78.28199982899241,
+          "chunk_end_to_stage_api_s": 0.2819998289924115
+        }
+      ],
+      "result_sha256": "d16a29903f033d55d7d4c5f83278603e328fadef1450bfa4085369e053398b81",
+      "reference_sha256": "f530c1bc6565f23700f6aba62f6b1360dfe8dee631a7834963f6a3f298e456a2"
+    },
+    "rosling": {
+      "source_url": "https://www.ted.com/talks/hans_rosling_the_magic_washing_machine",
+      "source_audio_sha256": "691374838078ac4b630d942ef01d954b5fa71a19fc88364fff843d2ead8d2f1a",
+      "package_hash": "9252f787a51e58f78b8f8db9f4a425ff0fc0c8902145a71345c7fd9e97918aac",
+      "asr": "openai-whisper tiny.en, CPU, 4 threads, 48 tokens, 2 s subprocess deadline",
+      "fingerprints": {
+        "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+        "server.py": "abaf72765d79276130006a6a7bbf2fa8a4adee01c8f11fbc3b194ba68f69f9d1",
+        "engine.py": "cdef7066fabb754b7a54111036467fbd49da3182ad3489eac1f1775f1d33f963",
+        "recording.py": "14ce7e3f3d02443538106b7741a171d5bed37853cdc15d612123f7314433f3b3",
+        "reflex.py": "ef35942bb5a6d345dfdeb35337c48d2d30070fac69e6222bba26455baa82b261",
+        "live_probe.py": "0126d87971d89fea318ce25ccd6eadd0e45e3035d684317578c7a78730b22725"
+      },
+      "capture_fingerprints": {
+        "microphone.js": "5b3aee08b7f6bbd6a1cd1e6379d607b6f00a6e240c75c1dca9b7c892c42b32b7",
+        "pcm-worklet.js": "fc394d4e7794dd4f7cfebfd3b052d91e1144ac73e913d4620cc1152c6530f1df",
+        "stage.js": "f6265579e85da54421ce01d4498fb44b86f0ca87afb2cadfda7be86164b405d9",
+        "studio.js": "66bc82c59ad6d6c17fe07010b1e23772cfe0d76f7d4945555964ebd3f6ada958"
+      },
+      "offset_s": 280,
+      "duration_s": 140,
+      "elapsed_s": 140.22404108400224,
+      "model_ready_s": 2.919595817977097,
+      "use_jev": true,
+      "timing_model": "Measured wall time, one-second PCM arrivals over authenticated loopback HTTP.",
+      "metrics": {
+        "processed": 140,
+        "dropped": 0,
+        "rejected": 1,
+        "timeouts": 0,
+        "stage_observer_errors": 0,
+        "expired_windows": 0,
+        "received_to_decision_p50_s": 0.34166550100781024,
+        "received_to_decision_p95_s": 0.6382421099988278,
+        "received_to_decision_max_s": 1.4430076080025174,
+        "ideas_observed": 4,
+        "visual_changes_observed": 6
+      },
+      "observed_switch_latencies": [
+        {
+          "seq": 2,
+          "scene_id": "concept_000492b8b4b2_0",
+          "audio_end_s": 3.0,
+          "observed_at_s": 3.902043051988585,
+          "chunk_end_to_stage_api_s": 0.9020430519885849
+        },
+        {
+          "seq": 45,
+          "scene_id": "concept_c5c2a81e3c08_0",
+          "audio_end_s": 46.0,
+          "observed_at_s": 46.680014557001414,
+          "chunk_end_to_stage_api_s": 0.6800145570014138
+        },
+        {
+          "seq": 95,
+          "scene_id": "concept_c5c2a81e3c08_1",
+          "audio_end_s": 96.0,
+          "observed_at_s": 96.49401227399358,
+          "chunk_end_to_stage_api_s": 0.49401227399357595
+        },
+        {
+          "seq": 98,
+          "scene_id": "concept_c5c2a81e3c08_0",
+          "audio_end_s": 99.0,
+          "observed_at_s": 99.51884806298767,
+          "chunk_end_to_stage_api_s": 0.5188480629876722
+        },
+        {
+          "seq": 104,
+          "scene_id": "concept_c5c2a81e3c08_1",
+          "audio_end_s": 105.0,
+          "observed_at_s": 105.48325720598223,
+          "chunk_end_to_stage_api_s": 0.4832572059822269
+        },
+        {
+          "seq": 113,
+          "scene_id": "concept_1f0751653e51_0",
+          "audio_end_s": 114.0,
+          "observed_at_s": 114.57097439499921,
+          "chunk_end_to_stage_api_s": 0.5709743949992117
+        }
+      ],
+      "result_sha256": "da67103cc01634d18fb374fae0b64bf12a7578ce4cffb7dde9518dbcd1b79258",
+      "reference_sha256": "5ef444053f4653bd1e7c2f83ea9425c20335de9541f49c802919bd7d6b6e9f45"
+    }
+  },
+  "validation": {
+    "python_tests": 108,
+    "node_capture_unit_tests": 6
+  },
+  "limitations": [
+    "This is paced PCM from files, not physical microphone capture or a browser test.",
+    "Audio collection adds up to one second; understanding the idea can require more words.",
+    "The same talk transcript was supplied beforehand. No independent editorial or audience-usefulness evaluation.",
+    "Short excerpts do not cover the full talks or establish general latency/reliability.",
+    "Deadline handling was separately exercised through fault-injection tests; no deadline occurred in the two final paced runs.",
+    "An earlier diagnostic had two ASR restarts and a 5.56-second advisory stall. The bounded advisory wait was then added; workloads differed between runs.",
+    "Browser permission, input resampling, frame/paint and physical projector timing remain unverified."
+  ],
+  "pooled": {
+    "updates": 230,
+    "received_to_decision_p50_s": 0.304030399012845,
+    "received_to_decision_p95_s": 0.6024066930112895,
+    "received_to_decision_max_s": 1.4430076080025174,
+    "observed_switches": 9,
+    "observed_switch_chunk_end_to_stage_api_min_s": 0.2189903529942967,
+    "observed_switch_chunk_end_to_stage_api_max_s": 0.9020430519885849
+  }
+}

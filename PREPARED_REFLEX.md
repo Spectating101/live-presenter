@@ -108,10 +108,12 @@ detailed traces and local credentials remain git-ignored.
 
 ## Remaining latency limits
 
-The browser microphone still acts on **final recognition results**. Interim words
-stay backstage. One-second rolling audio is currently a recorded-file experiment,
-not a replacement for the browser microphone path. Browser endpointing can add
-delay before a cue reaches the fast controller.
+The browser speech-recognition option still acts on **final recognition
+results**. Interim words stay backstage, and endpointing can add delay. The
+one-second measurements above are historical recorded-file experiments. The
+subsequent [local English microphone path](LIVE_AUDIO.md) implements continuous
+PCM capture and actual worker processing as a separate opt-in option; its browser
+capture and physical microphone-to-projector timing still require verification.
 
 Browser access was previously declined. The long-poll contract is verified through
 HTTP, but browser layout, playback synchronization, paint, microphone and physical

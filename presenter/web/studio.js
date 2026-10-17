@@ -1,4 +1,5 @@
 import { el, renderScene } from '/visuals.js';
+import { LocalMicrophone } from '/microphone.js';
 
 const $ = id => document.getElementById(id);
 const bootstrap = new URLSearchParams(location.hash.slice(1));
@@ -10,6 +11,7 @@ let activeId = '', project = null, panel = 'prepare', preparationKey = '', lastR
 let recognition = null, micWanted = false, utteranceQueue = [], processingUtterances = false;
 let polling = false, utterancePending = false;
 let adviserAvailable = false;
+let localAudioAvailable = false, localMicrophone = null;
 
 function notify(message) {
   $('toast').textContent = message;
@@ -18,8 +20,8 @@ function notify(message) {
   notify.timer = setTimeout(() => { $('toast').hidden = true; }, 7000);
 }
 
-async function api(path, body) {
-  const options = { headers: { 'X-Presenter-Key': sessionStorage.getItem('presenter_access') || '' } };
+async function api(path, body, extra = {}) {
+  const options = { ...extra, headers: { 'X-Presenter-Key': sessionStorage.getItem('presenter_access') || '' } };
   if (body !== undefined) Object.assign(options, { method: 'POST', body: JSON.stringify(body), headers: { ...options.headers, 'Content-Type': 'application/json' } });
   const response = await fetch(path, options);
   const result = await response.json();
@@ -58,6 +60,7 @@ function accept(p) {
   if (p.id !== activeId) return;
   if (project?.id === p.id && (p.state_version || 0) < (project.state_version || 0)) return;
   project = p;
+  if (localMicrophone?.ready && localMicrophone.generation !== p.live.generation) stopMicrophone();
   $('welcome').hidden = true; $('project').hidden = false;
   $('breadcrumb').textContent = 'Studio / ' + p.title;
   $('project-title').textContent = p.plan?.title || p.title;
@@ -319,16 +322,36 @@ async function drainUtterances() {
 $('utterance-form').onsubmit = async event => {
   event.preventDefault(); const text = $('utterance').value.trim();
   if (!text) return;
+  if (localMicrophone) {
+    const pid = activeId;
+    await stopMicrophone();
+    try { const p = await api(`/api/projects/${pid}`); if (pid === activeId) accept(p); else return; }
+    catch (e) { notify(e.message); return; }
+  }
   $('utterance').value = ''; await sendUtterance(text);
 };
 function stopMicrophone() {
   micWanted = false;
+  const stopped = localMicrophone?.stop(); localMicrophone = null;
+  $('microphone-mode').disabled = false;
   recognition?.stop(); recognition = null;
   $('microphone').textContent = '◉ Enable microphone'; $('mic-status').textContent = 'Typed rehearsal is always available.';
   $('interim').textContent = '';
+  return stopped;
 }
 $('microphone').onclick = () => {
   if (micWanted) { stopMicrophone(); return; }
+  if ($('microphone-mode').value === 'local') {
+    if (!localAudioAvailable) { notify('Start the studio with local speech recognition enabled to use this mode.'); return; }
+    micWanted = true;
+    $('microphone').textContent = '■ Stop microphone';
+    $('microphone-mode').disabled = true;
+    localMicrophone = new LocalMicrophone({ api, pid: activeId, generation: project.live.generation,
+      onProject: accept, onStatus: message => { $('mic-status').textContent = message; },
+      onError: message => { stopMicrophone(); notify(message); } });
+    localMicrophone.start();
+    return;
+  }
   const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!Speech) { notify('This browser does not expose speech recognition. Use Chrome with speech recognition enabled, or the typed rehearsal.'); return; }
   const r = new Speech(); recognition = r; micWanted = true;
@@ -360,6 +383,9 @@ async function poll() {
 try {
   const status = await api('/api/status');
   adviserAvailable = status.live_adviser === 'jev';
+  localAudioAvailable = !!status.local_audio;
+  $('local-microphone-option').disabled = !localAudioAvailable;
+  if (localAudioAvailable) $('microphone-mode').value = 'local';
   if (!status.conversation_available) $('new-provider').value = 'outline';
   await refreshLibrary();
   const match = location.hash.match(/^#p=([a-f0-9]{32})$/);

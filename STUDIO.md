@@ -78,6 +78,13 @@ browser/platform; Chromium may use an online speech service. Unsupported or
 denied recognition leaves typed rehearsal available. Interim recognition text
 does not change the stage.
 
+`make studio-local` also enables **Local English · experimental**, using the
+optional `.venv-asr` environment. It captures one-second audio updates and runs
+bounded local recognition without waiting for a browser final sentence. See
+`LIVE_AUDIO.md` for setup, real-time pipeline measurements and remaining browser
+verification. Manual controls stop that local microphone stream; re-enable it to
+continue following. Browser speech recognition remains available separately.
+
 The local follower matches prepared concepts and spoken aliases. Ambiguous or
 unsupported speech retains the current visual. **Use Jev live advice** is an
 explicit optional switch and starts off. When enabled, the current utterance and
