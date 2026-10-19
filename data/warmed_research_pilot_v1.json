@@ -1,0 +1,3277 @@
+{
+  "schema": "live_presenter.warmed_research_pilot.v1",
+  "date": "2026-10-19",
+  "runtime_commit": "0dd1318fdb98bd326c1142827d075059c83ff386",
+  "current_code_fingerprints": {
+    "live_audio.py": "8ce4ab08de5806ba5f90389e912bb89c8f153f2baa8ca0c14ae495847e4bd6cd",
+    "research.py": "26d256aa63f08305476fe0bf23d514759a19fbe59135ea9597dc5747e8f38c01",
+    "research_sources.py": "6f83d5af07405b48c726232397518836a9e44ebf39dab777426b22ebbcb4e7ba",
+    "web_research.py": "e14581bb923ad65abde1f864f31032c2f1e2a968d94cb4b483bc1f71d35c5ade",
+    "warm_research_demo.py": "d4881a01463351abf51ebca51f9e4defea2e01af590ee04d3e051988fa9548ba"
+  },
+  "audio_baseline_quote_sha256": "a350c8fadb371389e77c2fed6758c86216d138458959a9131e47d25eec1ab1b3",
+  "audio_replays": [
+    {
+      "id": "researched_rehearsal_sivers_v1",
+      "private_artifact": "artifacts/researched_rehearsal_sivers_v1/result.json",
+      "artifact_sha256": "75483fcb488d2c462ac60be83dd684f6ee320dec9a8c6a640206d10c21187ffb",
+      "code_commit": "dcc229dd259c29740ee16af9de82ea9ca9074306",
+      "code_fingerprints": {
+        "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+        "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+        "research.py": "dac38d85c4af645d1f4f797f981908db98bb26fc9b57d6b9e3c2210ff58ed7f0",
+        "research_sources.py": "1c8681e8d4412e03eaffae8c2f07088ee44ddc021ccd372ff96a6b66352d33c8",
+        "web_research.py": "5881d0e8ec0adc978324e64110c8280b35afb5c06c78466bfde961fe28033d12",
+        "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+        "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+        "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876",
+        "researched_demo.py": "c9f38bf01ad819c289851da14a5481b30488c86103669ec64c2de2f70ae03ca6"
+      },
+      "audio_sha256": "df332a4b6607c740f0144e803ec7a3300136f3d0f5c349a1db5fcada3ca7b913",
+      "prepared_package_hash": "c09b0239576e1da8f4e6f24fff3736be4b97486914b07b90895b19eadeeca20c",
+      "prepared_source_count": 1,
+      "preparation_research_status": "no_results",
+      "approved_package_unchanged": true,
+      "worker": {
+        "status": "ready",
+        "last_seq": 119,
+        "received": 120,
+        "processed": 106,
+        "dropped": 14,
+        "rejected": 0,
+        "timeouts": 2,
+        "expired": 2,
+        "error": null
+      },
+      "first_matching_asr_completion_estimate_s": 26.267878120066598,
+      "first_fresh_source_after_matching_asr_s": 7.082788569969125,
+      "same_baseline_quote_after_matching_asr_s": 7.082788569969125,
+      "stage_events": [
+        {
+          "at_s": 33.35066669003572,
+          "scene_id": "web_public_de5423c8ec80c612",
+          "state_version": 83,
+          "url": "https://sive.rs/ff",
+          "query": "first follower",
+          "kind": "evidence",
+          "quote_sha256": "a350c8fadb371389e77c2fed6758c86216d138458959a9131e47d25eec1ab1b3",
+          "relevance_probability": 0.95
+        }
+      ],
+      "research_history": [
+        {
+          "status": "no_match",
+          "query": "lot leadership",
+          "request_id": null,
+          "final": null,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "lot leadership",
+            "query_confidence": 0.42,
+            "related_probability": 0.46,
+            "related_confidence": 0.08,
+            "scope": "research"
+          },
+          "classifier_call_count": 3,
+          "classifier_elapsed_s": 0.742294343013782,
+          "completed_at_audio_s": 10.25147557258606
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": null,
+          "final": null,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "movement happen",
+            "query_confidence": 0.42,
+            "related_probability": 0.32,
+            "related_confidence": 0.36,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.5123468159581535,
+          "completed_at_audio_s": 15.688060283660889
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": null,
+          "final": null,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "leader needs guts",
+            "query_confidence": 0.52,
+            "related_probability": 0.36,
+            "related_confidence": 0.28,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.4488149810349569,
+          "completed_at_audio_s": 22.13277840614319
+        },
+        {
+          "status": "ready",
+          "query": "first follower",
+          "request_id": null,
+          "final": null,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": true,
+          "plan_decision": {
+            "query": "first follower",
+            "query_confidence": 0.72,
+            "related_probability": 0.86,
+            "related_confidence": 0.72,
+            "scope": "research"
+          },
+          "classifier_call_count": 5,
+          "classifier_elapsed_s": 1.4474805929348804,
+          "completed_at_audio_s": 33.34625768661499
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": null,
+          "final": null,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.39
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.3330231549916789,
+          "completed_at_audio_s": 57.409541845321655
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": null,
+          "final": null,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "crowd is news",
+            "query_confidence": 0.24,
+            "related_probability": 0.32,
+            "related_confidence": 0.36,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.45643388701137155,
+          "completed_at_audio_s": 64.31762385368347
+        },
+        {
+          "status": "no_match",
+          "query": "new followers emulate followers",
+          "request_id": null,
+          "final": null,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "new followers emulate followers",
+            "query_confidence": 0.62,
+            "related_probability": 0.48,
+            "related_confidence": 0.04,
+            "scope": "research"
+          },
+          "classifier_call_count": 4,
+          "classifier_elapsed_s": 0.9769472730113193,
+          "completed_at_audio_s": 73.77782893180847
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": null,
+          "final": null,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "three more people",
+            "query_confidence": 0.42,
+            "related_probability": 0.18,
+            "related_confidence": 0.64,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.6468275710358284,
+          "completed_at_audio_s": 77.5405900478363
+        },
+        {
+          "status": "no_match",
+          "query": "tipping points",
+          "request_id": null,
+          "final": null,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "tipping points",
+            "query_confidence": 0.61,
+            "related_probability": 0.52,
+            "related_confidence": 0.04,
+            "scope": "research"
+          },
+          "classifier_call_count": 4,
+          "classifier_elapsed_s": 0.8892380009638146,
+          "completed_at_audio_s": 88.72301030158997
+        },
+        {
+          "status": "no_match",
+          "query": "sitting on fence",
+          "request_id": null,
+          "final": null,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "sitting on fence",
+            "query_confidence": 0.23,
+            "related_probability": 0.43,
+            "related_confidence": 0.14,
+            "scope": "research"
+          },
+          "classifier_call_count": 5,
+          "classifier_elapsed_s": 1.2865243679843843,
+          "completed_at_audio_s": 94.81885242462158
+        },
+        {
+          "status": "no_match",
+          "query": "in crowd",
+          "request_id": null,
+          "final": null,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "in crowd",
+            "query_confidence": 0.53,
+            "related_probability": 0.45,
+            "related_confidence": 0.1,
+            "scope": "research"
+          },
+          "classifier_call_count": 3,
+          "classifier_elapsed_s": 0.6716791209764779,
+          "completed_at_audio_s": 99.914705991745
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": null,
+          "final": null,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "prefer stick crowd",
+            "query_confidence": 0.26,
+            "related_probability": 0.25,
+            "related_confidence": 0.5,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.5417499380419031,
+          "completed_at_audio_s": 105.4420862197876
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": null,
+          "final": null,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "recap some lessons",
+            "query_confidence": 0.39,
+            "related_probability": 0.24,
+            "related_confidence": 0.52,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.47596515994518995,
+          "completed_at_audio_s": 112.5080554485321
+        }
+      ],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "operator_interventions_during_speech": 0,
+      "injected_online_results": 0,
+      "independent_quality_review": false,
+      "report": "artifacts/researched_rehearsal_sivers_v1/index.html",
+      "movie": "artifacts/researched_rehearsal_sivers_v1/stage-api-reconstruction.mp4"
+    },
+    {
+      "id": "faster_rehearsal_sivers_v1",
+      "private_artifact": "artifacts/faster_rehearsal_sivers_v1/result.json",
+      "artifact_sha256": "467f97be0fe6e40839cdfd55346c0196754a5c1779e7042c2ca7000a41aa0cec",
+      "code_commit": "9f6e95a9fc5a9db878d1443a2829d66c74073520",
+      "code_fingerprints": {
+        "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+        "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+        "research.py": "f982eb0ffe6dd18731e9da0873d24558e4ac0a97cd700cab748b5c39a48e1f81",
+        "research_sources.py": "1c8681e8d4412e03eaffae8c2f07088ee44ddc021ccd372ff96a6b66352d33c8",
+        "web_research.py": "79c91e16b73a299d4662f42a5ef3763fbd8d456d8a78af4a8d8cf1a68b2e1dbc",
+        "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+        "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+        "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876",
+        "researched_demo.py": "c9f38bf01ad819c289851da14a5481b30488c86103669ec64c2de2f70ae03ca6"
+      },
+      "audio_sha256": "df332a4b6607c740f0144e803ec7a3300136f3d0f5c349a1db5fcada3ca7b913",
+      "prepared_package_hash": "c09b0239576e1da8f4e6f24fff3736be4b97486914b07b90895b19eadeeca20c",
+      "prepared_source_count": 1,
+      "preparation_research_status": "no_results",
+      "approved_package_unchanged": true,
+      "worker": {
+        "status": "ready",
+        "last_seq": 119,
+        "received": 120,
+        "processed": 5,
+        "dropped": 115,
+        "rejected": 0,
+        "timeouts": 9,
+        "expired": 0,
+        "error": null
+      },
+      "first_matching_asr_completion_estimate_s": null,
+      "first_fresh_source_after_matching_asr_s": null,
+      "same_baseline_quote_after_matching_asr_s": null,
+      "stage_events": [],
+      "research_history": [
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "83ebcad6681a48a59444facdea44bf79",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "embraces him as equal",
+            "query_confidence": 0.49,
+            "related_probability": 0.2,
+            "related_confidence": 0.6,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.45490420394344255,
+          "completed_at_audio_s": 33.63145852088928
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "b4a18f29ccd84d54bb9ea5fc3d2ecf5c",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": null,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.31
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.4326930319657549,
+          "completed_at_audio_s": 113.48634648323059
+        }
+      ],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "operator_interventions_during_speech": 0,
+      "injected_online_results": 0,
+      "independent_quality_review": false,
+      "report": "artifacts/faster_rehearsal_sivers_v1/index.html",
+      "movie": "artifacts/faster_rehearsal_sivers_v1/stage-api-reconstruction.mp4"
+    },
+    {
+      "id": "single_thread_sivers_v1",
+      "private_artifact": "artifacts/single_thread_sivers_v1/result.json",
+      "artifact_sha256": "822ca7fb2a73ea924da6a628b528f92adf741674f26b942e30be2e5aaa3cb59e",
+      "code_commit": "f212fcf9a03fda6962ceb73bfb7c3835225bb920",
+      "code_fingerprints": {
+        "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+        "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+        "research.py": "fb67f474f0788b9e6596417725bbf41ee8b2d5305627db5418dfc6c6e7bac9f9",
+        "research_sources.py": "9a8497f22e8ddec202d6dea30c69b0b7b0202ae9be3d68ff6f9bd94e97c4a75b",
+        "web_research.py": "e14581bb923ad65abde1f864f31032c2f1e2a968d94cb4b483bc1f71d35c5ade",
+        "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+        "live_audio.py": "8ce4ab08de5806ba5f90389e912bb89c8f153f2baa8ca0c14ae495847e4bd6cd",
+        "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876",
+        "researched_demo.py": "c9f38bf01ad819c289851da14a5481b30488c86103669ec64c2de2f70ae03ca6"
+      },
+      "audio_sha256": "df332a4b6607c740f0144e803ec7a3300136f3d0f5c349a1db5fcada3ca7b913",
+      "prepared_package_hash": "c09b0239576e1da8f4e6f24fff3736be4b97486914b07b90895b19eadeeca20c",
+      "prepared_source_count": 1,
+      "preparation_research_status": "no_results",
+      "approved_package_unchanged": true,
+      "worker": {
+        "status": "ready",
+        "last_seq": 119,
+        "received": 120,
+        "processed": 120,
+        "dropped": 0,
+        "rejected": 2,
+        "timeouts": 0,
+        "expired": 0,
+        "error": null
+      },
+      "first_matching_asr_completion_estimate_s": 26.779598622058984,
+      "first_fresh_source_after_matching_asr_s": 18.37267853494268,
+      "same_baseline_quote_after_matching_asr_s": null,
+      "stage_events": [
+        {
+          "at_s": 45.15227715700166,
+          "scene_id": "web_public_78f206e36fcde322",
+          "state_version": 138,
+          "url": "https://sive.rs/ff",
+          "query": "first follower",
+          "kind": "evidence",
+          "quote_sha256": "5ca90ed7b9091809484de993459c4dcf07d619c4343289ddc5c0ce4574456291",
+          "relevance_probability": 0.96
+        },
+        {
+          "at_s": 64.52243404905312,
+          "scene_id": "web_public_8b21fa4be28f55f3",
+          "state_version": 193,
+          "url": "https://studyskills.com/educators/first-follower/",
+          "query": "second follower",
+          "kind": "evidence",
+          "quote_sha256": "ed52193673ce6b4cf69197316c3a36e7304e831f2be6d494e7e7103d8b8fc470",
+          "relevance_probability": 0.9
+        }
+      ],
+      "research_history": [
+        {
+          "status": "error",
+          "query": "",
+          "request_id": "1698e82c6bdf4322bbf29374de69c43a",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {},
+          "classifier_call_count": 0,
+          "classifier_elapsed_s": 0,
+          "completed_at_audio_s": 23.229393482208252
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "63704ab1781e4a038855cf3a226816c5",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "he s doing",
+            "query_confidence": 0.14,
+            "related_probability": 0.08,
+            "related_confidence": 0.84,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.508917632047087,
+          "completed_at_audio_s": 24.824093341827393
+        },
+        {
+          "status": "no_match",
+          "query": "crucial role",
+          "request_id": "87e3644c2243440981d6c05eebe88be0",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "crucial role",
+            "query_confidence": 0.45,
+            "related_probability": 0.54,
+            "related_confidence": 0.08,
+            "scope": "research"
+          },
+          "classifier_call_count": 3,
+          "classifier_elapsed_s": 0.8504812900209799,
+          "completed_at_audio_s": 31.228413105010986
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "a6686c8e557c465bb244611b3a1ae2b2",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "leader embraces",
+            "query_confidence": 0.22,
+            "related_probability": 0.33,
+            "related_confidence": 0.34,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.5126793379895389,
+          "completed_at_audio_s": 33.038105487823486
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "43132282754d4028bd692bfc6ffd6597",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "them plural",
+            "query_confidence": 0.63,
+            "related_probability": 0.13,
+            "related_confidence": 0.74,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.5672439860063605,
+          "completed_at_audio_s": 35.67077398300171
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "77cb0bb0391c4236b6cb282aabb946e5",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "his friends",
+            "query_confidence": 0.56,
+            "related_probability": 0.11,
+            "related_confidence": 0.78,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.4530803629895672,
+          "completed_at_audio_s": 37.49593782424927
+        },
+        {
+          "status": "ready",
+          "query": "first follower",
+          "request_id": "7e92f963ab4a44ceb7b03b0b34b74243",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": 3.3932414054870605,
+          "displayed_automatically": true,
+          "plan_decision": {
+            "query": "first follower",
+            "query_confidence": 0.91,
+            "related_probability": 0.86,
+            "related_confidence": 0.72,
+            "scope": "research"
+          },
+          "classifier_call_count": 5,
+          "classifier_elapsed_s": 1.1983369509107433,
+          "completed_at_audio_s": 45.586294412612915
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "82a64cfc84f44adab2c02c561b4eeac9",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.47
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.2468221260351129,
+          "completed_at_audio_s": 56.230743646621704
+        },
+        {
+          "status": "ready",
+          "query": "second follower",
+          "request_id": "64b34862d4924b2aba8deb6ea43fbcaf",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": 5.798525810241699,
+          "displayed_automatically": true,
+          "plan_decision": {
+            "query": "second follower",
+            "query_confidence": 0.62,
+            "related_probability": 0.84,
+            "related_confidence": 0.68,
+            "scope": "research"
+          },
+          "classifier_call_count": 5,
+          "classifier_elapsed_s": 1.498576484969817,
+          "completed_at_audio_s": 64.87992858886719
+        }
+      ],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "operator_interventions_during_speech": 0,
+      "injected_online_results": 0,
+      "independent_quality_review": false,
+      "report": "artifacts/single_thread_sivers_v1/index.html",
+      "movie": "artifacts/single_thread_sivers_v1/stage-api-reconstruction.mp4"
+    },
+    {
+      "id": "single_thread_sivers_v2",
+      "private_artifact": "artifacts/single_thread_sivers_v2/result.json",
+      "artifact_sha256": "f6aa29ee8602e8c0498fe5d296fd7a9a4a3ace7e68555aba9e701c64469cfddb",
+      "code_commit": "a85e341e9ecf1ec69ee9ba74c2db970f0fa09f97",
+      "code_fingerprints": {
+        "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+        "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+        "research.py": "ba71e4dadbdffb5afaa32fdb369b2499a98468c8a94bedd8a18833c127d37c02",
+        "research_sources.py": "2fb5807ec480b9cccdc07a3f603ff8d235bdebbf90871fcdbe25fae5ec20ba9d",
+        "web_research.py": "e14581bb923ad65abde1f864f31032c2f1e2a968d94cb4b483bc1f71d35c5ade",
+        "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+        "live_audio.py": "8ce4ab08de5806ba5f90389e912bb89c8f153f2baa8ca0c14ae495847e4bd6cd",
+        "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876",
+        "researched_demo.py": "c9f38bf01ad819c289851da14a5481b30488c86103669ec64c2de2f70ae03ca6"
+      },
+      "audio_sha256": "df332a4b6607c740f0144e803ec7a3300136f3d0f5c349a1db5fcada3ca7b913",
+      "prepared_package_hash": "c09b0239576e1da8f4e6f24fff3736be4b97486914b07b90895b19eadeeca20c",
+      "prepared_source_count": 1,
+      "preparation_research_status": "no_results",
+      "approved_package_unchanged": true,
+      "worker": {
+        "status": "ready",
+        "last_seq": 119,
+        "received": 120,
+        "processed": 120,
+        "dropped": 0,
+        "rejected": 2,
+        "timeouts": 0,
+        "expired": 0,
+        "error": null
+      },
+      "first_matching_asr_completion_estimate_s": 26.714555562008172,
+      "first_fresh_source_after_matching_asr_s": 3.369090264022816,
+      "same_baseline_quote_after_matching_asr_s": 3.369090264022816,
+      "stage_events": [
+        {
+          "at_s": 30.08364582603099,
+          "scene_id": "web_public_de5423c8ec80c612",
+          "state_version": 97,
+          "url": "https://sive.rs/ff",
+          "query": "first follower",
+          "kind": "evidence",
+          "quote_sha256": "a350c8fadb371389e77c2fed6758c86216d138458959a9131e47d25eec1ab1b3",
+          "relevance_probability": 0.95
+        }
+      ],
+      "research_history": [
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "f7206a1a84e44f54a05ef8eddd3ede36",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "at Ted",
+            "query_confidence": 0.63,
+            "related_probability": 0.1,
+            "related_confidence": 0.8,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.7996545390342362,
+          "completed_at_audio_s": 7.766237735748291
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "f0beee63e151445184f4fa81a6f018ba",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.49
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.22606088500469923,
+          "completed_at_audio_s": 9.32515549659729
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "bc9fa041c9fd44078846c481bf5ed757",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "at TED",
+            "query_confidence": 0.36,
+            "related_probability": 0.22,
+            "related_confidence": 0.56,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.6812512930482626,
+          "completed_at_audio_s": 11.745834589004517
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "4488524021a340d28c45744fef8cca90",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.52
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.2775153029942885,
+          "completed_at_audio_s": 13.33822774887085
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "44f9b0154f0343fc930c9e8d0cc0256b",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.38
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.2664665540214628,
+          "completed_at_audio_s": 15.418099641799927
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "8a4ae261259544d0a3cb360ce842f210",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.89
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.2828565299860202,
+          "completed_at_audio_s": 18.33072304725647
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "7098e66555bd43b48109335508aaeb06",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.61
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.2907822910347022,
+          "completed_at_audio_s": 20.458028316497803
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "91e0d2e46a7743db828c9b81afec0c90",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.62
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.25383939599851146,
+          "completed_at_audio_s": 23.20657968521118
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "b6e67016acea4235980a0edc9c2cd691",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.77
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.24628416495397687,
+          "completed_at_audio_s": 25.302637100219727
+        },
+        {
+          "status": "ready",
+          "query": "first follower",
+          "request_id": "7886fb41501c4542a6a7a7e0dd187afa",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": 3.375061273574829,
+          "displayed_automatically": true,
+          "plan_decision": {
+            "query": "first follower",
+            "query_confidence": 0.88,
+            "related_probability": 0.88,
+            "related_confidence": 0.76,
+            "scope": "research"
+          },
+          "classifier_call_count": 5,
+          "classifier_elapsed_s": 1.2671084600733593,
+          "completed_at_audio_s": 30.378845930099487
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "c40ec16751a64bfdb1d68181f687b9c7",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.92
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 5.595129352994263,
+          "completed_at_audio_s": 61.52108812332153
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "0f194287c6a64ffca30c8f166b6e439d",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.39
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.2974921209970489,
+          "completed_at_audio_s": 62.313382148742676
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "aca130ca137e4339b2c83878ffe865ec",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.65
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.3699921779916622,
+          "completed_at_audio_s": 64.3859715461731
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "58621507c8d1409da8f2df39569248eb",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.33
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.2286722440039739,
+          "completed_at_audio_s": 66.300776720047
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "928ea3967971431498413da6bb731f3c",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.35
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.223154995997902,
+          "completed_at_audio_s": 68.24908399581909
+        },
+        {
+          "status": "no_match",
+          "query": "new followers emulate followers",
+          "request_id": "127a06bb394f4dc8b82c48f0ee192779",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "new followers emulate followers",
+            "query_confidence": 0.41,
+            "related_probability": 0.49,
+            "related_confidence": 0.02,
+            "scope": "research"
+          },
+          "classifier_call_count": 3,
+          "classifier_elapsed_s": 0.6764546030317433,
+          "completed_at_audio_s": 71.95911002159119
+        },
+        {
+          "status": "ready",
+          "query": "emulate followers not leader",
+          "request_id": "2f8391a8dfef428b82644670c12e0bee",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": 2.919735908508301,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "emulate followers not leader",
+            "query_confidence": 0.23,
+            "related_probability": 0.52,
+            "related_confidence": 0.04,
+            "scope": "research"
+          },
+          "classifier_call_count": 6,
+          "classifier_elapsed_s": 1.3980064819916151,
+          "completed_at_audio_s": 90.14660477638245
+        }
+      ],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "operator_interventions_during_speech": 0,
+      "injected_online_results": 0,
+      "independent_quality_review": false,
+      "report": "artifacts/single_thread_sivers_v2/index.html",
+      "movie": "artifacts/single_thread_sivers_v2/stage-api-reconstruction.mp4"
+    },
+    {
+      "id": "single_thread_sivers_v3",
+      "private_artifact": "artifacts/single_thread_sivers_v3/result.json",
+      "artifact_sha256": "f8212f37f4e8701a35db654583c1d73581259e0e41ebd67fb5bd291ebd10fd07",
+      "code_commit": "a85e341e9ecf1ec69ee9ba74c2db970f0fa09f97",
+      "code_fingerprints": {
+        "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+        "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+        "research.py": "ba71e4dadbdffb5afaa32fdb369b2499a98468c8a94bedd8a18833c127d37c02",
+        "research_sources.py": "2fb5807ec480b9cccdc07a3f603ff8d235bdebbf90871fcdbe25fae5ec20ba9d",
+        "web_research.py": "e14581bb923ad65abde1f864f31032c2f1e2a968d94cb4b483bc1f71d35c5ade",
+        "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+        "live_audio.py": "8ce4ab08de5806ba5f90389e912bb89c8f153f2baa8ca0c14ae495847e4bd6cd",
+        "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876",
+        "researched_demo.py": "c9f38bf01ad819c289851da14a5481b30488c86103669ec64c2de2f70ae03ca6"
+      },
+      "audio_sha256": "df332a4b6607c740f0144e803ec7a3300136f3d0f5c349a1db5fcada3ca7b913",
+      "prepared_package_hash": "c09b0239576e1da8f4e6f24fff3736be4b97486914b07b90895b19eadeeca20c",
+      "prepared_source_count": 1,
+      "preparation_research_status": "no_results",
+      "approved_package_unchanged": true,
+      "worker": {
+        "status": "ready",
+        "last_seq": 119,
+        "received": 120,
+        "processed": 120,
+        "dropped": 0,
+        "rejected": 2,
+        "timeouts": 0,
+        "expired": 0,
+        "error": null
+      },
+      "first_matching_asr_completion_estimate_s": 26.622722379048355,
+      "first_fresh_source_after_matching_asr_s": 3.26828288694378,
+      "same_baseline_quote_after_matching_asr_s": 3.26828288694378,
+      "stage_events": [
+        {
+          "at_s": 29.891005265992135,
+          "scene_id": "web_public_de5423c8ec80c612",
+          "state_version": 100,
+          "url": "https://sive.rs/ff",
+          "query": "first follower",
+          "kind": "evidence",
+          "quote_sha256": "a350c8fadb371389e77c2fed6758c86216d138458959a9131e47d25eec1ab1b3",
+          "relevance_probability": 0.95
+        },
+        {
+          "at_s": 65.03638998704264,
+          "scene_id": "web_public_8b21fa4be28f55f3",
+          "state_version": 204,
+          "url": "https://studyskills.com/educators/first-follower/",
+          "query": "second follower",
+          "kind": "evidence",
+          "quote_sha256": "ed52193673ce6b4cf69197316c3a36e7304e831f2be6d494e7e7103d8b8fc470",
+          "relevance_probability": 0.89
+        }
+      ],
+      "research_history": [
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "c999e619cd8842df900435a0bd666dcc",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "at Ted",
+            "query_confidence": 0.61,
+            "related_probability": 0.11,
+            "related_confidence": 0.78,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.6077395339962095,
+          "completed_at_audio_s": 7.721081495285034
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "00fdc1c32b8545a090cb48ba86203c6d",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.51
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.34754161501768976,
+          "completed_at_audio_s": 9.383000612258911
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "feff6e697cf1444085b875b66639c99c",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "at TED",
+            "query_confidence": 0.34,
+            "related_probability": 0.22,
+            "related_confidence": 0.56,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.4029338660184294,
+          "completed_at_audio_s": 11.518589735031128
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "4e71ace157a1481bb0036bebb23bc51f",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.54
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.3024377299589105,
+          "completed_at_audio_s": 13.424410820007324
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "92831139ee364fee91a4acbf11851e3b",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.48
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.3963570659980178,
+          "completed_at_audio_s": 15.202045202255249
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "dbb99f0c2c8b4300adc9bee3d417392c",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.5
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.21850891195936128,
+          "completed_at_audio_s": 16.740476369857788
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "2486fe108e8e44c7bdfaa29f438269be",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.88
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.23755307600367814,
+          "completed_at_audio_s": 18.429879903793335
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "cd1a3e56f1474a2dbfb71df9a38ffa23",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.55
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.34460600500460714,
+          "completed_at_audio_s": 20.368102073669434
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "2e0a58b7b1bc49a58b0a98e2da545c02",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.63
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.2365914749680087,
+          "completed_at_audio_s": 23.324153661727905
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "23040d98f8184e96a835aaec7c486dad",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.78
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.20342431700555608,
+          "completed_at_audio_s": 25.29400110244751
+        },
+        {
+          "status": "ready",
+          "query": "first follower",
+          "request_id": "751958f4d2c1483b83e0d6cf12bb041c",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": 3.2736988067626953,
+          "displayed_automatically": true,
+          "plan_decision": {
+            "query": "first follower",
+            "query_confidence": 0.89,
+            "related_probability": 0.88,
+            "related_confidence": 0.76,
+            "scope": "research"
+          },
+          "classifier_call_count": 5,
+          "classifier_elapsed_s": 1.1614750580047257,
+          "completed_at_audio_s": 30.13143301010132
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "a2c4c52d6dc34e5a8af083b3e0cb8b78",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.87
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.3633414300275035,
+          "completed_at_audio_s": 56.292333126068115
+        },
+        {
+          "status": "no_match",
+          "query": "second follower",
+          "request_id": "ca3b018bf0f245668f55025f8e8cc03c",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "second follower",
+            "query_confidence": 0.32,
+            "related_probability": 0.84,
+            "related_confidence": 0.68,
+            "scope": "research"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.46193606493761763,
+          "completed_at_audio_s": 61.145315170288086
+        },
+        {
+          "status": "ready",
+          "query": "second follower",
+          "request_id": "7d58e8beb85c4be6a3aa59940b0b3352",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": 3.388047456741333,
+          "displayed_automatically": true,
+          "plan_decision": {
+            "query": "second follower",
+            "query_confidence": 0.41,
+            "related_probability": 0.82,
+            "related_confidence": 0.64,
+            "scope": "research"
+          },
+          "classifier_call_count": 5,
+          "classifier_elapsed_s": 1.0109772179857828,
+          "completed_at_audio_s": 65.23744630813599
+        }
+      ],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "operator_interventions_during_speech": 0,
+      "injected_online_results": 0,
+      "independent_quality_review": false,
+      "report": "artifacts/single_thread_sivers_v3/index.html",
+      "movie": "artifacts/single_thread_sivers_v3/stage-api-reconstruction.mp4"
+    },
+    {
+      "id": "single_thread_sivers_v4",
+      "private_artifact": "artifacts/single_thread_sivers_v4/result.json",
+      "artifact_sha256": "8dee18211ea72a10d0eb6903705f7ace4810bbe15b3c094390a457ee63c9b63b",
+      "code_commit": "0dd1318fdb98bd326c1142827d075059c83ff386",
+      "code_fingerprints": {
+        "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+        "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+        "research.py": "26d256aa63f08305476fe0bf23d514759a19fbe59135ea9597dc5747e8f38c01",
+        "research_sources.py": "6f83d5af07405b48c726232397518836a9e44ebf39dab777426b22ebbcb4e7ba",
+        "web_research.py": "e14581bb923ad65abde1f864f31032c2f1e2a968d94cb4b483bc1f71d35c5ade",
+        "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+        "live_audio.py": "8ce4ab08de5806ba5f90389e912bb89c8f153f2baa8ca0c14ae495847e4bd6cd",
+        "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876",
+        "researched_demo.py": "c9f38bf01ad819c289851da14a5481b30488c86103669ec64c2de2f70ae03ca6"
+      },
+      "audio_sha256": "df332a4b6607c740f0144e803ec7a3300136f3d0f5c349a1db5fcada3ca7b913",
+      "prepared_package_hash": "c09b0239576e1da8f4e6f24fff3736be4b97486914b07b90895b19eadeeca20c",
+      "prepared_source_count": 1,
+      "preparation_research_status": "no_results",
+      "approved_package_unchanged": true,
+      "worker": {
+        "status": "ready",
+        "last_seq": 119,
+        "received": 120,
+        "processed": 120,
+        "dropped": 0,
+        "rejected": 2,
+        "timeouts": 0,
+        "expired": 0,
+        "error": null
+      },
+      "first_matching_asr_completion_estimate_s": 26.603054384991992,
+      "first_fresh_source_after_matching_asr_s": 5.025350057985634,
+      "same_baseline_quote_after_matching_asr_s": null,
+      "stage_events": [
+        {
+          "at_s": 31.628404442977626,
+          "scene_id": "web_public_c45e6e17e4788dac",
+          "state_version": 103,
+          "url": "https://goodgroupdecisions.com/the-first-follower/",
+          "query": "first follower",
+          "kind": "evidence",
+          "quote_sha256": "460bbb627075df4af992d454bf147491ec91c1d1c401d60763446d0e5756b2b6",
+          "relevance_probability": 0.94
+        }
+      ],
+      "research_history": [
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "43adaf50aa1542aeb599024a9284032e",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "at Ted",
+            "query_confidence": 0.6,
+            "related_probability": 0.1,
+            "related_confidence": 0.8,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.5712592269992456,
+          "completed_at_audio_s": 7.575119256973267
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "e1ef9bf598c04a04b9816e843ffc548c",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.51
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 2.0553605559980497,
+          "completed_at_audio_s": 11.116967678070068
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "f1932dce43d949f49bb4fc8be373c20d",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "at TED",
+            "query_confidence": 0.44,
+            "related_probability": 0.2,
+            "related_confidence": 0.6,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.4780911580310203,
+          "completed_at_audio_s": 12.498481750488281
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "37467ac17f25490e98e33ebd135d3434",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.48
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.25450037798145786,
+          "completed_at_audio_s": 14.28775429725647
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "c040e29b61e64112a43cfb70d5fb7591",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.49
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.25208317599026486,
+          "completed_at_audio_s": 16.247222661972046
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "1ccd9fc913f841588b87243bd1b911d0",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.88
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.29504188400460407,
+          "completed_at_audio_s": 18.312381505966187
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "a0c7b4f59fdd44dea9443e052ed764bf",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.53
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.3322601699619554,
+          "completed_at_audio_s": 20.343793153762817
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "2aa3ad7a94754e679df7695c9ff24e9f",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.65
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.2219267159816809,
+          "completed_at_audio_s": 23.16364336013794
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "842c11f5faa7401f9307caacccdee403",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.78
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.23797903599916026,
+          "completed_at_audio_s": 25.23482060432434
+        },
+        {
+          "status": "ready",
+          "query": "first follower",
+          "request_id": "d327ef1e8ba4442391a5e16212fd333d",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": 5.030925512313843,
+          "displayed_automatically": true,
+          "plan_decision": {
+            "query": "first follower",
+            "query_confidence": 0.87,
+            "related_probability": 0.86,
+            "related_confidence": 0.72,
+            "scope": "research"
+          },
+          "classifier_call_count": 5,
+          "classifier_elapsed_s": 1.5002951410133392,
+          "completed_at_audio_s": 32.270118951797485
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "acd13a2b70214072ba3358b694a1832f",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.87
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.24781779304612428,
+          "completed_at_audio_s": 56.1747829914093
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "2e6ec238b7c7443d9d9baf581d783ae1",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.34
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.26652716798707843,
+          "completed_at_audio_s": 58.24692130088806
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "85ef53a56970494189325a757e79e939",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.55
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.41758259799098596,
+          "completed_at_audio_s": 61.48089098930359
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "8b7f40db135d46289fd0a5a09c15b16f",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.64
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.2708728049765341,
+          "completed_at_audio_s": 63.255450963974
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "f0623bb64dec4a3a915067e2fd21bf80",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "crowd is news",
+            "query_confidence": 0.51,
+            "related_probability": 0.34,
+            "related_confidence": 0.32,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 4,
+          "classifier_elapsed_s": 12.18784245295683,
+          "completed_at_audio_s": 77.19896793365479
+        },
+        {
+          "status": "no_match",
+          "query": "tipping point",
+          "request_id": "8312d0851e7a4751bce2d8cd18c7d3bd",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "tipping point",
+            "query_confidence": 0.96,
+            "related_probability": 0.47,
+            "related_confidence": 0.06,
+            "scope": "research"
+          },
+          "classifier_call_count": 5,
+          "classifier_elapsed_s": 2.395715573045891,
+          "completed_at_audio_s": 87.53022956848145
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "f21699a07c4c42d59c6742b958e0400f",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.4
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.3143625549855642,
+          "completed_at_audio_s": 88.34563422203064
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "49c5954c997a4a91861f43ffce4cbf31",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.52
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.22603361605433747,
+          "completed_at_audio_s": 90.22234034538269
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "40d8b697b45f49eb861aeaf013e7133f",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.45
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.21083320898469537,
+          "completed_at_audio_s": 92.2146646976471
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "72b073b0b82c4a77b5b9b29d39e77f58",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.55
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.24928042700048536,
+          "completed_at_audio_s": 94.29312372207642
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "c2ff47523aa047ad9417cb6a222174f7",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "part in-crowd",
+            "query_confidence": 0.43,
+            "related_probability": 0.3,
+            "related_confidence": 0.4,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.44050082698231563,
+          "completed_at_audio_s": 96.48729610443115
+        },
+        {
+          "status": "no_match",
+          "query": "in crowd",
+          "request_id": "3ac768d6345a409295f08af89815b3f9",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "in crowd",
+            "query_confidence": 0.6,
+            "related_probability": 0.44,
+            "related_confidence": 0.12,
+            "scope": "research"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.787413654034026,
+          "completed_at_audio_s": 102.50269174575806
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "28fe17e4c68b40a0a44fc8ea7319c0db",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.74
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.2171972170472145,
+          "completed_at_audio_s": 103.27665519714355
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "c891f65bc14842ac960d70f5ce1d3dff",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.63
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.5138998430338688,
+          "completed_at_audio_s": 105.55104160308838
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "ab66d6606db349d1823d5e98edb390c9",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.42
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.2569489059969783,
+          "completed_at_audio_s": 107.30442357063293
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "d9ea03df820b4f5cb284233420456c32",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.37
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.3100827910238877,
+          "completed_at_audio_s": 109.30585074424744
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "6e5afdbcc3a145fc978485d5b8db6670",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "make movement",
+            "query_confidence": 0.61,
+            "related_probability": 0.3,
+            "related_confidence": 0.4,
+            "scope": "unrelated_or_uncertain"
+          },
+          "classifier_call_count": 2,
+          "classifier_elapsed_s": 0.6822890510084108,
+          "completed_at_audio_s": 112.82559466362
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "0aae138ecd6949f48f2da2d2f95bed62",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.54
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.4446357970009558,
+          "completed_at_audio_s": 114.52981066703796
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "f8e7ed6d7ee94c1cbeb4432d1a7e5512",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.71
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.26771813503000885,
+          "completed_at_audio_s": 116.24003028869629
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "77a4ea008b7645bfb7911933544bf54f",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.42
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.21907093399204314,
+          "completed_at_audio_s": 118.28628087043762
+        },
+        {
+          "status": "no_match",
+          "query": "",
+          "request_id": "26e3f6b730cc4646af8a40709758338d",
+          "final": true,
+          "cache_kind": null,
+          "cache_hit": false,
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "plan_decision": {
+            "query": "No specific new topic can be identified.",
+            "query_confidence": 0.46
+          },
+          "classifier_call_count": 1,
+          "classifier_elapsed_s": 0.34122675500111654,
+          "completed_at_audio_s": 120.40267825126648
+        }
+      ],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "operator_interventions_during_speech": 0,
+      "injected_online_results": 0,
+      "independent_quality_review": false,
+      "report": "artifacts/single_thread_sivers_v4/index.html",
+      "movie": "artifacts/single_thread_sivers_v4/stage-api-reconstruction.mp4"
+    }
+  ],
+  "typed_probes": [
+    {
+      "id": "warm_research_v1",
+      "private_artifact": "artifacts/warm_research_v1/result.json",
+      "artifact_sha256": "61027fdd13b5fb3b86aa66c0a0d3c9700485b22ab772d33f6c56a11629d2558f",
+      "code_commit": "f212fcf9a03fda6962ceb73bfb7c3835225bb920",
+      "code_fingerprints": {
+        "research.py": "fb67f474f0788b9e6596417725bbf41ee8b2d5305627db5418dfc6c6e7bac9f9",
+        "research_sources.py": "9a8497f22e8ddec202d6dea30c69b0b7b0202ae9be3d68ff6f9bd94e97c4a75b",
+        "web_research.py": "e14581bb923ad65abde1f864f31032c2f1e2a968d94cb4b483bc1f71d35c5ade",
+        "warm_research_demo.py": "bb95987b3c01192a4eb93ebe02cd505e8d9a565768a47e8ad7e9a79f31d1c638"
+      },
+      "prepared_package_hash": "5b38613d57171dc321c8fc422f7006aa9236af337b94a10bb1f85edf8fae0520",
+      "approved_package_unchanged": true,
+      "script_sha256": "3632774c18ddc3c394604cea042dd7421ca932c5434ba6714472a30d783ffa91",
+      "steps": [
+        {
+          "id": "early_mention",
+          "text": "Later I will compare heat pipes using evaporation and condensation with this pumped water loop.",
+          "submitted_at_s": 0.0015048289787955582,
+          "settled_at_s": 12.61347218498122,
+          "stage_scene_id": "web_public_342bd0c070351356",
+          "status": "ready",
+          "query": "pumped water loop",
+          "cache_kind": null,
+          "assessment_started_for_step": true,
+          "first_result_latency_s": 9.769585847854614,
+          "first_new_research_stage_after_input_s": 9.773311463999562,
+          "plan_decision": {
+            "query": "pumped water loop",
+            "query_confidence": 0.32,
+            "related_probability": 0.81,
+            "related_confidence": 0.62,
+            "scope": "research"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "query"
+              ],
+              "elapsed_s": 0.44798628898570314,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "related"
+              ],
+              "elapsed_s": 5.285175509983674,
+              "ok": false
+            },
+            {
+              "questions": [
+                "related"
+              ],
+              "elapsed_s": 0.2136472940328531,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "source"
+              ],
+              "elapsed_s": 0.22224950202507898,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "source"
+              ],
+              "elapsed_s": 0.20564630697481334,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "source_support"
+              ],
+              "elapsed_s": 0.23842190799769014,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "image"
+              ],
+              "elapsed_s": 0.20619984896620736,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "image_support"
+              ],
+              "elapsed_s": 0.18777499702991918,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 1
+        },
+        {
+          "id": "prepared_return",
+          "text": "A pump circulates liquid through a hot component and radiator.",
+          "submitted_at_s": 15.316265292000026,
+          "settled_at_s": 15.429748974973336,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "idle",
+          "query": "pumped water loop",
+          "cache_kind": null,
+          "assessment_started_for_step": false,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": null,
+          "classifier_calls": [],
+          "fresh_stage_changes": 0
+        },
+        {
+          "id": "rephrased_question",
+          "text": "What about heat pipes using evaporation and condensation in a pumped water loop?",
+          "submitted_at_s": 18.132335599977523,
+          "settled_at_s": 19.877049818984233,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "no_match",
+          "query": "pumped water loop",
+          "cache_kind": null,
+          "assessment_started_for_step": true,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": {
+            "query": "pumped water loop",
+            "related_probability": 0.68,
+            "source_support_probability": 0.45,
+            "scope": "cached_revalidation"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "related",
+                "source_support"
+              ],
+              "elapsed_s": 1.2497742780251428,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 0
+        },
+        {
+          "id": "prepared_return_again",
+          "text": "A pump circulates liquid through a hot component and radiator.",
+          "submitted_at_s": 22.579636434966233,
+          "settled_at_s": 22.691420592018403,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "no_match",
+          "query": "pumped water loop",
+          "cache_kind": null,
+          "assessment_started_for_step": false,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": null,
+          "classifier_calls": [],
+          "fresh_stage_changes": 0
+        },
+        {
+          "id": "wrong_domain_control",
+          "text": "What about heat pipes as loaves of sourdough bread in this cooling loop?",
+          "submitted_at_s": 25.394257956999354,
+          "settled_at_s": 30.164587360981386,
+          "stage_scene_id": "web_public_e9119ed092626a8a",
+          "status": "ready",
+          "query": "heat pipes",
+          "cache_kind": null,
+          "assessment_started_for_step": true,
+          "first_result_latency_s": 2.9837801456451416,
+          "first_new_research_stage_after_input_s": 2.9870091460179538,
+          "plan_decision": {
+            "query": "heat pipes",
+            "query_confidence": 0.59,
+            "related_probability": 0.95,
+            "related_confidence": 0.9,
+            "scope": "research"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "query"
+              ],
+              "elapsed_s": 0.2603512450004928,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "related"
+              ],
+              "elapsed_s": 0.454354495042935,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "source"
+              ],
+              "elapsed_s": 0.23224106198176742,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "source_support"
+              ],
+              "elapsed_s": 0.2345780809991993,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "image"
+              ],
+              "elapsed_s": 0.2188549290294759,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "image_support"
+              ],
+              "elapsed_s": 0.19577346998266876,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 1
+        }
+      ],
+      "stage_events": [
+        {
+          "at_s": 0.001984775997698307,
+          "scene_id": "concept_c155c025e20c_0"
+        },
+        {
+          "at_s": 9.774816292978358,
+          "scene_id": "web_public_342bd0c070351356"
+        },
+        {
+          "at_s": 15.32927704200847,
+          "scene_id": "concept_c155c025e20c_0"
+        },
+        {
+          "at_s": 28.381267103017308,
+          "scene_id": "web_public_e9119ed092626a8a"
+        }
+      ],
+      "sources": [
+        {
+          "scene_id": "web_public_342bd0c070351356",
+          "url": "https://prochemwater.com/what-is-a-closed-loop-water-system/",
+          "quote_sha256": "da8c055edd1baec61c6c403d62af6f07c38689a39a816dc15cef8dfbb417710e"
+        },
+        {
+          "scene_id": "web_public_e9119ed092626a8a",
+          "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+          "quote_sha256": "a50f6df8dcd3ff5255e6878af3c03e6ed052b29600e7a8724cfd4416a670d683"
+        }
+      ],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "independent_quality_review": false,
+      "supplied_future_speech_to_preparation": false,
+      "injected_online_results": 0,
+      "limits": [
+        "Typed development script, not speech/audio or a held-out test.",
+        "Early mention is a real lookup, not free anticipation of an unmentioned subject.",
+        "Fresh revalidation is a model judgment, not independent editorial review.",
+        "Records stage API observations, excluding browser paint and hardware."
+      ],
+      "report": "artifacts/warm_research_v1/index.html"
+    },
+    {
+      "id": "warm_research_v2",
+      "private_artifact": "artifacts/warm_research_v2/result.json",
+      "artifact_sha256": "2ed241e949089e8c6aeb9d917b3349d367c9aeeff294e9c678feb9706f79ab58",
+      "code_commit": "a85e341e9ecf1ec69ee9ba74c2db970f0fa09f97",
+      "code_fingerprints": {
+        "research.py": "ba71e4dadbdffb5afaa32fdb369b2499a98468c8a94bedd8a18833c127d37c02",
+        "research_sources.py": "2fb5807ec480b9cccdc07a3f603ff8d235bdebbf90871fcdbe25fae5ec20ba9d",
+        "web_research.py": "e14581bb923ad65abde1f864f31032c2f1e2a968d94cb4b483bc1f71d35c5ade",
+        "warm_research_demo.py": "d4881a01463351abf51ebca51f9e4defea2e01af590ee04d3e051988fa9548ba"
+      },
+      "prepared_package_hash": "5b38613d57171dc321c8fc422f7006aa9236af337b94a10bb1f85edf8fae0520",
+      "approved_package_unchanged": true,
+      "script_sha256": "45422cce98dc43f68fdee283c9bd4f12a37fc4027fd5c98ab49f781426c6a1b5",
+      "steps": [
+        {
+          "id": "early_mention",
+          "text": "Another mechanism is a heat pipe. Heat pipes move heat by evaporation and condensation.",
+          "submitted_at_s": 0.0018375769723206758,
+          "settled_at_s": 8.807752243999857,
+          "stage_scene_id": "web_public_e9119ed092626a8a",
+          "status": "ready",
+          "query": "Heat pipes",
+          "cache_kind": null,
+          "assessment_started_for_step": true,
+          "first_result_latency_s": 7.931504726409912,
+          "first_new_research_stage_after_input_s": 7.935329415020533,
+          "plan_decision": {
+            "query": "Heat pipes",
+            "query_confidence": 0.48,
+            "related_probability": 0.95,
+            "related_confidence": 0.9,
+            "scope": "research"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "query"
+              ],
+              "elapsed_s": 0.2582222740165889,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "related"
+              ],
+              "elapsed_s": 5.238695431966335,
+              "ok": false
+            },
+            {
+              "questions": [
+                "related"
+              ],
+              "elapsed_s": 0.24983518797671422,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "source"
+              ],
+              "elapsed_s": 0.2807180810486898,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "source_support"
+              ],
+              "elapsed_s": 0.3573773640091531,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "image"
+              ],
+              "elapsed_s": 0.2334588500089012,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "image_support"
+              ],
+              "elapsed_s": 0.22210686199832708,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 1
+        },
+        {
+          "id": "prepared_return",
+          "text": "A pump circulates liquid through a hot component and radiator.",
+          "submitted_at_s": 11.510561244969722,
+          "settled_at_s": 11.625507722957991,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "idle",
+          "query": "Heat pipes",
+          "cache_kind": null,
+          "assessment_started_for_step": false,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": null,
+          "classifier_calls": [],
+          "fresh_stage_changes": 0
+        },
+        {
+          "id": "rephrased_question",
+          "text": "Now explain how heat pipes transfer heat through evaporation and condensation.",
+          "submitted_at_s": 14.32833730999846,
+          "settled_at_s": 15.106455435976386,
+          "stage_scene_id": "web_public_e9119ed092626a8a",
+          "status": "ready",
+          "query": "Heat pipes",
+          "cache_kind": "topic_revalidated",
+          "assessment_started_for_step": true,
+          "first_result_latency_s": 0.6558446884155273,
+          "first_new_research_stage_after_input_s": 0.6586552149965428,
+          "plan_decision": {
+            "query": "Heat pipes",
+            "related_probability": 0.97,
+            "source_support_probability": 0.93,
+            "scope": "cached_revalidation"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "related",
+                "source_support"
+              ],
+              "elapsed_s": 0.27803018200211227,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 1
+        },
+        {
+          "id": "prepared_return_again",
+          "text": "A pump circulates liquid through a hot component and radiator.",
+          "submitted_at_s": 17.80937858199468,
+          "settled_at_s": 17.91740779898828,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "ready",
+          "query": "Heat pipes",
+          "cache_kind": "topic_revalidated",
+          "assessment_started_for_step": false,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": null,
+          "classifier_calls": [],
+          "fresh_stage_changes": 0
+        },
+        {
+          "id": "wrong_domain_control",
+          "text": "Set aside heat pipes. This question is only about baking sourdough bread.",
+          "submitted_at_s": 20.620199903962202,
+          "settled_at_s": 21.372440101986285,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "no_match",
+          "query": "Heat pipes",
+          "cache_kind": null,
+          "assessment_started_for_step": true,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": {
+            "query": "Heat pipes",
+            "related_probability": 0.21,
+            "source_support_probability": 0.49,
+            "scope": "cached_revalidation"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "related",
+                "source_support"
+              ],
+              "elapsed_s": 0.22259677498368546,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 0
+        }
+      ],
+      "stage_events": [
+        {
+          "at_s": 0.0023014149628579617,
+          "scene_id": "concept_c155c025e20c_0"
+        },
+        {
+          "at_s": 7.937166991992854,
+          "scene_id": "web_public_e9119ed092626a8a"
+        },
+        {
+          "at_s": 11.523230119957589,
+          "scene_id": "concept_c155c025e20c_0"
+        },
+        {
+          "at_s": 14.986992524995003,
+          "scene_id": "web_public_e9119ed092626a8a"
+        },
+        {
+          "at_s": 17.815422862942796,
+          "scene_id": "concept_c155c025e20c_0"
+        }
+      ],
+      "sources": [
+        {
+          "scene_id": "web_public_e9119ed092626a8a",
+          "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+          "quote_sha256": "a50f6df8dcd3ff5255e6878af3c03e6ed052b29600e7a8724cfd4416a670d683"
+        }
+      ],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "independent_quality_review": false,
+      "supplied_future_speech_to_preparation": false,
+      "injected_online_results": 0,
+      "limits": [
+        "Typed development script, not speech/audio or a held-out test.",
+        "Early mention is a real lookup, not free anticipation of an unmentioned subject.",
+        "Fresh revalidation is a model judgment, not independent editorial review.",
+        "Records stage API observations, excluding browser paint and hardware."
+      ],
+      "report": "artifacts/warm_research_v2/index.html"
+    },
+    {
+      "id": "warm_research_v3",
+      "private_artifact": "artifacts/warm_research_v3/result.json",
+      "artifact_sha256": "1e3e80f9dbe93602b59998b08161eec0dc1405cbf507435b7e85a2a5775e3e2b",
+      "code_commit": "a85e341e9ecf1ec69ee9ba74c2db970f0fa09f97",
+      "code_fingerprints": {
+        "research.py": "ba71e4dadbdffb5afaa32fdb369b2499a98468c8a94bedd8a18833c127d37c02",
+        "research_sources.py": "2fb5807ec480b9cccdc07a3f603ff8d235bdebbf90871fcdbe25fae5ec20ba9d",
+        "web_research.py": "e14581bb923ad65abde1f864f31032c2f1e2a968d94cb4b483bc1f71d35c5ade",
+        "warm_research_demo.py": "d4881a01463351abf51ebca51f9e4defea2e01af590ee04d3e051988fa9548ba"
+      },
+      "prepared_package_hash": "5b38613d57171dc321c8fc422f7006aa9236af337b94a10bb1f85edf8fae0520",
+      "approved_package_unchanged": true,
+      "script_sha256": "3632774c18ddc3c394604cea042dd7421ca932c5434ba6714472a30d783ffa91",
+      "steps": [
+        {
+          "id": "early_mention",
+          "text": "Later I will compare heat pipes using evaporation and condensation with this pumped water loop.",
+          "submitted_at_s": 0.002265975985210389,
+          "settled_at_s": 5.203770391992293,
+          "stage_scene_id": "web_public_e9119ed092626a8a",
+          "status": "ready",
+          "query": "heat pipes",
+          "cache_kind": null,
+          "assessment_started_for_step": true,
+          "first_result_latency_s": 2.415393829345703,
+          "first_new_research_stage_after_input_s": 5.069316470995545,
+          "plan_decision": {
+            "query": "heat pipes",
+            "query_confidence": 0.79,
+            "related_probability": 0.95,
+            "related_confidence": 0.9,
+            "scope": "research"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "query"
+              ],
+              "elapsed_s": 0.22126398800173774,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "related"
+              ],
+              "elapsed_s": 0.23962104099337012,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "source"
+              ],
+              "elapsed_s": 0.2320168750011362,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "source_support"
+              ],
+              "elapsed_s": 0.1834062520065345,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "image"
+              ],
+              "elapsed_s": 0.4040654999553226,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "image_support"
+              ],
+              "elapsed_s": 0.3828600099659525,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 1
+        },
+        {
+          "id": "prepared_return",
+          "text": "A pump circulates liquid through a hot component and radiator.",
+          "submitted_at_s": 7.908779942954425,
+          "settled_at_s": 8.021909882954787,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "ready",
+          "query": "heat pipes",
+          "cache_kind": null,
+          "assessment_started_for_step": false,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": null,
+          "classifier_calls": [],
+          "fresh_stage_changes": 0
+        },
+        {
+          "id": "rephrased_question",
+          "text": "What about heat pipes using evaporation and condensation in a pumped water loop?",
+          "submitted_at_s": 10.724829179991502,
+          "settled_at_s": 11.422624633007217,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "no_match",
+          "query": "heat pipes",
+          "cache_kind": null,
+          "assessment_started_for_step": true,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": {
+            "query": "heat pipes",
+            "related_probability": 0.76,
+            "source_support_probability": 0.44,
+            "scope": "cached_revalidation"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "related",
+                "source_support"
+              ],
+              "elapsed_s": 0.21068340196507052,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 0
+        },
+        {
+          "id": "prepared_return_again",
+          "text": "A pump circulates liquid through a hot component and radiator.",
+          "submitted_at_s": 14.128884468984324,
+          "settled_at_s": 14.234017675975338,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "no_match",
+          "query": "heat pipes",
+          "cache_kind": null,
+          "assessment_started_for_step": false,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": null,
+          "classifier_calls": [],
+          "fresh_stage_changes": 0
+        },
+        {
+          "id": "wrong_domain_control",
+          "text": "What about heat pipes as loaves of sourdough bread in this cooling loop?",
+          "submitted_at_s": 16.936510036000982,
+          "settled_at_s": 17.656810408981983,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "no_match",
+          "query": "heat pipes",
+          "cache_kind": null,
+          "assessment_started_for_step": true,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": {
+            "query": "heat pipes",
+            "related_probability": 0.71,
+            "source_support_probability": 0.37,
+            "scope": "cached_revalidation"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "related",
+                "source_support"
+              ],
+              "elapsed_s": 0.23214321897830814,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 0
+        }
+      ],
+      "stage_events": [
+        {
+          "at_s": 0.0018599519971758127,
+          "scene_id": "concept_c155c025e20c_0"
+        },
+        {
+          "at_s": 5.071582446980756,
+          "scene_id": "web_public_e9119ed092626a8a"
+        },
+        {
+          "at_s": 7.919118097983301,
+          "scene_id": "concept_c155c025e20c_0"
+        }
+      ],
+      "sources": [
+        {
+          "scene_id": "web_public_e9119ed092626a8a",
+          "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+          "quote_sha256": "a50f6df8dcd3ff5255e6878af3c03e6ed052b29600e7a8724cfd4416a670d683"
+        }
+      ],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "independent_quality_review": false,
+      "supplied_future_speech_to_preparation": false,
+      "injected_online_results": 0,
+      "limits": [
+        "Typed development script, not speech/audio or a held-out test.",
+        "Early mention is a real lookup, not free anticipation of an unmentioned subject.",
+        "Fresh revalidation is a model judgment, not independent editorial review.",
+        "Records stage API observations, excluding browser paint and hardware."
+      ],
+      "report": "artifacts/warm_research_v3/index.html"
+    },
+    {
+      "id": "warm_research_v4",
+      "private_artifact": "artifacts/warm_research_v4/result.json",
+      "artifact_sha256": "f736c8c758980073f8cbcd6e6579f0802885fa9910a7f6b149124fc12d3fc7ab",
+      "code_commit": "0dd1318fdb98bd326c1142827d075059c83ff386",
+      "code_fingerprints": {
+        "research.py": "26d256aa63f08305476fe0bf23d514759a19fbe59135ea9597dc5747e8f38c01",
+        "research_sources.py": "6f83d5af07405b48c726232397518836a9e44ebf39dab777426b22ebbcb4e7ba",
+        "web_research.py": "e14581bb923ad65abde1f864f31032c2f1e2a968d94cb4b483bc1f71d35c5ade",
+        "warm_research_demo.py": "d4881a01463351abf51ebca51f9e4defea2e01af590ee04d3e051988fa9548ba"
+      },
+      "prepared_package_hash": "5b38613d57171dc321c8fc422f7006aa9236af337b94a10bb1f85edf8fae0520",
+      "approved_package_unchanged": true,
+      "script_sha256": "3632774c18ddc3c394604cea042dd7421ca932c5434ba6714472a30d783ffa91",
+      "steps": [
+        {
+          "id": "early_mention",
+          "text": "Later I will compare heat pipes using evaporation and condensation with this pumped water loop.",
+          "submitted_at_s": 0.002067458990495652,
+          "settled_at_s": 13.786768218968064,
+          "stage_scene_id": "web_public_e9119ed092626a8a",
+          "status": "ready",
+          "query": "heat pipes",
+          "cache_kind": null,
+          "assessment_started_for_step": true,
+          "first_result_latency_s": 12.82135796546936,
+          "first_new_research_stage_after_input_s": 12.82445870898664,
+          "plan_decision": {
+            "query": "heat pipes",
+            "query_confidence": 0.74,
+            "related_probability": 0.96,
+            "related_confidence": 0.92,
+            "scope": "research"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "query"
+              ],
+              "elapsed_s": 0.2568936219904572,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "related"
+              ],
+              "elapsed_s": 0.24486412899568677,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "source"
+              ],
+              "elapsed_s": 5.2538683519815095,
+              "ok": false
+            },
+            {
+              "questions": [
+                "source"
+              ],
+              "elapsed_s": 0.2231358959688805,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "source_support"
+              ],
+              "elapsed_s": 5.242892286973074,
+              "ok": false
+            },
+            {
+              "questions": [
+                "source_support"
+              ],
+              "elapsed_s": 0.2518662189831957,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "image"
+              ],
+              "elapsed_s": 0.26042758696712554,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "image_support"
+              ],
+              "elapsed_s": 0.5662808540510014,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 1
+        },
+        {
+          "id": "prepared_return",
+          "text": "A pump circulates liquid through a hot component and radiator.",
+          "submitted_at_s": 16.4894294179976,
+          "settled_at_s": 16.596305265964475,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "idle",
+          "query": "heat pipes",
+          "cache_kind": null,
+          "assessment_started_for_step": false,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": null,
+          "classifier_calls": [],
+          "fresh_stage_changes": 0
+        },
+        {
+          "id": "rephrased_question",
+          "text": "What about heat pipes using evaporation and condensation in a pumped water loop?",
+          "submitted_at_s": 19.29905615397729,
+          "settled_at_s": 20.03509426995879,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "no_match",
+          "query": "heat pipes",
+          "cache_kind": null,
+          "assessment_started_for_step": true,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": {
+            "query": "heat pipes",
+            "related_probability": 0.78,
+            "source_support_probability": 0.8,
+            "source_support_scope": "candidate_topic_in_current_question",
+            "scope": "cached_revalidation"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "related",
+                "source_support"
+              ],
+              "elapsed_s": 0.2593325899797492,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 0
+        },
+        {
+          "id": "prepared_return_again",
+          "text": "A pump circulates liquid through a hot component and radiator.",
+          "submitted_at_s": 22.737655673001427,
+          "settled_at_s": 22.843385087966453,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "no_match",
+          "query": "heat pipes",
+          "cache_kind": null,
+          "assessment_started_for_step": false,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": null,
+          "classifier_calls": [],
+          "fresh_stage_changes": 0
+        },
+        {
+          "id": "wrong_domain_control",
+          "text": "What about heat pipes as loaves of sourdough bread in this cooling loop?",
+          "submitted_at_s": 25.54606668901397,
+          "settled_at_s": 26.239972270966973,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "no_match",
+          "query": "heat pipes",
+          "cache_kind": null,
+          "assessment_started_for_step": true,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": {
+            "query": "heat pipes",
+            "related_probability": 0.71,
+            "source_support_probability": 0.76,
+            "source_support_scope": "candidate_topic_in_current_question",
+            "scope": "cached_revalidation"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "related",
+                "source_support"
+              ],
+              "elapsed_s": 0.20554980699671432,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 0
+        }
+      ],
+      "stage_events": [
+        {
+          "at_s": 0.001424776972271502,
+          "scene_id": "concept_c155c025e20c_0"
+        },
+        {
+          "at_s": 12.826526167977136,
+          "scene_id": "web_public_e9119ed092626a8a"
+        },
+        {
+          "at_s": 16.495399217004888,
+          "scene_id": "concept_c155c025e20c_0"
+        }
+      ],
+      "sources": [
+        {
+          "scene_id": "web_public_e9119ed092626a8a",
+          "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+          "quote_sha256": "a50f6df8dcd3ff5255e6878af3c03e6ed052b29600e7a8724cfd4416a670d683"
+        }
+      ],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "independent_quality_review": false,
+      "supplied_future_speech_to_preparation": false,
+      "injected_online_results": 0,
+      "limits": [
+        "Typed development script, not speech/audio or a held-out test.",
+        "Early mention is a real lookup, not free anticipation of an unmentioned subject.",
+        "Fresh revalidation is a model judgment, not independent editorial review.",
+        "Records stage API observations, excluding browser paint and hardware."
+      ],
+      "report": "artifacts/warm_research_v4/index.html"
+    },
+    {
+      "id": "warm_research_v5",
+      "private_artifact": "artifacts/warm_research_v5/result.json",
+      "artifact_sha256": "1111617816dadaf9fe5ca12d3dd49af79e19b151ebc67e1d2bedee7d09154463",
+      "code_commit": "0dd1318fdb98bd326c1142827d075059c83ff386",
+      "code_fingerprints": {
+        "research.py": "26d256aa63f08305476fe0bf23d514759a19fbe59135ea9597dc5747e8f38c01",
+        "research_sources.py": "6f83d5af07405b48c726232397518836a9e44ebf39dab777426b22ebbcb4e7ba",
+        "web_research.py": "e14581bb923ad65abde1f864f31032c2f1e2a968d94cb4b483bc1f71d35c5ade",
+        "warm_research_demo.py": "d4881a01463351abf51ebca51f9e4defea2e01af590ee04d3e051988fa9548ba"
+      },
+      "prepared_package_hash": "5b38613d57171dc321c8fc422f7006aa9236af337b94a10bb1f85edf8fae0520",
+      "approved_package_unchanged": true,
+      "script_sha256": "45422cce98dc43f68fdee283c9bd4f12a37fc4027fd5c98ab49f781426c6a1b5",
+      "steps": [
+        {
+          "id": "early_mention",
+          "text": "Another mechanism is a heat pipe. Heat pipes move heat by evaporation and condensation.",
+          "submitted_at_s": 0.0016788700013421476,
+          "settled_at_s": 3.2923474080162123,
+          "stage_scene_id": "web_public_e9119ed092626a8a",
+          "status": "ready",
+          "query": "heat pipe",
+          "cache_kind": null,
+          "assessment_started_for_step": true,
+          "first_result_latency_s": 2.4931397438049316,
+          "first_new_research_stage_after_input_s": 2.496819310996216,
+          "plan_decision": {
+            "query": "heat pipe",
+            "query_confidence": 0.48,
+            "related_probability": 0.95,
+            "related_confidence": 0.9,
+            "scope": "research"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "query"
+              ],
+              "elapsed_s": 0.263400912983343,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "related"
+              ],
+              "elapsed_s": 0.20882796397199854,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "source"
+              ],
+              "elapsed_s": 0.299372287990991,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "source_support"
+              ],
+              "elapsed_s": 0.29194527596700937,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "image"
+              ],
+              "elapsed_s": 0.2694680690183304,
+              "model": "jev-1.13.0",
+              "ok": true
+            },
+            {
+              "questions": [
+                "image_support"
+              ],
+              "elapsed_s": 0.34015303500927985,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 1
+        },
+        {
+          "id": "prepared_return",
+          "text": "A pump circulates liquid through a hot component and radiator.",
+          "submitted_at_s": 5.995264840021264,
+          "settled_at_s": 6.110415224044118,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "ready",
+          "query": "heat pipe",
+          "cache_kind": null,
+          "assessment_started_for_step": false,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": null,
+          "classifier_calls": [],
+          "fresh_stage_changes": 0
+        },
+        {
+          "id": "rephrased_question",
+          "text": "Now explain how heat pipes transfer heat through evaporation and condensation.",
+          "submitted_at_s": 8.821338851004839,
+          "settled_at_s": 9.518459409999195,
+          "stage_scene_id": "web_public_e9119ed092626a8a",
+          "status": "ready",
+          "query": "heat pipe",
+          "cache_kind": "topic_revalidated",
+          "assessment_started_for_step": true,
+          "first_result_latency_s": 0.5721919536590576,
+          "first_new_research_stage_after_input_s": 0.5753489949856885,
+          "plan_decision": {
+            "query": "heat pipe",
+            "related_probability": 0.97,
+            "source_support_probability": 0.96,
+            "source_support_scope": "candidate_topic_in_current_question",
+            "scope": "cached_revalidation"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "related",
+                "source_support"
+              ],
+              "elapsed_s": 0.2148957290337421,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 1
+        },
+        {
+          "id": "prepared_return_again",
+          "text": "A pump circulates liquid through a hot component and radiator.",
+          "submitted_at_s": 12.221337318012957,
+          "settled_at_s": 12.33534100104589,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "ready",
+          "query": "heat pipe",
+          "cache_kind": "topic_revalidated",
+          "assessment_started_for_step": false,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": null,
+          "classifier_calls": [],
+          "fresh_stage_changes": 0
+        },
+        {
+          "id": "wrong_domain_control",
+          "text": "Set aside heat pipes. This question is only about baking sourdough bread.",
+          "submitted_at_s": 15.03824830299709,
+          "settled_at_s": 17.061550680024084,
+          "stage_scene_id": "concept_c155c025e20c_0",
+          "status": "no_match",
+          "query": "heat pipe",
+          "cache_kind": null,
+          "assessment_started_for_step": true,
+          "first_result_latency_s": null,
+          "first_new_research_stage_after_input_s": null,
+          "plan_decision": {
+            "query": "heat pipe",
+            "related_probability": 0.25,
+            "source_support_probability": 0.19,
+            "source_support_scope": "candidate_topic_in_current_question",
+            "scope": "cached_revalidation"
+          },
+          "classifier_calls": [
+            {
+              "questions": [
+                "related",
+                "source_support"
+              ],
+              "elapsed_s": 1.542253851017449,
+              "model": "jev-1.13.0",
+              "ok": true
+            }
+          ],
+          "fresh_stage_changes": 0
+        }
+      ],
+      "stage_events": [
+        {
+          "at_s": 0.002550802018959075,
+          "scene_id": "concept_c155c025e20c_0"
+        },
+        {
+          "at_s": 2.498498180997558,
+          "scene_id": "web_public_e9119ed092626a8a"
+        },
+        {
+          "at_s": 6.008380239014514,
+          "scene_id": "concept_c155c025e20c_0"
+        },
+        {
+          "at_s": 9.396687845990527,
+          "scene_id": "web_public_e9119ed092626a8a"
+        },
+        {
+          "at_s": 12.234713832032867,
+          "scene_id": "concept_c155c025e20c_0"
+        }
+      ],
+      "sources": [
+        {
+          "scene_id": "web_public_e9119ed092626a8a",
+          "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+          "quote_sha256": "a50f6df8dcd3ff5255e6878af3c03e6ed052b29600e7a8724cfd4416a670d683"
+        }
+      ],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "independent_quality_review": false,
+      "supplied_future_speech_to_preparation": false,
+      "injected_online_results": 0,
+      "limits": [
+        "Typed development script, not speech/audio or a held-out test.",
+        "Early mention is a real lookup, not free anticipation of an unmentioned subject.",
+        "Fresh revalidation is a model judgment, not independent editorial review.",
+        "Records stage API observations, excluding browser paint and hardware."
+      ],
+      "report": "artifacts/warm_research_v5/index.html"
+    }
+  ],
+  "asr_profile": {
+    "private_artifact": "artifacts/asr-thread-diagnostic-v1.json",
+    "artifact_sha256": "82100036765e3637ca1975fab8c523ed6cf3473e75efe9a33a5286e0679df8ce",
+    "summary": {
+      "4": {
+        "n": 6,
+        "median_s": 6.808198819984682,
+        "min_s": 1.400364344008267,
+        "max_s": 34.01845465198858,
+        "within_2s": 1
+      },
+      "1": {
+        "n": 6,
+        "median_s": 1.2162599570001476,
+        "min_s": 0.9752936559962109,
+        "max_s": 2.219307983003091,
+        "within_2s": 5
+      }
+    },
+    "schema": "live_presenter.asr_thread_diagnostic.v1",
+    "timeout_note": "Offline profiling, maximum 90s per child; production decode deadline remains 2s.",
+    "attempts": [
+      {
+        "threads": 4,
+        "loadavg_before": "23.82 22.07 20.16 22/4993 2161936",
+        "returncode": 0,
+        "observations": [
+          {
+            "ready_s": 10.620911990001332
+          },
+          {
+            "end_s": 25,
+            "decode_s": 6.763605126005132,
+            "text_sha256": "66517761e8498ee5e3dcefebcb7676b7ea0122eb2929c73eecde12204bb498db"
+          },
+          {
+            "end_s": 26,
+            "decode_s": 20.619230392971076,
+            "text_sha256": "ee5785f8ec1e9d4841c6b549b3d0513e5c00b1b931b7ee5b2692e669508eda22"
+          },
+          {
+            "end_s": 27,
+            "decode_s": 34.01845465198858,
+            "text_sha256": "d9d48bcb8d88985fee0d9c6a1afd48ce2fdb0411535c12261d24f5786784b30a"
+          }
+        ],
+        "elapsed_s": 81.71667108900147,
+        "loadavg_after": "24.95 22.91 20.61 16/4602 2165863"
+      },
+      {
+        "threads": 1,
+        "loadavg_before": "24.95 22.91 20.61 17/4602 2165863",
+        "returncode": 0,
+        "observations": [
+          {
+            "ready_s": 2.736984023009427
+          },
+          {
+            "end_s": 25,
+            "decode_s": 1.8399479100480676,
+            "text_sha256": "66517761e8498ee5e3dcefebcb7676b7ea0122eb2929c73eecde12204bb498db"
+          },
+          {
+            "end_s": 26,
+            "decode_s": 1.1328765319776721,
+            "text_sha256": "ee5785f8ec1e9d4841c6b549b3d0513e5c00b1b931b7ee5b2692e669508eda22"
+          },
+          {
+            "end_s": 27,
+            "decode_s": 1.007938614988234,
+            "text_sha256": "d9d48bcb8d88985fee0d9c6a1afd48ce2fdb0411535c12261d24f5786784b30a"
+          }
+        ],
+        "elapsed_s": 11.31514232698828,
+        "loadavg_after": "24.04 22.81 20.62 14/4593 2166294"
+      },
+      {
+        "threads": 1,
+        "loadavg_before": "24.04 22.81 20.62 15/4593 2166294",
+        "returncode": 0,
+        "observations": [
+          {
+            "ready_s": 1.9026205940172076
+          },
+          {
+            "end_s": 25,
+            "decode_s": 2.219307983003091,
+            "text_sha256": "66517761e8498ee5e3dcefebcb7676b7ea0122eb2929c73eecde12204bb498db"
+          },
+          {
+            "end_s": 26,
+            "decode_s": 1.299643382022623,
+            "text_sha256": "ee5785f8ec1e9d4841c6b549b3d0513e5c00b1b931b7ee5b2692e669508eda22"
+          },
+          {
+            "end_s": 27,
+            "decode_s": 0.9752936559962109,
+            "text_sha256": "d9d48bcb8d88985fee0d9c6a1afd48ce2fdb0411535c12261d24f5786784b30a"
+          }
+        ],
+        "elapsed_s": 10.708188404038083,
+        "loadavg_after": "22.91 22.60 20.58 15/4627 2166748"
+      },
+      {
+        "threads": 4,
+        "loadavg_before": "22.91 22.60 20.58 18/4627 2166748",
+        "returncode": 0,
+        "observations": [
+          {
+            "ready_s": 4.786085250030737
+          },
+          {
+            "end_s": 25,
+            "decode_s": 6.852792513964232,
+            "text_sha256": "66517761e8498ee5e3dcefebcb7676b7ea0122eb2929c73eecde12204bb498db"
+          },
+          {
+            "end_s": 26,
+            "decode_s": 1.400364344008267,
+            "text_sha256": "ee5785f8ec1e9d4841c6b549b3d0513e5c00b1b931b7ee5b2692e669508eda22"
+          },
+          {
+            "end_s": 27,
+            "decode_s": 2.9176218879874796,
+            "text_sha256": "d9d48bcb8d88985fee0d9c6a1afd48ce2fdb0411535c12261d24f5786784b30a"
+          }
+        ],
+        "elapsed_s": 19.441903918981552,
+        "loadavg_after": "21.14 22.22 20.49 19/4597 2167243"
+      }
+    ]
+  },
+  "verification": {
+    "python_tests": 180,
+    "command": "make verify",
+    "log": "artifacts/anticipatory-verify-v3.log",
+    "log_sha256": "ba9f51618bc27b8c99e0a9d785d6815bc15841d0c9fee1ab29ea72f8815b5402",
+    "node_tests": 6,
+    "node_log_sha256": "c24eaf45b53a2b90039224e2686f198e7e281d9011f7f4c99b86f23c33e781e5",
+    "browser_module_syntax": "passed",
+    "browser_integration": false
+  },
+  "limits": [
+    "Evolving-code development repairs on a known recording and developer-authored scripts, not independent trials.",
+    "Audio timing starts at recognition completion estimate and ends at stage API observation; excludes hearing the cue, browser paint and hardware.",
+    "Typed timing starts at HTTP input, not audio. Cached material still requires current-context support.",
+    "Earlier mention supplies the topic causally. No anticipation of an unmentioned topic is demonstrated.",
+    "Model support scores are not independent factual/editorial judgments or calibrated probabilities.",
+    "External provider caches, network and machine load remain uncontrolled.",
+    "Original script replay after scope clarification still withheld a comparison at 0.80 support, below the unchanged 0.85 threshold."
+  ],
+  "remaining": [
+    "Unseen talks and questions with independent judgments of useful first-source coverage.",
+    "Browser/microphone/projector acceptance; generative preparation still account-blocked.",
+    "First-time unanticipated procurement still takes seconds and can fail; cached comparisons can be withheld."
+  ]
+}
