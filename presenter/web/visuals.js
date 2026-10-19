@@ -13,7 +13,7 @@ export function renderScene(scene, compact = false) {
   root.dataset.objectId = scene.object_id;
   const head = el('div', 'scene-header');
   const displayTitle = scene.web_source && scene.kind === 'image' ? scene.title.replace(/\.(svg|png|jpe?g)$/i, '').replaceAll('_', ' ') : scene.title;
-  head.append(el('span', 'scene-kicker', scene.web_source ? 'RETRIEVED ONLINE' : labels[scene.kind]), el('h2', '', displayTitle));
+  head.append(el('span', 'scene-kicker', scene.web_source ? (scene.web_source.presenter_reviewed ? 'RESEARCHED SOURCE' : 'RETRIEVED ONLINE') : labels[scene.kind]), el('h2', '', displayTitle));
   root.append(head);
   const content = el('div', 'scene-content');
   if (scene.kind === 'flow') {
@@ -63,7 +63,7 @@ export function renderScene(scene, compact = false) {
     const credit = el('div', 'web-credit');
     const link = el('a', '', scene.web_source.provider + ' · source ↗');
     if (/^https:\/\//i.test(scene.web_source.url)) { link.href = scene.web_source.url; link.target = '_blank'; link.rel = 'noopener noreferrer'; }
-    credit.append(link, el('span', '', 'Retrieved live · not presenter-reviewed'));
+    credit.append(link, el('span', '', scene.web_source.presenter_reviewed ? 'Researched online · reviewed during preparation' : 'Retrieved live · not presenter-reviewed'));
     if (scene.web_source.image_url) {
       const imageCredit = el('a', '', `${scene.web_source.artist || 'Wikimedia Commons'} · ${scene.web_source.image_license}`);
       if (/^https:\/\//i.test(scene.web_source.image_url)) { imageCredit.href = scene.web_source.image_url; imageCredit.target = '_blank'; imageCredit.rel = 'noopener noreferrer'; }

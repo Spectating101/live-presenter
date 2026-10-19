@@ -11,7 +11,7 @@ let activeId = '', project = null, panel = 'prepare', preparationKey = '', lastR
 let recognition = null, micWanted = false, utteranceQueue = [], processingUtterances = false;
 let polling = false, utterancePending = false;
 let adviserAvailable = false;
-let researchAvailable = false, researchKey = '', researchMode = 'public_sources';
+let researchAvailable = false, researchKey = '', researchMode = 'public_sources', preparationResearchAvailable = false;
 let localAudioAvailable = false, localMicrophone = null;
 
 function notify(message) {
@@ -75,7 +75,11 @@ function accept(p) {
   $('message').disabled = busy || p.live.active || p.provider === 'outline';
   $('add-material').disabled = busy || p.live.active;
   $('edit-context').disabled = busy || p.live.active;
-  $('provider-label').textContent = p.provider === 'copilot' ? 'Conversation · existing Copilot account' : 'Source outline · no AI calls';
+  $('provider-label').textContent = (p.provider === 'copilot' ? 'Conversation · existing Copilot account' : 'Source outline') + (preparationResearchAvailable ? ' · online preparation research enabled' : p.provider === 'outline' ? ' · no AI calls' : '');
+  $('research-preparation').hidden = !preparationResearchAvailable;
+  $('research-preparation').disabled = busy || p.live.active;
+  $('preparation-research-status').hidden = !preparationResearchAvailable;
+  $('preparation-research-status').textContent = p.preparation_research?.message || 'Preparation research sends the title, brief and topic context to Jev and public web services. New sources will be included in your draft for review.';
   $('send-message').textContent = p.provider === 'outline' ? 'Refresh outline ↗' : 'Discuss ↗';
   $('message').placeholder = p.provider === 'outline' ? 'Source outline is extractive. Edit the brief, add material, or switch to Conversation for discussion.' : '“Focus on why this works. The audience is new to the subject…”';
   const key = `${p.plan_revision}:${p.revision}:${p.messages.length}:${p.job.status}:${!!p.approval}`;
@@ -97,6 +101,11 @@ function renderPreparation(p) {
     details.append(el('summary', '', '▤ ' + source.name));
     const content = el('div', 'source-excerpt');
     content.append(el('strong', '', `${source.units.length} source units · ${source.characters.toLocaleString()} characters`));
+    if (source.web_source) {
+      const link = el('a', '', 'Researched online · open original source ↗');
+      link.href = source.web_source.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+      content.append(link);
+    }
     source.units.slice(0, 10).forEach(u => content.append(el('p', '', u.text)));
     details.append(content); $('materials').append(details);
   });
@@ -220,7 +229,8 @@ function renderLive(p) {
   $('research-form').hidden = !p.live.research_enabled;
   $('research-disclosure').hidden = !p.live.research_enabled;
   $('research-disclosure').textContent = researchMode === 'connected_agent' ?
-    'A connected research agent must be running. It receives the topic and presentation context and can search the broader web.' :
+    'A connected research agent must be running. It receives the topic and presentation context and can search the broader web.' : researchMode === 'web' ?
+    'The background worker searches the public web and opens sources automatically. Topic context is sent to Jev and public search; new results may appear provisionally.' :
     'Topic context is sent to Jev; supporting material is retrieved from Wikipedia, Wikimedia Commons and Crossref. New results can appear automatically.';
   $('research-query').disabled = !p.live.active || p.live.locked;
   $('research-submit').disabled = !p.live.active || p.live.locked;
@@ -312,6 +322,7 @@ $('context-form').onsubmit = async event => {
   } catch (e) { notify(e.message); }
 };
 $('add-material').onclick = () => $('more-files').click();
+$('research-preparation').onclick = () => action('research-preparation', {}).catch(e => notify(e.message));
 $('more-files').onchange = async () => {
   try {
     const sources = await Promise.all([...$('more-files').files].map(filePayload));
@@ -427,6 +438,7 @@ try {
   adviserAvailable = status.live_adviser === 'jev';
   researchAvailable = !!status.live_research;
   researchMode = status.research_mode || 'public_sources';
+  preparationResearchAvailable = !!status.preparation_research;
   localAudioAvailable = !!status.local_audio;
   $('local-microphone-option').disabled = !localAudioAvailable;
   if (localAudioAvailable) $('microphone-mode').value = 'local';

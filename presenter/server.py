@@ -12,6 +12,7 @@ import re
 from pathlib import Path
 import shutil
 import secrets
+import sys
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse, parse_qs
@@ -22,6 +23,8 @@ from .materials import ingest
 from .live_audio import LiveAudio, SubprocessRecognizer
 from .research import LiveResearch
 from .research_bridge import ResearchBridge
+from .research import ResearchProcess
+from .preparation_research import PreparationResearch
 
 STATIC = Path(__file__).parent / "web"
 
@@ -54,7 +57,7 @@ def public_project(project):
     return project
 
 
-def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=True, dwell_s=2.5, audio_decoder=None, research_backend=None, live_research=False, research_bridge=False):
+def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=True, dwell_s=2.5, audio_decoder=None, research_backend=None, live_research=False, research_bridge=False, research_web=False, preparation_research=None):
     writer_lock = (store.root / '.server.lock').open('a')
     try:
         fcntl.flock(writer_lock,fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -80,9 +83,13 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
 
     studio = Studio(store, planner=planner, live_assessor=jev_adviser if use_jev else None, dwell_s=dwell_s)
     audio = LiveAudio(studio, audio_decoder) if audio_decoder else None
+    if research_web:
+        research_backend=research_backend or ResearchProcess(command=[sys.executable,'-m','presenter.web_research'])
+        preparation_research=preparation_research or PreparationResearch(research_backend)
     if research_bridge:research_backend=ResearchBridge()
     research = LiveResearch(studio,research_backend) if live_research or research_backend is not None else None
     studio.research = research
+    studio.preparation_research = preparation_research
 
     class Handler(BaseHTTPRequestHandler):
         server_version = "LivePresenter/1"
@@ -125,7 +132,8 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                     return self.reply(200, {"conversation_available": bool(shutil.which(studio.planner.command)) if hasattr(studio.planner, "command") else True,
                                             "live_adviser": "jev" if use_jev else "prepared_cues", 'local_audio': audio is not None,
                                             'live_research':research is not None,
-                                            'research_mode':'connected_agent' if research and isinstance(research.backend,ResearchBridge) else 'public_sources',
+                                            'preparation_research':preparation_research is not None,
+                                            'research_mode':'connected_agent' if research and isinstance(research.backend,ResearchBridge) else 'web' if research_web else 'public_sources',
                                             "formats": ["TXT", "MD", "CSV", "TSV", "PDF", "DOCX", "PNG", "JPEG"]})
                 if path == "/api/example":
                     return self.reply(200, EXAMPLE)
@@ -227,6 +235,8 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                     if audio:
                         audio.invalidate(pid)
                         result = store.read(pid)
+                elif action=='research-preparation':
+                    result=studio.prepare(pid,research_refresh=True)
                 elif action=='research':
                     if not research:raise Conflict('Live research is disabled in this studio.')
                     current=store.read(pid)['live']
@@ -271,6 +281,7 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
 
     class LocalServer(ThreadingHTTPServer):
         def server_close(self):
+            if preparation_research:preparation_research.close()
             if research:research.close()
             if audio:
                 audio.close()
@@ -279,6 +290,7 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
     try:
         server = LocalServer((host, port), Handler)
     except Exception:
+        if preparation_research:preparation_research.close()
         if research:research.close()
         if audio:
             audio.close()
@@ -302,11 +314,13 @@ def main():
     ap.add_argument('--asr-python', type=Path, help='Enable local PCM recognition with this optional ASR Python environment')
     ap.add_argument('--research',action='store_true',help='Enable the optional background live source-procurement worker (uses existing Jev credentials).')
     ap.add_argument('--research-bridge',action='store_true',help='Connect an active research agent through the authenticated research job/result API.')
+    ap.add_argument('--research-web',action='store_true',help='Research the brief before preparation and enable unattended public web lookup during rehearsal.')
     args = ap.parse_args()
+    if sum((args.research,args.research_bridge,args.research_web))>1:ap.error('Choose one research mode.')
     load_jev_env(args.env_file)
     enabled = not args.no_jev and bool(os.getenv("JEV_API_KEY") or os.getenv("TYPESAFE_API_KEY"))
     server = make_server(Store(args.data_dir), port=args.port, use_jev=enabled,
-                         audio_decoder=SubprocessRecognizer(args.asr_python) if args.asr_python else None,live_research=args.research,research_bridge=args.research_bridge)
+                         audio_decoder=SubprocessRecognizer(args.asr_python) if args.asr_python else None,live_research=args.research,research_bridge=args.research_bridge,research_web=args.research_web)
     print(f"Live Presenter studio: http://127.0.0.1:{server.server_port}/#access={server.access_token}", flush=True)
     print("Sources, conversations and approval packages stay in " + str(args.data_dir.resolve()), flush=True)
     try:
