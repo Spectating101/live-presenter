@@ -316,7 +316,10 @@ def procure(context):
 def main():
     try:
         context=json.loads(sys.stdin.buffer.read(100_001))
-        result=procure_live(context,lambda partial:print(json.dumps({'progress':partial},ensure_ascii=False),flush=True)) if context.get('_stream') and context.get('mode')!='preparation' else procure(context)
+        if context.get('mode')=='reuse':result=sources.revalidate(context)
+        elif context.get('_stream') and context.get('mode')!='preparation':
+            result=procure_live(context,lambda partial:print(json.dumps({'progress':partial},ensure_ascii=False),flush=True))
+        else:result=procure(context)
     except Exception:result={'status':'error','message':'Unattended web research was unavailable.','items':[]}
     print(json.dumps(result,ensure_ascii=False,allow_nan=False),flush=True)
 
