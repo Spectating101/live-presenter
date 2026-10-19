@@ -15,11 +15,11 @@ from .server import make_server
 
 
 STEPS=[
-    ('early_mention','Later I will compare heat pipes using evaporation and condensation with this pumped water loop.'),
+    ('early_mention','Another mechanism is a heat pipe. Heat pipes move heat by evaporation and condensation.'),
     ('prepared_return','A pump circulates liquid through a hot component and radiator.'),
-    ('rephrased_question','What about heat pipes using evaporation and condensation in a pumped water loop?'),
+    ('rephrased_question','Now explain how heat pipes transfer heat through evaporation and condensation.'),
     ('prepared_return_again','A pump circulates liquid through a hot component and radiator.'),
-    ('wrong_domain_control','What about heat pipes as loaves of sourdough bread in this cooling loop?'),
+    ('wrong_domain_control','Set aside heat pipes. This question is only about baking sourdough bread.'),
 ]
 
 

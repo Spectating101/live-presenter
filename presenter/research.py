@@ -13,7 +13,7 @@ import threading
 import time
 import uuid
 
-from .language import tokens
+from .language import tokens,STOP
 
 
 class ResearchProcess:
@@ -97,13 +97,14 @@ class LiveResearch:
         # must check this new context before it gets any display authority.
         def words(text):
             return [w[:-1] if w.endswith('s') and not w.endswith(('ss','us','is')) else w
-                    for w in re.findall(r'[a-z0-9]+',text.lower())]
+                    for w in re.findall(r'[a-z0-9]+',text.lower()) if w not in STOP-{'first'}]
         speech=words(utterance);now=self.clock()
         with self.condition:
             for (bound_package,_),(created,result) in reversed(self.cache.items()):
                 query=words(result.get('query',''))
                 if (bound_package==package_hash and now-created<300 and result.get('allow_auto_display',True)
-                        and any(s.get('kind')=='evidence' for s in result.get('items',[])) and len(query)>=2
+                        and any(s.get('kind')=='evidence' for s in result.get('items',[]))
+                        and len(re.findall(r'[a-z0-9]+',result.get('query','').lower()))>=2 and query
                         and any(speech[i:i+len(query)]==query for i in range(len(speech)-len(query)+1))):
                     return created,copy.deepcopy(result)
         return None
@@ -153,7 +154,9 @@ class LiveResearch:
         elapsed=now-research.get('last_requested',0)
         stable_new=(tokens(utterance)&tokens(recent[-1]) if recent else set())-known-set(research.get('requested_novel',[]))
         early=(research.get('status') in {'no_match','no_results','idle'} and elapsed>=1.5 and len(stable_new)>=2)
-        if not force and elapsed<self.cooldown_s and not early and not reuse:return
+        corrected=(research.get('status')=='no_match' and not research.get('query') and elapsed>=1.5
+                   and bool(tokens(utterance)-known-set(research.get('requested_novel',[]))))
+        if not force and elapsed<self.cooldown_s and not early and not corrected and not reuse:return
         cache_key=(p['approval']['package_hash'],tuple(sorted(tokens(utterance))))
         with self.condition:cached=self.cache.get(cache_key)
         exact=bool(cached and now-cached[0]<300)

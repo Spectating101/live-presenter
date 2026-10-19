@@ -261,6 +261,14 @@ class LiveResearchAuthority(unittest.TestCase):
         until(lambda:self.store.read(self.pid)['live']['research'].get('status')=='no_match')
         self.assertIsNone(self.store.read(self.pid)['live']['research_scene'])
 
+    def test_one_corrected_new_word_can_reassess_a_rejected_fragment_before_lookup_cooldown(self):
+        self.research.cooldown_s=100
+        with self.store.change(self.pid) as p:
+            p['live']['research']={'status':'no_match','last_requested':time.time()-2,
+                'requested_novel':['first','follow','crucial','role'],'request_count':0,'assessment_count':1}
+        self.research.observe(self.pid,'The first follower has a crucial role.',{})
+        self.assertTrue(self.backend.entered.wait(1));self.finish()
+
 
 class ConnectedResearchAgent(unittest.TestCase):
     def test_actual_http_handoff_is_operator_only_and_stop_rejects_a_pending_answer(self):
