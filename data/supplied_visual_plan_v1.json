@@ -1,0 +1,94 @@
+{
+  "schema": "live_presenter.supplied_visual_plan.v1",
+  "created_utc": "2026-10-19T06:42:13.176837+00:00",
+  "base_commit": "e21ef1ea7b9524917832378d678348c32f7d98ab",
+  "timing": "Fixed after prior McCandless development outputs, before either new follower condition. This is a repair experiment on known material, not a holdout.",
+  "frozen_code": {
+    "engine.py": "5ab8c0ea2c726acaee515600fe1d481976368003fd1d54de4cdfe6bf61ffb919",
+    "reflex.py": "f872baa12b086d826f7bbd293fc45baa5ba25f039772abcab583f4954cff01fd",
+    "selection.py": "88a953d26555c9db407b0cdd76157ed03a835a8f9923b61503ae635590e6ba1b",
+    "planning.py": "358debfaf9760406051743a78a683f93a58917d2d9825dd3d898059fd80de94a",
+    "materials.py": "9c145d01abe1dfee36f3c9da6e55e71ea6136288d6354ba66eb1028f29f445a7",
+    "images.py": "864f6730fdf67f2e3add906ac90ed0d11234c58b945df1d0ebe73ac8e7994e5c",
+    "recording.py": "3f04015c4ffebb3e5ebbbbc7b78369047bb5adf8a5d452eeeb36a8d8c580c0a2",
+    "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+    "live_probe.py": "68f4ff734adcfa51cc58015a2a38d32c04673fc2ca20ee365fecf40895d86044"
+  },
+  "conditions": {
+    "mccandless-views": {
+      "package_hash": "ca7b04449b255505f5e139b19056099a21471167bc1e5105347d8a6f06f50e5c",
+      "source_hash": "1bffae4d166d11f1b1332fca5fdd21e5e1b915da1d45c3f551fc7d0c0e5cfd39",
+      "reference_sha256": "8d003fadf1df1338a81a35d1c6f8a6b8fc5ba1e2914ab3d037ae6681303f2621",
+      "source_count": 1,
+      "concepts": 10
+    },
+    "mccandless-assets": {
+      "package_hash": "9614a0ffd5b6f69185cf8db34d3a8af8af49472422fd3342896406fdc74f0060",
+      "source_hash": "a2a135f24b18edf451116bf4e31d5b50fa1bb8622f87f500bf2f4cbbaf7c6844",
+      "reference_sha256": "3f745fe48a3fefa5ab57144806b0293fadafcfbe950b332eec0c0fca955415eb",
+      "source_count": 7,
+      "concepts": 12
+    }
+  },
+  "comparison": "Old ten-idea package with new view policy versus operator-curated twelve-idea package with five frames, a two-row CSV and defaults. Multiple preparation factors change; do not attribute the full difference to images alone.",
+  "recognition": "Reuse exactly the previous bounded tiny.en 1-second/4-second-past trace; no caption timing or future audio to the follower.",
+  "targets": [
+    {
+      "label": "Financial areas",
+      "start": 45,
+      "end": 155,
+      "asset_condition_concept_index": 1,
+      "kind": "image"
+    },
+    {
+      "label": "Media fear landscape",
+      "start": 180,
+      "end": 285,
+      "asset_condition_concept_index": 2,
+      "kind": "image"
+    },
+    {
+      "label": "Seasonal pattern",
+      "start": 375,
+      "end": 440,
+      "asset_condition_concept_index": 4,
+      "kind": "image"
+    },
+    {
+      "label": "Historical evidence map",
+      "start": 750,
+      "end": 815,
+      "asset_condition_concept_index": 7,
+      "kind": "image"
+    },
+    {
+      "label": "Political diagram",
+      "start": 900,
+      "end": 970,
+      "asset_condition_concept_index": 9,
+      "kind": "image"
+    },
+    {
+      "label": "Volcano comparison",
+      "start": 1030,
+      "end": 1067,
+      "asset_condition_concept_index": 11,
+      "kind": "chart"
+    }
+  ],
+  "target_meaning": "Time displaying a specified supplied asset/chart within predetermined source passages; engineering availability/selection check, not audience usefulness. Missing assets in the old package count as zero.",
+  "qualitative_limits": [
+    "Static frame resolution and readability remain limited by the 854x480 source recording.",
+    "The visual-CV/senses and relative-military sections still lack their original graphics.",
+    "The living-image section does not implement original interactive filtering.",
+    "Independent editorial/audience review and physical browser/projector test remain pending."
+  ],
+  "no_tuning_after_outputs": true,
+  "frozen_web": {
+    "visuals.js": "3ff659c8ea48e8ea4f8b75cdc1738c00d1c96b27c044d5e7b2859398517b7faf",
+    "style.css": "f44a1e929732ad4fb45840993ec6e10000e37e428089ab52b8647fd0048508e9",
+    "studio.js": "ca74f0fff14fb15e986e4ed815f2af5957184110393236971312b82bd1efb475",
+    "stage.js": "f6265579e85da54421ce01d4498fb44b86f0ca87afb2cadfda7be86164b405d9",
+    "recording.js": "cdf6ae1cb229c6f4005f66f9f3b56cf3ab66cf876821cb733068764241cbb423"
+  }
+}

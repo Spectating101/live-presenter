@@ -17,7 +17,7 @@ import wave
 from jev_credentials_v10 import load_jev_env
 from .engine import Store, Studio
 from .live_audio import SubprocessRecognizer
-from .recording import audio_windows, file_hash, percentile, save
+from .recording import audio_windows, file_hash, percentile, save, preparation_inputs
 from .server import make_server
 
 
@@ -32,8 +32,7 @@ def probe(folder, output, *, asr_python, offset_s=40, duration_s=90, use_jev=Fal
     pid = json.loads((folder/'project.json').read_text())['project_id']
     project = Store(folder/'studio').read(pid)
     Studio.package(project)
-    if len(project['sources']) != 1 or project['sources'][0]['sha256'] != source['preparation_sha256']:
-        raise ValueError('The prepared package belongs to different source material.')
+    inputs = preparation_inputs(folder,project,source)
     if use_jev and not load_jev_env():
         raise ValueError('An existing Jev credential is required for this optional condition.')
     with tempfile.TemporaryDirectory(prefix='presenter-live-probe-') as temp:
@@ -124,7 +123,8 @@ def probe(folder, output, *, asr_python, offset_s=40, duration_s=90, use_jev=Fal
                 'source_audio_sha256':source['audio_sha256'],'package_hash':project['approval']['package_hash'],
                 'asr':'openai-whisper tiny.en, CPU, 4 threads, 48 tokens, 2 s subprocess deadline',
                 'fingerprints':{name:file_hash(Path(__file__).with_name(name)) for name in (
-                    'live_audio.py','server.py','engine.py','recording.py','reflex.py','live_probe.py')},
+                    'live_audio.py','server.py','engine.py','recording.py','reflex.py','live_probe.py','selection.py')},
+                'preparation_inputs':inputs,
                 'capture_fingerprints':{name:file_hash(Path(__file__).with_name('web')/name) for name in (
                     'microphone.js','pcm-worklet.js','stage.js','studio.js')},
                 'offset_s':offset_s,'duration_s':duration_s,'elapsed_s':elapsed_s,'model_ready_s':warmup_s,

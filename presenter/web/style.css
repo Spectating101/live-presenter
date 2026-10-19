@@ -8,3 +8,10 @@
 .microphone-row{flex-wrap:wrap}.microphone-row select{border:1px solid var(--line);border-radius:6px;padding:8px;background:var(--white);color:var(--ink);font-size:11px}
 
 .projector main[data-reflex=true] .scene{animation:none}
+
+/* Preserve supplied visual evidence without stretching or cropping. */
+.kind-image .scene-content{display:flex;align-items:center;justify-content:center;min-height:0}
+.supplied-image{display:block;width:100%;height:auto;max-height:52vh;object-fit:contain}
+.compact .supplied-image{max-height:145px}
+.visual-option{min-width:0}.visual-option .visual-thumbnail{width:100%}
+.default-visual{font-size:12px;margin-top:6px}
