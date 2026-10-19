@@ -75,6 +75,13 @@ class PublicFetch(unittest.TestCase):
     def test_unclear_topic_does_not_search(self):
         with patch.object(web.sources,'choose_query',return_value=None),patch.object(web,'search') as search:
             self.assertEqual(web.procure({})['status'],'no_match');search.assert_not_called()
+    def test_overlapping_past_speech_is_merged_without_future_text(self):
+        from presenter.research_sources import spoken_context, candidates
+        context={'utterance':'does it actually work?','recent_past':['a thermoelectric cooler','thermoelectric cooler moves heat'],
+                 'concepts':[]}
+        merged=spoken_context(context)
+        self.assertEqual(merged,'a thermoelectric cooler moves heat does it actually work?')
+        self.assertIn('thermoelectric cooler',candidates(context))
 
 
 class ResearchedPreparation(unittest.TestCase):

@@ -105,6 +105,16 @@ class LiveResearchAuthority(unittest.TestCase):
         self.assertEqual(len(self.backend.calls),1)
         self.assertEqual(self.store.read(self.pid)['live']['research']['request_count'],1)
 
+    def test_ambiguous_fragments_do_not_exhaust_the_real_lookup_budget(self):
+        self.backend.run=lambda context,cancel:{'status':'no_match','items':[]}
+        self.research.observe(self.pid,'Could we explore another supporting mechanism?',{},force=True)
+        until(lambda:self.store.read(self.pid)['live']['research'].get('status')=='no_match')
+        research=self.store.read(self.pid)['live']['research']
+        self.assertEqual(research['request_count'],0);self.assertEqual(research['assessment_count'],1)
+        with self.store.change(self.pid) as p:p['live']['research']['assessment_count']=60
+        self.research.observe(self.pid,'A further related mechanism needs explanation.',{},force=True)
+        self.assertEqual(self.store.read(self.pid)['live']['research']['status'],'limit')
+
     def test_pending_topic_supersedes_old_result(self):
         self.queue();self.research.observe(self.pid,'Discuss thermoelectric semiconductor modules and voltage.',{},force=True)
         p=self.finish()

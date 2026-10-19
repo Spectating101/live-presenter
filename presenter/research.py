@@ -49,7 +49,7 @@ class ResearchProcess:
 
 def empty_research():
     return {'status':'idle','request_id':'','query':'','items':[],'papers':[],'request_count':0,'last_heard':0,'last_requested':0,
-            'message':'Related online material will be researched when a new topic needs it.'}
+            'assessment_count':0,'message':'Related online material will be researched when a new topic needs it.'}
 
 
 class LiveResearch:
@@ -74,7 +74,10 @@ class LiveResearch:
         if seq is not None and live['last_seq']!=seq:return
         package=self.studio.package(p)
         known=tokens(' '.join(c['title']+' '+c['summary']+' '+' '.join(c['aliases']) for c in package['concepts']))
-        novel=tokens(utterance)-known-{'compared','instead','please','find','show','explain','could','would','about','tell'}
+        recent=[r['text'] for r in live['transcript'][-4:-1] if self.clock()-r['at']<=8]
+        from .research_sources import spoken_context
+        topic_speech=spoken_context({'utterance':utterance,'recent_past':recent})
+        novel=tokens(topic_speech)-known-{'compared','instead','please','find','show','explain','could','would','about','tell'}
         prepared=bool(recommendation.get('scene_id') and recommendation.get('score',0)>=.88)
         explicit=bool(re.search(r'\b(?:what about|how about|instead of|compared with|versus|can you find|look up|research)\b',utterance,re.I))
         if prepared and len(novel)<2 and not force and not (explicit and novel):
@@ -111,9 +114,12 @@ class LiveResearch:
         if research.get('request_count',0)>=12 and not warm:
             with self.store.change(pid) as current:current['live']['research'].update(status='limit',message='This rehearsal has used its twelve research requests. Prepared following continues.')
             return
+        if research.get('assessment_count',0)>=60 and not warm:
+            with self.store.change(pid) as current:current['live']['research'].update(status='limit',message='This rehearsal reached its sixty topic assessments. Prepared following continues.')
+            return
         request_id=uuid.uuid4().hex
         context={'title':package['title'],'brief':p['brief'],'concepts':[{k:c[k] for k in ('title','summary','aliases')} for c in package['concepts']],
-                 'utterance':utterance[:600],'recent_past':[r['text'] for r in live['transcript'][-3:]]}
+                 'utterance':utterance[:600],'recent_past':recent}
         job={'pid':pid,'generation':live['generation'],'package_hash':p['approval']['package_hash'],
              'request_id':request_id,'context':context,'cancel':threading.Event(),
              'cache_key':cache_key}
@@ -123,6 +129,7 @@ class LiveResearch:
                     or (seq is not None and current['live']['last_seq']!=seq)):return
             current['live']['research']={**research,'status':'queued','request_id':request_id,'novel':sorted(novel),
               'last_heard':now,'last_requested':now,'request_count':research.get('request_count',0)+int(not warm),
+              'assessment_count':research.get('assessment_count',0)+int(not warm),
               'message':'Finding related sources and visual material online…'}
         with self.condition:
             if self.closed:return
@@ -147,6 +154,9 @@ class LiveResearch:
               message=result.get('message') or ('Related material found.' if fresh else 'Related material found after the topic expired; retained backstage.'),
               cache_hit=result.get('cache_hit',False),provider_scope=result.get('provider_scope',[]))
             research['classifier_calls']=result.get('classifier_calls',[])
+            research['plan_decision']=result.get('plan_decision',{})
+            if result['status']=='no_match' and not result.get('query') and not result.get('cache_hit'):
+                research['request_count']=max(0,research.get('request_count',1)-1)
             displayed=False
             if items and fresh and self.studio.clock()-p['live']['last_change']>=self.studio.dwell_s:
                 p['live']['research_scene']=copy.deepcopy(items[0])
@@ -156,6 +166,9 @@ class LiveResearch:
                 displayed=True
             p.setdefault('research_history',[]).append({'completed_at':self.clock(),'query':result.get('query',''),
                 'status':result['status'],'package_hash':job['package_hash'],'displayed_automatically':displayed,
+                'utterance':job['context']['utterance'],'recent_past':job['context']['recent_past'],
+                'plan_decision':result.get('plan_decision',{}),'classifier_calls':result.get('classifier_calls',[]),
+                'message':result.get('message',''),'errors':result.get('errors',[]),
                 'sources':[{'scene_id':s['id'],'url':s['web_source']['url'],'image_url':s['web_source'].get('image_url'),
                             'asset_sha256':s.get('asset',{}).get('sha256'),'quote':s['source_refs'][0]['quote']} for s in items]})
             p['research_history']=p['research_history'][-50:]
