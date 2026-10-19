@@ -1,0 +1,133 @@
+{
+  "as_of": "2026-10-20",
+  "scope": "Two contained integrations; all verification headless.",
+  "docling": {
+    "installed_in": "ignored isolated .venv-research",
+    "runs": [
+      {
+        "attempt": "docling_nasa_v1",
+        "wall_s": 18.683151774050202,
+        "candidate_count": 2,
+        "source_sha256": "22b7e7016286d279fd7cc36d005a2f60e4f3b3ed0db299a29774b1b6c6a473fa",
+        "pages": [
+          14,
+          14
+        ],
+        "docling_version": "2.140.0",
+        "report_sha256": "066cc2d0030d58f655ef19b4dffc7c5f3c0f78a38126429ec16177282798e70a"
+      },
+      {
+        "attempt": "docling_nasa_v2",
+        "wall_s": 8.693377693998627,
+        "candidate_count": 2,
+        "source_sha256": "22b7e7016286d279fd7cc36d005a2f60e4f3b3ed0db299a29774b1b6c6a473fa",
+        "pages": [
+          14,
+          14
+        ],
+        "docling_version": "2.140.0",
+        "report_sha256": "ed79b7b7035dcc296c5028b328c6d2c23f1fc0dfe7d5fe8d8f55113487077c13"
+      }
+    ],
+    "native_import": {
+      "schema": "live_presenter.docling_native_import.v1",
+      "extraction_s": 9.473689117003232,
+      "cached_lookup_s": 0.005659210029989481,
+      "candidate_count": 2,
+      "cache_hit": true,
+      "selected_source": {
+        "name": "heat-pipes-nasa-page-14-figure-2.png",
+        "page": 14,
+        "bbox": {
+          "l": 141.44580078125,
+          "t": 517.7171936035156,
+          "r": 624.56201171875,
+          "b": 79.95343017578125,
+          "coord_origin": "BOTTOMLEFT"
+        },
+        "caption": "",
+        "figure_ref": "#/pictures/1",
+        "source_sha256": "22b7e7016286d279fd7cc36d005a2f60e4f3b3ed0db299a29774b1b6c6a473fa",
+        "extractor": "Docling",
+        "version": "2.140.0",
+        "pixels_semantically_verified": false,
+        "review_status": "unreviewed_extraction"
+      },
+      "package_hash": "cc242a1f067462d10fa87d242e44f6f0070662005cca53db1cf6d565fd255af9",
+      "pixel_review": "Developer inspected the extracted figure; selection and approval are explicit fixture actions.",
+      "unattended_visual_selection": false,
+      "browser_used": false,
+      "visible_window_opened": false
+    },
+    "automatic_semantic_image_selection": false,
+    "approved_for_live_research_auto_display": false,
+    "limitations": [
+      "First run includes process/model initialization and overlapped speech inference; model download cache state was not controlled.",
+      "First run includes model setup; a separate warm process run still imports models.",
+      "Cached lookup excludes retrieval and semantic review.",
+      "Docling produced a logo candidate as well as a mechanism figure."
+    ]
+  },
+  "realtimestt": {
+    "component": "Pure Python MIT text stabilizer; full recorder and model engines not installed.",
+    "upstream_sha256": "38fa612be1a1f6bdfb160ab4ced7cb00c9f0022219f1ea5fc2df2f663e19fddd",
+    "runs": [
+      {
+        "attempt": "reuse_stabilizer_speech_v1",
+        "report_sha256": "9b354a84276ab8c771f65cdae5f78886245014121d5803642240add8567c4f51",
+        "correct_changed_visuals": 0,
+        "requested_changes": 4,
+        "phrase_end_to_pixels_s": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "worker": {
+          "status": "ready",
+          "last_seq": 39,
+          "received": 40,
+          "processed": 40,
+          "dropped": 0,
+          "rejected": 0,
+          "timeouts": 0,
+          "expired": 0,
+          "error": null
+        },
+        "code_changed_during_run": false
+      },
+      {
+        "attempt": "reuse_stabilizer_speech_v2",
+        "report_sha256": "b3638d5e1a4c22dc015bb0612e677a59f0be4b7a408c70ad41277f8c3511ac26",
+        "correct_changed_visuals": 4,
+        "requested_changes": 4,
+        "phrase_end_to_pixels_s": [
+          2.2460483310115524,
+          1.1794304910209021,
+          0.9742591860028931,
+          2.1702721510059177
+        ],
+        "worker": {
+          "status": "ready",
+          "last_seq": 39,
+          "received": 40,
+          "processed": 40,
+          "dropped": 0,
+          "rejected": 0,
+          "timeouts": 0,
+          "expired": 0,
+          "error": null
+        },
+        "code_changed_during_run": false
+      }
+    ],
+    "enabled_by_default": false,
+    "reason": "Adjusted adapter recovered four cues but was slower than the current follower; broad continuous-speech behavior remains unvalidated."
+  },
+  "vision_provider": {
+    "configured_google_credentials_accepted": false,
+    "http_status": 400,
+    "no_key_values_recorded": true
+  },
+  "other_candidates": "Pipecat, live-visuals router and ManimGX have not been integrated in this increment."
+}

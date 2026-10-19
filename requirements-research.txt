@@ -1,0 +1,4 @@
+# Optional isolated PDF figure extraction; use CPU torch wheels on this machine.
+torch==2.9.1
+torchvision==0.24.1
+docling-slim[format-pdf,extract-core,models-local]==2.140.0

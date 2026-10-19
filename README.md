@@ -28,6 +28,7 @@ research lane for evaluating causal visual editing and an advisory learned polic
 - `make native-preview` — export the native visual-only motion sample without using the screen (optional native dependencies)
 - `make native-test` — test native output and attention offscreen
 - `make native-speech SPEECH_OUT=artifacts/new_attempt` — record real paced speech recognition driving native visuals, headlessly; see [results and detour limits](NATIVE_OUTPUT.md#speech-to-visuals-and-a-fresh-detour)
+- [Upstream integrations](REUSE_INTEGRATION.md) — optional Docling figure intake and the evaluated RealtimeSTT stabilizer, with measured limits
 - `make studio` — run the new preparation-first local app; open its terminal access URL
 - `STUDIO.md` — intake, clarification, visual review, approval, rehearsal and projector guide
 - `RECORDED_TALKS.md` — real audio replay, original-video comparison and measured pilot limitations

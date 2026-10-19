@@ -113,8 +113,9 @@ class SubprocessRecognizer:
 
 class LiveAudio:
     """One active microphone, one decode, one replaceable pending window."""
-    def __init__(self, studio, decoder, *, max_age_s=2, clock=time.monotonic):
+    def __init__(self, studio, decoder, *, max_age_s=2, clock=time.monotonic, stabilize_text=False):
         self.studio, self.decoder, self.max_age_s, self.clock = studio, decoder, max_age_s, clock
+        self.stabilize_text=stabilize_text
         self.condition = threading.Condition(threading.RLock())
         self.session = None
         self.closed = False
@@ -126,7 +127,7 @@ class LiveAudio:
             s = self.session
             if not s or s['pid'] != pid:
                 return {'status': 'idle'}
-            return {k:v for k,v in s.items() if k not in {'pending','rows','pid','last_committed_text','last_committed_seq'}} | {'updates': list(s['rows'])}
+            return {k:v for k,v in s.items() if k not in {'pending','rows','pid','last_committed_text','last_committed_seq','text_stabilizer'}} | {'updates': list(s['rows'])}
 
     def start(self, pid, generation):
         with self.condition:
@@ -141,6 +142,9 @@ class LiveAudio:
                 'last_seen': self.clock(),
                 'pending': None, 'rows': collections.deque(maxlen=120), 'error': None}
             self.session.update(last_committed_text='',last_committed_seq=-100)
+            if self.stabilize_text:
+                from .speech_stability import StableTranscript
+                self.session['text_stabilizer']=StableTranscript()
             self.condition.notify_all()
             return self.snapshot(pid)
 
@@ -264,11 +268,14 @@ class LiveAudio:
                             s['status'] = 'ready'
                     continue
                 p = self.studio.store.read(s['pid'])
-                suppressed=repeated_window_tail(s['last_committed_text'],result['text'],seq-s['last_committed_seq'])
-                if result['text'].strip() and not suppressed:
-                    p = self.studio.transcript(s['pid'], result['text'], None, generation=s['generation'],
+                text=result['text'];stability=None
+                if s.get('text_stabilizer'):
+                    text,stability=s['text_stabilizer'].observe(text,seq,pcm,received,decoded_at)
+                suppressed=repeated_window_tail(s['last_committed_text'],text,seq-s['last_committed_seq'])
+                if text.strip() and not suppressed:
+                    p = self.studio.transcript(s['pid'], text, None, generation=s['generation'],
                         expires_at=time.time()+expires-decoded_at)
-                    s.update(last_committed_text=result['text'],last_committed_seq=seq)
+                    s.update(last_committed_text=text,last_committed_seq=seq)
                 completed = self.clock()
                 with self.condition:
                     if self.session is s and s['status'] != 'stopped' and self.valid(s):
@@ -278,6 +285,7 @@ class LiveAudio:
                         s['status'] = 'ready'
                         s['rows'].append({'seq': seq, 'text': result['text'], 'rejection': result.get('rejection'),
                             'transcript_suppressed':'overlapping_window_tail' if suppressed else None,
+                            'decision_text':text,'text_stability':stability,
                             'received_at':received, 'recognition_started_at':begun,
                             'recognized_at':decoded_at, 'decision_completed_at':completed,
                             'asr_s': decoded_at-begun, 'received_to_decision_s': completed-received,

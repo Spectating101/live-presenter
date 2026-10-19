@@ -86,13 +86,13 @@ def summarize(script, events, scenes):
     return rows
 
 
-def run(folder, asr_python, *, unprepared=False):
+def run(folder, asr_python, *, unprepared=False, stabilize_text=False):
     os.environ['QT_QPA_PLATFORM']='offscreen'
     from .native import qt_types
     from PySide6.QtGui import QImage
     QApplication,Surface,_=qt_types()
     code_names=('native_speech_probe.py','native.py','native_output.py','engine.py',
-                'live_audio.py','research.py','research_bridge.py','explanation.py')
+                'live_audio.py','research.py','research_bridge.py','explanation.py','speech_stability.py')
     code_fingerprints={name:file_hash(Path(__file__).with_name(name)) for name in code_names}
     folder=folder.absolute();folder.mkdir(parents=True,exist_ok=True,mode=0o700)
     if (folder/'started.json').exists():raise ValueError('Use a new attempt directory.')
@@ -104,7 +104,7 @@ def run(folder, asr_python, *, unprepared=False):
     if 'heat pipe' in json.dumps(prepared['sources']).lower():raise ValueError('Detour leaked into preparation.')
     bridge=ResearchBridge(timeout_s=55) if unprepared else None
     server=make_server(store,port=0,use_jev=False,dwell_s=0,
-        research_backend=bridge,audio_decoder=SubprocessRecognizer(asr_python))
+        research_backend=bridge,audio_decoder=SubprocessRecognizer(asr_python),stabilize_text=stabilize_text)
     service=threading.Thread(target=server.serve_forever,daemon=True);service.start()
     save(folder/'connection.json',{'base_url':f'http://127.0.0.1:{server.server_port}',
         'operator_key':server.access_token,'project_id':pid})
@@ -183,6 +183,7 @@ def run(folder, asr_python, *, unprepared=False):
         report={'schema':'live_presenter.native_speech_probe.v1','browser_used':False,'visible_window_opened':False,
             'desktop_captured':False,'physical_microphone_used':False,'physical_display_measured':False,
             'asr':'local tiny.en, one thread, 4s rolling past-only windows, 1s arrivals, 2s expiry',
+            'experimental_realtimestt_stabilizer':stabilize_text,
             'asr_warmup_s':asr_warmup_s,'wall_origin':wall_origin,'monotonic_origin':origin,'perf_origin':perf_origin,
             'source_sha256':prepared['sources'][0]['sha256'],'audio_sha256':file_hash(folder/'audio.wav'),
             'approved_package_hash':prepared['approval']['package_hash'],
@@ -218,7 +219,8 @@ def main():
     parser.add_argument('--out-dir',type=Path,required=True)
     parser.add_argument('--asr-python',type=Path,default=Path('.venv-asr/bin/python'))
     parser.add_argument('--unprepared',action='store_true')
-    args=parser.parse_args();run(args.out_dir,args.asr_python,unprepared=args.unprepared)
+    parser.add_argument('--stabilize-text',action='store_true',help='Evaluate the optional RealtimeSTT stable-text adapter')
+    args=parser.parse_args();run(args.out_dir,args.asr_python,unprepared=args.unprepared,stabilize_text=args.stabilize_text)
 
 
 if __name__=='__main__':main()

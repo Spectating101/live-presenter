@@ -57,7 +57,24 @@ def public_project(project):
     return project
 
 
-def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=True, dwell_s=2.5, audio_decoder=None, research_backend=None, live_research=False, research_bridge=False, research_web=False, preparation_research=None):
+def material_sources(raw,figure_extractor=None):
+    """Import sources and explicitly requested PDF figures into draft material."""
+    sources=[]
+    for s in raw:
+        data=base64.b64decode(s['base64'],validate=True) if 'base64' in s else s.get('text','').encode()
+        name=s.get('name','Notes.md')
+        sources.append(ingest(name,data,s.get('description','')))
+        config=s.get('extract_figures')
+        if config is not None:
+            if not figure_extractor:raise ValueError('Enable the optional Docling figure extractor first.')
+            if Path(name).suffix.lower()!='.pdf' or not isinstance(config,dict):raise ValueError('Figure extraction needs a PDF and page options.')
+            pages=config.get('pages',[1,3])
+            if not isinstance(pages,list) or len(pages)!=2:raise ValueError('Select the first and last PDF page.')
+            sources.extend(figure_extractor.extract(name,data,pages=tuple(pages))['figures'])
+    return sources
+
+
+def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=True, dwell_s=2.5, audio_decoder=None, research_backend=None, live_research=False, research_bridge=False, research_web=False, preparation_research=None, stabilize_text=False, figure_extractor=None):
     writer_lock = (store.root / '.server.lock').open('a')
     try:
         fcntl.flock(writer_lock,fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -82,7 +99,7 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
         return {**public_project(p),'stage_access':stage_token(p['id'])}
 
     studio = Studio(store, planner=planner, live_assessor=jev_adviser if use_jev else None, dwell_s=dwell_s)
-    audio = LiveAudio(studio, audio_decoder) if audio_decoder else None
+    audio = LiveAudio(studio, audio_decoder,stabilize_text=stabilize_text) if audio_decoder else None
     if research_web:
         research_backend=research_backend or ResearchProcess(command=[sys.executable,'-m','presenter.web_research'])
         preparation_research=preparation_research or PreparationResearch(research_backend)
@@ -200,10 +217,7 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                     raise ValueError("Expected a JSON object.")
                 path = urlparse(self.path).path
                 if path == "/api/projects":
-                    sources = []
-                    for s in body.get("sources", []):
-                        data = base64.b64decode(s["base64"], validate=True) if "base64" in s else s.get("text", "").encode()
-                        sources.append(ingest(s.get("name", "Notes.md"), data, s.get('description','')))
+                    sources=material_sources(body.get('sources',[]),figure_extractor)
                     p = store.create(title=str(body.get("title", "")), brief=str(body.get("brief", "")),
                                      audience=str(body.get("audience", "")), sources=sources, provider=body.get("provider", "copilot"))
                     return self.reply(201, project_view(studio.prepare(p["id"])))
@@ -221,10 +235,7 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                     result = studio.context(pid, title=str(body.get("title", "")), brief=str(body.get("brief", "")),
                                             audience=str(body.get("audience", "")), provider=body.get("provider", "copilot"))
                 elif action == 'sources':
-                    sources=[]
-                    for s in body.get('sources', []):
-                        data=base64.b64decode(s['base64'],validate=True) if 'base64' in s else s.get('text','').encode()
-                        sources.append(ingest(s.get('name','Notes.md'),data,s.get('description','')))
+                    sources=material_sources(body.get('sources',[]),figure_extractor)
                     result=studio.add_sources(pid,sources)
                 elif action == "approve":
                     result = studio.approve(pid, body.get("revision"), body.get("reviewed"))
@@ -316,12 +327,16 @@ def main():
     ap.add_argument('--research',action='store_true',help='Enable the optional background live source-procurement worker (uses existing Jev credentials).')
     ap.add_argument('--research-bridge',action='store_true',help='Connect an active research agent through the authenticated research job/result API.')
     ap.add_argument('--research-web',action='store_true',help='Research the brief before preparation and enable unattended public web lookup during rehearsal.')
+    ap.add_argument('--stabilize-text',action='store_true',help='Experimental RealtimeSTT stable-text adapter for local audio')
+    ap.add_argument('--figure-python',type=Path,help='Enable optional Docling PDF figure imports using this isolated Python environment')
     args = ap.parse_args()
     if sum((args.research,args.research_bridge,args.research_web))>1:ap.error('Choose one research mode.')
     load_jev_env(args.env_file)
     enabled = not args.no_jev and bool(os.getenv("JEV_API_KEY") or os.getenv("TYPESAFE_API_KEY"))
+    from .pdf_figures import DoclingFigures
     server = make_server(Store(args.data_dir), port=args.port, use_jev=enabled,
-                         audio_decoder=SubprocessRecognizer(args.asr_python) if args.asr_python else None,live_research=args.research,research_bridge=args.research_bridge,research_web=args.research_web)
+                         audio_decoder=SubprocessRecognizer(args.asr_python) if args.asr_python else None,live_research=args.research,research_bridge=args.research_bridge,research_web=args.research_web,
+                         stabilize_text=args.stabilize_text,figure_extractor=DoclingFigures(args.figure_python) if args.figure_python else None)
     print(f"Live Presenter studio: http://127.0.0.1:{server.server_port}/#access={server.access_token}", flush=True)
     print("Sources, conversations and approval packages stay in " + str(args.data_dir.resolve()), flush=True)
     try:
