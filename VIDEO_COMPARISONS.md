@@ -1,5 +1,9 @@
 # Expanded TED audio/video comparisons
 
+The separately labeled follow-up in [`SUPPLIED_VISUALS.md`](SUPPLIED_VISUALS.md)
+adds actual image assets, explicit defaults and a small historical CSV. The
+transcript-only first-pass results below remain unchanged.
+
 Two additional talks have now completed full audio-only follower tests with the
 controller frozen at `bfeebe9f9b826eac343cd16f318d6e65533e825d`:
 [Derek Sivers, How to start a movement](https://www.ted.com/talks/derek_sivers_how_to_start_a_movement)

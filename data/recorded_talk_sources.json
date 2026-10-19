@@ -27,7 +27,8 @@
       "speaker": "David McCandless",
       "status": "frozen_controller_full_audio_comparison_complete",
       "style": "Visual-heavy data explanation; exposed incomplete preparation and missing datasets/image assets",
-      "preparation": "Same-talk untimed transcript; original partial five-idea and operator-assisted ten-idea conditions"
+      "preparation": "Same-talk untimed transcript; original partial five-idea and operator-assisted ten-idea conditions",
+      "follow_up": "Separate known-talk repair: operator-curated twelve-idea package with five supplied original frames, a two-row historical CSV and explicit visual defaults. No independent quality claim."
     },
     {
       "id": "ted_sivers_start_movement",

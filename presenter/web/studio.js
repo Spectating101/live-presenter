@@ -156,7 +156,7 @@ function renderPreparation(p) {
       button.setAttribute('aria-label', `Preview ${scene.title} · ${scene.kind}`);
       button.append(renderScene(scene, true));
       button.addEventListener('click', () => { $('full-preview').replaceChildren(renderScene(scene)); $('visual-dialog').showModal(); });
-      const isDefault = scene.id === (concept.default_scene_id || plan.scenes.find(s => s.concept_id === concept.id).id);
+      const isDefault = scene.id === concept.default_scene_id;
       const choose = el('button', 'text-button default-visual', isDefault ? '✓ Default visual' : 'Use as default');
       choose.disabled = isDefault || p.live.active || p.job.status !== 'ready';
       choose.onclick = () => action('default-scene', { scene_id: scene.id }).catch(e => notify(e.message));

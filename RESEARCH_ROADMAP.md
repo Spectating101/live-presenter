@@ -25,6 +25,9 @@ two new frozen-controller full-audio comparisons. McCandless exposes incomplete
 preparation, missing source graphics and within-topic view selection despite high
 coarse alignment after operator assistance. These are development observations;
 independent editorial and audience evaluation remain outstanding.
+`SUPPLIED_VISUALS.md` adds bounded supplied-image scenes, presenter-selected
+defaults and an explicit supplemental-input manifest. Its McCandless follow-up is
+a repair experiment on known development material, not independent validation.
 
 ## Verified working baseline
 
