@@ -66,7 +66,7 @@ def recorded_audio(config,folder):
     return copy.deepcopy(config['segments'])
 
 
-def run(folder,asr_python,fixture_path=None):
+def run(folder,asr_python,fixture_path=None,await_browser=False):
     folder=folder.absolute();folder.mkdir(parents=True,exist_ok=True,mode=0o700)
     if any((folder/name).exists() for name in ('result.json','started.json')):
         raise ValueError('Use a new output directory; recorded attempts are preserved.')
@@ -103,6 +103,17 @@ def run(folder,asr_python,fixture_path=None):
         if any(term in prepared_text for term in withheld_terms):
             raise ValueError('A detour appeared in preparation; this attempt cannot claim it was unprepared.')
         p=call(url+'/approve',{'revision':p['revision'],'reviewed':True});approval=p['approval']['package_hash']
+        if await_browser:
+            # Private capability URLs are written only to this ignored attempt
+            # directory. This is coordination, not evidence of browser rendering.
+            save(folder/'browser-connection.json',{
+                'access_url':f'http://127.0.0.1:{server.server_port}/#access={server.access_token}&p={pid}',
+                'base_url':f'http://127.0.0.1:{server.server_port}','project_id':pid})
+            print(json.dumps({'browser_attachment':'waiting','connection_file':str(folder/'browser-connection.json')}),flush=True)
+            attached_deadline=time.monotonic()+120
+            while not (folder/'browser-ready').exists():
+                if time.monotonic()>attached_deadline:raise TimeoutError('Browser attachment was not signaled in time.')
+                time.sleep(.1)
         p=call(url+'/control',{'action':'start'})
         p=call(url+'/control',{'action':'reflex','enabled':True})
         p=call(url+'/control',{'action':'research','enabled':True})
@@ -161,6 +172,7 @@ def run(folder,asr_python,fixture_path=None):
             'research_history':p.get('research_history',[]),'research_samples':samples,
             'worker':{k:v for k,v in state.items() if k not in {'stream_id','generation','updates','last_seen'}},
             'observer_errors':observer_errors,'browser_used':False,'physical_microphone_used':False,'independent_quality_review':False,
+            'browser_attachment_requested':await_browser,
             'operator_interventions_during_speech':0,'online_results_injected_by_operator':0,'stage_dwell_s':2.5,
             'limitations':(['Synthetic and development-authored script, not a human or independent holdout.'] if not config else config['limitations'])+[
                 'Real paced PCM HTTP, local tiny.en ASR, unattended web requests and stage API; excludes browser paint and physical microphone/projector.',
@@ -182,8 +194,9 @@ def main():
     parser.add_argument('--out-dir',type=Path,required=True)
     parser.add_argument('--asr-python',type=Path,default=Path('.venv-asr/bin/python'))
     parser.add_argument('--fixture-json',type=Path,help='Pinned real-audio fixture; omit for the synthetic detour script')
+    parser.add_argument('--await-browser',action='store_true',help='Wait for a private browser-ready file before speech; rendering must be verified separately')
     args=parser.parse_args()
-    result=run(args.out_dir,args.asr_python,args.fixture_json)
+    result=run(args.out_dir,args.asr_python,args.fixture_json,args.await_browser)
     print(json.dumps({'elapsed_s':result['elapsed_s'],'stage_changes':len(result['stage_events']),
                      'research_completions':len(result['research_history']),'result':str(args.out_dir/'result.json')}),flush=True)
 
