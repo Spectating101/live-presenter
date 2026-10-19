@@ -1,0 +1,613 @@
+{
+  "schema": "live_presenter.faster_live_research.v1",
+  "date": "2026-10-19",
+  "implementation_commit": "9f6e95a9fc5a9db878d1443a2829d66c74073520",
+  "baseline_commit": "2f63c85a456c882666341bb3db0dafea58c6843a",
+  "code_fingerprints": {
+    "research.py": "f982eb0ffe6dd18731e9da0873d24558e4ac0a97cd700cab748b5c39a48e1f81",
+    "web_research.py": "79c91e16b73a299d4662f42a5ef3763fbd8d456d8a78af4a8d8cf1a68b2e1dbc",
+    "research_sources.py": "1c8681e8d4412e03eaffae8c2f07088ee44ddc021ccd372ff96a6b66352d33c8"
+  },
+  "backend_probe": {
+    "private_artifact": "artifacts/research_latency_v1/result.json",
+    "artifact_sha256": "a8cc45056d2abb184bcb7af719d3bcbf02e5dcf793d6e648743cb22ab64871d7",
+    "source_recording_result_sha256": "75483fcb488d2c462ac60be83dd684f6ee320dec9a8c6a640206d10c21187ffb",
+    "context_sha256": "81e2878cca7a30e7b004d904b3569b1e928361b5ce190f754198b8712b9ab531",
+    "measurement": "Fresh child invocation to first supported source result receipt; excludes ASR, live controller, stage API and browser paint.",
+    "serial_order": [
+      "baseline",
+      "progressive",
+      "progressive",
+      "baseline",
+      "baseline",
+      "progressive"
+    ],
+    "summary": {
+      "baseline": {
+        "attempts": 3,
+        "ready": 3,
+        "application_cache_hits": 0,
+        "first_supported_result_s": {
+          "min": 5.263865868037101,
+          "median": 5.364876365987584,
+          "max": 6.928618600009941
+        },
+        "final_result_s": {
+          "min": 5.263865868037101,
+          "median": 5.364876365987584,
+          "max": 6.928618600009941
+        }
+      },
+      "progressive": {
+        "attempts": 3,
+        "ready": 3,
+        "application_cache_hits": 0,
+        "first_supported_result_s": {
+          "min": 3.4926365109859034,
+          "median": 3.667943478038069,
+          "max": 4.05686130101094
+        },
+        "final_result_s": {
+          "min": 3.8570003359927796,
+          "median": 3.950147995026782,
+          "max": 4.653732393984683
+        }
+      }
+    },
+    "median_reduction_fraction": 0.3163041927131415,
+    "same_source_and_quote_all_six": true,
+    "conditions": [
+      {
+        "repetition": 0,
+        "mode": "baseline",
+        "status": "ready",
+        "first_supported_result_s": 5.364876365987584,
+        "final_result_s": 5.364876365987584,
+        "cache_hit": false,
+        "sources": [
+          {
+            "title": "First Follower: Leadership Lessons from a Dancing Guy | Derek Sivers",
+            "kind": "evidence",
+            "url": "https://sive.rs/ff",
+            "quote_sha256": "a350c8fadb371389e77c2fed6758c86216d138458959a9131e47d25eec1ab1b3"
+          }
+        ],
+        "timing": {},
+        "classifier_calls": [
+          {
+            "questions": [
+              "query"
+            ],
+            "elapsed_s": 0.275347716989927,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "related"
+            ],
+            "elapsed_s": 0.21726553002372384,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "page"
+            ],
+            "elapsed_s": 0.2572469760198146,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source",
+              "image"
+            ],
+            "elapsed_s": 0.22902767296181992,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source_support"
+            ],
+            "elapsed_s": 0.20880028302781284,
+            "model": "jev-1.13.0",
+            "ok": true
+          }
+        ],
+        "raw_sha256": "109da452dd946bce13ba0b5130c68b1733a1ddfaa44abf534efab87da5d555aa"
+      },
+      {
+        "repetition": 0,
+        "mode": "progressive",
+        "status": "ready",
+        "first_supported_result_s": 3.4926365109859034,
+        "final_result_s": 3.8570003359927796,
+        "cache_hit": false,
+        "sources": [
+          {
+            "title": "First Follower: Leadership Lessons from a Dancing Guy | Derek Sivers",
+            "kind": "evidence",
+            "url": "https://sive.rs/ff",
+            "quote_sha256": "a350c8fadb371389e77c2fed6758c86216d138458959a9131e47d25eec1ab1b3"
+          }
+        ],
+        "timing": {
+          "topic_ready_s": 0.6559249489801005,
+          "search_ready_s": 1.2959135749842972,
+          "first_page_ready_s": 2.6715460009872913,
+          "checked_source_ready_s": 3.120286170975305
+        },
+        "classifier_calls": [
+          {
+            "questions": [
+              "query"
+            ],
+            "elapsed_s": 0.4576093549840152,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "related"
+            ],
+            "elapsed_s": 0.1972815110348165,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source"
+            ],
+            "elapsed_s": 0.24998274899553508,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source_support"
+            ],
+            "elapsed_s": 0.19858861598186195,
+            "model": "jev-1.13.0",
+            "ok": true
+          }
+        ],
+        "raw_sha256": "00388e48c3bded55ac07826862f639b8a243e9083b2b9a10982d2e5320e77725"
+      },
+      {
+        "repetition": 1,
+        "mode": "progressive",
+        "status": "ready",
+        "first_supported_result_s": 3.667943478038069,
+        "final_result_s": 3.950147995026782,
+        "cache_hit": false,
+        "sources": [
+          {
+            "title": "First Follower: Leadership Lessons from a Dancing Guy | Derek Sivers",
+            "kind": "evidence",
+            "url": "https://sive.rs/ff",
+            "quote_sha256": "a350c8fadb371389e77c2fed6758c86216d138458959a9131e47d25eec1ab1b3"
+          }
+        ],
+        "timing": {
+          "topic_ready_s": 0.8560639920178801,
+          "search_ready_s": 1.2716284510097466,
+          "first_page_ready_s": 2.7500222219969146,
+          "checked_source_ready_s": 3.287468159047421
+        },
+        "classifier_calls": [
+          {
+            "questions": [
+              "query"
+            ],
+            "elapsed_s": 0.41654723399551585,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "related"
+            ],
+            "elapsed_s": 0.4384164420189336,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source"
+            ],
+            "elapsed_s": 0.19317490002140403,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source_support"
+            ],
+            "elapsed_s": 0.3440905369934626,
+            "model": "jev-1.13.0",
+            "ok": true
+          }
+        ],
+        "raw_sha256": "6f8b536320df84670634204033c4ec7b367ea1c99146de2a484ee8dabf3426b6"
+      },
+      {
+        "repetition": 1,
+        "mode": "baseline",
+        "status": "ready",
+        "first_supported_result_s": 6.928618600009941,
+        "final_result_s": 6.928618600009941,
+        "cache_hit": false,
+        "sources": [
+          {
+            "title": "First Follower: Leadership Lessons from a Dancing Guy | Derek Sivers",
+            "kind": "evidence",
+            "url": "https://sive.rs/ff",
+            "quote_sha256": "a350c8fadb371389e77c2fed6758c86216d138458959a9131e47d25eec1ab1b3"
+          }
+        ],
+        "timing": {},
+        "classifier_calls": [
+          {
+            "questions": [
+              "query"
+            ],
+            "elapsed_s": 0.24271796504035592,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "related"
+            ],
+            "elapsed_s": 0.23344631597865373,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "page"
+            ],
+            "elapsed_s": 0.1959677129634656,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source",
+              "image"
+            ],
+            "elapsed_s": 1.7592913870466873,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source_support"
+            ],
+            "elapsed_s": 0.18731857097009197,
+            "model": "jev-1.13.0",
+            "ok": true
+          }
+        ],
+        "raw_sha256": "92eb28032b798d63d717ab3e3f14b50606d372c60ece10076604fb663929f29a"
+      },
+      {
+        "repetition": 2,
+        "mode": "baseline",
+        "status": "ready",
+        "first_supported_result_s": 5.263865868037101,
+        "final_result_s": 5.263865868037101,
+        "cache_hit": false,
+        "sources": [
+          {
+            "title": "First Follower: Leadership Lessons from a Dancing Guy | Derek Sivers",
+            "kind": "evidence",
+            "url": "https://sive.rs/ff",
+            "quote_sha256": "a350c8fadb371389e77c2fed6758c86216d138458959a9131e47d25eec1ab1b3"
+          }
+        ],
+        "timing": {},
+        "classifier_calls": [
+          {
+            "questions": [
+              "query"
+            ],
+            "elapsed_s": 0.33453020796878263,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "related"
+            ],
+            "elapsed_s": 0.5280625380109996,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "page"
+            ],
+            "elapsed_s": 0.21198238100623712,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source",
+              "image"
+            ],
+            "elapsed_s": 0.20925395097583532,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source_support"
+            ],
+            "elapsed_s": 0.382322238991037,
+            "model": "jev-1.13.0",
+            "ok": true
+          }
+        ],
+        "raw_sha256": "a7a6290175b64a33b65070233acb3ecbfee358730dce09ea637ff23fe30ea871"
+      },
+      {
+        "repetition": 2,
+        "mode": "progressive",
+        "status": "ready",
+        "first_supported_result_s": 4.05686130101094,
+        "final_result_s": 4.653732393984683,
+        "cache_hit": false,
+        "sources": [
+          {
+            "title": "First Follower: Leadership Lessons from a Dancing Guy | Derek Sivers",
+            "kind": "evidence",
+            "url": "https://sive.rs/ff",
+            "quote_sha256": "a350c8fadb371389e77c2fed6758c86216d138458959a9131e47d25eec1ab1b3"
+          }
+        ],
+        "timing": {
+          "topic_ready_s": 0.7322898400016129,
+          "search_ready_s": 1.3784878840087913,
+          "first_page_ready_s": 3.130027982988395,
+          "checked_source_ready_s": 3.6503340910421684
+        },
+        "classifier_calls": [
+          {
+            "questions": [
+              "query"
+            ],
+            "elapsed_s": 0.28417000197805464,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "related"
+            ],
+            "elapsed_s": 0.4471291520167142,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source"
+            ],
+            "elapsed_s": 0.2325316169881262,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source_support"
+            ],
+            "elapsed_s": 0.2875974220223725,
+            "model": "jev-1.13.0",
+            "ok": true
+          }
+        ],
+        "raw_sha256": "6225055ac54386796e456dafe97e63c81833312e7539bf92a5bf334667e137c6"
+      }
+    ],
+    "limits": [
+      "Same known development question, alternating serial order; no independence/reliability estimate.",
+      "Fresh child processes with no application result cache; external search/CDN caches remain uncontrolled.",
+      "Measures backend result receipt, excluding ASR, scheduling, stage API and browser paint.",
+      "First supported quotation can come from a different source than the baseline. Optional enrichment may take longer."
+    ]
+  },
+  "audio_replays": {
+    "previous": {
+      "private_artifact": "artifacts/researched_rehearsal_sivers_v1/result.json",
+      "artifact_sha256": "75483fcb488d2c462ac60be83dd684f6ee320dec9a8c6a640206d10c21187ffb",
+      "code_commit": "dcc229dd259c29740ee16af9de82ea9ca9074306",
+      "code_fingerprints": {
+        "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+        "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+        "research.py": "dac38d85c4af645d1f4f797f981908db98bb26fc9b57d6b9e3c2210ff58ed7f0",
+        "research_sources.py": "1c8681e8d4412e03eaffae8c2f07088ee44ddc021ccd372ff96a6b66352d33c8",
+        "web_research.py": "5881d0e8ec0adc978324e64110c8280b35afb5c06c78466bfde961fe28033d12",
+        "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+        "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+        "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876",
+        "researched_demo.py": "c9f38bf01ad819c289851da14a5481b30488c86103669ec64c2de2f70ae03ca6"
+      },
+      "audio_sha256": "df332a4b6607c740f0144e803ec7a3300136f3d0f5c349a1db5fcada3ca7b913",
+      "prepared_package_hash": "c09b0239576e1da8f4e6f24fff3736be4b97486914b07b90895b19eadeeca20c",
+      "prepared_sources": 1,
+      "prepared_scenes": 2,
+      "preparation_s": 3.6493868340039626,
+      "approval_unchanged": true,
+      "worker": {
+        "status": "ready",
+        "last_seq": 119,
+        "received": 120,
+        "processed": 106,
+        "dropped": 14,
+        "rejected": 0,
+        "timeouts": 2,
+        "expired": 2,
+        "error": null
+      },
+      "matching_cue_recognized": true,
+      "first_matching_asr_completion_estimate_s": 26.267878120066598,
+      "fresh_stage_events": [
+        {
+          "at_s": 33.35066669003572,
+          "scene_id": "web_public_de5423c8ec80c612",
+          "kind": "evidence",
+          "url": "https://sive.rs/ff",
+          "quote_sha256": "a350c8fadb371389e77c2fed6758c86216d138458959a9131e47d25eec1ab1b3",
+          "support_score": 0.95
+        }
+      ],
+      "cue_to_first_fresh_stage_s": 7.082788569969125,
+      "observer_errors": [],
+      "operator_interventions_during_speech": 0,
+      "online_results_injected_by_operator": 0,
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "independent_quality_review": false,
+      "history_statuses": [
+        "no_match",
+        "no_match",
+        "no_match",
+        "ready",
+        "no_match",
+        "no_match",
+        "no_match",
+        "no_match",
+        "no_match",
+        "no_match",
+        "no_match",
+        "no_match",
+        "no_match"
+      ],
+      "report": "artifacts/researched_rehearsal_sivers_v1/index.html",
+      "movie": "artifacts/researched_rehearsal_sivers_v1/stage-api-reconstruction.mp4",
+      "limits": [
+        "This recording was used in earlier development; this condition is not a held-out talk.",
+        "Only the brief and notes, followed by autonomous preparation research, are supplied before the audio. The full recording transcript is not supplied.",
+        "No claim that all spoken subjects are absent from the automatically researched preparation.",
+        "Real paced PCM HTTP, local tiny.en ASR, unattended web requests and stage API; excludes browser paint and physical microphone/projector.",
+        "Source outline preparation is extractive; a functioning generative preparation conversation was unavailable because Copilot accounts were quota-blocked.",
+        "External search caches may already contain development queries; this is not a cold-provider service benchmark."
+      ]
+    },
+    "progressive": {
+      "private_artifact": "artifacts/faster_rehearsal_sivers_v1/result.json",
+      "artifact_sha256": "467f97be0fe6e40839cdfd55346c0196754a5c1779e7042c2ca7000a41aa0cec",
+      "code_commit": "9f6e95a9fc5a9db878d1443a2829d66c74073520",
+      "code_fingerprints": {
+        "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+        "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+        "research.py": "f982eb0ffe6dd18731e9da0873d24558e4ac0a97cd700cab748b5c39a48e1f81",
+        "research_sources.py": "1c8681e8d4412e03eaffae8c2f07088ee44ddc021ccd372ff96a6b66352d33c8",
+        "web_research.py": "79c91e16b73a299d4662f42a5ef3763fbd8d456d8a78af4a8d8cf1a68b2e1dbc",
+        "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+        "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+        "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876",
+        "researched_demo.py": "c9f38bf01ad819c289851da14a5481b30488c86103669ec64c2de2f70ae03ca6"
+      },
+      "audio_sha256": "df332a4b6607c740f0144e803ec7a3300136f3d0f5c349a1db5fcada3ca7b913",
+      "prepared_package_hash": "c09b0239576e1da8f4e6f24fff3736be4b97486914b07b90895b19eadeeca20c",
+      "prepared_sources": 1,
+      "prepared_scenes": 2,
+      "preparation_s": 7.670149093028158,
+      "approval_unchanged": true,
+      "worker": {
+        "status": "ready",
+        "last_seq": 119,
+        "received": 120,
+        "processed": 5,
+        "dropped": 115,
+        "rejected": 0,
+        "timeouts": 9,
+        "expired": 0,
+        "error": null
+      },
+      "matching_cue_recognized": false,
+      "first_matching_asr_completion_estimate_s": null,
+      "fresh_stage_events": [],
+      "cue_to_first_fresh_stage_s": null,
+      "observer_errors": [],
+      "operator_interventions_during_speech": 0,
+      "online_results_injected_by_operator": 0,
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "independent_quality_review": false,
+      "history_statuses": [
+        "no_match",
+        "no_match"
+      ],
+      "report": "artifacts/faster_rehearsal_sivers_v1/index.html",
+      "movie": "artifacts/faster_rehearsal_sivers_v1/stage-api-reconstruction.mp4",
+      "limits": [
+        "This recording was used in earlier development; this condition is not a held-out talk.",
+        "Only the brief and notes, followed by autonomous preparation research, are supplied before the audio. The full recording transcript is not supplied.",
+        "No claim that all spoken subjects are absent from the automatically researched preparation.",
+        "Real paced PCM HTTP, local tiny.en ASR, unattended web requests and stage API; excludes browser paint and physical microphone/projector.",
+        "Source outline preparation is extractive; a functioning generative preparation conversation was unavailable because Copilot accounts were quota-blocked.",
+        "External search caches may already contain development queries; this is not a cold-provider service benchmark."
+      ]
+    }
+  },
+  "isolated_asr_diagnostic": {
+    "private_artifact": "artifacts/faster-asr-diagnostic-v1.json",
+    "artifact_sha256": "32469dbc3d8432e23160872fa7a6ba2917c5e822b140cb65936e2d6b2ed118ff",
+    "cpu_count": 6,
+    "loadavg_start": "21.07 14.09 7.43 6/5212 2025629",
+    "samples": [
+      {
+        "end_s": 25,
+        "startup_s": 24.918014894006774,
+        "decode_s": 2.509539771010168,
+        "error_type": "TimeoutError"
+      },
+      {
+        "end_s": 26,
+        "startup_s": 23.317205149040092,
+        "decode_s": 2.329252808005549,
+        "error_type": "TimeoutError"
+      },
+      {
+        "end_s": 27,
+        "startup_s": 17.048781380988657,
+        "decode_s": 2.3204822769621387,
+        "error_type": "TimeoutError"
+      }
+    ],
+    "timeout_s": 2,
+    "threads": 4,
+    "loadavg_end": "27.35 17.92 9.31 27/5189 2031941",
+    "contemporaneous_cpu_pressure": {
+      "source": "/proc/pressure/cpu read in operator tool output during diagnostic",
+      "some_avg10_percent": 68.48,
+      "some_avg60_percent": 58.66,
+      "some_avg300_percent": 40.37,
+      "causality": "Consistent with contention, not an isolated-cause experiment."
+    }
+  },
+  "verification": {
+    "python_tests": 172,
+    "python_status": "passed make verify",
+    "python_log": "artifacts/faster-research-verify.log",
+    "python_log_sha256": "49f23a19fe2ac068540416d0fbe0a4d683569200a4034613d17692fd8bd11ad9",
+    "node_tests": 6,
+    "node_status": "passed",
+    "node_log_sha256": "3d0550fb1a26fb91d2be180e0ab86e28ae68959b762eb9972c97af536fda2107",
+    "browser_module_syntax": "passed",
+    "browser_integration_tested": false,
+    "failed_audio_movie_duration_s": 120
+  },
+  "conclusion": "Backend first-result time improved on one known question. New audio replay failed at recognition; no new end-to-end timing result or near-instant live claim.",
+  "remaining": [
+    "Successful frozen-code audio replay with adequate CPU availability.",
+    "Unseen questions and independent judgment of first-source usefulness.",
+    "Browser paint, physical microphone and presentation hardware timing.",
+    "Generative preparation still blocked by unavailable provider account."
+  ]
+}

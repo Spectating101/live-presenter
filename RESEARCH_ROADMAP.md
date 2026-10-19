@@ -42,6 +42,11 @@ no new source intervention; a fifth repair displayed a new heat-pipe source but
 missed the thermoelectric detour. All attempts are retained. The HTML search
 integration is experimental, conversational preparation is account-blocked, and
 physical browser/microphone plus independent editorial acceptance remain open.
+`FASTER_LIVE_RESEARCH.md` reduces same-question backend median first-result time
+from 5.36 to 3.67 seconds by publishing checked quotes before optional enrichment.
+The follow-up TED replay failed at recognition under high machine load, so this
+does not establish improved speech-to-stage latency. Repeat that frozen audio
+condition with adequate CPU availability before claiming an end-to-end gain.
 
 ## Verified working baseline
 
