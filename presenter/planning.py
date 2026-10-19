@@ -27,6 +27,7 @@ def validate_plan(raw, project):
     if not isinstance(raw, dict):
         raise PlanError("Preparation response must be a JSON object.")
     units = units_for(project)
+    origins={unit['id']:source['web_source'] for source in project['sources'] if source.get('web_source') for unit in source['units']}
     datasets = {s["id"]: s["dataset"] for s in project["sources"] if s["dataset"]}
     assets = {s['id']:s for s in project['sources'] if s.get('asset')}
     concepts, scenes, used = [], [], set()
@@ -103,6 +104,9 @@ def validate_plan(raw, project):
         raise PlanError("No source-linked concepts were produced.")
     questions = [{"id": "q_" + identity(text(q.get("text"))), "text": text(q.get("text"), 500),
                   "blocking": q.get("blocking") is True} for q in raw.get("questions", [])[:8] if text(q.get("text"))]
+    for scene in scenes:
+        origin=next((origins[ref['unit_id']] for ref in scene['source_refs'] if ref['unit_id'] in origins),None)
+        if origin:scene['web_source']=copy.deepcopy(origin)
     return {"title": text(raw.get("title") or project["title"], 120),
             "understanding": text(raw.get("understanding"), 1600), "audience": text(raw.get("audience"), 300),
             "takeaway": text(raw.get("takeaway"), 500), "questions": questions,

@@ -1,0 +1,1588 @@
+{
+  "schema": "live_presenter.researched_rehearsal_pilot.v1",
+  "date": "2026-10-19",
+  "current_controller_fingerprints": {
+    "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+    "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+    "research.py": "dac38d85c4af645d1f4f797f981908db98bb26fc9b57d6b9e3c2210ff58ed7f0",
+    "research_sources.py": "1c8681e8d4412e03eaffae8c2f07088ee44ddc021ccd372ff96a6b66352d33c8",
+    "web_research.py": "5881d0e8ec0adc978324e64110c8280b35afb5c06c78466bfde961fe28033d12",
+    "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+    "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+    "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876"
+  },
+  "attempts": [
+    {
+      "git_commit": "673c0290dcccd48939b729b5d0d3ec0b0d6b30f0",
+      "code_fingerprints": {
+        "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+        "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+        "research.py": "860936e90c32d4a12c300aee7cd3cb567a68024653b9f5e1aa77137674a31a42",
+        "research_sources.py": "502775146e4c80c4ad1763d3d335af29c0f415c5e8064d8ac167cc16f9768e26",
+        "web_research.py": "1b1d2582f4e6f081dfb74ac71b35be79ff81cf06d1986cd7ec0be4ba3fbbc931",
+        "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+        "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+        "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876",
+        "researched_demo.py": "27a906e8a9d056d7a0767fded2f9b925ddacbbe92b49ad50f46572bc6f5c4bca"
+      },
+      "preparation_s": 3.7176978930365294,
+      "prepared_package_hash": "00e9397a123ee7f151a64eb94f9a65ebbacda5aebb6920aa738f6e7db9cad5d6",
+      "prepared_source_count": 3,
+      "prepared_scene_count": 6,
+      "approval_unchanged_during_rehearsal": true,
+      "elapsed_s": 115.1870192940114,
+      "observer_errors": [],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "independent_quality_review": false,
+      "operator_interventions_during_speech": 0,
+      "online_results_injected_by_operator": 0,
+      "stage_dwell_s": 2.5,
+      "limitations": [
+        "Synthetic and development-authored script, not a human or independent holdout.",
+        "Real paced PCM HTTP, local tiny.en ASR, unattended web requests and stage API; excludes browser paint and physical microphone/projector.",
+        "Source outline preparation is extractive; a functioning generative preparation conversation was unavailable because Copilot accounts were quota-blocked.",
+        "External search caches may already contain development queries; this is not a cold-provider service benchmark."
+      ],
+      "id": "researched_rehearsal_v1",
+      "private_artifact": "artifacts/researched_rehearsal_v1/result.json",
+      "artifact_sha256": "1ba17a598fe79f6603041df71307f91f4f1772180bb5498a758cb28717124fdc",
+      "report": "artifacts/researched_rehearsal_v1/index.html",
+      "movie": "artifacts/researched_rehearsal_v1/stage-api-reconstruction.mp4",
+      "current_controller_matches": false,
+      "input": {
+        "title": "Computer water cooling pump and radiator",
+        "brief": "Explain how a pumped water loop moves heat from a computer processor to a radiator. The audience is new to the topic.",
+        "supplied_notes": "A pump circulates liquid through a hot component and radiator. The radiator transfers heat to the surrounding air.",
+        "supplied_notes_sha256": "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c",
+        "future_speech_supplied_to_preparation": false,
+        "withheld_terms_absent": [
+          "heat pipe",
+          "thermoelectric",
+          "sourdough"
+        ],
+        "audio_sha256": "4603a728e947e415f6b1d0de6b2bd2c0df59b7b88caa88c4fab330f416aaaf99",
+        "speech": "FFmpeg libflite slt synthetic English speech; separately synthesized paragraphs concatenated without added pauses"
+      },
+      "worker": {
+        "status": "ready",
+        "last_seq": 114,
+        "received": 115,
+        "processed": 108,
+        "dropped": 7,
+        "rejected": 1,
+        "timeouts": 1,
+        "expired": 0,
+        "error": null
+      },
+      "preparation_research": {
+        "input_signature": "e202f3ab7514a1c1be0c753f68268bd340d584d7fabed448572645ff6d1e0385",
+        "query": "Computer water cooling pump and radiator",
+        "started_at": 1792406831.750219,
+        "sources": [
+          {
+            "id": "src_bce1c7714a99",
+            "sha256": "bce1c7714a991e7b9fbc876b37023c7ca1da087aeebe7cd35bd060ac3546624c",
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "image_url": null,
+            "image_license": null
+          },
+          {
+            "id": "src_73dddae08d22",
+            "sha256": "73dddae08d228a8fdcce1a1fdf6410e3cb73fcadc50cdbc35abbc0dfb93fc7f9",
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "image_url": "https://commons.wikimedia.org/wiki/File:Liquid_cooling_schematic.png",
+            "image_license": "CC BY-SA 4.0"
+          }
+        ],
+        "status": "ready",
+        "future_speech_used": false,
+        "classifier_calls": [
+          {
+            "questions": [
+              "page"
+            ],
+            "elapsed_s": 0.28951421700185165,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source",
+              "image"
+            ],
+            "elapsed_s": 0.3080501459771767,
+            "model": "jev-1.13.0",
+            "ok": true
+          }
+        ],
+        "errors": [],
+        "message": "Online material added to the draft for review.",
+        "completed_at": 1792406835.4101543
+      },
+      "completed_status_counts": {
+        "no_match": 12
+      },
+      "automatic_research_interventions": 0,
+      "topic_checks": [
+        {
+          "id": "prepared_loop",
+          "condition": "prepared",
+          "start_s": 0,
+          "end_s": 18.56,
+          "lexical_topic_on_stage_s": 18.557961145010776,
+          "matching_stage_intervals": [
+            {
+              "at_s": 0.002038854989223182,
+              "scene_id": "concept_1419d78ba07d_0",
+              "fresh_retrieval": false,
+              "url": null
+            }
+          ],
+          "section_start_to_first_matching_scene_s": 0.002038854989223182
+        },
+        {
+          "id": "heat_pipe_detour",
+          "condition": "unprepared_related",
+          "start_s": 18.56,
+          "end_s": 46.959999999999994,
+          "lexical_topic_on_stage_s": 0,
+          "matching_stage_intervals": [],
+          "section_start_to_first_matching_scene_s": null
+        },
+        {
+          "id": "thermoelectric_detour",
+          "condition": "unprepared_related",
+          "start_s": 46.959999999999994,
+          "end_s": 74.92999999999999,
+          "lexical_topic_on_stage_s": 0,
+          "matching_stage_intervals": [],
+          "section_start_to_first_matching_scene_s": null
+        },
+        {
+          "id": "unrelated_control",
+          "condition": "unrelated",
+          "start_s": 74.92999999999999,
+          "end_s": 95.47999999999999,
+          "lexical_topic_on_stage_s": 0,
+          "matching_stage_intervals": [],
+          "section_start_to_first_matching_scene_s": null
+        },
+        {
+          "id": "return_to_loop",
+          "condition": "prepared",
+          "start_s": 95.47999999999999,
+          "end_s": 114.60499999999999,
+          "lexical_topic_on_stage_s": 19.125,
+          "matching_stage_intervals": [
+            {
+              "at_s": 95.47999999999999,
+              "scene_id": "concept_1419d78ba07d_0",
+              "fresh_retrieval": false,
+              "url": null
+            }
+          ],
+          "section_start_to_first_matching_scene_s": 0.0
+        }
+      ],
+      "topic_check_method": "Lexical checks of actual scene title, quotation and image description. Query strings are excluded. No independent factual, visual or audience-quality judgment.",
+      "stage_events": [
+        {
+          "at_s": 0.002038854989223182,
+          "scene_id": "concept_1419d78ba07d_0",
+          "state_version": 8,
+          "kind": "definition",
+          "title": "Pump notes.md",
+          "web_source": null,
+          "asset_sha256": null,
+          "quote_sha256": [
+            "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c"
+          ]
+        }
+      ],
+      "prepared_sources": [
+        {
+          "id": "src_d3f14af394a7",
+          "name": "Pump notes.md",
+          "sha256": "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c",
+          "retrieved_for_preparation": false,
+          "web_source": null
+        },
+        {
+          "id": "src_bce1c7714a99",
+          "name": "Water-cooling of a PC.md",
+          "sha256": "bce1c7714a991e7b9fbc876b37023c7ca1da087aeebe7cd35bd060ac3546624c",
+          "retrieved_for_preparation": true,
+          "web_source": {
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "provider": "Public web source",
+            "search_provider": "Brave public HTML · experimental",
+            "retrieved": true,
+            "retrieved_at": 1792406835.1491945,
+            "query": "Computer water cooling pump and radiator",
+            "presenter_reviewed": false,
+            "source_text_sha256": "78076969ecaa399020107f58fd45088a79e047d6d4c175d812789bf18e4e8402",
+            "relevance_confidence": 1.0
+          }
+        },
+        {
+          "id": "src_73dddae08d22",
+          "name": "Liquid cooling schematic.png",
+          "sha256": "73dddae08d228a8fdcce1a1fdf6410e3cb73fcadc50cdbc35abbc0dfb93fc7f9",
+          "retrieved_for_preparation": true,
+          "web_source": {
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "provider": "Public web source",
+            "search_provider": "Brave public HTML · experimental",
+            "retrieved": true,
+            "retrieved_at": 1792406835.1491945,
+            "query": "Computer water cooling pump and radiator",
+            "presenter_reviewed": false,
+            "source_text_sha256": "78076969ecaa399020107f58fd45088a79e047d6d4c175d812789bf18e4e8402",
+            "relevance_confidence": 1.0,
+            "image_url": "https://commons.wikimedia.org/wiki/File:Liquid_cooling_schematic.png",
+            "artist": "KVDP",
+            "image_license": "CC BY-SA 4.0",
+            "image_license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+            "pixels_semantically_verified": false
+          }
+        }
+      ]
+    },
+    {
+      "git_commit": "4cd3cbe355d3aae9f97ff2de95022b16e01a3bf9",
+      "code_fingerprints": {
+        "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+        "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+        "research.py": "015a16cc1c97de9e4e4caca8be80b7ef0aa5f626743ce1ff2313981fd3ddbe8c",
+        "research_sources.py": "e5b01060ea784b1af3774af26f09ad2a1172bb3b686a9a6a9070dcba8c47a734",
+        "web_research.py": "69bdf96830d5a570ee9e3330063d6929371636e9298b0a0a85065b3b54012b54",
+        "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+        "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+        "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876",
+        "researched_demo.py": "27a906e8a9d056d7a0767fded2f9b925ddacbbe92b49ad50f46572bc6f5c4bca"
+      },
+      "preparation_s": 3.339177033980377,
+      "prepared_package_hash": "9906efdbf4de5e1c3aeb2d0917bc4b8c11a6267c8c452baa4df22552a93babc9",
+      "prepared_source_count": 3,
+      "prepared_scene_count": 6,
+      "approval_unchanged_during_rehearsal": true,
+      "elapsed_s": 115.90401198901236,
+      "observer_errors": [],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "independent_quality_review": false,
+      "operator_interventions_during_speech": 0,
+      "online_results_injected_by_operator": 0,
+      "stage_dwell_s": 2.5,
+      "limitations": [
+        "Synthetic and development-authored script, not a human or independent holdout.",
+        "Real paced PCM HTTP, local tiny.en ASR, unattended web requests and stage API; excludes browser paint and physical microphone/projector.",
+        "Source outline preparation is extractive; a functioning generative preparation conversation was unavailable because Copilot accounts were quota-blocked.",
+        "External search caches may already contain development queries; this is not a cold-provider service benchmark."
+      ],
+      "id": "researched_rehearsal_v2",
+      "private_artifact": "artifacts/researched_rehearsal_v2/result.json",
+      "artifact_sha256": "8238d88ceb4a9911b3de8b5c6ab75c8c4f7ecfa65ba81595f0b2bf0aad40d7a6",
+      "report": "artifacts/researched_rehearsal_v2/index.html",
+      "movie": "artifacts/researched_rehearsal_v2/stage-api-reconstruction.mp4",
+      "current_controller_matches": false,
+      "input": {
+        "title": "Computer water cooling pump and radiator",
+        "brief": "Explain how a pumped water loop moves heat from a computer processor to a radiator. The audience is new to the topic.",
+        "supplied_notes": "A pump circulates liquid through a hot component and radiator. The radiator transfers heat to the surrounding air.",
+        "supplied_notes_sha256": "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c",
+        "future_speech_supplied_to_preparation": false,
+        "withheld_terms_absent": [
+          "heat pipe",
+          "thermoelectric",
+          "sourdough"
+        ],
+        "audio_sha256": "4603a728e947e415f6b1d0de6b2bd2c0df59b7b88caa88c4fab330f416aaaf99",
+        "speech": "FFmpeg libflite slt synthetic English speech; separately synthesized paragraphs concatenated without added pauses"
+      },
+      "worker": {
+        "status": "ready",
+        "last_seq": 114,
+        "received": 115,
+        "processed": 115,
+        "dropped": 0,
+        "rejected": 1,
+        "timeouts": 0,
+        "expired": 0,
+        "error": null
+      },
+      "preparation_research": {
+        "input_signature": "e202f3ab7514a1c1be0c753f68268bd340d584d7fabed448572645ff6d1e0385",
+        "query": "Computer water cooling pump and radiator",
+        "started_at": 1792407059.7211072,
+        "sources": [
+          {
+            "id": "src_bce1c7714a99",
+            "sha256": "bce1c7714a991e7b9fbc876b37023c7ca1da087aeebe7cd35bd060ac3546624c",
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "image_url": null,
+            "image_license": null
+          },
+          {
+            "id": "src_73dddae08d22",
+            "sha256": "73dddae08d228a8fdcce1a1fdf6410e3cb73fcadc50cdbc35abbc0dfb93fc7f9",
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "image_url": "https://commons.wikimedia.org/wiki/File:Liquid_cooling_schematic.png",
+            "image_license": "CC BY-SA 4.0"
+          }
+        ],
+        "status": "ready",
+        "future_speech_used": false,
+        "classifier_calls": [
+          {
+            "questions": [
+              "page"
+            ],
+            "elapsed_s": 0.21185281302314252,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source",
+              "image"
+            ],
+            "elapsed_s": 0.3482777809840627,
+            "model": "jev-1.13.0",
+            "ok": true
+          }
+        ],
+        "errors": [],
+        "message": "Online material added to the draft for review.",
+        "completed_at": 1792407063.0173044
+      },
+      "completed_status_counts": {
+        "no_match": 17
+      },
+      "automatic_research_interventions": 0,
+      "topic_checks": [
+        {
+          "id": "prepared_loop",
+          "condition": "prepared",
+          "start_s": 0,
+          "end_s": 18.56,
+          "lexical_topic_on_stage_s": 18.557421720996498,
+          "matching_stage_intervals": [
+            {
+              "at_s": 0.0025782790035009384,
+              "scene_id": "concept_1419d78ba07d_0",
+              "fresh_retrieval": false,
+              "url": null
+            }
+          ],
+          "section_start_to_first_matching_scene_s": 0.0025782790035009384
+        },
+        {
+          "id": "heat_pipe_detour",
+          "condition": "unprepared_related",
+          "start_s": 18.56,
+          "end_s": 46.959999999999994,
+          "lexical_topic_on_stage_s": 0,
+          "matching_stage_intervals": [],
+          "section_start_to_first_matching_scene_s": null
+        },
+        {
+          "id": "thermoelectric_detour",
+          "condition": "unprepared_related",
+          "start_s": 46.959999999999994,
+          "end_s": 74.92999999999999,
+          "lexical_topic_on_stage_s": 0,
+          "matching_stage_intervals": [],
+          "section_start_to_first_matching_scene_s": null
+        },
+        {
+          "id": "unrelated_control",
+          "condition": "unrelated",
+          "start_s": 74.92999999999999,
+          "end_s": 95.47999999999999,
+          "lexical_topic_on_stage_s": 0,
+          "matching_stage_intervals": [],
+          "section_start_to_first_matching_scene_s": null
+        },
+        {
+          "id": "return_to_loop",
+          "condition": "prepared",
+          "start_s": 95.47999999999999,
+          "end_s": 114.60499999999999,
+          "lexical_topic_on_stage_s": 19.125,
+          "matching_stage_intervals": [
+            {
+              "at_s": 95.47999999999999,
+              "scene_id": "concept_1419d78ba07d_0",
+              "fresh_retrieval": false,
+              "url": null
+            }
+          ],
+          "section_start_to_first_matching_scene_s": 0.0
+        }
+      ],
+      "topic_check_method": "Lexical checks of actual scene title, quotation and image description. Query strings are excluded. No independent factual, visual or audience-quality judgment.",
+      "stage_events": [
+        {
+          "at_s": 0.0025782790035009384,
+          "scene_id": "concept_1419d78ba07d_0",
+          "state_version": 8,
+          "kind": "definition",
+          "title": "Pump notes.md",
+          "web_source": null,
+          "asset_sha256": null,
+          "quote_sha256": [
+            "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c"
+          ]
+        }
+      ],
+      "prepared_sources": [
+        {
+          "id": "src_d3f14af394a7",
+          "name": "Pump notes.md",
+          "sha256": "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c",
+          "retrieved_for_preparation": false,
+          "web_source": null
+        },
+        {
+          "id": "src_bce1c7714a99",
+          "name": "Water-cooling of a PC.md",
+          "sha256": "bce1c7714a991e7b9fbc876b37023c7ca1da087aeebe7cd35bd060ac3546624c",
+          "retrieved_for_preparation": true,
+          "web_source": {
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "provider": "Public web source",
+            "search_provider": "Brave public HTML · experimental",
+            "retrieved": true,
+            "retrieved_at": 1792407062.775199,
+            "query": "Computer water cooling pump and radiator",
+            "presenter_reviewed": false,
+            "source_text_sha256": "78076969ecaa399020107f58fd45088a79e047d6d4c175d812789bf18e4e8402",
+            "relevance_confidence": 1.0
+          }
+        },
+        {
+          "id": "src_73dddae08d22",
+          "name": "Liquid cooling schematic.png",
+          "sha256": "73dddae08d228a8fdcce1a1fdf6410e3cb73fcadc50cdbc35abbc0dfb93fc7f9",
+          "retrieved_for_preparation": true,
+          "web_source": {
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "provider": "Public web source",
+            "search_provider": "Brave public HTML · experimental",
+            "retrieved": true,
+            "retrieved_at": 1792407062.775199,
+            "query": "Computer water cooling pump and radiator",
+            "presenter_reviewed": false,
+            "source_text_sha256": "78076969ecaa399020107f58fd45088a79e047d6d4c175d812789bf18e4e8402",
+            "relevance_confidence": 1.0,
+            "image_url": "https://commons.wikimedia.org/wiki/File:Liquid_cooling_schematic.png",
+            "artist": "KVDP",
+            "image_license": "CC BY-SA 4.0",
+            "image_license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+            "pixels_semantically_verified": false
+          }
+        }
+      ]
+    },
+    {
+      "git_commit": "2649dbec6519b4d71a0835c4ca30813aa963290f",
+      "code_fingerprints": {
+        "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+        "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+        "research.py": "015a16cc1c97de9e4e4caca8be80b7ef0aa5f626743ce1ff2313981fd3ddbe8c",
+        "research_sources.py": "90bd399c772c67de10d290dce856b4962301d86005dff9c6a844ed904fa74833",
+        "web_research.py": "69bdf96830d5a570ee9e3330063d6929371636e9298b0a0a85065b3b54012b54",
+        "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+        "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+        "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876",
+        "researched_demo.py": "27a906e8a9d056d7a0767fded2f9b925ddacbbe92b49ad50f46572bc6f5c4bca"
+      },
+      "preparation_s": 4.175481726008002,
+      "prepared_package_hash": "11ea46e43510b7c2e8bc1c61211dc306ddaf059db3feefba980ebce5318290ca",
+      "prepared_source_count": 3,
+      "prepared_scene_count": 6,
+      "approval_unchanged_during_rehearsal": true,
+      "elapsed_s": 115.84618262405274,
+      "observer_errors": [],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "independent_quality_review": false,
+      "operator_interventions_during_speech": 0,
+      "online_results_injected_by_operator": 0,
+      "stage_dwell_s": 2.5,
+      "limitations": [
+        "Synthetic and development-authored script, not a human or independent holdout.",
+        "Real paced PCM HTTP, local tiny.en ASR, unattended web requests and stage API; excludes browser paint and physical microphone/projector.",
+        "Source outline preparation is extractive; a functioning generative preparation conversation was unavailable because Copilot accounts were quota-blocked.",
+        "External search caches may already contain development queries; this is not a cold-provider service benchmark."
+      ],
+      "id": "researched_rehearsal_v3",
+      "private_artifact": "artifacts/researched_rehearsal_v3/result.json",
+      "artifact_sha256": "e8d243272d670296fe46f9c6ecc48ecd6d88a1d8c17dedc98a4aa0f6687a3d4a",
+      "report": "artifacts/researched_rehearsal_v3/index.html",
+      "movie": "artifacts/researched_rehearsal_v3/stage-api-reconstruction.mp4",
+      "current_controller_matches": false,
+      "input": {
+        "title": "Computer water cooling pump and radiator",
+        "brief": "Explain how a pumped water loop moves heat from a computer processor to a radiator. The audience is new to the topic.",
+        "supplied_notes": "A pump circulates liquid through a hot component and radiator. The radiator transfers heat to the surrounding air.",
+        "supplied_notes_sha256": "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c",
+        "future_speech_supplied_to_preparation": false,
+        "withheld_terms_absent": [
+          "heat pipe",
+          "thermoelectric",
+          "sourdough"
+        ],
+        "audio_sha256": "4603a728e947e415f6b1d0de6b2bd2c0df59b7b88caa88c4fab330f416aaaf99",
+        "speech": "FFmpeg libflite slt synthetic English speech; separately synthesized paragraphs concatenated without added pauses"
+      },
+      "worker": {
+        "status": "ready",
+        "last_seq": 114,
+        "received": 115,
+        "processed": 108,
+        "dropped": 7,
+        "rejected": 1,
+        "timeouts": 1,
+        "expired": 1,
+        "error": null
+      },
+      "preparation_research": {
+        "input_signature": "e202f3ab7514a1c1be0c753f68268bd340d584d7fabed448572645ff6d1e0385",
+        "query": "Computer water cooling pump and radiator",
+        "started_at": 1792407245.2223427,
+        "sources": [
+          {
+            "id": "src_bce1c7714a99",
+            "sha256": "bce1c7714a991e7b9fbc876b37023c7ca1da087aeebe7cd35bd060ac3546624c",
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "image_url": null,
+            "image_license": null
+          },
+          {
+            "id": "src_73dddae08d22",
+            "sha256": "73dddae08d228a8fdcce1a1fdf6410e3cb73fcadc50cdbc35abbc0dfb93fc7f9",
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "image_url": "https://commons.wikimedia.org/wiki/File:Liquid_cooling_schematic.png",
+            "image_license": "CC BY-SA 4.0"
+          }
+        ],
+        "status": "ready",
+        "future_speech_used": false,
+        "classifier_calls": [
+          {
+            "questions": [
+              "page"
+            ],
+            "elapsed_s": 0.5731429060106166,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source",
+              "image"
+            ],
+            "elapsed_s": 0.2117188400006853,
+            "model": "jev-1.13.0",
+            "ok": true
+          }
+        ],
+        "errors": [],
+        "message": "Online material added to the draft for review.",
+        "completed_at": 1792407249.367761
+      },
+      "completed_status_counts": {
+        "no_match": 16
+      },
+      "automatic_research_interventions": 0,
+      "topic_checks": [
+        {
+          "id": "prepared_loop",
+          "condition": "prepared",
+          "start_s": 0,
+          "end_s": 18.56,
+          "lexical_topic_on_stage_s": 18.557447339992503,
+          "matching_stage_intervals": [
+            {
+              "at_s": 0.002552660007495433,
+              "scene_id": "concept_1419d78ba07d_0",
+              "fresh_retrieval": false,
+              "url": null
+            }
+          ],
+          "section_start_to_first_matching_scene_s": 0.002552660007495433
+        },
+        {
+          "id": "heat_pipe_detour",
+          "condition": "unprepared_related",
+          "start_s": 18.56,
+          "end_s": 46.959999999999994,
+          "lexical_topic_on_stage_s": 0,
+          "matching_stage_intervals": [],
+          "section_start_to_first_matching_scene_s": null
+        },
+        {
+          "id": "thermoelectric_detour",
+          "condition": "unprepared_related",
+          "start_s": 46.959999999999994,
+          "end_s": 74.92999999999999,
+          "lexical_topic_on_stage_s": 0,
+          "matching_stage_intervals": [],
+          "section_start_to_first_matching_scene_s": null
+        },
+        {
+          "id": "unrelated_control",
+          "condition": "unrelated",
+          "start_s": 74.92999999999999,
+          "end_s": 95.47999999999999,
+          "lexical_topic_on_stage_s": 0,
+          "matching_stage_intervals": [],
+          "section_start_to_first_matching_scene_s": null
+        },
+        {
+          "id": "return_to_loop",
+          "condition": "prepared",
+          "start_s": 95.47999999999999,
+          "end_s": 114.60499999999999,
+          "lexical_topic_on_stage_s": 19.125,
+          "matching_stage_intervals": [
+            {
+              "at_s": 95.47999999999999,
+              "scene_id": "concept_1419d78ba07d_0",
+              "fresh_retrieval": false,
+              "url": null
+            }
+          ],
+          "section_start_to_first_matching_scene_s": 0.0
+        }
+      ],
+      "topic_check_method": "Lexical checks of actual scene title, quotation and image description. Query strings are excluded. No independent factual, visual or audience-quality judgment.",
+      "stage_events": [
+        {
+          "at_s": 0.002552660007495433,
+          "scene_id": "concept_1419d78ba07d_0",
+          "state_version": 8,
+          "kind": "definition",
+          "title": "Pump notes.md",
+          "web_source": null,
+          "asset_sha256": null,
+          "quote_sha256": [
+            "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c"
+          ]
+        }
+      ],
+      "prepared_sources": [
+        {
+          "id": "src_d3f14af394a7",
+          "name": "Pump notes.md",
+          "sha256": "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c",
+          "retrieved_for_preparation": false,
+          "web_source": null
+        },
+        {
+          "id": "src_bce1c7714a99",
+          "name": "Water-cooling of a PC.md",
+          "sha256": "bce1c7714a991e7b9fbc876b37023c7ca1da087aeebe7cd35bd060ac3546624c",
+          "retrieved_for_preparation": true,
+          "web_source": {
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "provider": "Public web source",
+            "search_provider": "Brave public HTML · experimental",
+            "retrieved": true,
+            "retrieved_at": 1792407248.9613893,
+            "query": "Computer water cooling pump and radiator",
+            "presenter_reviewed": false,
+            "source_text_sha256": "78076969ecaa399020107f58fd45088a79e047d6d4c175d812789bf18e4e8402",
+            "relevance_confidence": 1.0
+          }
+        },
+        {
+          "id": "src_73dddae08d22",
+          "name": "Liquid cooling schematic.png",
+          "sha256": "73dddae08d228a8fdcce1a1fdf6410e3cb73fcadc50cdbc35abbc0dfb93fc7f9",
+          "retrieved_for_preparation": true,
+          "web_source": {
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "provider": "Public web source",
+            "search_provider": "Brave public HTML · experimental",
+            "retrieved": true,
+            "retrieved_at": 1792407248.9613893,
+            "query": "Computer water cooling pump and radiator",
+            "presenter_reviewed": false,
+            "source_text_sha256": "78076969ecaa399020107f58fd45088a79e047d6d4c175d812789bf18e4e8402",
+            "relevance_confidence": 1.0,
+            "image_url": "https://commons.wikimedia.org/wiki/File:Liquid_cooling_schematic.png",
+            "artist": "KVDP",
+            "image_license": "CC BY-SA 4.0",
+            "image_license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+            "pixels_semantically_verified": false
+          }
+        }
+      ]
+    },
+    {
+      "git_commit": "ce6b582a05c7473512dc900e8fcc985b16e3e670",
+      "code_fingerprints": {
+        "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+        "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+        "research.py": "dac38d85c4af645d1f4f797f981908db98bb26fc9b57d6b9e3c2210ff58ed7f0",
+        "research_sources.py": "a736817805482fdde7049915deb37f394e6ed16adaf3fe1caabb3339e6415bed",
+        "web_research.py": "d05a126d7366ebc8ca4081f2c7fb0329006428c9c1df4ade3c0d6ac9d5548ba9",
+        "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+        "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+        "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876",
+        "researched_demo.py": "27a906e8a9d056d7a0767fded2f9b925ddacbbe92b49ad50f46572bc6f5c4bca"
+      },
+      "preparation_s": 4.360704040038399,
+      "prepared_package_hash": "5477f7f21a041438f25c32bca57a44115d6b3a9d92ab60917fdfaaf4de703d5b",
+      "prepared_source_count": 2,
+      "prepared_scene_count": 4,
+      "approval_unchanged_during_rehearsal": true,
+      "elapsed_s": 114.95714682800462,
+      "observer_errors": [],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "independent_quality_review": false,
+      "operator_interventions_during_speech": 0,
+      "online_results_injected_by_operator": 0,
+      "stage_dwell_s": 2.5,
+      "limitations": [
+        "Synthetic and development-authored script, not a human or independent holdout.",
+        "Real paced PCM HTTP, local tiny.en ASR, unattended web requests and stage API; excludes browser paint and physical microphone/projector.",
+        "Source outline preparation is extractive; a functioning generative preparation conversation was unavailable because Copilot accounts were quota-blocked.",
+        "External search caches may already contain development queries; this is not a cold-provider service benchmark."
+      ],
+      "id": "researched_rehearsal_v4",
+      "private_artifact": "artifacts/researched_rehearsal_v4/result.json",
+      "artifact_sha256": "2750a19d5acea8317874ad15011c2ed93cd92682eccefeb04fc87853dce29774",
+      "report": "artifacts/researched_rehearsal_v4/index.html",
+      "movie": "artifacts/researched_rehearsal_v4/stage-api-reconstruction.mp4",
+      "current_controller_matches": false,
+      "input": {
+        "title": "Computer water cooling pump and radiator",
+        "brief": "Explain how a pumped water loop moves heat from a computer processor to a radiator. The audience is new to the topic.",
+        "supplied_notes": "A pump circulates liquid through a hot component and radiator. The radiator transfers heat to the surrounding air.",
+        "supplied_notes_sha256": "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c",
+        "future_speech_supplied_to_preparation": false,
+        "withheld_terms_absent": [
+          "heat pipe",
+          "thermoelectric",
+          "sourdough"
+        ],
+        "audio_sha256": "4603a728e947e415f6b1d0de6b2bd2c0df59b7b88caa88c4fab330f416aaaf99",
+        "speech": "FFmpeg libflite slt synthetic English speech; separately synthesized paragraphs concatenated without added pauses"
+      },
+      "worker": {
+        "status": "ready",
+        "last_seq": 114,
+        "received": 115,
+        "processed": 107,
+        "dropped": 8,
+        "rejected": 1,
+        "timeouts": 1,
+        "expired": 1,
+        "error": null
+      },
+      "preparation_research": {
+        "input_signature": "e202f3ab7514a1c1be0c753f68268bd340d584d7fabed448572645ff6d1e0385",
+        "query": "Computer water cooling pump and radiator",
+        "started_at": 1792407460.929011,
+        "sources": [
+          {
+            "id": "src_bce1c7714a99",
+            "sha256": "bce1c7714a991e7b9fbc876b37023c7ca1da087aeebe7cd35bd060ac3546624c",
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "image_url": null,
+            "image_license": null
+          }
+        ],
+        "status": "ready",
+        "future_speech_used": false,
+        "classifier_calls": [
+          {
+            "questions": [
+              "page"
+            ],
+            "elapsed_s": 0.4431984680122696,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source",
+              "image"
+            ],
+            "elapsed_s": 0.19543045200407505,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source_support"
+            ],
+            "elapsed_s": 0.20326165604637936,
+            "model": "jev-1.13.0",
+            "ok": true
+          }
+        ],
+        "errors": [],
+        "message": "Online material added to the draft for review.",
+        "completed_at": 1792407465.2354927
+      },
+      "completed_status_counts": {
+        "no_match": 13,
+        "no_results": 2
+      },
+      "automatic_research_interventions": 0,
+      "topic_checks": [
+        {
+          "id": "prepared_loop",
+          "condition": "prepared",
+          "start_s": 0,
+          "end_s": 18.56,
+          "lexical_topic_on_stage_s": 18.558358117998576,
+          "matching_stage_intervals": [
+            {
+              "at_s": 0.0016418820014223456,
+              "scene_id": "concept_1419d78ba07d_0",
+              "fresh_retrieval": false,
+              "url": null
+            },
+            {
+              "at_s": 2.274486437032465,
+              "scene_id": "concept_ac21a55da57d_0",
+              "fresh_retrieval": false,
+              "url": "https://photonics.engr.uga.edu/watercooling/index.html"
+            },
+            {
+              "at_s": 6.544015774037689,
+              "scene_id": "concept_1419d78ba07d_0",
+              "fresh_retrieval": false,
+              "url": null
+            }
+          ],
+          "section_start_to_first_matching_scene_s": 0.0016418820014223456
+        },
+        {
+          "id": "heat_pipe_detour",
+          "condition": "unprepared_related",
+          "start_s": 18.56,
+          "end_s": 46.959999999999994,
+          "lexical_topic_on_stage_s": 0,
+          "matching_stage_intervals": [],
+          "section_start_to_first_matching_scene_s": null
+        },
+        {
+          "id": "thermoelectric_detour",
+          "condition": "unprepared_related",
+          "start_s": 46.959999999999994,
+          "end_s": 74.92999999999999,
+          "lexical_topic_on_stage_s": 0,
+          "matching_stage_intervals": [],
+          "section_start_to_first_matching_scene_s": null
+        },
+        {
+          "id": "unrelated_control",
+          "condition": "unrelated",
+          "start_s": 74.92999999999999,
+          "end_s": 95.47999999999999,
+          "lexical_topic_on_stage_s": 0,
+          "matching_stage_intervals": [],
+          "section_start_to_first_matching_scene_s": null
+        },
+        {
+          "id": "return_to_loop",
+          "condition": "prepared",
+          "start_s": 95.47999999999999,
+          "end_s": 114.60499999999999,
+          "lexical_topic_on_stage_s": 19.125,
+          "matching_stage_intervals": [
+            {
+              "at_s": 95.47999999999999,
+              "scene_id": "concept_ac21a55da57d_0",
+              "fresh_retrieval": false,
+              "url": "https://photonics.engr.uga.edu/watercooling/index.html"
+            },
+            {
+              "at_s": 100.31635557999834,
+              "scene_id": "concept_1419d78ba07d_0",
+              "fresh_retrieval": false,
+              "url": null
+            }
+          ],
+          "section_start_to_first_matching_scene_s": 0.0
+        }
+      ],
+      "topic_check_method": "Lexical checks of actual scene title, quotation and image description. Query strings are excluded. No independent factual, visual or audience-quality judgment.",
+      "stage_events": [
+        {
+          "at_s": 0.0016418820014223456,
+          "scene_id": "concept_1419d78ba07d_0",
+          "state_version": 8,
+          "kind": "definition",
+          "title": "Pump notes.md",
+          "web_source": null,
+          "asset_sha256": null,
+          "quote_sha256": [
+            "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c"
+          ]
+        },
+        {
+          "at_s": 2.274486437032465,
+          "scene_id": "concept_ac21a55da57d_0",
+          "state_version": 13,
+          "kind": "definition",
+          "title": "Water-cooling of a PC",
+          "web_source": {
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "provider": "Public web source",
+            "search_provider": "Brave public HTML · experimental",
+            "retrieved": true,
+            "retrieved_at": 1792407465.1846,
+            "query": "Computer water cooling pump and radiator",
+            "presenter_reviewed": true,
+            "source_text_sha256": "78076969ecaa399020107f58fd45088a79e047d6d4c175d812789bf18e4e8402",
+            "relevance_probability": 0.94,
+            "selection_confidence": 1.0
+          },
+          "asset_sha256": null,
+          "quote_sha256": [
+            "35b12b72698fd9b3c0d85a53e1be5848350379eb45069b4ae7c8b8ce2678f019"
+          ]
+        },
+        {
+          "at_s": 6.544015774037689,
+          "scene_id": "concept_1419d78ba07d_0",
+          "state_version": 26,
+          "kind": "definition",
+          "title": "Pump notes.md",
+          "web_source": null,
+          "asset_sha256": null,
+          "quote_sha256": [
+            "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c"
+          ]
+        },
+        {
+          "at_s": 53.37096171203302,
+          "scene_id": "concept_ac21a55da57d_0",
+          "state_version": 133,
+          "kind": "definition",
+          "title": "Water-cooling of a PC",
+          "web_source": {
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "provider": "Public web source",
+            "search_provider": "Brave public HTML · experimental",
+            "retrieved": true,
+            "retrieved_at": 1792407465.1846,
+            "query": "Computer water cooling pump and radiator",
+            "presenter_reviewed": true,
+            "source_text_sha256": "78076969ecaa399020107f58fd45088a79e047d6d4c175d812789bf18e4e8402",
+            "relevance_probability": 0.94,
+            "selection_confidence": 1.0
+          },
+          "asset_sha256": null,
+          "quote_sha256": [
+            "35b12b72698fd9b3c0d85a53e1be5848350379eb45069b4ae7c8b8ce2678f019"
+          ]
+        },
+        {
+          "at_s": 100.31635557999834,
+          "scene_id": "concept_1419d78ba07d_0",
+          "state_version": 264,
+          "kind": "definition",
+          "title": "Pump notes.md",
+          "web_source": null,
+          "asset_sha256": null,
+          "quote_sha256": [
+            "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c"
+          ]
+        }
+      ],
+      "prepared_sources": [
+        {
+          "id": "src_d3f14af394a7",
+          "name": "Pump notes.md",
+          "sha256": "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c",
+          "retrieved_for_preparation": false,
+          "web_source": null
+        },
+        {
+          "id": "src_bce1c7714a99",
+          "name": "Water-cooling of a PC.md",
+          "sha256": "bce1c7714a991e7b9fbc876b37023c7ca1da087aeebe7cd35bd060ac3546624c",
+          "retrieved_for_preparation": true,
+          "web_source": {
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "provider": "Public web source",
+            "search_provider": "Brave public HTML · experimental",
+            "retrieved": true,
+            "retrieved_at": 1792407465.1846,
+            "query": "Computer water cooling pump and radiator",
+            "presenter_reviewed": false,
+            "source_text_sha256": "78076969ecaa399020107f58fd45088a79e047d6d4c175d812789bf18e4e8402",
+            "relevance_probability": 0.94,
+            "selection_confidence": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "git_commit": "cd3791f52789f75868cc2e01583dddfb8e889b98",
+      "code_fingerprints": {
+        "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+        "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+        "research.py": "dac38d85c4af645d1f4f797f981908db98bb26fc9b57d6b9e3c2210ff58ed7f0",
+        "research_sources.py": "1c8681e8d4412e03eaffae8c2f07088ee44ddc021ccd372ff96a6b66352d33c8",
+        "web_research.py": "5881d0e8ec0adc978324e64110c8280b35afb5c06c78466bfde961fe28033d12",
+        "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+        "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+        "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876",
+        "researched_demo.py": "27a906e8a9d056d7a0767fded2f9b925ddacbbe92b49ad50f46572bc6f5c4bca"
+      },
+      "preparation_s": 3.332564704003744,
+      "prepared_package_hash": "cfb5ab900a75296f374ad4a977e7ef2d1f0435dc92f5b42db22971276b408b10",
+      "prepared_source_count": 2,
+      "prepared_scene_count": 4,
+      "approval_unchanged_during_rehearsal": true,
+      "elapsed_s": 115.65921512898058,
+      "observer_errors": [],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "independent_quality_review": false,
+      "operator_interventions_during_speech": 0,
+      "online_results_injected_by_operator": 0,
+      "stage_dwell_s": 2.5,
+      "limitations": [
+        "Synthetic and development-authored script, not a human or independent holdout.",
+        "Real paced PCM HTTP, local tiny.en ASR, unattended web requests and stage API; excludes browser paint and physical microphone/projector.",
+        "Source outline preparation is extractive; a functioning generative preparation conversation was unavailable because Copilot accounts were quota-blocked.",
+        "External search caches may already contain development queries; this is not a cold-provider service benchmark."
+      ],
+      "id": "researched_rehearsal_v5",
+      "private_artifact": "artifacts/researched_rehearsal_v5/result.json",
+      "artifact_sha256": "6bd8fb78ee48c4974ad322875265d54c55a4a394fbc447b275ccfd7e7be7a7fd",
+      "report": "artifacts/researched_rehearsal_v5/index.html",
+      "movie": "artifacts/researched_rehearsal_v5/stage-api-reconstruction.mp4",
+      "current_controller_matches": true,
+      "input": {
+        "title": "Computer water cooling pump and radiator",
+        "brief": "Explain how a pumped water loop moves heat from a computer processor to a radiator. The audience is new to the topic.",
+        "supplied_notes": "A pump circulates liquid through a hot component and radiator. The radiator transfers heat to the surrounding air.",
+        "supplied_notes_sha256": "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c",
+        "future_speech_supplied_to_preparation": false,
+        "withheld_terms_absent": [
+          "heat pipe",
+          "thermoelectric",
+          "sourdough"
+        ],
+        "audio_sha256": "4603a728e947e415f6b1d0de6b2bd2c0df59b7b88caa88c4fab330f416aaaf99",
+        "speech": "FFmpeg libflite slt synthetic English speech; separately synthesized paragraphs concatenated without added pauses"
+      },
+      "worker": {
+        "status": "ready",
+        "last_seq": 114,
+        "received": 115,
+        "processed": 91,
+        "dropped": 24,
+        "rejected": 1,
+        "timeouts": 4,
+        "expired": 1,
+        "error": null
+      },
+      "preparation_research": {
+        "input_signature": "e202f3ab7514a1c1be0c753f68268bd340d584d7fabed448572645ff6d1e0385",
+        "query": "Computer water cooling pump and radiator",
+        "started_at": 1792407680.4296932,
+        "sources": [
+          {
+            "id": "src_bce1c7714a99",
+            "sha256": "bce1c7714a991e7b9fbc876b37023c7ca1da087aeebe7cd35bd060ac3546624c",
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "image_url": null,
+            "image_license": null
+          }
+        ],
+        "status": "ready",
+        "future_speech_used": false,
+        "classifier_calls": [
+          {
+            "questions": [
+              "page"
+            ],
+            "elapsed_s": 0.21939951000967994,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source",
+              "image"
+            ],
+            "elapsed_s": 0.2193456010427326,
+            "model": "jev-1.13.0",
+            "ok": true
+          },
+          {
+            "questions": [
+              "source_support"
+            ],
+            "elapsed_s": 0.19306998897809535,
+            "model": "jev-1.13.0",
+            "ok": true
+          }
+        ],
+        "errors": [],
+        "message": "Online material added to the draft for review.",
+        "completed_at": 1792407683.722004
+      },
+      "completed_status_counts": {
+        "no_match": 14,
+        "ready": 1
+      },
+      "automatic_research_interventions": 1,
+      "topic_checks": [
+        {
+          "id": "prepared_loop",
+          "condition": "prepared",
+          "start_s": 0,
+          "end_s": 18.56,
+          "lexical_topic_on_stage_s": 18.558320601996964,
+          "matching_stage_intervals": [
+            {
+              "at_s": 0.0016793980030342937,
+              "scene_id": "concept_1419d78ba07d_0",
+              "fresh_retrieval": false,
+              "url": null
+            },
+            {
+              "at_s": 2.691726734978147,
+              "scene_id": "concept_ac21a55da57d_0",
+              "fresh_retrieval": false,
+              "url": "https://photonics.engr.uga.edu/watercooling/index.html"
+            },
+            {
+              "at_s": 6.294480038981419,
+              "scene_id": "concept_1419d78ba07d_0",
+              "fresh_retrieval": false,
+              "url": null
+            }
+          ],
+          "section_start_to_first_matching_scene_s": 0.0016793980030342937
+        },
+        {
+          "id": "heat_pipe_detour",
+          "condition": "unprepared_related",
+          "start_s": 18.56,
+          "end_s": 46.959999999999994,
+          "lexical_topic_on_stage_s": 15.890139372998377,
+          "matching_stage_intervals": [
+            {
+              "at_s": 31.069860627001617,
+              "scene_id": "web_public_a55197a7333a1f65",
+              "fresh_retrieval": true,
+              "url": "https://en.wikipedia.org/wiki/Heat_pipe"
+            }
+          ],
+          "section_start_to_first_matching_scene_s": 12.509860627001618
+        },
+        {
+          "id": "thermoelectric_detour",
+          "condition": "unprepared_related",
+          "start_s": 46.959999999999994,
+          "end_s": 74.92999999999999,
+          "lexical_topic_on_stage_s": 0,
+          "matching_stage_intervals": [],
+          "section_start_to_first_matching_scene_s": null
+        },
+        {
+          "id": "unrelated_control",
+          "condition": "unrelated",
+          "start_s": 74.92999999999999,
+          "end_s": 95.47999999999999,
+          "lexical_topic_on_stage_s": 0,
+          "matching_stage_intervals": [],
+          "section_start_to_first_matching_scene_s": null
+        },
+        {
+          "id": "return_to_loop",
+          "condition": "prepared",
+          "start_s": 95.47999999999999,
+          "end_s": 114.60499999999999,
+          "lexical_topic_on_stage_s": 19.125,
+          "matching_stage_intervals": [
+            {
+              "at_s": 95.47999999999999,
+              "scene_id": "concept_ac21a55da57d_0",
+              "fresh_retrieval": false,
+              "url": "https://photonics.engr.uga.edu/watercooling/index.html"
+            },
+            {
+              "at_s": 102.41182492900407,
+              "scene_id": "concept_1419d78ba07d_0",
+              "fresh_retrieval": false,
+              "url": null
+            }
+          ],
+          "section_start_to_first_matching_scene_s": 0.0
+        }
+      ],
+      "topic_check_method": "Lexical checks of actual scene title, quotation and image description. Query strings are excluded. No independent factual, visual or audience-quality judgment.",
+      "stage_events": [
+        {
+          "at_s": 0.0016793980030342937,
+          "scene_id": "concept_1419d78ba07d_0",
+          "state_version": 8,
+          "kind": "definition",
+          "title": "Pump notes.md",
+          "web_source": null,
+          "asset_sha256": null,
+          "quote_sha256": [
+            "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c"
+          ]
+        },
+        {
+          "at_s": 2.691726734978147,
+          "scene_id": "concept_ac21a55da57d_0",
+          "state_version": 13,
+          "kind": "definition",
+          "title": "Water-cooling of a PC",
+          "web_source": {
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "provider": "Public web source",
+            "search_provider": "Brave public HTML · experimental",
+            "retrieved": true,
+            "retrieved_at": 1792407683.6815438,
+            "query": "Computer water cooling pump and radiator",
+            "presenter_reviewed": true,
+            "source_text_sha256": "78076969ecaa399020107f58fd45088a79e047d6d4c175d812789bf18e4e8402",
+            "relevance_probability": 0.94,
+            "selection_confidence": 1.0
+          },
+          "asset_sha256": null,
+          "quote_sha256": [
+            "35b12b72698fd9b3c0d85a53e1be5848350379eb45069b4ae7c8b8ce2678f019"
+          ]
+        },
+        {
+          "at_s": 6.294480038981419,
+          "scene_id": "concept_1419d78ba07d_0",
+          "state_version": 26,
+          "kind": "definition",
+          "title": "Pump notes.md",
+          "web_source": null,
+          "asset_sha256": null,
+          "quote_sha256": [
+            "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c"
+          ]
+        },
+        {
+          "at_s": 31.069860627001617,
+          "scene_id": "web_public_a55197a7333a1f65",
+          "state_version": 78,
+          "kind": "evidence",
+          "title": "Heat pipe - Wikipedia",
+          "web_source": {
+            "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+            "provider": "Public web source",
+            "search_provider": "Brave public HTML · experimental",
+            "retrieved": true,
+            "retrieved_at": 1792407717.4247684,
+            "query": "heat pipes",
+            "presenter_reviewed": false,
+            "source_text_sha256": "3dc77d8d8ceef293c528d213bb4d3b533b1a69d270648d282a67ae97b7637207",
+            "relevance_probability": 0.85,
+            "selection_confidence": 0.15
+          },
+          "asset_sha256": null,
+          "quote_sha256": [
+            "3dc77d8d8ceef293c528d213bb4d3b533b1a69d270648d282a67ae97b7637207"
+          ]
+        },
+        {
+          "at_s": 53.2425040579983,
+          "scene_id": "concept_ac21a55da57d_0",
+          "state_version": 131,
+          "kind": "definition",
+          "title": "Water-cooling of a PC",
+          "web_source": {
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "provider": "Public web source",
+            "search_provider": "Brave public HTML · experimental",
+            "retrieved": true,
+            "retrieved_at": 1792407683.6815438,
+            "query": "Computer water cooling pump and radiator",
+            "presenter_reviewed": true,
+            "source_text_sha256": "78076969ecaa399020107f58fd45088a79e047d6d4c175d812789bf18e4e8402",
+            "relevance_probability": 0.94,
+            "selection_confidence": 1.0
+          },
+          "asset_sha256": null,
+          "quote_sha256": [
+            "35b12b72698fd9b3c0d85a53e1be5848350379eb45069b4ae7c8b8ce2678f019"
+          ]
+        },
+        {
+          "at_s": 102.41182492900407,
+          "scene_id": "concept_1419d78ba07d_0",
+          "state_version": 235,
+          "kind": "definition",
+          "title": "Pump notes.md",
+          "web_source": null,
+          "asset_sha256": null,
+          "quote_sha256": [
+            "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c"
+          ]
+        }
+      ],
+      "prepared_sources": [
+        {
+          "id": "src_d3f14af394a7",
+          "name": "Pump notes.md",
+          "sha256": "d3f14af394a756d3ba968fe91657f587d15d2ffd2602d9dddc8a1c6f90071e4c",
+          "retrieved_for_preparation": false,
+          "web_source": null
+        },
+        {
+          "id": "src_bce1c7714a99",
+          "name": "Water-cooling of a PC.md",
+          "sha256": "bce1c7714a991e7b9fbc876b37023c7ca1da087aeebe7cd35bd060ac3546624c",
+          "retrieved_for_preparation": true,
+          "web_source": {
+            "url": "https://photonics.engr.uga.edu/watercooling/index.html",
+            "provider": "Public web source",
+            "search_provider": "Brave public HTML · experimental",
+            "retrieved": true,
+            "retrieved_at": 1792407683.6815438,
+            "query": "Computer water cooling pump and radiator",
+            "presenter_reviewed": false,
+            "source_text_sha256": "78076969ecaa399020107f58fd45088a79e047d6d4c175d812789bf18e4e8402",
+            "relevance_probability": 0.94,
+            "selection_confidence": 1.0
+          }
+        }
+      ],
+      "first_matching_asr_to_first_retrieved_stage_s": 9.750424649042543,
+      "timing_note": "From the first matching ASR update completion estimate to stage API observation; excludes time to hear the cue and browser paint. Not independent quality validation."
+    },
+    {
+      "git_commit": "dcc229dd259c29740ee16af9de82ea9ca9074306",
+      "code_fingerprints": {
+        "engine.py": "6acf0d07b218f6b9e4c0de8ba5c7aaa0b5ff0e082c2fee715dd645641982b142",
+        "planning.py": "54049ed23151ce36f618c21b560b286d9b4bb55ba9ca6c610aaccb5d9a500057",
+        "research.py": "dac38d85c4af645d1f4f797f981908db98bb26fc9b57d6b9e3c2210ff58ed7f0",
+        "research_sources.py": "1c8681e8d4412e03eaffae8c2f07088ee44ddc021ccd372ff96a6b66352d33c8",
+        "web_research.py": "5881d0e8ec0adc978324e64110c8280b35afb5c06c78466bfde961fe28033d12",
+        "preparation_research.py": "589d67c6d04d21f01943cc81cfaca35bf1ae62e7f6c77d91ccf6fe904e8801bd",
+        "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+        "server.py": "6163049ad4e6fd8782309115f3fd4d94c9c036ffed8d4c0dc755c8b6eff3a876",
+        "researched_demo.py": "c9f38bf01ad819c289851da14a5481b30488c86103669ec64c2de2f70ae03ca6"
+      },
+      "preparation_s": 3.6493868340039626,
+      "prepared_package_hash": "c09b0239576e1da8f4e6f24fff3736be4b97486914b07b90895b19eadeeca20c",
+      "prepared_source_count": 1,
+      "prepared_scene_count": 2,
+      "approval_unchanged_during_rehearsal": true,
+      "elapsed_s": 120.46379850403173,
+      "observer_errors": [],
+      "browser_used": false,
+      "physical_microphone_used": false,
+      "independent_quality_review": false,
+      "operator_interventions_during_speech": 0,
+      "online_results_injected_by_operator": 0,
+      "stage_dwell_s": 2.5,
+      "limitations": [
+        "This recording was used in earlier development; this condition is not a held-out talk.",
+        "Only the brief and notes, followed by autonomous preparation research, are supplied before the audio. The full recording transcript is not supplied.",
+        "No claim that all spoken subjects are absent from the automatically researched preparation.",
+        "Real paced PCM HTTP, local tiny.en ASR, unattended web requests and stage API; excludes browser paint and physical microphone/projector.",
+        "Source outline preparation is extractive; a functioning generative preparation conversation was unavailable because Copilot accounts were quota-blocked.",
+        "External search caches may already contain development queries; this is not a cold-provider service benchmark."
+      ],
+      "id": "researched_rehearsal_sivers_v1",
+      "private_artifact": "artifacts/researched_rehearsal_sivers_v1/result.json",
+      "artifact_sha256": "75483fcb488d2c462ac60be83dd684f6ee320dec9a8c6a640206d10c21187ffb",
+      "report": "artifacts/researched_rehearsal_sivers_v1/index.html",
+      "movie": "artifacts/researched_rehearsal_sivers_v1/stage-api-reconstruction.mp4",
+      "current_controller_matches": true,
+      "input": {
+        "title": "Leadership and group participation",
+        "brief": "Explain how leadership and collective participation can help people coordinate a new group effort. The audience is new to the subject.",
+        "supplied_notes": "A leader may propose a new direction. People decide whether to join a group effort. Collective participation matters when a group begins to act.",
+        "supplied_notes_sha256": "19c4a9352a13e2a231a850bcf4d8f4748027af43354dc0a63511401b78d7094a",
+        "future_speech_supplied_to_preparation": false,
+        "withheld_terms_absent": [],
+        "audio_sha256": "df332a4b6607c740f0144e803ec7a3300136f3d0f5c349a1db5fcada3ca7b913",
+        "speech": "Recorded TED audio; no synthetic speech",
+        "fixture": {
+          "schema": "live_presenter.rehearsal_audio_fixture.v1",
+          "title": "Leadership and group participation",
+          "brief": "Explain how leadership and collective participation can help people coordinate a new group effort. The audience is new to the subject.",
+          "notes": "A leader may propose a new direction. People decide whether to join a group effort. Collective participation matters when a group begins to act.",
+          "audio_path": "artifacts/recorded_talks/sivers/audio.wav",
+          "audio_sha256": "228ec6e6c7a441aade263a3f384dee4358e15590e439bc1891ca301220dc0fa0",
+          "source_url": "https://www.ted.com/talks/derek_sivers_how_to_start_a_movement",
+          "source_title": "How to start a movement",
+          "offset_s": 0,
+          "duration_s": 120,
+          "withheld_terms": [],
+          "segments": [
+            {
+              "id": "sivers_human_audio",
+              "condition": "real_recording_development",
+              "start_s": 0,
+              "end_s": 120,
+              "topic_terms": [
+                "leader",
+                "follower",
+                "movement"
+              ]
+            }
+          ],
+          "limitations": [
+            "This recording was used in earlier development; this condition is not a held-out talk.",
+            "Only the brief and notes, followed by autonomous preparation research, are supplied before the audio. The full recording transcript is not supplied.",
+            "No claim that all spoken subjects are absent from the automatically researched preparation."
+          ]
+        },
+        "fixture_sha256": "9a5bf29f9f2d6d34d1386f7dd9040db73d33274e721a90be6c1daf27c7530422"
+      },
+      "worker": {
+        "status": "ready",
+        "last_seq": 119,
+        "received": 120,
+        "processed": 106,
+        "dropped": 14,
+        "rejected": 0,
+        "timeouts": 2,
+        "expired": 2,
+        "error": null
+      },
+      "preparation_research": {
+        "input_signature": "4940d569e65e4e569efc060692e187bbc378d20f6fed3aed5c7d7c8851a80556",
+        "query": "Leadership and group participation",
+        "started_at": 1792407887.0566187,
+        "sources": [],
+        "status": "no_results",
+        "future_speech_used": false,
+        "classifier_calls": [
+          {
+            "questions": [
+              "page"
+            ],
+            "elapsed_s": 0.44058364897500724,
+            "model": "jev-1.13.0",
+            "ok": true
+          }
+        ],
+        "errors": [
+          "page unavailable"
+        ],
+        "message": "No suitable online material was added. Supplied material remains available.",
+        "completed_at": 1792407890.6706092
+      },
+      "completed_status_counts": {
+        "no_match": 12,
+        "ready": 1
+      },
+      "automatic_research_interventions": 1,
+      "topic_checks": [
+        {
+          "id": "sivers_human_audio",
+          "condition": "real_recording_development",
+          "start_s": 0,
+          "end_s": 120,
+          "lexical_topic_on_stage_s": 119.99872497998876,
+          "matching_stage_intervals": [
+            {
+              "at_s": 0.0012750200112350285,
+              "scene_id": "concept_bbd7ad6ae459_0",
+              "fresh_retrieval": false,
+              "url": null
+            },
+            {
+              "at_s": 33.35066669003572,
+              "scene_id": "web_public_de5423c8ec80c612",
+              "fresh_retrieval": true,
+              "url": "https://sive.rs/ff"
+            }
+          ],
+          "section_start_to_first_matching_scene_s": 0.0012750200112350285
+        }
+      ],
+      "topic_check_method": "Lexical checks of actual scene title, quotation and image description. Query strings are excluded. No independent factual, visual or audience-quality judgment.",
+      "stage_events": [
+        {
+          "at_s": 0.0012750200112350285,
+          "scene_id": "concept_bbd7ad6ae459_0",
+          "state_version": 8,
+          "kind": "definition",
+          "title": "Brief notes.md",
+          "web_source": null,
+          "asset_sha256": null,
+          "quote_sha256": [
+            "19c4a9352a13e2a231a850bcf4d8f4748027af43354dc0a63511401b78d7094a"
+          ]
+        },
+        {
+          "at_s": 33.35066669003572,
+          "scene_id": "web_public_de5423c8ec80c612",
+          "state_version": 83,
+          "kind": "evidence",
+          "title": "First Follower: Leadership Lessons from a Dancing Guy | Derek Sivers",
+          "web_source": {
+            "url": "https://sive.rs/ff",
+            "provider": "Public web source",
+            "search_provider": "Brave public HTML · experimental",
+            "retrieved": true,
+            "retrieved_at": 1792407926.8292937,
+            "query": "first follower",
+            "presenter_reviewed": false,
+            "source_text_sha256": "a350c8fadb371389e77c2fed6758c86216d138458959a9131e47d25eec1ab1b3",
+            "relevance_probability": 0.95,
+            "selection_confidence": 0.98
+          },
+          "asset_sha256": null,
+          "quote_sha256": [
+            "a350c8fadb371389e77c2fed6758c86216d138458959a9131e47d25eec1ab1b3"
+          ]
+        }
+      ],
+      "prepared_sources": [
+        {
+          "id": "src_19c4a9352a13",
+          "name": "Brief notes.md",
+          "sha256": "19c4a9352a13e2a231a850bcf4d8f4748027af43354dc0a63511401b78d7094a",
+          "retrieved_for_preparation": false,
+          "web_source": null
+        }
+      ],
+      "first_matching_asr_to_first_retrieved_stage_s": 7.082788569969125,
+      "timing_note": "From the first matching ASR update completion estimate to stage API observation; excludes time to hear the cue and browser paint. Not independent quality validation."
+    }
+  ],
+  "cohort_note": "Five evolving-code synthetic development repairs and one supplemental known TED recording. Not independent trials, a reliability estimate or a held-out source benchmark.",
+  "provider_availability": {
+    "copilot": [
+      "spectator quota-blocked",
+      "ly quota-blocked",
+      "ly2 quota-blocked",
+      "student quota-blocked"
+    ],
+    "claude": "No active login reported by auth status",
+    "gemini": "Existing OAuth account returned unsupported-client eligibility error",
+    "unattended_search": "Brave public HTML returned ordinary results; experimental undocumented markup dependency"
+  },
+  "offline_verification": {
+    "python_tests": 165,
+    "node_tests": 6,
+    "browser_module_syntax": "passed"
+  },
+  "remaining": [
+    "Generative preparation conversation needs a usable provider account. Source outline remains extractive.",
+    "The thermoelectric detour was missed in the fifth synthetic run.",
+    "Physical microphone/browser/projector timing and independent relevance/visual/audience-quality evaluation remain unverified."
+  ]
+}

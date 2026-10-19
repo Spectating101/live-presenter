@@ -3,10 +3,11 @@ PILOT = data/nasa_stgermain_cop26
 CORPUS_DIR ?= artifacts/corpus_tranche1
 CORPUS_SOURCES ?= data/corpus_sources_v10.json
 
-.PHONY: help test pilot eval-mock eval-jev bench clean verify doctor corpus-acquire corpus-audit corpus-jobs studio studio-local studio-research studio-research-agent
+.PHONY: help test pilot eval-mock eval-jev bench clean verify doctor corpus-acquire corpus-audit corpus-jobs studio studio-local studio-research studio-research-agent studio-researched
 help:
 	@echo "make studio     open the preparation-first local app (use the access URL printed in the terminal)"
 	@echo "make studio-local  enable optional local continuous speech recognition (.venv-asr required)"
+	@echo "make studio-researched  unattended web research before preparation and during rehearsal"
 	@echo "make studio-research  add background public-source lookup using existing Jev credentials"
 	@echo "make studio-research-agent  connect an active web-capable research agent"
 	@echo "make test       run the unit tests (stdlib only, no network, no key)"
@@ -31,6 +32,9 @@ studio-local:
 
 studio-research:
 	$(PY) -m presenter.server --research --asr-python .venv-asr/bin/python
+
+studio-researched:
+	$(PY) -m presenter.server --research-web --asr-python .venv-asr/bin/python
 
 studio-research-agent:
 	$(PY) -m presenter.server --research-bridge --asr-python .venv-asr/bin/python

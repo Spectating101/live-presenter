@@ -90,6 +90,14 @@ class LiveResearchAuthority(unittest.TestCase):
         self.assertEqual(p['live']['research']['items'][0]['title'],'Heat pipe')
         self.assertFalse(p['research_history'][-1]['displayed_automatically'])
 
+    def test_uncertain_relation_can_retrieve_material_without_automatic_display(self):
+        self.backend.run=lambda context,cancel:{**result(),'allow_auto_display':False}
+        self.research.observe(self.pid,'What about an alternative heat-transfer mechanism?',{},force=True)
+        until(lambda:self.store.read(self.pid)['live']['research'].get('status')=='ready')
+        p=self.store.read(self.pid)
+        self.assertTrue(p['live']['research']['items']);self.assertIsNone(p['live']['research_scene'])
+        self.assertFalse(p['research_history'][-1]['displayed_automatically'])
+
     def test_old_transcript_generation_and_sequence_cannot_start_research(self):
         old=self.store.read(self.pid)['live']['generation'];self.studio.control(self.pid,'hold');self.studio.control(self.pid,'resume')
         self.research.observe(self.pid,'What about heat pipes and evaporation?',{},generation=old,seq=0)
@@ -104,6 +112,16 @@ class LiveResearchAuthority(unittest.TestCase):
         self.queue();until(lambda:self.research.active is None and self.store.read(self.pid)['live']['research'].get('cache_hit'))
         self.assertEqual(len(self.backend.calls),1)
         self.assertEqual(self.store.read(self.pid)['live']['research']['request_count'],1)
+
+    def test_ambiguous_fragments_do_not_exhaust_the_real_lookup_budget(self):
+        self.backend.run=lambda context,cancel:{'status':'no_match','items':[]}
+        self.research.observe(self.pid,'Could we explore another supporting mechanism?',{},force=True)
+        until(lambda:self.store.read(self.pid)['live']['research'].get('status')=='no_match')
+        research=self.store.read(self.pid)['live']['research']
+        self.assertEqual(research['request_count'],0);self.assertEqual(research['assessment_count'],1)
+        with self.store.change(self.pid) as p:p['live']['research']['assessment_count']=60
+        self.research.observe(self.pid,'A further related mechanism needs explanation.',{},force=True)
+        self.assertEqual(self.store.read(self.pid)['live']['research']['status'],'limit')
 
     def test_pending_topic_supersedes_old_result(self):
         self.queue();self.research.observe(self.pid,'Discuss thermoelectric semiconductor modules and voltage.',{},force=True)

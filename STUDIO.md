@@ -10,6 +10,12 @@ retrieved-source overlay when enabled; the prepared-only behavior below remains
 the default. Start with `make studio-research` or `make studio-research-agent`
 and enable Live research during rehearsal.
 
+`make studio-researched` additionally enables automatic public-web research from
+the title and brief before the draft is built, plus an unattended live web worker.
+See `RESEARCHED_REHEARSAL.md` for the experimental search dependency, source-outline
+limitations and continuous audio probe. Online sources are included in the draft
+for review; subsequent runtime retrieval remains separately labeled.
+
 ```bash
 make studio
 ```

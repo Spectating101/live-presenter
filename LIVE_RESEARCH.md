@@ -1,5 +1,10 @@
 # Live browsing and material procurement
 
+`RESEARCHED_REHEARSAL.md` adds the subsequent unattended public-web mode
+(`make studio-researched`), research before preparation and continuous audio
+experiments. The isolated development timings below are retained as historical
+observations, not evidence that continuous live assistance has been established.
+
 The presentation package supplies context, audience and meaning. Optional live
 research can now retrieve supporting material for a related subject introduced
 during the talk, including subjects absent from that package. It runs in the
@@ -72,7 +77,9 @@ The connected-agent handoff waits at most 40 seconds, but a result older than
 the 20-second topic window cannot automatically take the stage. Repeating a
 current request can reuse its cached result. There are eight cache entries with
 a five-minute lifetime, scoped to the approved package and normalized utterance.
-Cache hits do not consume the twelve-new-request budget per rehearsal. Automatic
+Cache hits and rejected topic assessments that never initiate a lookup do not
+consume the twelve-new-lookup budget. A separate sixty-assessment cap bounds
+topic interpretation. Automatic
 new requests have a six-second cooldown; explicit requests bypass the cooldown.
 
 Displayed evidence quotes come from retrieved source text. Crossref links are

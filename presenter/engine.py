@@ -157,6 +157,7 @@ class Studio:
         self.cue_indexes = {}
         self.cue_lock = threading.RLock()
         self.research = None
+        self.preparation_research = None
         # Recover interrupted preparation jobs; never resume a public stage after restart.
         for path in store.root.glob("*.json"):
             with store.change(path.stem) as p:
@@ -165,7 +166,9 @@ class Studio:
                 if p["job"]["status"] == "working":
                     p["job"] = {"status": "error", "error": "Preparation was interrupted by a server restart. Retry to continue."}
 
-    def prepare(self, pid, message="", *, background=True):
+    def prepare(self, pid, message="", *, background=True, research_refresh=False):
+        if research_refresh and self.preparation_research is None:
+            raise Conflict('Start the studio with online preparation research enabled first.')
         with self.store.change(pid) as p:
             if p["live"]["active"]:
                 raise Conflict("Stop the rehearsal before changing the preparation.")
@@ -183,6 +186,12 @@ class Studio:
 
         def work():
             try:
+                if self.preparation_research and (research_refresh or self.preparation_research.needs(snapshot)):
+                    enriched=self.preparation_research.enrich(snapshot)
+                    snapshot.update(sources=enriched['sources'],preparation_research=enriched['preparation_research'])
+                    with self.store.change(pid) as current:
+                        if current['revision']!=snapshot['revision']:return
+                        current.update(sources=copy.deepcopy(snapshot['sources']),preparation_research=copy.deepcopy(snapshot['preparation_research']))
                 plan = source_outline(snapshot) if snapshot["provider"] == "outline" else self.planner.prepare(snapshot)
                 with self.store.change(pid) as current:
                     if current["revision"] != snapshot["revision"]:
@@ -222,6 +231,7 @@ class Studio:
             package = copy.deepcopy(p['plan'])
             for scene in package['scenes']:
                 scene['review_status'] = 'presenter_approved'
+                if scene.get('web_source'):scene['web_source']['presenter_reviewed']=True
             p["approval"] = {"revision": revision, "package": package,
                              "package_hash": json_hash(package), "source_hash": json_hash(p["sources"]),
                              "approved_at": time.time()}
