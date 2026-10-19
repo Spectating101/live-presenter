@@ -7,6 +7,7 @@ if (bootstrap.has('access')) {
   history.replaceState(null, '', location.pathname);
 }
 let current = '', packageHash = '', cache = new Map(), lastVersion = -1;
+let renderSamples = [];
 
 async function update() {
   try {
@@ -14,6 +15,7 @@ async function update() {
     if (!response.ok) throw new Error('Projector connection unavailable.');
     const state = await response.json();
     const receivedAt = performance.now();
+    const receivedEpochMs = Date.now();
     if ((state.state_version || 0) < lastVersion) return;
     lastVersion = state.state_version || 0;
     document.title = `${state.title} · Projector`;
@@ -42,11 +44,23 @@ async function update() {
       }
       performance.clearMeasures('presenter-stage-dom');
       performance.measure('presenter-stage-dom', { start: receivedAt, end: performance.now() });
+      const sample = {state_version: state.state_version, scene_id: state.scene?.id || null,
+        received_epoch_ms: receivedEpochMs, dom_epoch_ms: Date.now(),
+        dom_ms: performance.now() - receivedAt, frame_opportunity_ms: null,
+        visibility: document.visibilityState, focused: document.hasFocus()};
+      renderSamples.push(sample); renderSamples = renderSamples.slice(-48);
+      // Bounded DOM-backed diagnostics for browser verification, without
+      // exposing preparation text, transcript, capabilities or provider keys.
+      root.dataset.renderSamples = JSON.stringify(renderSamples);
       // A scheduling opportunity, not proof of physical display/paint latency.
       requestAnimationFrame(() => requestAnimationFrame(() => {
         if (current !== key) return;
         performance.clearMeasures('presenter-stage-frame-opportunity');
         performance.measure('presenter-stage-frame-opportunity', { start: receivedAt, end: performance.now() });
+        sample.frame_opportunity_ms = performance.now() - receivedAt;
+        sample.frame_epoch_ms = Date.now();
+        sample.frame_visibility = document.visibilityState;
+        root.dataset.renderSamples = JSON.stringify(renderSamples);
       }));
     };
     if (!state.reflex_enabled && document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(replace);

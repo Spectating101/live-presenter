@@ -132,14 +132,18 @@ def source_outline(project):
             else:
                 nodes = [line.lstrip("0123456789. -*)") for line in unit["text"].splitlines()
                          if re.match(r"\s*\d+[.)] ", line)]
-                visual = {"kind": "flow", "nodes": nodes[:6]} if len(nodes) >= 2 else {
-                    "kind": "definition", "body": [normalized(unit["text"])[:260]]}
+                passage=normalized(unit['text'])
+                # An extractive outline cannot safely summarize a long paragraph
+                # by chopping off its qualifications. Use an explicit quotation.
+                visual = ({"kind": "flow", "nodes": nodes[:6]} if len(nodes) >= 2 else
+                          {"kind":"evidence"} if len(passage)>260 else
+                          {"kind":"definition","body":[passage]})
             title = unit["heading"]
             if any(c["title"] == title for c in concepts):
                 title += " · " + str(len(concepts) + 1)
             concepts.append({"title": title, "summary": normalized(unit["text"])[:500],
                              "aliases": re.findall(r"[A-Za-z]{5,}", unit["text"])[:16],
-                             "source_refs": [{"unit_id": unit["id"], "quote": normalized(unit["text"])[:500]}],
+                             "source_refs": [{"unit_id": unit["id"], "quote": normalized(unit["text"])[:1200]}],
                              "visuals": [visual]})
             if source.get('asset') or source["dataset"] or len(concepts) >= 8:
                 break

@@ -48,6 +48,12 @@ class StudioAcceptance(unittest.TestCase):
         self.assertEqual(p['job']['status'],'ready')
         return self.studio.approve(self.pid,p['revision'],True)
 
+    def test_extractive_outline_keeps_the_terminal_measurement_caveat_as_a_quote(self):
+        plan=source_outline(self.p)
+        scene=next(s for s in plan['scenes'] if s['title']=='Choosing a setting')
+        self.assertEqual(scene['kind'],'evidence')
+        self.assertIn('Do not claim the high setting is the most efficient.',scene['source_refs'][0]['quote'])
+
     def test_full_preparation_dialogue_approval_and_stage(self):
         p=self.studio.prepare(self.pid,background=False)
         self.assertTrue(p['plan']['questions'][0]['blocking'])
