@@ -303,7 +303,9 @@ def child():
     import torch
     import whisper
     from .recording import bounded_recognition
-    torch.set_num_threads(4)
+    # Small rolling windows were slower with four intra-op threads on the
+    # contended presentation machine. Keep one worker per decode by default.
+    torch.set_num_threads(1)
     model = whisper.load_model('tiny.en', device='cpu')
     bounded_recognition(model, np.zeros(16000,dtype=np.float32), whisper, 48)
     print(json.dumps({'ready': True}), flush=True)

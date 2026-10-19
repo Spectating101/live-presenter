@@ -118,6 +118,19 @@ class PublicFetch(unittest.TestCase):
         self.assertEqual(image_saw_publication,[True]);self.assertEqual(len(published),1)
         self.assertEqual(result['items'][0]['source_refs'][0]['quote'],page['text'])
 
+    def test_reuse_checks_both_current_relation_and_actual_quote_without_browsing(self):
+        context={'title':'Cooling','utterance':'Compare heat pipes with this pumped loop.','concepts':[],
+                 'cached_source':{'query':'heat pipe','title':'Heat pipe','quote':'An actual source excerpt fixture.'}}
+        for relation,support,expected in ((.9,.9,'ready'),(.5,.95,'no_match'),(.95,.8,'no_match')):
+            checked=SimpleNamespace(answers={'related':SimpleNamespace(value=relation),
+                                             'source_support':SimpleNamespace(value=support)})
+            with patch.object(web.sources,'assess',return_value=checked) as assess,patch.object(web,'search') as search,patch.object(web,'fetch') as fetch:
+                result=web.sources.revalidate(context)
+            self.assertEqual(result['status'],expected);self.assertEqual(result['items'],[])
+            self.assertEqual(assess.call_count,1);self.assertEqual(set(assess.call_args.args[1]),{'related','source_support'})
+            self.assertEqual(assess.call_args.args[0]['spoken_context'],context['utterance'])
+            search.assert_not_called();fetch.assert_not_called()
+
 
 class ResearchedPreparation(unittest.TestCase):
     def setUp(self):

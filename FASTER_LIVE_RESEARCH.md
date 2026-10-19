@@ -1,5 +1,9 @@
 # Faster first source during live research
 
+The follow-up in [`WARMED_RESEARCH.md`](WARMED_RESEARCH.md) repairs the recognition
+failure, measures speech recognition to stage API again, and adds fast checked
+reuse across different phrasings. The original measurements below are retained.
+
 The live web worker can now publish a source quotation after it passes the topic
 and support checks, while optional image work continues. Three paired probes of
 the same known Sivers question reduced median backend first-result time from

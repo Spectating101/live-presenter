@@ -13,7 +13,7 @@ import threading
 import time
 import uuid
 
-from .language import tokens
+from .language import tokens,STOP
 
 
 class ResearchProcess:
@@ -24,6 +24,12 @@ class ResearchProcess:
 
     def run_progressive(self,context,cancelled,publish):
         return self._run({**context,'_stream':True},cancelled,publish)
+
+    def revalidate(self,context,cached,cancelled):
+        scene=next((s for s in cached['items'] if s['kind']=='evidence'),cached['items'][0])
+        return self._run({**context,'mode':'reuse','cached_source':{
+            'query':cached['query'],'title':scene['title'],
+            'quote':scene['source_refs'][0]['quote']}},cancelled,None)
 
     def _run(self, context, cancelled, publish):
         env=os.environ.copy()
@@ -86,6 +92,23 @@ class LiveResearch:
             if self.pending and self.pending['pid']==pid:self.pending=None
             self.condition.notify_all()
 
+    def reusable(self,package_hash,utterance):
+        # A literal topic mention only nominates cached material. The provider
+        # must check this new context before it gets any display authority.
+        def words(text):
+            return [w[:-1] if w.endswith('s') and not w.endswith(('ss','us','is')) else w
+                    for w in re.findall(r'[a-z0-9]+',text.lower()) if w not in STOP-{'first'}]
+        speech=words(utterance);now=self.clock()
+        with self.condition:
+            for (bound_package,_),(created,result) in reversed(self.cache.items()):
+                query=words(result.get('query',''))
+                if (bound_package==package_hash and now-created<300 and result.get('allow_auto_display',True)
+                        and any(s.get('kind')=='evidence' for s in result.get('items',[]))
+                        and len(re.findall(r'[a-z0-9]+',result.get('query','').lower()))>=2 and query
+                        and any(speech[i:i+len(query)]==query for i in range(len(speech)-len(query)+1))):
+                    return created,copy.deepcopy(result)
+        return None
+
     def observe(self,pid,utterance,recommendation,*,force=False,generation=None,seq=None):
         p=self.store.read(pid)
         live=p['live']
@@ -127,17 +150,21 @@ class LiveResearch:
                 if current['live'].get('research',{}).get('request_id')==research['request_id']:
                     current['live']['research'].update(request_id='',status='idle',message='The topic changed; earlier research will not take the stage.')
             self.invalidate(pid)
+        reuse=self.reusable(p['approval']['package_hash'],utterance) if hasattr(self.backend,'revalidate') else None
         elapsed=now-research.get('last_requested',0)
         stable_new=(tokens(utterance)&tokens(recent[-1]) if recent else set())-known-set(research.get('requested_novel',[]))
         early=(research.get('status') in {'no_match','no_results','idle'} and elapsed>=1.5 and len(stable_new)>=2)
-        if not force and elapsed<self.cooldown_s and not early:return
+        corrected=(research.get('status')=='no_match' and not research.get('query') and elapsed>=1.5
+                   and bool(tokens(utterance)-known-set(research.get('requested_novel',[]))))
+        if not force and elapsed<self.cooldown_s and not early and not corrected and not reuse:return
         cache_key=(p['approval']['package_hash'],tuple(sorted(tokens(utterance))))
         with self.condition:cached=self.cache.get(cache_key)
-        warm=bool(cached and now-cached[0]<300)
+        exact=bool(cached and now-cached[0]<300)
+        warm=exact or bool(reuse)
         if research.get('request_count',0)>=12 and not warm:
             with self.store.change(pid) as current:current['live']['research'].update(status='limit',message='This rehearsal has used its twelve research requests. Prepared following continues.')
             return
-        if research.get('assessment_count',0)>=60 and not warm:
+        if research.get('assessment_count',0)>=60 and not exact:
             with self.store.change(pid) as current:current['live']['research'].update(status='limit',message='This rehearsal reached its sixty topic assessments. Prepared following continues.')
             return
         request_id=uuid.uuid4().hex
@@ -145,14 +172,14 @@ class LiveResearch:
                  'utterance':utterance[:600],'recent_past':recent}
         job={'pid':pid,'generation':live['generation'],'package_hash':p['approval']['package_hash'],
              'request_id':request_id,'context':context,'cancel':threading.Event(),
-             'cache_key':cache_key,'queued_at':now}
+             'cache_key':cache_key,'queued_at':now,'reuse':reuse}
         with self.store.change(pid) as current:
             if (current['live']['generation']!=job['generation'] or not current['live'].get('research_enabled')
                     or not current['live']['active'] or current['live']['locked']
                     or (seq is not None and current['live']['last_seq']!=seq)):return
             current['live']['research']={**research,'status':'queued','request_id':request_id,'novel':sorted(novel),
               'last_heard':now,'last_requested':now,'request_count':research.get('request_count',0)+int(not warm),
-              'assessment_count':research.get('assessment_count',0)+int(not warm),
+              'assessment_count':research.get('assessment_count',0)+int(not exact),
               'requested_novel':sorted(novel),
               'message':'Finding related sources and visual material online…'}
         with self.condition:
@@ -176,7 +203,8 @@ class LiveResearch:
             research.update(status=result['status'] if final else 'enriching',query=result.get('query',''),items=copy.deepcopy(items),
               papers=result.get('papers',[])[:3],completed_at=self.clock(),errors=result.get('errors',[]),
               message=result.get('message') or ('Related material found.' if fresh else 'Related material found after the topic expired; retained backstage.'),
-              cache_hit=result.get('cache_hit',False),provider_scope=result.get('provider_scope',[]))
+              cache_hit=result.get('cache_hit',False),cache_kind=result.get('cache_kind'),
+              provider_scope=result.get('provider_scope',[]))
             research['classifier_calls']=result.get('classifier_calls',[])
             research['plan_decision']=result.get('plan_decision',{})
             research['allow_auto_display']=result.get('allow_auto_display',True)
@@ -203,6 +231,8 @@ class LiveResearch:
                 job['progress_result']=copy.deepcopy(result)
             entry={'completed_at':self.clock(),'query':result.get('query',''),'request_id':job['request_id'],'final':final,
                 'status':result['status'],'package_hash':job['package_hash'],'displayed_automatically':job.get('displayed',displayed),
+                'cache_hit':result.get('cache_hit',False),'cache_kind':result.get('cache_kind'),
+                'reuse_source_age_s':result.get('reuse_source_age_s'),
                 'displayed_scene_ids':list(job.get('displayed_scene_ids',[])),
                 'first_result_at':job.get('first_result_at'),'first_result_latency_s':(job['first_result_at']-job['queued_at']) if 'first_result_at' in job and 'queued_at' in job else None,
                 'timing':result.get('timing',{}),
@@ -229,7 +259,29 @@ class LiveResearch:
                     p['live']['research']['status']='searching'
                 with self.condition:cached=self.cache.get(job['cache_key'])
                 if cached and self.clock()-cached[0]<300:
-                    result={**copy.deepcopy(cached[1]),'cache_hit':True}
+                    result={**copy.deepcopy(cached[1]),'cache_hit':True,'cache_kind':'exact_utterance'}
+                elif job.get('reuse'):
+                    created,original=job['reuse']
+                    if self.clock()-created>=300:
+                        result={'status':'no_match','query':original['query'],'items':[],
+                                'message':'The cached source expired; fresh research is needed.'}
+                    else:
+                        checked=self.backend.revalidate(job['context'],original,job['cancel'])
+                        if checked['status']=='ready' and self.clock()-created<300:
+                            # Only the quotation was rechecked. Do not silently
+                            # give an old image authority in a different context.
+                            items=copy.deepcopy([s for s in original['items'] if s['kind']=='evidence'])[:1]
+                            for scene in items:
+                                scene['web_source'].update(revalidated_at=self.clock(),
+                                    revalidation_support_probability=checked.get('plan_decision',{}).get('source_support_probability'),
+                                    revalidation_support_scope=checked.get('plan_decision',{}).get('source_support_scope'))
+                            result={**copy.deepcopy(original),**checked,'items':items,
+                                'cache_hit':True,'cache_kind':'topic_revalidated','reuse_source_age_s':self.clock()-created,
+                                'message':'Previously retrieved source rechecked for the current explanation.'}
+                        elif checked['status']=='ready':
+                            result={'status':'no_match','query':original['query'],'items':[],
+                                    'message':'The cached source expired during revalidation.'}
+                        else:result=checked
                 else:
                     if hasattr(self.backend,'run_progressive'):
                         result=self.backend.run_progressive(job['context'],job['cancel'],lambda partial:self.complete(job,partial,final=False))
@@ -259,9 +311,9 @@ class LiveResearch:
 def main():
     if '--child' not in sys.argv:raise SystemExit('Use this module through the local studio research worker.')
     try:
-        from .research_sources import procure
+        from .research_sources import procure,revalidate
         context=json.loads(sys.stdin.buffer.read(100_001))
-        result=procure(context)
+        result=revalidate(context) if context.get('mode')=='reuse' else procure(context)
     except Exception:
         result={'status':'error','message':'The research provider or source service was unavailable.','items':[]}
     print(json.dumps(result,ensure_ascii=False,allow_nan=False),flush=True)

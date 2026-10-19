@@ -47,6 +47,12 @@ from 5.36 to 3.67 seconds by publishing checked quotes before optional enrichmen
 The follow-up TED replay failed at recognition under high machine load, so this
 does not establish improved speech-to-stage latency. Repeat that frozen audio
 condition with adequate CPU availability before claiming an end-to-end gain.
+`WARMED_RESEARCH.md` continues that repair: one recognition thread processes all
+120 windows, topic-selection/reassessment changes yield known Sivers
+recognition-to-stage observations of 3.27–5.03 seconds, and a typed returning topic
+reaches the stage API in 0.58–0.66 seconds after fresh source revalidation. Earlier
+slower/failed attempts are preserved. These remain development measurements;
+fresh discovery is not instantaneous and independent acceptance is still open.
 
 ## Verified working baseline
 

@@ -194,6 +194,81 @@ class LiveResearchAuthority(unittest.TestCase):
         self.research.observe(self.pid,'semiconductor voltage transport mechanism',{})
         self.assertTrue(self.backend.entered.wait(1));self.finish()
 
+    def prime_reuse(self):
+        self.queue();self.finish();self.rechecked=[]
+        def revalidate(context,cached,cancel):
+            self.rechecked.append(copy.deepcopy(context))
+            return {'status':'ready','query':cached['query'],'items':[],
+                    'allow_auto_display':True,'plan_decision':{'source_support_probability':.95}}
+        self.backend.revalidate=revalidate
+        self.studio.control(self.pid,'show',scene_id=self.store.read(self.pid)['live']['current_scene_id'])
+
+    def test_rephrased_topic_rechecks_cached_quote_without_another_lookup_or_ttl_extension(self):
+        self.prime_reuse();created=list(self.research.cache.values())[0][0]
+        with self.store.change(self.pid) as p:p['live']['research'].update(request_count=12)
+        self.research.observe(self.pid,'Can we compare heat pipes with this cooling loop?',{},force=True)
+        until(lambda:len(self.rechecked)==1 and self.research.active is None)
+        p=self.store.read(self.pid)
+        self.assertEqual(len(self.backend.calls),1);self.assertEqual(p['live']['research']['request_count'],12)
+        self.assertEqual(p['live']['research']['assessment_count'],2)
+        self.assertEqual(p['live']['research_scene']['title'],'Heat pipe')
+        self.assertEqual(p['research_history'][-1]['cache_kind'],'topic_revalidated')
+        self.assertEqual(list(self.research.cache.values())[0][0],created)
+        self.assertEqual(p['approval']['package_hash'],self.original_hash)
+
+    def test_cached_topic_must_appear_in_current_speech_and_expire_with_its_package(self):
+        self.prime_reuse();key=next(iter(self.research.cache));created,cached=self.research.cache[key]
+        self.assertIsNone(self.research.reusable('different_package','Compare heat pipes please.'))
+        self.assertIsNone(self.research.reusable(self.original_hash,'How does that comparison work?'))
+        self.research.cache[key]=(created-301,cached)
+        self.assertIsNone(self.research.reusable(self.original_hash,'Compare heat pipes please.'))
+
+    def test_rejected_reuse_cannot_publish_the_cached_quote(self):
+        self.prime_reuse()
+        self.backend.revalidate=lambda context,cached,cancel:{'status':'no_match','query':cached['query'],'items':[],'allow_auto_display':False}
+        self.research.observe(self.pid,'Heat pipe means an unrelated object here.',{},force=True)
+        until(lambda:self.store.read(self.pid)['live']['research'].get('status')=='no_match')
+        p=self.store.read(self.pid)
+        self.assertIsNone(p['live']['research_scene']);self.assertFalse(p['research_history'][-1]['displayed_automatically'])
+
+    def test_stop_vetoes_revalidation_in_flight(self):
+        self.prime_reuse();entered=threading.Event();release=threading.Event();original=self.backend.revalidate
+        def blocked(context,cached,cancel):entered.set();release.wait(2);return original(context,cached,cancel)
+        self.backend.revalidate=blocked
+        try:
+            self.research.observe(self.pid,'Compare heat pipes with cooling circulation.',{},force=True)
+            self.assertTrue(entered.wait(1));self.studio.control(self.pid,'stop');release.set()
+            until(lambda:self.research.active is None)
+            self.assertIsNone(self.store.read(self.pid)['live']['research_scene'])
+        finally:release.set()
+
+    def test_reuse_still_respects_assessment_cap_and_never_replays_uncertain_sources(self):
+        self.prime_reuse();key=next(iter(self.research.cache));self.research.cache[key][1]['allow_auto_display']=False
+        self.assertIsNone(self.research.reusable(self.original_hash,'Compare heat pipes please.'))
+        self.research.cache[key][1]['allow_auto_display']=True
+        with self.store.change(self.pid) as p:p['live']['research']['assessment_count']=60
+        self.research.observe(self.pid,'Compare heat pipes please.',{},force=True)
+        self.assertEqual(self.store.read(self.pid)['live']['research']['status'],'limit');self.assertEqual(self.rechecked,[])
+
+    def test_cached_source_that_expires_during_revalidation_cannot_publish(self):
+        self.prime_reuse();created=list(self.research.cache.values())[0][0]
+        clock=[created+299];self.research.clock=lambda:clock[0]
+        original=self.backend.revalidate
+        def delayed(context,cached,cancel):
+            value=original(context,cached,cancel);clock[0]=created+301;return value
+        self.backend.revalidate=delayed
+        self.research.observe(self.pid,'Compare heat pipes please.',{},force=True)
+        until(lambda:self.store.read(self.pid)['live']['research'].get('status')=='no_match')
+        self.assertIsNone(self.store.read(self.pid)['live']['research_scene'])
+
+    def test_one_corrected_new_word_can_reassess_a_rejected_fragment_before_lookup_cooldown(self):
+        self.research.cooldown_s=100
+        with self.store.change(self.pid) as p:
+            p['live']['research']={'status':'no_match','last_requested':time.time()-2,
+                'requested_novel':['first','follow','crucial','role'],'request_count':0,'assessment_count':1}
+        self.research.observe(self.pid,'The first follower has a crucial role.',{})
+        self.assertTrue(self.backend.entered.wait(1));self.finish()
+
 
 class ConnectedResearchAgent(unittest.TestCase):
     def test_actual_http_handoff_is_operator_only_and_stop_rejects_a_pending_answer(self):
