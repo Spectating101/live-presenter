@@ -36,6 +36,12 @@ arrived too late to auto-display. This adds functional research plumbing, not a
 claim of instantaneous discovery, unattended general browsing or live-audience
 validation. A frozen microphone rehearsal with independently judged unprepared
 questions is the next acceptance step.
+`RESEARCHED_REHEARSAL.md` now exercises unattended web procurement before the
+draft and during paced PCM/ASR input. Four continuous synthetic attempts produced
+no new source intervention; a fifth repair displayed a new heat-pipe source but
+missed the thermoelectric detour. All attempts are retained. The HTML search
+integration is experimental, conversational preparation is account-blocked, and
+physical browser/microphone plus independent editorial acceptance remain open.
 
 ## Verified working baseline
 

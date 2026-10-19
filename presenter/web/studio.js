@@ -439,6 +439,11 @@ try {
   researchAvailable = !!status.live_research;
   researchMode = status.research_mode || 'public_sources';
   preparationResearchAvailable = !!status.preparation_research;
+  if (preparationResearchAvailable) {
+    ['new-provider', 'context-provider'].forEach(id => {
+      $(id).querySelector('option[value="outline"]').textContent = 'Source outline · with online research';
+    });
+  }
   localAudioAvailable = !!status.local_audio;
   $('local-microphone-option').disabled = !localAudioAvailable;
   if (localAudioAvailable) $('microphone-mode').value = 'local';

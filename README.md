@@ -22,6 +22,7 @@ research lane for evaluating causal visual editing and an advisory learned polic
 - `VIDEO_COMPARISONS.md` — two additional TED tests, original-video comparison, preparation coverage and missing visual evidence
 - `SUPPLIED_VISUALS.md` — supplied images, presenter-selected defaults and a follow-up test with original graphics and CSV values
 - `LIVE_RESEARCH.md` — background lookup of unprepared related topics, online diagrams and source quotes; optional connected browsing-agent handoff
+- `RESEARCHED_REHEARSAL.md` — automatic web procurement before preparation, unattended live search and a continuous paced-audio probe
 - `RESEARCH_ROADMAP.md` — current execution plan, measured results, acceptance gates and blockers
 - `make verify` — reproducible offline checks from this checkout
 - `HANDOFF.md` — canonical project handoff and restart instructions
