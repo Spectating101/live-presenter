@@ -11,6 +11,7 @@ let activeId = '', project = null, panel = 'prepare', preparationKey = '', lastR
 let recognition = null, micWanted = false, utteranceQueue = [], processingUtterances = false;
 let polling = false, utterancePending = false;
 let adviserAvailable = false;
+let researchAvailable = false, researchKey = '', researchMode = 'public_sources';
 let localAudioAvailable = false, localMicrophone = null;
 
 function notify(message) {
@@ -187,7 +188,7 @@ function renderLive(p) {
       $('live-library').append(button);
     });
   }
-  const scene = a.package.scenes.find(s => s.id === p.live.current_scene_id);
+  const scene = p.live.research_scene || a.package.scenes.find(s => s.id === p.live.current_scene_id);
   if (liveSceneKey !== (scene?.id || 'standby')) {
     liveSceneKey = scene?.id || 'standby';
     if (scene) $('stage-preview').replaceChildren(renderScene(scene));
@@ -214,6 +215,35 @@ function renderLive(p) {
   $('use-adviser').checked = !!p.live.adviser_enabled;
   $('use-reflex').checked = !!p.live.reflex_enabled;
   $('adviser-status').textContent = p.live.adviser_enabled && adviserAvailable ? 'Utterances and approved context are sent to Jev.' : 'Prepared content matching · local';
+  $('use-research').disabled = !researchAvailable;
+  $('use-research').checked = !!p.live.research_enabled;
+  $('research-form').hidden = !p.live.research_enabled;
+  $('research-disclosure').hidden = !p.live.research_enabled;
+  $('research-disclosure').textContent = researchMode === 'connected_agent' ?
+    'A connected research agent must be running. It receives the topic and presentation context and can search the broader web.' :
+    'Topic context is sent to Jev; supporting material is retrieved from Wikipedia, Wikimedia Commons and Crossref. New results can appear automatically.';
+  $('research-query').disabled = !p.live.active || p.live.locked;
+  $('research-submit').disabled = !p.live.active || p.live.locked;
+  const research = p.live.research || {};
+  $('research-status').textContent = p.live.research_enabled ? (research.message || 'Related topics can trigger online research. Queries and topic context are sent to Jev and public source services.') : 'Online research is off.';
+  const nextResearchKey = `${p.id}:${research.request_id}:${research.status}:${(research.items || []).map(s => s.id).join(',')}:${p.live.active}`;
+  if (nextResearchKey !== researchKey) {
+    researchKey = nextResearchKey;
+    const results = $('research-results'); results.replaceChildren();
+    (research.items || []).forEach(found => {
+      const button = el('button', 'library-scene');
+      button.disabled = !p.live.active || !p.live.research_enabled;
+      button.append(renderScene(found, true));
+      button.setAttribute('aria-label', 'Show retrieved source: ' + found.title);
+      button.onclick = () => action('control', { action: 'research-show', scene_id: found.id }).catch(e => notify(e.message));
+      results.append(button);
+    });
+    (research.papers || []).forEach(paper => {
+      const link = el('a', 'research-paper', paper.title + ' ↗');
+      if (/^https:\/\//i.test(paper.url)) { link.href = paper.url; link.target = '_blank'; link.rel = 'noopener noreferrer'; }
+      results.append(link);
+    });
+  }
   $('live-decision').classList.toggle('held', p.live.locked);
   $('live-transcript').replaceChildren(...p.live.transcript.slice(-25).map(row => el('p', '', row.text)));
 }
@@ -302,6 +332,12 @@ $('close-visual').onclick = () => $('visual-dialog').close();
 $('hold').onclick = () => action('control', { action: project.live.locked ? 'resume' : 'hold' }).catch(e => notify(e.message));
 $('use-adviser').onchange = () => action('control', { action: 'adviser', enabled: $('use-adviser').checked }).catch(e => notify(e.message));
 $('use-reflex').onchange = () => action('control', { action: 'reflex', enabled: $('use-reflex').checked }).catch(e => notify(e.message));
+$('use-research').onchange = () => action('control', { action: 'research', enabled: $('use-research').checked }).catch(e => notify(e.message));
+$('research-form').onsubmit = async event => {
+  event.preventDefault();
+  const query = $('research-query').value.trim();
+  if (query) { try { await action('research', { query }); } catch (e) { notify(e.message); } }
+};
 
 function sendUtterance(text) {
   return new Promise(resolve => {
@@ -389,6 +425,8 @@ async function poll() {
 try {
   const status = await api('/api/status');
   adviserAvailable = status.live_adviser === 'jev';
+  researchAvailable = !!status.live_research;
+  researchMode = status.research_mode || 'public_sources';
   localAudioAvailable = !!status.local_audio;
   $('local-microphone-option').disabled = !localAudioAvailable;
   if (localAudioAvailable) $('microphone-mode').value = 'local';

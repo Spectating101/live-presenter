@@ -21,6 +21,7 @@ research lane for evaluating causal visual editing and an advisory learned polic
 - `LIVE_AUDIO.md` — opt-in local English microphone input and wall-clock HTTP/ASR/stage probes (`make studio-local`)
 - `VIDEO_COMPARISONS.md` — two additional TED tests, original-video comparison, preparation coverage and missing visual evidence
 - `SUPPLIED_VISUALS.md` — supplied images, presenter-selected defaults and a follow-up test with original graphics and CSV values
+- `LIVE_RESEARCH.md` — background lookup of unprepared related topics, online diagrams and source quotes; optional connected browsing-agent handoff
 - `RESEARCH_ROADMAP.md` — current execution plan, measured results, acceptance gates and blockers
 - `make verify` — reproducible offline checks from this checkout
 - `HANDOFF.md` — canonical project handoff and restart instructions
@@ -38,6 +39,13 @@ then rehearse using typed utterances or browser speech recognition. A separate
 projector displays prepared content under presenter controls. Jev advice is an
 explicit optional switch; Source outline plus typed rehearsal works without AI
 calls. See `STUDIO.md` for verified behavior and remaining limits.
+
+Optional live research can procure fresh supporting material while prepared
+following continues. `make studio-research` uses existing Jev credentials with
+public-source adapters; `make studio-research-agent` connects an active agent
+with broader browsing tools. Cold retrieval takes seconds and can time out;
+prepared/cached selection is faster. See `LIVE_RESEARCH.md` for measured examples,
+source attribution, agent requirements and the provisional display behavior.
 
 This checkout runs the v10 empirical lane and System-1 (Jev) layer. The trace adapters,
 consensus benchmark and several inherited modules have been integrated from `main`.

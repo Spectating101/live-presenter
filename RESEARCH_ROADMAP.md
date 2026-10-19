@@ -1,6 +1,6 @@
 # Research execution roadmap
 
-Updated 2026-10-18. This is the current continuation of the v10 handoff, not a
+Updated 2026-10-19. This is the current continuation of the v10 handoff, not a
 claim that the historical full runtime has been restored or validated.
 
 The subsequent preparation-first product implementation is documented in
@@ -28,6 +28,14 @@ independent editorial and audience evaluation remain outstanding.
 `SUPPLIED_VISUALS.md` adds bounded supplied-image scenes, presenter-selected
 defaults and an explicit supplemental-input manifest. Its McCandless follow-up is
 a repair experiment on known development material, not independent validation.
+`LIVE_RESEARCH.md` adds background procurement for related topics absent from
+the package: bounded public-source adapters plus an authenticated connection to
+an active web-capable agent. Typed HTTP probes retrieved a new online diagram
+and a NASA quotation; another cold lookup timed out and the broad-web response
+arrived too late to auto-display. This adds functional research plumbing, not a
+claim of instantaneous discovery, unattended general browsing or live-audience
+validation. A frozen microphone rehearsal with independently judged unprepared
+questions is the next acceptance step.
 
 ## Verified working baseline
 
