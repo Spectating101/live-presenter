@@ -151,11 +151,16 @@ function renderPreparation(p) {
     card.append(heading, el('p', 'concept-summary', concept.summary));
     const grid = el('div', 'visual-grid');
     plan.scenes.filter(s => s.concept_id === concept.id).forEach(scene => {
+      const option = el('div', 'visual-option');
       const button = el('button', 'visual-thumbnail');
       button.setAttribute('aria-label', `Preview ${scene.title} · ${scene.kind}`);
       button.append(renderScene(scene, true));
       button.addEventListener('click', () => { $('full-preview').replaceChildren(renderScene(scene)); $('visual-dialog').showModal(); });
-      grid.append(button);
+      const isDefault = scene.id === concept.default_scene_id;
+      const choose = el('button', 'text-button default-visual', isDefault ? '✓ Default visual' : 'Use as default');
+      choose.disabled = isDefault || p.live.active || p.job.status !== 'ready';
+      choose.onclick = () => action('default-scene', { scene_id: scene.id }).catch(e => notify(e.message));
+      option.append(button,choose); grid.append(option);
     });
     const evidence = el('details', 'source-links');
     evidence.append(el('summary', '', 'View source support'));
@@ -223,6 +228,7 @@ function selectPanel(name) {
 
 async function filePayload(file) {
   if (file.size > 4_000_000) throw new Error(`${file.name} exceeds the 4 MB material limit.`);
+  if (/\.(png|jpe?g)$/i.test(file.name) && file.size > 512_000) throw new Error(`Resize ${file.name} to at most 512 KB before attaching it.`);
   const bytes = new Uint8Array(await file.arrayBuffer());
   let binary = '';
   for (let i = 0; i < bytes.length; i += 32768) binary += String.fromCharCode(...bytes.subarray(i, i + 32768));

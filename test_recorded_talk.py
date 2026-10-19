@@ -11,7 +11,7 @@ import wave
 from presenter.engine import Conflict, Store, Studio
 from presenter.materials import ingest
 from presenter.recording import (audio_chunks, audio_windows, bounded_recognition, build_report,
-    file_hash, recognition_rejection, recording_store, replay, save, schedule_chunks, score_replay, validate_chunks)
+    file_hash, recognition_rejection, recording_store, replay, save, schedule_chunks, score_replay, validate_chunks, preparation_inputs)
 from research_evidence_v10 import json_hash
 
 
@@ -58,6 +58,20 @@ class RecordedTalkTests(unittest.TestCase):
         self.assertEqual([len(data) for _,_,data in chunks],[64000,64000,32000])
         for invalid in (0,float('nan'),31):
             with self.assertRaises(ValueError):list(audio_chunks(self.folder / 'audio.wav',invalid))
+
+    def test_additional_material_must_be_explicitly_declared_and_bound(self):
+        p,_=self.fixture()
+        source=json.loads((self.folder/'source.json').read_text())
+        p['sources'].append(ingest('Extra.csv',b'Category,Value\nA,2\nB,4\n'))
+        p['approval']['source_hash']=json_hash(p['sources'])
+        with self.assertRaises(ValueError):preparation_inputs(self.folder,p,source)
+        manifest={'schema':'live_presenter.preparation_inputs.v1','condition':'Transcript and separately supplied data',
+                  'source_hash':p['approval']['source_hash'],'package_hash':p['approval']['package_hash'],
+                  'original_visual_assets_supplied':False,'sources':[{'id':s['id'],'sha256':s['sha256']} for s in p['sources']]}
+        save(self.folder/'preparation-inputs.json',manifest)
+        self.assertEqual(preparation_inputs(self.folder,p,source)['condition'],manifest['condition'])
+        p['sources'][-1]['sha256']='changed'
+        with self.assertRaises(ValueError):preparation_inputs(self.folder,p,source)
 
     def test_incomplete_future_visible_or_out_of_order_asr_is_rejected(self):
         _,asr = self.fixture()

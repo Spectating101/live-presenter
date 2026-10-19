@@ -1,0 +1,1771 @@
+{
+  "schema": "live_presenter.supplied_visual_results.v1",
+  "created_utc": "2026-10-19T06:50:24.354745+00:00",
+  "code_commit": "9a925ef",
+  "plan_sha256": "70ae3704f99666c9619c7e94d60141627b0216aec995c121b5183e72dbd6e536",
+  "frozen_code": {
+    "engine.py": "5ab8c0ea2c726acaee515600fe1d481976368003fd1d54de4cdfe6bf61ffb919",
+    "reflex.py": "f872baa12b086d826f7bbd293fc45baa5ba25f039772abcab583f4954cff01fd",
+    "selection.py": "88a953d26555c9db407b0cdd76157ed03a835a8f9923b61503ae635590e6ba1b",
+    "planning.py": "358debfaf9760406051743a78a683f93a58917d2d9825dd3d898059fd80de94a",
+    "materials.py": "9c145d01abe1dfee36f3c9da6e55e71ea6136288d6354ba66eb1028f29f445a7",
+    "images.py": "864f6730fdf67f2e3add906ac90ed0d11234c58b945df1d0ebe73ac8e7994e5c",
+    "recording.py": "3f04015c4ffebb3e5ebbbbc7b78369047bb5adf8a5d452eeeb36a8d8c580c0a2",
+    "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+    "live_probe.py": "68f4ff734adcfa51cc58015a2a38d32c04673fc2ca20ee365fecf40895d86044"
+  },
+  "frozen_web": {
+    "visuals.js": "3ff659c8ea48e8ea4f8b75cdc1738c00d1c96b27c044d5e7b2859398517b7faf",
+    "style.css": "f44a1e929732ad4fb45840993ec6e10000e37e428089ab52b8647fd0048508e9",
+    "studio.js": "ca74f0fff14fb15e986e4ed815f2af5957184110393236971312b82bd1efb475",
+    "stage.js": "f6265579e85da54421ce01d4498fb44b86f0ca87afb2cadfda7be86164b405d9",
+    "recording.js": "cdf6ae1cb229c6f4005f66f9f3b56cf3ab66cf876821cb733068764241cbb423"
+  },
+  "scope": "Old ten-idea package with new view policy versus operator-curated twelve-idea package with five frames, a two-row CSV and defaults. Multiple preparation factors change; do not attribute the full difference to images alone.",
+  "independent": false,
+  "conditions": {
+    "mccandless-views": {
+      "reference": {
+        "package_hash": "ca7b04449b255505f5e139b19056099a21471167bc1e5105347d8a6f06f50e5c",
+        "reviewer": "Codex implementation operator",
+        "independent": false,
+        "fixed_before_follower_replay": true,
+        "boundary_exclusion_s": 6,
+        "timing_basis": "Official cue section boundaries plus approximate 3.3-second media intro; sampled original frames. Six-second boundary exclusion.",
+        "ambiguous_passages": [
+          "The partial draft explicitly mentions evidence compression and updateable exploration, so its broad conclusion concept is accepted during curation and living-image sections. It has no supplied topic-specific idea for data-soil/Facebook, visual-CV/senses or political perspectives; those sections remain in the denominator with no acceptable idea."
+        ],
+        "visual_comparison_notes": "Topic matching does not establish chart fidelity or audience usefulness. Neither condition receives the original figures, CSV datasets, visual CV, political map or interactive application.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 29.3,
+            "label": "Information overload",
+            "acceptable_concept_ids": [
+              "concept_761d4a5727f4"
+            ],
+            "original_visual": "Speaker introduces visualization"
+          },
+          {
+            "start": 29.3,
+            "end": 166.3,
+            "label": "Billion-dollar scale",
+            "acceptable_concept_ids": [
+              "concept_4c0c46f676ab"
+            ],
+            "original_visual": "Area-scaled financial boxes"
+          },
+          {
+            "start": 166.3,
+            "end": 297.3,
+            "label": "Media fear patterns",
+            "acceptable_concept_ids": [
+              "concept_7255be39776b"
+            ],
+            "original_visual": "Fear timelines and media peaks"
+          },
+          {
+            "start": 297.3,
+            "end": 452.3,
+            "label": "Data soil and Facebook breakups",
+            "acceptable_concept_ids": [
+              "concept_77ce4f712933"
+            ],
+            "original_visual": "Seasonal breakup pattern and reveal"
+          },
+          {
+            "start": 452.3,
+            "end": 609.3,
+            "label": "Visual literacy and sensory language",
+            "acceptable_concept_ids": [
+              "concept_2e839691c2eb"
+            ],
+            "original_visual": "Visual CV and sensory bandwidth graphic"
+          },
+          {
+            "start": 609.3,
+            "end": 737.3,
+            "label": "Relative military measures",
+            "acceptable_concept_ids": [
+              "concept_bc4d978ebc95"
+            ],
+            "original_visual": "Absolute and relative military comparisons"
+          },
+          {
+            "start": 737.3,
+            "end": 826.3,
+            "label": "Historical supplement evidence and curation",
+            "acceptable_concept_ids": [
+              "concept_e7b369d80933"
+            ],
+            "original_visual": "Evidence versus popularity bubble chart"
+          },
+          {
+            "start": 826.3,
+            "end": 877.3,
+            "label": "Living spreadsheet images",
+            "acceptable_concept_ids": [
+              "concept_d1f96d69cbf5"
+            ],
+            "original_visual": "Interactive filtering of the bubble chart"
+          },
+          {
+            "start": 877.3,
+            "end": 986.3,
+            "label": "Political perspectives",
+            "acceptable_concept_ids": [
+              "concept_6348cd21a8cd"
+            ],
+            "original_visual": "Connected map of political ideas"
+          },
+          {
+            "start": 986.3,
+            "end": 1071.3,
+            "label": "Information design and volcano",
+            "acceptable_concept_ids": [
+              "concept_8afbb9835ebb"
+            ],
+            "original_visual": "Information design conclusion and emissions area comparison"
+          }
+        ]
+      },
+      "bindings": {
+        "plan_sha256": "70ae3704f99666c9619c7e94d60141627b0216aec995c121b5183e72dbd6e536",
+        "asr_sha256": "6ba8161e203ba36e84546e5921505030cc93ff7133dfcca9a556196868ae6812",
+        "package_hash": "ca7b04449b255505f5e139b19056099a21471167bc1e5105347d8a6f06f50e5c",
+        "source_hash": "1bffae4d166d11f1b1332fca5fdd21e5e1b915da1d45c3f551fc7d0c0e5cfd39",
+        "reference_sha256": "8d003fadf1df1338a81a35d1c6f8a6b8fc5ba1e2914ab3d037ae6681303f2621",
+        "source_count": 1,
+        "concepts": 10
+      },
+      "results": {
+        "local": {
+          "metrics": {
+            "development_chapter_alignment": 0.9990887299821544,
+            "scored_s": 951.3,
+            "aligned_s": 950.4331088320234,
+            "chapters": [
+              {
+                "label": "Information overload",
+                "scored_s": 17.3,
+                "aligned_s": 17.3,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 0,
+                "original_visual": "Speaker introduces visualization"
+              },
+              {
+                "label": "Billion-dollar scale",
+                "scored_s": 125.00000000000001,
+                "aligned_s": 124.25198900200195,
+                "fraction": 0.9940159120160155,
+                "first_matching_visual_lag_s": 6.748010997998062,
+                "original_visual": "Area-scaled financial boxes"
+              },
+              {
+                "label": "Media fear patterns",
+                "scored_s": 119.0,
+                "aligned_s": 119.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.1066416089772133,
+                "original_visual": "Fear timelines and media peaks"
+              },
+              {
+                "label": "Data soil and Facebook breakups",
+                "scored_s": 143.0,
+                "aligned_s": 143.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.546760337008152,
+                "original_visual": "Seasonal breakup pattern and reveal"
+              },
+              {
+                "label": "Visual literacy and sensory language",
+                "scored_s": 144.99999999999994,
+                "aligned_s": 144.99999999999994,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 5.211928388965305,
+                "original_visual": "Visual CV and sensory bandwidth graphic"
+              },
+              {
+                "label": "Relative military measures",
+                "scored_s": 116.0,
+                "aligned_s": 116.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.169265806023077,
+                "original_visual": "Absolute and relative military comparisons"
+              },
+              {
+                "label": "Historical supplement evidence and curation",
+                "scored_s": 77.0,
+                "aligned_s": 77.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 4.038863500044727,
+                "original_visual": "Evidence versus popularity bubble chart"
+              },
+              {
+                "label": "Living spreadsheet images",
+                "scored_s": 39.0,
+                "aligned_s": 39.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.350893586047505,
+                "original_visual": "Interactive filtering of the bubble chart"
+              },
+              {
+                "label": "Political perspectives",
+                "scored_s": 97.0,
+                "aligned_s": 97.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 2.9971668999526173,
+                "original_visual": "Connected map of political ideas"
+              },
+              {
+                "label": "Information design and volcano",
+                "scored_s": 73.0,
+                "aligned_s": 72.88111983002159,
+                "fraction": 0.9983715045208437,
+                "first_matching_visual_lag_s": 6.118880169978411,
+                "original_visual": "Information design conclusion and emissions area comparison"
+              }
+            ],
+            "visual_changes_during_audio": 11,
+            "ideas_displayed_during_audio": 10,
+            "prepared_ideas": 10,
+            "asr_processing_s": 472.95017406818806,
+            "asr_processing_real_time_factor": 0.43777300623464205,
+            "chunk_end_to_decision_p50_s": 0.4010950999800116,
+            "chunk_end_to_decision_p95_s": 0.7873743859818205,
+            "chunk_end_to_decision_max_s": 2.000174402957782,
+            "processed_windows": 1081,
+            "dropped_windows": 0,
+            "rejected_windows": 3,
+            "token_budget_reached_windows": 3,
+            "adviser_calls": 0,
+            "adviser_failures": 0,
+            "clear_cue_reflex_decisions": 968,
+            "misaligned_changes_within_scored_sections": [],
+            "adviser_models": [],
+            "causality_violations": 0,
+            "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness.",
+            "same_idea_view_changes": 2
+          },
+          "specific_asset_selection": {
+            "fraction": 0.0,
+            "windows": [
+              {
+                "label": "Financial areas",
+                "start": 45,
+                "end": 155,
+                "asset_condition_concept_index": 1,
+                "kind": "image",
+                "concept_id": "concept_4c0c46f676ab",
+                "asset_sha256": "4f56d265d8109133bb381dffe214d93cf361b74d7cfc7e3fe263194df4d6d7fe",
+                "dataset_id": null,
+                "selected_s": 0,
+                "window_s": 110,
+                "fraction": 0.0
+              },
+              {
+                "label": "Media fear landscape",
+                "start": 180,
+                "end": 285,
+                "asset_condition_concept_index": 2,
+                "kind": "image",
+                "concept_id": "concept_7255be39776b",
+                "asset_sha256": "f3e1ef8e09dbbbce167ad92fa0dccab72f8084c7fac0642e986c13d85efcb0d1",
+                "dataset_id": null,
+                "selected_s": 0,
+                "window_s": 105,
+                "fraction": 0.0
+              },
+              {
+                "label": "Seasonal pattern",
+                "start": 375,
+                "end": 440,
+                "asset_condition_concept_index": 4,
+                "kind": "image",
+                "concept_id": "concept_9d10f49803ed",
+                "asset_sha256": "bf1b0ffbfb845c57b923a59f67fb0ee2a62b0ce8be9b85237d5b5f601bb93a9a",
+                "dataset_id": null,
+                "selected_s": 0,
+                "window_s": 65,
+                "fraction": 0.0
+              },
+              {
+                "label": "Historical evidence map",
+                "start": 750,
+                "end": 815,
+                "asset_condition_concept_index": 7,
+                "kind": "image",
+                "concept_id": "concept_e7b369d80933",
+                "asset_sha256": "9d1d8e0b23e91414e276f0b0c81eabce186d96e8b0d376af5dcc09da33529bfd",
+                "dataset_id": null,
+                "selected_s": 0,
+                "window_s": 65,
+                "fraction": 0.0
+              },
+              {
+                "label": "Political diagram",
+                "start": 900,
+                "end": 970,
+                "asset_condition_concept_index": 9,
+                "kind": "image",
+                "concept_id": "concept_6348cd21a8cd",
+                "asset_sha256": "85e62e2831ab9dc1bf9d359e34d6910a1862ece9137cd96b9da4e80c9b98195f",
+                "dataset_id": null,
+                "selected_s": 0,
+                "window_s": 70,
+                "fraction": 0.0
+              },
+              {
+                "label": "Volcano comparison",
+                "start": 1030,
+                "end": 1067,
+                "asset_condition_concept_index": 11,
+                "kind": "chart",
+                "concept_id": "concept_b49e292269e4",
+                "asset_sha256": null,
+                "dataset_id": "src_d52cc98f0293",
+                "selected_s": 0,
+                "window_s": 37,
+                "fraction": 0.0
+              }
+            ],
+            "meaning": "Time displaying a specified supplied asset/chart within predetermined source passages; engineering availability/selection check, not audience usefulness. Missing assets in the old package count as zero."
+          },
+          "result_sha256": "d91542b9876320fef9284dcc6a4f0e8525a3836bd78af3a478ead70dcd0d990d",
+          "asr_sha256": "6ba8161e203ba36e84546e5921505030cc93ff7133dfcca9a556196868ae6812",
+          "package_hash": "ca7b04449b255505f5e139b19056099a21471167bc1e5105347d8a6f06f50e5c",
+          "preparation_inputs": {
+            "condition": "Same-talk untimed transcript only",
+            "original_visual_assets_supplied": false,
+            "sources": [
+              {
+                "id": "src_2882b440f381",
+                "sha256": "2882b440f381ea5e6c5edb8bbebbfcea72ffec1f8fc1734d1eac0902e9959e8b"
+              }
+            ]
+          },
+          "scene_events": [
+            {
+              "at": 0,
+              "kind": "definition",
+              "title": "What visualization does"
+            },
+            {
+              "at": 36.04801099799806,
+              "kind": "definition",
+              "title": "The Billion Dollar o-Gram"
+            },
+            {
+              "at": 169.40664160897722,
+              "kind": "definition",
+              "title": "A landscape of reported fears"
+            },
+            {
+              "at": 300.84676033700816,
+              "kind": "definition",
+              "title": "Data as creative soil"
+            },
+            {
+              "at": 457.5119283889653,
+              "kind": "definition",
+              "title": "Learned visual literacy"
+            },
+            {
+              "at": 612.469265806023,
+              "kind": "comparison",
+              "title": "Absolute and relative views"
+            },
+            {
+              "at": 741.3388635000447,
+              "kind": "definition",
+              "title": "How the historical evidence visual works"
+            },
+            {
+              "at": 829.6508935860475,
+              "kind": "definition",
+              "title": "What makes the image living"
+            },
+            {
+              "at": 880.2971668999526,
+              "kind": "definition",
+              "title": "Ideas as information landscapes"
+            },
+            {
+              "at": 965.3496398979914,
+              "kind": "comparison",
+              "title": "Being told versus being shown"
+            },
+            {
+              "at": 969.4243444880121,
+              "kind": "definition",
+              "title": "Ideas as information landscapes"
+            },
+            {
+              "at": 992.4188801699784,
+              "kind": "definition",
+              "title": "Information design's purpose"
+            }
+          ]
+        },
+        "jev": {
+          "metrics": {
+            "development_chapter_alignment": 0.999212612949574,
+            "scored_s": 951.3,
+            "aligned_s": 950.5509586989297,
+            "chapters": [
+              {
+                "label": "Information overload",
+                "scored_s": 17.3,
+                "aligned_s": 17.3,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 0,
+                "original_visual": "Speaker introduces visualization"
+              },
+              {
+                "label": "Billion-dollar scale",
+                "scored_s": 125.00000000000001,
+                "aligned_s": 124.25095869892976,
+                "fraction": 0.994007669591438,
+                "first_matching_visual_lag_s": 6.749041301070246,
+                "original_visual": "Area-scaled financial boxes"
+              },
+              {
+                "label": "Media fear patterns",
+                "scored_s": 119.0,
+                "aligned_s": 119.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.1492860919562986,
+                "original_visual": "Fear timelines and media peaks"
+              },
+              {
+                "label": "Data soil and Facebook breakups",
+                "scored_s": 143.0,
+                "aligned_s": 143.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.547529580001708,
+                "original_visual": "Seasonal breakup pattern and reveal"
+              },
+              {
+                "label": "Visual literacy and sensory language",
+                "scored_s": 144.99999999999994,
+                "aligned_s": 144.99999999999994,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 5.213418278947927,
+                "original_visual": "Visual CV and sensory bandwidth graphic"
+              },
+              {
+                "label": "Relative military measures",
+                "scored_s": 116.0,
+                "aligned_s": 116.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.1686953130295024,
+                "original_visual": "Absolute and relative military comparisons"
+              },
+              {
+                "label": "Historical supplement evidence and curation",
+                "scored_s": 77.0,
+                "aligned_s": 77.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 4.467067662032832,
+                "original_visual": "Evidence versus popularity bubble chart"
+              },
+              {
+                "label": "Living spreadsheet images",
+                "scored_s": 39.0,
+                "aligned_s": 39.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.421835707954642,
+                "original_visual": "Interactive filtering of the bubble chart"
+              },
+              {
+                "label": "Political perspectives",
+                "scored_s": 97.0,
+                "aligned_s": 97.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.0074406339438156,
+                "original_visual": "Connected map of political ideas"
+              },
+              {
+                "label": "Information design and volcano",
+                "scored_s": 73.0,
+                "aligned_s": 73.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 5.249550099938688,
+                "original_visual": "Information design conclusion and emissions area comparison"
+              }
+            ],
+            "visual_changes_during_audio": 15,
+            "ideas_displayed_during_audio": 10,
+            "prepared_ideas": 10,
+            "asr_processing_s": 472.95017406818806,
+            "asr_processing_real_time_factor": 0.43777300623464205,
+            "chunk_end_to_decision_p50_s": 0.41176052595255896,
+            "chunk_end_to_decision_p95_s": 0.8731946169864386,
+            "chunk_end_to_decision_max_s": 10.16311621607747,
+            "processed_windows": 1081,
+            "dropped_windows": 0,
+            "rejected_windows": 3,
+            "token_budget_reached_windows": 3,
+            "adviser_calls": 30,
+            "adviser_failures": 6,
+            "clear_cue_reflex_decisions": 968,
+            "misaligned_changes_within_scored_sections": [],
+            "adviser_models": [
+              "jev-1.13.0"
+            ],
+            "causality_violations": 0,
+            "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness.",
+            "same_idea_view_changes": 6
+          },
+          "specific_asset_selection": {
+            "fraction": 0.0,
+            "windows": [
+              {
+                "label": "Financial areas",
+                "start": 45,
+                "end": 155,
+                "asset_condition_concept_index": 1,
+                "kind": "image",
+                "concept_id": "concept_4c0c46f676ab",
+                "asset_sha256": "4f56d265d8109133bb381dffe214d93cf361b74d7cfc7e3fe263194df4d6d7fe",
+                "dataset_id": null,
+                "selected_s": 0,
+                "window_s": 110,
+                "fraction": 0.0
+              },
+              {
+                "label": "Media fear landscape",
+                "start": 180,
+                "end": 285,
+                "asset_condition_concept_index": 2,
+                "kind": "image",
+                "concept_id": "concept_7255be39776b",
+                "asset_sha256": "f3e1ef8e09dbbbce167ad92fa0dccab72f8084c7fac0642e986c13d85efcb0d1",
+                "dataset_id": null,
+                "selected_s": 0,
+                "window_s": 105,
+                "fraction": 0.0
+              },
+              {
+                "label": "Seasonal pattern",
+                "start": 375,
+                "end": 440,
+                "asset_condition_concept_index": 4,
+                "kind": "image",
+                "concept_id": "concept_9d10f49803ed",
+                "asset_sha256": "bf1b0ffbfb845c57b923a59f67fb0ee2a62b0ce8be9b85237d5b5f601bb93a9a",
+                "dataset_id": null,
+                "selected_s": 0,
+                "window_s": 65,
+                "fraction": 0.0
+              },
+              {
+                "label": "Historical evidence map",
+                "start": 750,
+                "end": 815,
+                "asset_condition_concept_index": 7,
+                "kind": "image",
+                "concept_id": "concept_e7b369d80933",
+                "asset_sha256": "9d1d8e0b23e91414e276f0b0c81eabce186d96e8b0d376af5dcc09da33529bfd",
+                "dataset_id": null,
+                "selected_s": 0,
+                "window_s": 65,
+                "fraction": 0.0
+              },
+              {
+                "label": "Political diagram",
+                "start": 900,
+                "end": 970,
+                "asset_condition_concept_index": 9,
+                "kind": "image",
+                "concept_id": "concept_6348cd21a8cd",
+                "asset_sha256": "85e62e2831ab9dc1bf9d359e34d6910a1862ece9137cd96b9da4e80c9b98195f",
+                "dataset_id": null,
+                "selected_s": 0,
+                "window_s": 70,
+                "fraction": 0.0
+              },
+              {
+                "label": "Volcano comparison",
+                "start": 1030,
+                "end": 1067,
+                "asset_condition_concept_index": 11,
+                "kind": "chart",
+                "concept_id": "concept_b49e292269e4",
+                "asset_sha256": null,
+                "dataset_id": "src_d52cc98f0293",
+                "selected_s": 0,
+                "window_s": 37,
+                "fraction": 0.0
+              }
+            ],
+            "meaning": "Time displaying a specified supplied asset/chart within predetermined source passages; engineering availability/selection check, not audience usefulness. Missing assets in the old package count as zero."
+          },
+          "result_sha256": "d2ad0b0b2ead8c2ed116463c14d9500fe390b66220947471ada8219bb0231003",
+          "asr_sha256": "6ba8161e203ba36e84546e5921505030cc93ff7133dfcca9a556196868ae6812",
+          "package_hash": "ca7b04449b255505f5e139b19056099a21471167bc1e5105347d8a6f06f50e5c",
+          "preparation_inputs": {
+            "condition": "Same-talk untimed transcript only",
+            "original_visual_assets_supplied": false,
+            "sources": [
+              {
+                "id": "src_2882b440f381",
+                "sha256": "2882b440f381ea5e6c5edb8bbebbfcea72ffec1f8fc1734d1eac0902e9959e8b"
+              }
+            ]
+          },
+          "scene_events": [
+            {
+              "at": 0,
+              "kind": "definition",
+              "title": "What visualization does"
+            },
+            {
+              "at": 36.04904130107025,
+              "kind": "definition",
+              "title": "The Billion Dollar o-Gram"
+            },
+            {
+              "at": 85.51541258604266,
+              "kind": "comparison",
+              "title": "Historical figures placed side by side"
+            },
+            {
+              "at": 88.30161773000145,
+              "kind": "definition",
+              "title": "The Billion Dollar o-Gram"
+            },
+            {
+              "at": 169.4492860919563,
+              "kind": "definition",
+              "title": "A landscape of reported fears"
+            },
+            {
+              "at": 300.8475295800017,
+              "kind": "definition",
+              "title": "Data as creative soil"
+            },
+            {
+              "at": 457.51341827894794,
+              "kind": "definition",
+              "title": "Learned visual literacy"
+            },
+            {
+              "at": 612.4686953130295,
+              "kind": "comparison",
+              "title": "Absolute and relative views"
+            },
+            {
+              "at": 741.7670676620328,
+              "kind": "definition",
+              "title": "How the historical evidence visual works"
+            },
+            {
+              "at": 829.7218357079546,
+              "kind": "definition",
+              "title": "What makes the image living"
+            },
+            {
+              "at": 880.3074406339438,
+              "kind": "definition",
+              "title": "Ideas as information landscapes"
+            },
+            {
+              "at": 965.3508184129605,
+              "kind": "comparison",
+              "title": "Being told versus being shown"
+            },
+            {
+              "at": 969.4255850340123,
+              "kind": "definition",
+              "title": "Ideas as information landscapes"
+            },
+            {
+              "at": 991.5495500999386,
+              "kind": "definition",
+              "title": "Information design's purpose"
+            },
+            {
+              "at": 1040.5556227539782,
+              "kind": "comparison",
+              "title": "Historical Icelandic emissions comparison"
+            },
+            {
+              "at": 1044.4314890420064,
+              "kind": "definition",
+              "title": "Information design's purpose"
+            }
+          ]
+        }
+      },
+      "comparison_html_sha256": "0fd7f1a15bb6efcf4db33292218acd54f3962c86b8a59b2775bfdbd0166cc804"
+    },
+    "mccandless-assets": {
+      "reference": {
+        "package_hash": "9614a0ffd5b6f69185cf8db34d3a8af8af49472422fd3342896406fdc74f0060",
+        "reviewer": "Codex implementation operator",
+        "independent": false,
+        "fixed_before_follower_replay": true,
+        "boundary_exclusion_s": 6,
+        "timing_basis": "Official cue section boundaries plus approximate 3.3-second media intro; sampled original frames. Six-second boundary exclusion.",
+        "ambiguous_passages": [
+          "The partial draft explicitly mentions evidence compression and updateable exploration, so its broad conclusion concept is accepted during curation and living-image sections. It has no supplied topic-specific idea for data-soil/Facebook, visual-CV/senses or political perspectives; those sections remain in the denominator with no acceptable idea."
+        ],
+        "visual_comparison_notes": "Five original frames are now supplied assets and the volcano comparison uses an explicit historical CSV. This changes preparation and is not a new independent held-out test. Static images do not reproduce filtering, animation or unseen chart values.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 29.3,
+            "label": "Information overload",
+            "acceptable_concept_ids": [
+              "concept_761d4a5727f4"
+            ],
+            "original_visual": "Speaker introduces visualization"
+          },
+          {
+            "start": 29.3,
+            "end": 166.3,
+            "label": "Billion-dollar scale",
+            "acceptable_concept_ids": [
+              "concept_4c0c46f676ab"
+            ],
+            "original_visual": "Area-scaled financial boxes"
+          },
+          {
+            "start": 166.3,
+            "end": 297.3,
+            "label": "Media fear patterns",
+            "acceptable_concept_ids": [
+              "concept_7255be39776b"
+            ],
+            "original_visual": "Fear timelines and media peaks"
+          },
+          {
+            "start": 297.3,
+            "end": 452.3,
+            "label": "Data soil and Facebook breakups",
+            "acceptable_concept_ids": [
+              "concept_01c1dc94abce",
+              "concept_9d10f49803ed"
+            ],
+            "original_visual": "Seasonal breakup pattern and reveal"
+          },
+          {
+            "start": 452.3,
+            "end": 609.3,
+            "label": "Visual literacy and sensory language",
+            "acceptable_concept_ids": [
+              "concept_2e839691c2eb"
+            ],
+            "original_visual": "Visual CV and sensory bandwidth graphic"
+          },
+          {
+            "start": 609.3,
+            "end": 737.3,
+            "label": "Relative military measures",
+            "acceptable_concept_ids": [
+              "concept_bc4d978ebc95"
+            ],
+            "original_visual": "Absolute and relative military comparisons"
+          },
+          {
+            "start": 737.3,
+            "end": 826.3,
+            "label": "Historical supplement evidence and curation",
+            "acceptable_concept_ids": [
+              "concept_e7b369d80933"
+            ],
+            "original_visual": "Evidence versus popularity bubble chart"
+          },
+          {
+            "start": 826.3,
+            "end": 877.3,
+            "label": "Living spreadsheet images",
+            "acceptable_concept_ids": [
+              "concept_d1f96d69cbf5"
+            ],
+            "original_visual": "Interactive filtering of the bubble chart"
+          },
+          {
+            "start": 877.3,
+            "end": 986.3,
+            "label": "Political perspectives",
+            "acceptable_concept_ids": [
+              "concept_6348cd21a8cd"
+            ],
+            "original_visual": "Connected map of political ideas"
+          },
+          {
+            "start": 986.3,
+            "end": 1071.3,
+            "label": "Information design and volcano",
+            "acceptable_concept_ids": [
+              "concept_a0e44c329de5",
+              "concept_b49e292269e4"
+            ],
+            "original_visual": "Information design conclusion and emissions area comparison"
+          }
+        ]
+      },
+      "bindings": {
+        "plan_sha256": "70ae3704f99666c9619c7e94d60141627b0216aec995c121b5183e72dbd6e536",
+        "asr_sha256": "6ba8161e203ba36e84546e5921505030cc93ff7133dfcca9a556196868ae6812",
+        "package_hash": "9614a0ffd5b6f69185cf8db34d3a8af8af49472422fd3342896406fdc74f0060",
+        "source_hash": "a2a135f24b18edf451116bf4e31d5b50fa1bb8622f87f500bf2f4cbbaf7c6844",
+        "reference_sha256": "3f745fe48a3fefa5ab57144806b0293fadafcfbe950b332eec0c0fca955415eb",
+        "source_count": 7,
+        "concepts": 12
+      },
+      "results": {
+        "local": {
+          "metrics": {
+            "development_chapter_alignment": 0.9990552608367477,
+            "scored_s": 951.3,
+            "aligned_s": 950.401269633998,
+            "chapters": [
+              {
+                "label": "Information overload",
+                "scored_s": 17.3,
+                "aligned_s": 17.3,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 0,
+                "original_visual": "Speaker introduces visualization"
+              },
+              {
+                "label": "Billion-dollar scale",
+                "scored_s": 125.00000000000001,
+                "aligned_s": 124.23623904499692,
+                "fraction": 0.9938899123599753,
+                "first_matching_visual_lag_s": 6.7637609550030895,
+                "original_visual": "Area-scaled financial boxes"
+              },
+              {
+                "label": "Media fear patterns",
+                "scored_s": 119.0,
+                "aligned_s": 119.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.1226765319472065,
+                "original_visual": "Fear timelines and media peaks"
+              },
+              {
+                "label": "Data soil and Facebook breakups",
+                "scored_s": 143.0,
+                "aligned_s": 143.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.562534819054406,
+                "original_visual": "Seasonal breakup pattern and reveal"
+              },
+              {
+                "label": "Visual literacy and sensory language",
+                "scored_s": 144.99999999999994,
+                "aligned_s": 144.99999999999994,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 5.227998027973797,
+                "original_visual": "Visual CV and sensory bandwidth graphic"
+              },
+              {
+                "label": "Relative military measures",
+                "scored_s": 116.0,
+                "aligned_s": 116.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.1872830649838306,
+                "original_visual": "Absolute and relative military comparisons"
+              },
+              {
+                "label": "Historical supplement evidence and curation",
+                "scored_s": 77.0,
+                "aligned_s": 77.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 4.055496886943047,
+                "original_visual": "Evidence versus popularity bubble chart"
+              },
+              {
+                "label": "Living spreadsheet images",
+                "scored_s": 39.0,
+                "aligned_s": 39.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.370859165024058,
+                "original_visual": "Interactive filtering of the bubble chart"
+              },
+              {
+                "label": "Political perspectives",
+                "scored_s": 97.0,
+                "aligned_s": 97.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.01519425095762,
+                "original_visual": "Connected map of political ideas"
+              },
+              {
+                "label": "Information design and volcano",
+                "scored_s": 73.0,
+                "aligned_s": 72.86503058900121,
+                "fraction": 0.9981511039589207,
+                "first_matching_visual_lag_s": 6.134969410998792,
+                "original_visual": "Information design conclusion and emissions area comparison"
+              }
+            ],
+            "visual_changes_during_audio": 13,
+            "ideas_displayed_during_audio": 12,
+            "prepared_ideas": 12,
+            "asr_processing_s": 472.95017406818806,
+            "asr_processing_real_time_factor": 0.43777300623464205,
+            "chunk_end_to_decision_p50_s": 0.4206969980150461,
+            "chunk_end_to_decision_p95_s": 0.8125673569738865,
+            "chunk_end_to_decision_max_s": 2.032345301064197,
+            "processed_windows": 1081,
+            "dropped_windows": 0,
+            "rejected_windows": 3,
+            "token_budget_reached_windows": 3,
+            "adviser_calls": 0,
+            "adviser_failures": 0,
+            "clear_cue_reflex_decisions": 964,
+            "misaligned_changes_within_scored_sections": [],
+            "adviser_models": [],
+            "causality_violations": 0,
+            "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness.",
+            "same_idea_view_changes": 2
+          },
+          "specific_asset_selection": {
+            "fraction": 0.9909849676393195,
+            "windows": [
+              {
+                "label": "Financial areas",
+                "start": 45,
+                "end": 155,
+                "asset_condition_concept_index": 1,
+                "kind": "image",
+                "concept_id": "concept_4c0c46f676ab",
+                "asset_sha256": "4f56d265d8109133bb381dffe214d93cf361b74d7cfc7e3fe263194df4d6d7fe",
+                "dataset_id": null,
+                "selected_s": 110,
+                "window_s": 110,
+                "fraction": 1.0
+              },
+              {
+                "label": "Media fear landscape",
+                "start": 180,
+                "end": 285,
+                "asset_condition_concept_index": 2,
+                "kind": "image",
+                "concept_id": "concept_7255be39776b",
+                "asset_sha256": "f3e1ef8e09dbbbce167ad92fa0dccab72f8084c7fac0642e986c13d85efcb0d1",
+                "dataset_id": null,
+                "selected_s": 105,
+                "window_s": 105,
+                "fraction": 1.0
+              },
+              {
+                "label": "Seasonal pattern",
+                "start": 375,
+                "end": 440,
+                "asset_condition_concept_index": 4,
+                "kind": "image",
+                "concept_id": "concept_9d10f49803ed",
+                "asset_sha256": "bf1b0ffbfb845c57b923a59f67fb0ee2a62b0ce8be9b85237d5b5f601bb93a9a",
+                "dataset_id": null,
+                "selected_s": 65,
+                "window_s": 65,
+                "fraction": 1.0
+              },
+              {
+                "label": "Historical evidence map",
+                "start": 750,
+                "end": 815,
+                "asset_condition_concept_index": 7,
+                "kind": "image",
+                "concept_id": "concept_e7b369d80933",
+                "asset_sha256": "9d1d8e0b23e91414e276f0b0c81eabce186d96e8b0d376af5dcc09da33529bfd",
+                "dataset_id": null,
+                "selected_s": 65,
+                "window_s": 65,
+                "fraction": 1.0
+              },
+              {
+                "label": "Political diagram",
+                "start": 900,
+                "end": 970,
+                "asset_condition_concept_index": 9,
+                "kind": "image",
+                "concept_id": "concept_6348cd21a8cd",
+                "asset_sha256": "85e62e2831ab9dc1bf9d359e34d6910a1862ece9137cd96b9da4e80c9b98195f",
+                "dataset_id": null,
+                "selected_s": 65.92520537297241,
+                "window_s": 70,
+                "fraction": 0.9417886481853202
+              },
+              {
+                "label": "Volcano comparison",
+                "start": 1030,
+                "end": 1067,
+                "asset_condition_concept_index": 11,
+                "kind": "chart",
+                "concept_id": "concept_b49e292269e4",
+                "asset_sha256": null,
+                "dataset_id": "src_d52cc98f0293",
+                "selected_s": 37,
+                "window_s": 37,
+                "fraction": 1.0
+              }
+            ],
+            "meaning": "Time displaying a specified supplied asset/chart within predetermined source passages; engineering availability/selection check, not audience usefulness. Missing assets in the old package count as zero."
+          },
+          "result_sha256": "cd822ce8340e185b4071325de0ab2a6a67a98d8acd2b653e838a58b4118e3ce9",
+          "asr_sha256": "6ba8161e203ba36e84546e5921505030cc93ff7133dfcca9a556196868ae6812",
+          "package_hash": "9614a0ffd5b6f69185cf8db34d3a8af8af49472422fd3342896406fdc74f0060",
+          "preparation_inputs": {
+            "schema": "live_presenter.preparation_inputs.v1",
+            "condition": "Full untimed transcript, five original video frames and a two-row historical emissions excerpt; operator-curated twelve-idea package with explicit default visuals",
+            "original_visual_assets_supplied": true,
+            "caption_timing_visible_to_follower": false,
+            "source_hash": "a2a135f24b18edf451116bf4e31d5b50fa1bb8622f87f500bf2f4cbbaf7c6844",
+            "package_hash": "9614a0ffd5b6f69185cf8db34d3a8af8af49472422fd3342896406fdc74f0060",
+            "sources": [
+              {
+                "id": "src_2882b440f381",
+                "sha256": "2882b440f381ea5e6c5edb8bbebbfcea72ffec1f8fc1734d1eac0902e9959e8b"
+              },
+              {
+                "id": "src_4f56d265d810",
+                "sha256": "4f56d265d8109133bb381dffe214d93cf361b74d7cfc7e3fe263194df4d6d7fe"
+              },
+              {
+                "id": "src_f3e1ef8e09db",
+                "sha256": "f3e1ef8e09dbbbce167ad92fa0dccab72f8084c7fac0642e986c13d85efcb0d1"
+              },
+              {
+                "id": "src_bf1b0ffbfb84",
+                "sha256": "bf1b0ffbfb845c57b923a59f67fb0ee2a62b0ce8be9b85237d5b5f601bb93a9a"
+              },
+              {
+                "id": "src_9d1d8e0b23e9",
+                "sha256": "9d1d8e0b23e91414e276f0b0c81eabce186d96e8b0d376af5dcc09da33529bfd"
+              },
+              {
+                "id": "src_85e62e2831ab",
+                "sha256": "85e62e2831ab9dc1bf9d359e34d6910a1862ece9137cd96b9da4e80c9b98195f"
+              },
+              {
+                "id": "src_d52cc98f0293",
+                "sha256": "d52cc98f0293c49da4228cd8045a0fff398f6706a576dd339769862eb2f57c65"
+              }
+            ],
+            "data_provenance": {
+              "csv": "Transcribed two explicitly stated historical values from source unit 25; planes value is hypothetical if flown, not actual emissions. No other dataset reconstructed from prose or image pixels."
+            }
+          },
+          "scene_events": [
+            {
+              "at": 0,
+              "kind": "definition",
+              "title": "What visualization does"
+            },
+            {
+              "at": 36.06376095500309,
+              "kind": "image",
+              "title": "Historical financial amounts"
+            },
+            {
+              "at": 169.42267653194722,
+              "kind": "image",
+              "title": "A landscape of media fears"
+            },
+            {
+              "at": 300.8625348190544,
+              "kind": "definition",
+              "title": "Data as a material to cultivate"
+            },
+            {
+              "at": 369.8849807990482,
+              "kind": "image",
+              "title": "A seasonal pattern"
+            },
+            {
+              "at": 457.5279980279738,
+              "kind": "definition",
+              "title": "Learned visual literacy"
+            },
+            {
+              "at": 612.4872830649838,
+              "kind": "comparison",
+              "title": "Absolute and relative views"
+            },
+            {
+              "at": 741.355496886943,
+              "kind": "image",
+              "title": "Historical evidence and popularity"
+            },
+            {
+              "at": 829.670859165024,
+              "kind": "definition",
+              "title": "What makes the image living"
+            },
+            {
+              "at": 880.3151942509576,
+              "kind": "image",
+              "title": "Seeing connected perspectives"
+            },
+            {
+              "at": 965.3655399749987,
+              "kind": "comparison",
+              "title": "Being told versus being shown"
+            },
+            {
+              "at": 969.4403346020263,
+              "kind": "image",
+              "title": "Seeing connected perspectives"
+            },
+            {
+              "at": 992.4349694109987,
+              "kind": "definition",
+              "title": "Design for clarity"
+            },
+            {
+              "at": 1020.3303906730143,
+              "kind": "chart",
+              "title": "Historical emissions: volcano vs planes if flown"
+            }
+          ]
+        },
+        "jev": {
+          "metrics": {
+            "development_chapter_alignment": 0.9840140056974647,
+            "scored_s": 951.3,
+            "aligned_s": 936.0925236199981,
+            "chapters": [
+              {
+                "label": "Information overload",
+                "scored_s": 17.3,
+                "aligned_s": 17.3,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 0,
+                "original_visual": "Speaker introduces visualization"
+              },
+              {
+                "label": "Billion-dollar scale",
+                "scored_s": 125.00000000000001,
+                "aligned_s": 124.23518261599821,
+                "fraction": 0.9938814609279856,
+                "first_matching_visual_lag_s": 6.764817384001798,
+                "original_visual": "Area-scaled financial boxes"
+              },
+              {
+                "label": "Media fear patterns",
+                "scored_s": 119.0,
+                "aligned_s": 119.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.4931105809984615,
+                "original_visual": "Fear timelines and media peaks"
+              },
+              {
+                "label": "Data soil and Facebook breakups",
+                "scored_s": 143.0,
+                "aligned_s": 143.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.562669958034519,
+                "original_visual": "Seasonal breakup pattern and reveal"
+              },
+              {
+                "label": "Visual literacy and sensory language",
+                "scored_s": 144.99999999999994,
+                "aligned_s": 144.81208277902329,
+                "fraction": 0.9987040191656782,
+                "first_matching_visual_lag_s": 6.187917220976658,
+                "original_visual": "Visual CV and sensory bandwidth graphic"
+              },
+              {
+                "label": "Relative military measures",
+                "scored_s": 116.0,
+                "aligned_s": 114.3118851329898,
+                "fraction": 0.9854472856292225,
+                "first_matching_visual_lag_s": 7.688114867010199,
+                "original_visual": "Absolute and relative military comparisons"
+              },
+              {
+                "label": "Historical supplement evidence and curation",
+                "scored_s": 77.0,
+                "aligned_s": 64.43337309198682,
+                "fraction": 0.836797053142686,
+                "first_matching_visual_lag_s": 18.566626908013177,
+                "original_visual": "Evidence versus popularity bubble chart"
+              },
+              {
+                "label": "Living spreadsheet images",
+                "scored_s": 39.0,
+                "aligned_s": 39.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.7767253150698252,
+                "original_visual": "Interactive filtering of the bubble chart"
+              },
+              {
+                "label": "Political perspectives",
+                "scored_s": 97.0,
+                "aligned_s": 97.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.013282813993328,
+                "original_visual": "Connected map of political ideas"
+              },
+              {
+                "label": "Information design and volcano",
+                "scored_s": 73.0,
+                "aligned_s": 73.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 5.394030409911693,
+                "original_visual": "Information design conclusion and emissions area comparison"
+              }
+            ],
+            "visual_changes_during_audio": 13,
+            "ideas_displayed_during_audio": 12,
+            "prepared_ideas": 12,
+            "asr_processing_s": 472.95017406818806,
+            "asr_processing_real_time_factor": 0.43777300623464205,
+            "chunk_end_to_decision_p50_s": 0.4432853020261973,
+            "chunk_end_to_decision_p95_s": 4.988114867010154,
+            "chunk_end_to_decision_max_s": 25.469749762036372,
+            "processed_windows": 1081,
+            "dropped_windows": 0,
+            "rejected_windows": 3,
+            "token_budget_reached_windows": 3,
+            "adviser_calls": 34,
+            "adviser_failures": 12,
+            "clear_cue_reflex_decisions": 964,
+            "misaligned_changes_within_scored_sections": [],
+            "adviser_models": [
+              "jev-1.13.0"
+            ],
+            "causality_violations": 0,
+            "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness.",
+            "same_idea_view_changes": 2
+          },
+          "specific_asset_selection": {
+            "fraction": 0.9459446379336667,
+            "windows": [
+              {
+                "label": "Financial areas",
+                "start": 45,
+                "end": 155,
+                "asset_condition_concept_index": 1,
+                "kind": "image",
+                "concept_id": "concept_4c0c46f676ab",
+                "asset_sha256": "4f56d265d8109133bb381dffe214d93cf361b74d7cfc7e3fe263194df4d6d7fe",
+                "dataset_id": null,
+                "selected_s": 110,
+                "window_s": 110,
+                "fraction": 1.0
+              },
+              {
+                "label": "Media fear landscape",
+                "start": 180,
+                "end": 285,
+                "asset_condition_concept_index": 2,
+                "kind": "image",
+                "concept_id": "concept_7255be39776b",
+                "asset_sha256": "f3e1ef8e09dbbbce167ad92fa0dccab72f8084c7fac0642e986c13d85efcb0d1",
+                "dataset_id": null,
+                "selected_s": 105,
+                "window_s": 105,
+                "fraction": 1.0
+              },
+              {
+                "label": "Seasonal pattern",
+                "start": 375,
+                "end": 440,
+                "asset_condition_concept_index": 4,
+                "kind": "image",
+                "concept_id": "concept_9d10f49803ed",
+                "asset_sha256": "bf1b0ffbfb845c57b923a59f67fb0ee2a62b0ce8be9b85237d5b5f601bb93a9a",
+                "dataset_id": null,
+                "selected_s": 65,
+                "window_s": 65,
+                "fraction": 1.0
+              },
+              {
+                "label": "Historical evidence map",
+                "start": 750,
+                "end": 815,
+                "asset_condition_concept_index": 7,
+                "kind": "image",
+                "concept_id": "concept_e7b369d80933",
+                "asset_sha256": "9d1d8e0b23e91414e276f0b0c81eabce186d96e8b0d376af5dcc09da33529bfd",
+                "dataset_id": null,
+                "selected_s": 59.13337309198687,
+                "window_s": 65,
+                "fraction": 0.9097442014151826
+              },
+              {
+                "label": "Political diagram",
+                "start": 900,
+                "end": 970,
+                "asset_condition_concept_index": 9,
+                "kind": "image",
+                "concept_id": "concept_6348cd21a8cd",
+                "asset_sha256": "85e62e2831ab9dc1bf9d359e34d6910a1862ece9137cd96b9da4e80c9b98195f",
+                "dataset_id": null,
+                "selected_s": 65.92509512603283,
+                "window_s": 70,
+                "fraction": 0.9417870732290404
+              },
+              {
+                "label": "Volcano comparison",
+                "start": 1030,
+                "end": 1067,
+                "asset_condition_concept_index": 11,
+                "kind": "chart",
+                "concept_id": "concept_b49e292269e4",
+                "asset_sha256": null,
+                "dataset_id": "src_d52cc98f0293",
+                "selected_s": 22.50850812799763,
+                "window_s": 37,
+                "fraction": 0.6083380575134495
+              }
+            ],
+            "meaning": "Time displaying a specified supplied asset/chart within predetermined source passages; engineering availability/selection check, not audience usefulness. Missing assets in the old package count as zero."
+          },
+          "result_sha256": "3c5f729f7eafb8a94167814c1ba095ad07aff3d672a96821a0181f129fa02ba0",
+          "asr_sha256": "6ba8161e203ba36e84546e5921505030cc93ff7133dfcca9a556196868ae6812",
+          "package_hash": "9614a0ffd5b6f69185cf8db34d3a8af8af49472422fd3342896406fdc74f0060",
+          "preparation_inputs": {
+            "schema": "live_presenter.preparation_inputs.v1",
+            "condition": "Full untimed transcript, five original video frames and a two-row historical emissions excerpt; operator-curated twelve-idea package with explicit default visuals",
+            "original_visual_assets_supplied": true,
+            "caption_timing_visible_to_follower": false,
+            "source_hash": "a2a135f24b18edf451116bf4e31d5b50fa1bb8622f87f500bf2f4cbbaf7c6844",
+            "package_hash": "9614a0ffd5b6f69185cf8db34d3a8af8af49472422fd3342896406fdc74f0060",
+            "sources": [
+              {
+                "id": "src_2882b440f381",
+                "sha256": "2882b440f381ea5e6c5edb8bbebbfcea72ffec1f8fc1734d1eac0902e9959e8b"
+              },
+              {
+                "id": "src_4f56d265d810",
+                "sha256": "4f56d265d8109133bb381dffe214d93cf361b74d7cfc7e3fe263194df4d6d7fe"
+              },
+              {
+                "id": "src_f3e1ef8e09db",
+                "sha256": "f3e1ef8e09dbbbce167ad92fa0dccab72f8084c7fac0642e986c13d85efcb0d1"
+              },
+              {
+                "id": "src_bf1b0ffbfb84",
+                "sha256": "bf1b0ffbfb845c57b923a59f67fb0ee2a62b0ce8be9b85237d5b5f601bb93a9a"
+              },
+              {
+                "id": "src_9d1d8e0b23e9",
+                "sha256": "9d1d8e0b23e91414e276f0b0c81eabce186d96e8b0d376af5dcc09da33529bfd"
+              },
+              {
+                "id": "src_85e62e2831ab",
+                "sha256": "85e62e2831ab9dc1bf9d359e34d6910a1862ece9137cd96b9da4e80c9b98195f"
+              },
+              {
+                "id": "src_d52cc98f0293",
+                "sha256": "d52cc98f0293c49da4228cd8045a0fff398f6706a576dd339769862eb2f57c65"
+              }
+            ],
+            "data_provenance": {
+              "csv": "Transcribed two explicitly stated historical values from source unit 25; planes value is hypothetical if flown, not actual emissions. No other dataset reconstructed from prose or image pixels."
+            }
+          },
+          "scene_events": [
+            {
+              "at": 0,
+              "kind": "definition",
+              "title": "What visualization does"
+            },
+            {
+              "at": 36.0648173840018,
+              "kind": "image",
+              "title": "Historical financial amounts"
+            },
+            {
+              "at": 169.79311058099847,
+              "kind": "image",
+              "title": "A landscape of media fears"
+            },
+            {
+              "at": 300.86266995803453,
+              "kind": "definition",
+              "title": "Data as a material to cultivate"
+            },
+            {
+              "at": 369.88478675304214,
+              "kind": "image",
+              "title": "A seasonal pattern"
+            },
+            {
+              "at": 458.48791722097667,
+              "kind": "definition",
+              "title": "Learned visual literacy"
+            },
+            {
+              "at": 616.9881148670102,
+              "kind": "comparison",
+              "title": "Absolute and relative views"
+            },
+            {
+              "at": 755.8666269080131,
+              "kind": "image",
+              "title": "Historical evidence and popularity"
+            },
+            {
+              "at": 830.0767253150698,
+              "kind": "definition",
+              "title": "What makes the image living"
+            },
+            {
+              "at": 880.3132828139933,
+              "kind": "image",
+              "title": "Seeing connected perspectives"
+            },
+            {
+              "at": 965.3654719030019,
+              "kind": "comparison",
+              "title": "Being told versus being shown"
+            },
+            {
+              "at": 969.4403767769691,
+              "kind": "image",
+              "title": "Seeing connected perspectives"
+            },
+            {
+              "at": 991.6940304099116,
+              "kind": "definition",
+              "title": "Design for clarity"
+            },
+            {
+              "at": 1044.4914918720024,
+              "kind": "chart",
+              "title": "Historical emissions: volcano vs planes if flown"
+            }
+          ]
+        }
+      },
+      "comparison_html_sha256": "833eb59a8467865421e325b88b9b936e5f3bb2f9411febf9a877ecef3885e482"
+    }
+  },
+  "supplied_assets": [
+    {
+      "source_id": "src_4f56d265d810",
+      "name": "financial-areas.jpg",
+      "sha256": "4f56d265d8109133bb381dffe214d93cf361b74d7cfc7e3fe263194df4d6d7fe",
+      "mime": "image/jpeg",
+      "width": 854,
+      "height": 480,
+      "alt": "Historical financial amounts encoded by rectangle area in the talk. Preserve this supplied graphic rather than reconstructing values from pixels."
+    },
+    {
+      "source_id": "src_f3e1ef8e09db",
+      "name": "media-fears.jpg",
+      "sha256": "f3e1ef8e09dbbbce167ad92fa0dccab72f8084c7fac0642e986c13d85efcb0d1",
+      "mime": "image/jpeg",
+      "width": 854,
+      "height": 480,
+      "alt": "Historical timeline of media fears, with peaks encoded in the supplied landscape. Preserve its visual pattern; no underlying time-series dataset is supplied."
+    },
+    {
+      "source_id": "src_bf1b0ffbfb84",
+      "name": "breakup-pattern.jpg",
+      "sha256": "bf1b0ffbfb845c57b923a59f67fb0ee2a62b0ce8be9b85237d5b5f601bb93a9a",
+      "mime": "image/jpeg",
+      "width": 854,
+      "height": 480,
+      "alt": "A seasonal mystery pattern in the historical talk. Keep the display title neutral until the speaker reveals the dataset; do not invent a new data series."
+    },
+    {
+      "source_id": "src_9d1d8e0b23e9",
+      "name": "evidence-map.jpg",
+      "sha256": "9d1d8e0b23e91414e276f0b0c81eabce186d96e8b0d376af5dcc09da33529bfd",
+      "mime": "image/jpeg",
+      "width": 854,
+      "height": 480,
+      "alt": "The historical talk's supplement evidence/popularity map. This is historical source imagery, not current health guidance or an independently verified evidence summary."
+    },
+    {
+      "source_id": "src_85e62e2831ab",
+      "name": "political-map.jpg",
+      "sha256": "85e62e2831ab9dc1bf9d359e34d6910a1862ece9137cd96b9da4e80c9b98195f",
+      "mime": "image/jpeg",
+      "width": 854,
+      "height": 480,
+      "alt": "The historical talk's diagram connecting political worldviews. Preserve the supplied diagram; the presenter is illustrating perspectives rather than endorsing its claims."
+    }
+  ],
+  "supplied_dataset": {
+    "id": "src_d52cc98f0293",
+    "name": "Historical emissions excerpt.csv",
+    "columns": [
+      "Category",
+      "Historical_CO2_tons"
+    ],
+    "numeric_columns": [
+      "Historical_CO2_tons"
+    ],
+    "rows": [
+      {
+        "Category": "Volcano",
+        "Historical_CO2_tons": "150000"
+      },
+      {
+        "Category": "Planes if flown",
+        "Historical_CO2_tons": "345000"
+      }
+    ]
+  },
+  "historical_transcript_only_baseline": {
+    "local": {
+      "development_chapter_alignment": 0.9990858707789273,
+      "visual_changes_during_audio": 19,
+      "same_idea_view_changes": 10
+    },
+    "jev": {
+      "development_chapter_alignment": 0.9992109767255563,
+      "visual_changes_during_audio": 26,
+      "same_idea_view_changes": 17
+    }
+  },
+  "limitations": [
+    "Static frame resolution and readability remain limited by the 854x480 source recording.",
+    "The visual-CV/senses and relative-military sections still lack their original graphics.",
+    "The living-image section does not implement original interactive filtering.",
+    "Independent editorial/audience review and physical browser/projector test remain pending.",
+    "Asset selection rates are predetermined engineering checks, not independent editorial or audience scores.",
+    "Preparation changes include assets, granularity, aliases and explicit defaults; the comparison does not isolate an image-only causal effect.",
+    "Full replays simulate scheduling with measured ASR costs. The separately paced excerpt measures native wall time, not physical capture or browser paint."
+  ],
+  "paced_evidence_excerpt": {
+    "schema": "live_presenter.paced_audio_probe.v1",
+    "source_url": "https://www.ted.com/talks/david_mccandless_the_beauty_of_data_visualization",
+    "source_audio_sha256": "f48c4da48f7a285bfe472bc6011cc72cac02949b46a294353f62309c8e902650",
+    "package_hash": "9614a0ffd5b6f69185cf8db34d3a8af8af49472422fd3342896406fdc74f0060",
+    "asr": "openai-whisper tiny.en, CPU, 4 threads, 48 tokens, 2 s subprocess deadline",
+    "fingerprints": {
+      "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+      "server.py": "a48aeffe3a815ce14413721b2ca89330868c4a2c68ad33019c074c139ed99633",
+      "engine.py": "5ab8c0ea2c726acaee515600fe1d481976368003fd1d54de4cdfe6bf61ffb919",
+      "recording.py": "3f04015c4ffebb3e5ebbbbc7b78369047bb5adf8a5d452eeeb36a8d8c580c0a2",
+      "reflex.py": "f872baa12b086d826f7bbd293fc45baa5ba25f039772abcab583f4954cff01fd",
+      "live_probe.py": "68f4ff734adcfa51cc58015a2a38d32c04673fc2ca20ee365fecf40895d86044",
+      "selection.py": "88a953d26555c9db407b0cdd76157ed03a835a8f9923b61503ae635590e6ba1b"
+    },
+    "preparation_inputs": {
+      "schema": "live_presenter.preparation_inputs.v1",
+      "condition": "Full untimed transcript, five original video frames and a two-row historical emissions excerpt; operator-curated twelve-idea package with explicit default visuals",
+      "original_visual_assets_supplied": true,
+      "caption_timing_visible_to_follower": false,
+      "source_hash": "a2a135f24b18edf451116bf4e31d5b50fa1bb8622f87f500bf2f4cbbaf7c6844",
+      "package_hash": "9614a0ffd5b6f69185cf8db34d3a8af8af49472422fd3342896406fdc74f0060",
+      "sources": [
+        {
+          "id": "src_2882b440f381",
+          "sha256": "2882b440f381ea5e6c5edb8bbebbfcea72ffec1f8fc1734d1eac0902e9959e8b"
+        },
+        {
+          "id": "src_4f56d265d810",
+          "sha256": "4f56d265d8109133bb381dffe214d93cf361b74d7cfc7e3fe263194df4d6d7fe"
+        },
+        {
+          "id": "src_f3e1ef8e09db",
+          "sha256": "f3e1ef8e09dbbbce167ad92fa0dccab72f8084c7fac0642e986c13d85efcb0d1"
+        },
+        {
+          "id": "src_bf1b0ffbfb84",
+          "sha256": "bf1b0ffbfb845c57b923a59f67fb0ee2a62b0ce8be9b85237d5b5f601bb93a9a"
+        },
+        {
+          "id": "src_9d1d8e0b23e9",
+          "sha256": "9d1d8e0b23e91414e276f0b0c81eabce186d96e8b0d376af5dcc09da33529bfd"
+        },
+        {
+          "id": "src_85e62e2831ab",
+          "sha256": "85e62e2831ab9dc1bf9d359e34d6910a1862ece9137cd96b9da4e80c9b98195f"
+        },
+        {
+          "id": "src_d52cc98f0293",
+          "sha256": "d52cc98f0293c49da4228cd8045a0fff398f6706a576dd339769862eb2f57c65"
+        }
+      ],
+      "data_provenance": {
+        "csv": "Transcribed two explicitly stated historical values from source unit 25; planes value is hypothetical if flown, not actual emissions. No other dataset reconstructed from prose or image pixels."
+      }
+    },
+    "capture_fingerprints": {
+      "microphone.js": "5b3aee08b7f6bbd6a1cd1e6379d607b6f00a6e240c75c1dca9b7c892c42b32b7",
+      "pcm-worklet.js": "fc394d4e7794dd4f7cfebfd3b052d91e1144ac73e913d4620cc1152c6530f1df",
+      "stage.js": "f6265579e85da54421ce01d4498fb44b86f0ca87afb2cadfda7be86164b405d9",
+      "studio.js": "ca74f0fff14fb15e986e4ed815f2af5957184110393236971312b82bd1efb475"
+    },
+    "offset_s": 730,
+    "duration_s": 90,
+    "elapsed_s": 90.2870496760006,
+    "model_ready_s": 4.323006296996027,
+    "use_jev": false,
+    "timing_model": "Measured wall time, one-second PCM arrivals over authenticated loopback HTTP.",
+    "microphone_capture_used": false,
+    "browser_used": false,
+    "physical_projector_used": false,
+    "metrics": {
+      "processed": 90,
+      "dropped": 0,
+      "rejected": 0,
+      "timeouts": 0,
+      "stage_observer_errors": 0,
+      "expired_windows": 0,
+      "received_to_decision_p50_s": 0.3064760940033011,
+      "received_to_decision_p95_s": 0.70823038299568,
+      "received_to_decision_max_s": 0.9213035390130244,
+      "ideas_observed": 3,
+      "visual_changes_observed": 2
+    },
+    "observed_switch_latencies": [
+      {
+        "seq": 2,
+        "scene_id": "concept_bc4d978ebc95_0",
+        "audio_end_s": 3.0,
+        "observed_at_s": 3.6261147030163556,
+        "chunk_end_to_stage_api_s": 0.6261147030163556
+      },
+      {
+        "seq": 10,
+        "scene_id": "concept_e7b369d80933_0",
+        "audio_end_s": 11.0,
+        "observed_at_s": 11.25797340500867,
+        "chunk_end_to_stage_api_s": 0.25797340500866994
+      }
+    ],
+    "final_scene_id": "concept_e7b369d80933_0",
+    "limitations": [
+      "WAV excerpt feeds the actual local audio API at wall-clock pace; no simulated decoder costs.",
+      "No browser capture/permission/paint or physical microphone/projector measurement.",
+      "Same-talk transcript supplied as advance preparation; no independent editorial accuracy assessment.",
+      "Shared machine; excludes up to one second of audio collection and time needed to hear a distinctive cue."
+    ],
+    "result_sha256": "c4707f49e96ae5d610076d7f468bc0f7023126cadf9ef2a742f42af65e80d296",
+    "process_exit_code": 0,
+    "image_scenes_observed": [
+      {
+        "at_excerpt_s": 11.25797340500867,
+        "scene_id": "concept_e7b369d80933_0",
+        "asset_sha256": "9d1d8e0b23e91414e276f0b0c81eabce186d96e8b0d376af5dcc09da33529bfd"
+      }
+    ]
+  },
+  "findings": [
+    "New local view policy reduces within-idea changes from ten to two on the unchanged ten-idea package.",
+    "All twelve ideas appear in the supplied-assets package; the predetermined image/chart selection rate measures specific assets rather than a coarse topic label.",
+    "The political diagram still briefly changes to a textual comparison around 965\u2013969 seconds when the speaker uses comparison language. This failure is preserved; no post-output retuning.",
+    "The historical emissions chart is selected around 1020 seconds instead of retaining the broad information-design definition.",
+    "A static historical evidence image is preserved, but original interactive filtering, animation, additional charts and audience usefulness remain unvalidated.",
+    "Optional Jev full replay had 12 unavailable calls out of 34, 4.99-second p95 chunk-end delay and 25.47-second maximum. This accelerated stage queue does not apply the native PCM freshness deadline; it does not demonstrate cloud-assisted near-live reliability.",
+    "The seasonal-pattern title is neutral, but the source filename breakup-pattern.jpg in the footer can hint at the answer before the spoken reveal. This editorial flaw remains in the frozen package; asset-selection rate does not detect it."
+  ],
+  "paced_evidence_excerpt_jev_enabled": {
+    "schema": "live_presenter.paced_audio_probe.v1",
+    "source_url": "https://www.ted.com/talks/david_mccandless_the_beauty_of_data_visualization",
+    "source_audio_sha256": "f48c4da48f7a285bfe472bc6011cc72cac02949b46a294353f62309c8e902650",
+    "package_hash": "9614a0ffd5b6f69185cf8db34d3a8af8af49472422fd3342896406fdc74f0060",
+    "asr": "openai-whisper tiny.en, CPU, 4 threads, 48 tokens, 2 s subprocess deadline",
+    "fingerprints": {
+      "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+      "server.py": "a48aeffe3a815ce14413721b2ca89330868c4a2c68ad33019c074c139ed99633",
+      "engine.py": "5ab8c0ea2c726acaee515600fe1d481976368003fd1d54de4cdfe6bf61ffb919",
+      "recording.py": "3f04015c4ffebb3e5ebbbbc7b78369047bb5adf8a5d452eeeb36a8d8c580c0a2",
+      "reflex.py": "f872baa12b086d826f7bbd293fc45baa5ba25f039772abcab583f4954cff01fd",
+      "live_probe.py": "68f4ff734adcfa51cc58015a2a38d32c04673fc2ca20ee365fecf40895d86044",
+      "selection.py": "88a953d26555c9db407b0cdd76157ed03a835a8f9923b61503ae635590e6ba1b"
+    },
+    "preparation_inputs": {
+      "schema": "live_presenter.preparation_inputs.v1",
+      "condition": "Full untimed transcript, five original video frames and a two-row historical emissions excerpt; operator-curated twelve-idea package with explicit default visuals",
+      "original_visual_assets_supplied": true,
+      "caption_timing_visible_to_follower": false,
+      "source_hash": "a2a135f24b18edf451116bf4e31d5b50fa1bb8622f87f500bf2f4cbbaf7c6844",
+      "package_hash": "9614a0ffd5b6f69185cf8db34d3a8af8af49472422fd3342896406fdc74f0060",
+      "sources": [
+        {
+          "id": "src_2882b440f381",
+          "sha256": "2882b440f381ea5e6c5edb8bbebbfcea72ffec1f8fc1734d1eac0902e9959e8b"
+        },
+        {
+          "id": "src_4f56d265d810",
+          "sha256": "4f56d265d8109133bb381dffe214d93cf361b74d7cfc7e3fe263194df4d6d7fe"
+        },
+        {
+          "id": "src_f3e1ef8e09db",
+          "sha256": "f3e1ef8e09dbbbce167ad92fa0dccab72f8084c7fac0642e986c13d85efcb0d1"
+        },
+        {
+          "id": "src_bf1b0ffbfb84",
+          "sha256": "bf1b0ffbfb845c57b923a59f67fb0ee2a62b0ce8be9b85237d5b5f601bb93a9a"
+        },
+        {
+          "id": "src_9d1d8e0b23e9",
+          "sha256": "9d1d8e0b23e91414e276f0b0c81eabce186d96e8b0d376af5dcc09da33529bfd"
+        },
+        {
+          "id": "src_85e62e2831ab",
+          "sha256": "85e62e2831ab9dc1bf9d359e34d6910a1862ece9137cd96b9da4e80c9b98195f"
+        },
+        {
+          "id": "src_d52cc98f0293",
+          "sha256": "d52cc98f0293c49da4228cd8045a0fff398f6706a576dd339769862eb2f57c65"
+        }
+      ],
+      "data_provenance": {
+        "csv": "Transcribed two explicitly stated historical values from source unit 25; planes value is hypothetical if flown, not actual emissions. No other dataset reconstructed from prose or image pixels."
+      }
+    },
+    "capture_fingerprints": {
+      "microphone.js": "5b3aee08b7f6bbd6a1cd1e6379d607b6f00a6e240c75c1dca9b7c892c42b32b7",
+      "pcm-worklet.js": "fc394d4e7794dd4f7cfebfd3b052d91e1144ac73e913d4620cc1152c6530f1df",
+      "stage.js": "f6265579e85da54421ce01d4498fb44b86f0ca87afb2cadfda7be86164b405d9",
+      "studio.js": "ca74f0fff14fb15e986e4ed815f2af5957184110393236971312b82bd1efb475"
+    },
+    "offset_s": 730,
+    "duration_s": 90,
+    "elapsed_s": 90.54759371594992,
+    "model_ready_s": 2.6706877709948458,
+    "use_jev": true,
+    "timing_model": "Measured wall time, one-second PCM arrivals over authenticated loopback HTTP.",
+    "microphone_capture_used": false,
+    "browser_used": false,
+    "physical_projector_used": false,
+    "metrics": {
+      "processed": 90,
+      "dropped": 0,
+      "rejected": 0,
+      "timeouts": 0,
+      "stage_observer_errors": 0,
+      "expired_windows": 0,
+      "received_to_decision_p50_s": 0.2886101779877208,
+      "received_to_decision_p95_s": 0.8215772460098378,
+      "received_to_decision_max_s": 1.514788165979553,
+      "ideas_observed": 3,
+      "visual_changes_observed": 2
+    },
+    "observed_switch_latencies": [
+      {
+        "seq": 2,
+        "scene_id": "concept_bc4d978ebc95_0",
+        "audio_end_s": 3.0,
+        "observed_at_s": 3.3363345389952883,
+        "chunk_end_to_stage_api_s": 0.3363345389952883
+      },
+      {
+        "seq": 10,
+        "scene_id": "concept_e7b369d80933_0",
+        "audio_end_s": 11.0,
+        "observed_at_s": 11.796801420976408,
+        "chunk_end_to_stage_api_s": 0.7968014209764078
+      }
+    ],
+    "final_scene_id": "concept_e7b369d80933_0",
+    "limitations": [
+      "WAV excerpt feeds the actual local audio API at wall-clock pace; no simulated decoder costs.",
+      "No browser capture/permission/paint or physical microphone/projector measurement.",
+      "Same-talk transcript supplied as advance preparation; no independent editorial accuracy assessment.",
+      "Shared machine; excludes up to one second of audio collection and time needed to hear a distinctive cue."
+    ],
+    "result_sha256": "226fd38d58e1c62a17d5d919a181d56c1d86a5c666ac140d5ac7117c530b2937",
+    "process_exit_code": 0,
+    "qualification": "Jev was enabled. This probe does not record adviser call counts, so enabled mode alone does not establish that a remote call occurred or reproduce the full-replay network failures."
+  },
+  "post_experiment_ui_correction": "The first visual remains selectable until an explicit default is stored. Previously the UI marked an implicit first option as already selected, preventing the presenter from explicitly pinning it. This studio-only correction follows the frozen first replays and does not change controller, package, renderer or result artifacts. Frozen web fingerprints identify the experiment checkpoint 9a925ef."
+}

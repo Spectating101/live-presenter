@@ -19,6 +19,7 @@ from .materials import ingest
 from .planning import CopilotPreparation, PlanError, source_outline
 from .language import tokens
 from .reflex import CueIndex
+from .selection import choose_scene
 
 
 class Conflict(ValueError):
@@ -127,6 +128,8 @@ class Store:
             raise ValueError("Use at most 8 materials and 130,000 extracted characters per presentation.")
         if len({s['id'] for s in sources}) != len(sources):
             raise ValueError("The same material was supplied twice.")
+        if sum(len(s.get('asset',{}).get('data_url','')) for s in sources) > 2_000_000:
+            raise ValueError('Keep supplied images under 1.5 MB combined before encoding.')
         project = {"id": uuid.uuid4().hex, "title": title[:120] or "Untitled presentation", "brief": brief[:3000],
                    "audience": audience[:500], "sources": sources, "provider": provider, "revision": 0,
                    "plan_revision": -1, "plan": None, "approval": None, "messages": [],
@@ -222,6 +225,22 @@ class Studio:
             p["live"] = fresh_live()
         return self.store.read(pid)
 
+    def default_scene(self, pid, scene_id):
+        with self.store.change(pid) as p:
+            if p['live']['active'] or p['job']['status'] != 'ready' or not p['plan']:
+                raise Conflict('Stop the rehearsal and finish preparation before choosing a default visual.')
+            scene = next((s for s in p['plan']['scenes'] if s['id'] == scene_id), None)
+            if not scene:
+                raise ValueError('Choose an existing prepared visual.')
+            concept = next(c for c in p['plan']['concepts'] if c['id'] == scene['concept_id'])
+            concept['default_scene_id'] = scene_id
+            p['revision'] += 1
+            p['plan_revision'] = p['revision']
+            p['approval'] = None
+            p['live'] = fresh_live()
+            p['messages'].append({'role':'user','content':f'Use “{scene["title"]}” ({scene["kind"]}) as the default visual for “{concept["title"]}”.'})
+        return self.store.read(pid)
+
     def add_sources(self, pid, sources):
         with self.store.change(pid) as p:
             if p['live']['active'] or p['job']['status'] == 'working':
@@ -230,6 +249,8 @@ class Studio:
             if (len(combined) > 8 or sum(s['characters'] for s in combined) > 130_000
                     or len({s['id'] for s in combined}) != len(combined)):
                 raise ValueError('Use at most 8 distinct materials and 130,000 extracted characters.')
+            if sum(len(s.get('asset',{}).get('data_url','')) for s in combined) > 2_000_000:
+                raise ValueError('Keep supplied images under 1.5 MB combined before encoding.')
             p.update(sources=combined, revision=p['revision'] + 1, approval=None, live=fresh_live())
         return self.prepare(pid)
 
@@ -256,7 +277,7 @@ class Studio:
                 self.cue_index(p)
                 live["locked"] = False
                 if live["current_scene_id"] is None:
-                    self.show(live, scenes[0]["id"], "Presenter started the rehearsal.")
+                    self.show(live, choose_scene(package,package['concepts'][0]['id'])["id"], "Presenter started the rehearsal.")
             elif action == "stop":
                 reset_live(p)
                 live = p['live']
@@ -282,7 +303,7 @@ class Studio:
                 concepts = [c['id'] for c in package['concepts']]
                 next_concept = concepts[min(len(concepts) - 1, concepts.index(current['concept_id']) + 1)]
                 target = scene_id if action == 'show' else (live['history'].pop() if action == 'back' and live['history'] else
-                         next((s['id'] for s in scenes if s['concept_id'] == next_concept), scenes[0]['id']) if action == 'next' else current['id'])
+                         choose_scene(package,next_concept)['id'] if action == 'next' else current['id'])
                 if target not in ids:
                     raise ValueError("That visual is not in the approved package.")
                 clear_candidate(live)
@@ -442,16 +463,18 @@ def recommend(package, utterance):
     margin = score - (scores[1][0] if len(scores) > 1 else 0)
     if score < .45 or margin < .10:
         return {"scene_id": None, "score": round(score, 3), "supported_concepts":supported, "confirmed": False, "method": "prepared_cues"}
-    scenes = [s for s in package["scenes"] if s["concept_id"] == concept["id"]]
     kind = preferred_kind(utterance)
-    scene = next((s for s in scenes if s["kind"] == kind), scenes[0])
+    scene = choose_scene(package,concept['id'],kind)
     return {"scene_id": scene["id"], "score": round(score, 3), "supported_concepts":supported, "confirmed": False, "method": "prepared_cues"}
 
 
 def preferred_kind(utterance):
+    # Talking about the amount/quality of evidence is not asking to see a quote.
+    # Require a source-display request before selecting the quotation view.
+    if re.search(r'\b(?:show|display|read|quote|cite|open|see)\b.{0,45}\b(?:evidence|source|citation|quote|quotation)\b|\b(?:source|citation|quote|quotation)\s+please\b',utterance,re.I):
+        return 'evidence'
     words = tokens(utterance)
-    for kind, cues in [('evidence', {'evidence','source','citation','quote'}),
-                       ('comparison', {'compare','versus','difference'}),
+    for kind, cues in [('comparison', {'compare','versus','difference'}),
                        ('chart', {'chart','data','measured','trend'})]:
         if words & cues:
             return kind
@@ -463,7 +486,8 @@ def jev_adviser(package, utterance):
     choices['hold'] = 'The utterance is off-topic or does not clearly match a prepared idea.'
     hints = {'definition':'Explain or define an idea.', 'flow':'Trace a process or sequence.',
              'comparison':'Compare options side by side.', 'chart':'Show numeric patterns or measurements.',
-             'metric':'Emphasize one number.', 'evidence':'Explicitly request or quote source evidence.'}
+             'metric':'Emphasize one number.', 'evidence':'Explicitly request or quote source evidence.',
+             'image':'Show a supplied image that supports this idea.'}
     questions = {
         'concept': {'type':'choice', 'instructions':'Which prepared IDEA is the speaker explaining? Choose hold for off-topic or ambiguous speech. Ignore which visual form is available.', 'criteria':choices},
         'representation': {'type':'choice', 'instructions':'Which visual form would support the way the speaker is explaining the idea? Evidence is for explicit source requests, not every factual claim.',
@@ -477,8 +501,8 @@ def jev_adviser(package, utterance):
     scenes = [s for s in package['scenes'] if s['concept_id'] == answer.value]
     # Concept confidence must not be diluted across several equally valid
     # visual alternatives. Representation selection stays inside that idea.
-    kind = preferred_kind(utterance) or (representation.value if representation.confidence >= .55 else None)
-    scene = next((s for s in scenes if s['kind'] == kind), scenes[0] if scenes else None)
+    scene = choose_scene(package,answer.value,preferred_kind(utterance),
+                         representation.value if representation.confidence >= .55 else None)
     return {"scene_id": scene['id'] if scene else None, "confidence": answer.confidence,
             'concept_id':answer.value, 'representation':representation.value,
             'representation_confidence':representation.confidence,

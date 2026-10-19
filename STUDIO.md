@@ -21,10 +21,13 @@ The existing historical `requirements.txt` is not required for this new path.
 ## Prepare the explanation
 
 Create a presentation with an audience, purpose, and supplied source material.
-Paste notes or attach UTF-8 TXT/Markdown/CSV/TSV, PDF, or DOCX. Limits are eight
+Paste notes or attach UTF-8 TXT/Markdown/CSV/TSV, PDF, DOCX, PNG or JPEG. Limits are eight
 distinct files, 4 MB per file, 100,000 extracted characters per file and 130,000
 characters in one project. Source text is broken into stable quotable units;
 CSV values are retained as a structured dataset.
+Static images have a separate 512 KB/file limit and about 1.5 MB combined limit.
+Describe their meaning and intended use in the notes or discussion. Conversation
+mode receives image metadata and descriptions; the image pixels stay local.
 
 Choose a preparation partner:
 
@@ -44,8 +47,8 @@ material from the preparation view, or edit the brief and prepare again.
 Failures keep the sources, discussion and prior draft; failed or outdated drafts
 cannot be approved.
 
-Six visual forms are implemented: explanation cards, flows, comparisons, exact
-source metrics, CSV bar charts and evidence quotations. No model HTML/JavaScript
+Seven visual forms are implemented: explanation cards, flows, comparisons, exact
+source metrics, CSV bar charts, evidence quotations and supplied images. No model HTML/JavaScript
 is executed. Charts read values directly from an existing numeric column. Charts
 show at most 32 rows and explicitly label truncation. Source metrics must match
 their exact displayed value in a supporting quote. Source quotes and IDs are
@@ -63,6 +66,10 @@ Inspect the visual previews and source quotations. Resolve blocking questions,
 then check “I reviewed the meaning, sources and visuals” and approve. This freezes
 a separate visual package with source/package hashes and presenter approval.
 New material, a changed brief, or another preparation message revokes approval.
+Choose **Use as default** beneath the visual that should normally support each
+idea. Changing that choice also revokes approval and requires review of the new
+revision. Spoken visual-form cues can select another approved alternative;
+ordinary discussion of evidence no longer selects quotations automatically.
 Preparation cannot be edited during an active rehearsal; stop first.
 
 ## Rehearse and present

@@ -47,8 +47,8 @@ The pump maintains circulation while the radiator transfers heat to the air. Sel
 
 
 def public_project(project):
-    # Raw source bytes never enter this representation. Full extracted units are
-    # available only in the operator view; stage responses omit the discussion.
+    # Documents expose extracted text, and supplied raster assets retain their
+    # bytes locally. Stage responses include only the approved scene assets.
     return project
 
 
@@ -119,7 +119,7 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                 if path == "/api/status":
                     return self.reply(200, {"conversation_available": bool(shutil.which(studio.planner.command)) if hasattr(studio.planner, "command") else True,
                                             "live_adviser": "jev" if use_jev else "prepared_cues", 'local_audio': audio is not None,
-                                            "formats": ["TXT", "MD", "CSV", "TSV", "PDF", "DOCX"]})
+                                            "formats": ["TXT", "MD", "CSV", "TSV", "PDF", "DOCX", "PNG", "JPEG"]})
                 if path == "/api/example":
                     return self.reply(200, EXAMPLE)
                 if path == "/api/projects":
@@ -182,7 +182,7 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                     sources = []
                     for s in body.get("sources", []):
                         data = base64.b64decode(s["base64"], validate=True) if "base64" in s else s.get("text", "").encode()
-                        sources.append(ingest(s.get("name", "Notes.md"), data))
+                        sources.append(ingest(s.get("name", "Notes.md"), data, s.get('description','')))
                     p = store.create(title=str(body.get("title", "")), brief=str(body.get("brief", "")),
                                      audience=str(body.get("audience", "")), sources=sources, provider=body.get("provider", "copilot"))
                     return self.reply(201, project_view(studio.prepare(p["id"])))
@@ -199,10 +199,12 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                     sources=[]
                     for s in body.get('sources', []):
                         data=base64.b64decode(s['base64'],validate=True) if 'base64' in s else s.get('text','').encode()
-                        sources.append(ingest(s.get('name','Notes.md'),data))
+                        sources.append(ingest(s.get('name','Notes.md'),data,s.get('description','')))
                     result=studio.add_sources(pid,sources)
                 elif action == "approve":
                     result = studio.approve(pid, body.get("revision"), body.get("reviewed"))
+                elif action == 'default-scene':
+                    result = studio.default_scene(pid,body.get('scene_id'))
                 elif action == "control":
                     result = studio.control(pid, body.get("action"), body.get("scene_id"), body.get('enabled'))
                     if audio:

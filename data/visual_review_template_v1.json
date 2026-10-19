@@ -1,0 +1,34 @@
+{
+  "schema": "live_presenter.independent_visual_review_template.v1",
+  "status": "pending_independent_reviewer",
+  "reviewer": null,
+  "independent_of_implementation": null,
+  "source_url": "https://www.ted.com/talks/david_mccandless_the_beauty_of_data_visualization",
+  "instructions": [
+    "First watch the original source without system traces or aggregate scores. Record the visual evidence needed for each argument section and acceptable timing ranges.",
+    "Save and version that reference before inspecting system outputs. Treat camera cuts separately from changes in the speaker's meaning.",
+    "Then inspect the frozen comparison package and rate whether each selected visual supports the explanation, misleads, omits essential evidence or distracts.",
+    "Check historical units and the counterfactual status of the grounded-plane figure. Do not use old source imagery as current factual verification.",
+    "Record disagreements and uncertainty. Do not derive a quality score from topic alignment or from the implementation operator's conclusions."
+  ],
+  "source_first_reference_frozen_at": null,
+  "source_first_reference_sha256": null,
+  "package_hash": null,
+  "result_sha256": null,
+  "judgments": [],
+  "judgment_fields": {
+    "start_s": "Beginning of source passage",
+    "end_s": "End of source passage",
+    "required_evidence": "What the audience needs to see and why",
+    "selected_scene_id": "Scene being judged",
+    "supports_explanation": "yes / partial / no / uncertain",
+    "misleading_relation_or_quantity": "Description, or none",
+    "missing_evidence": "Description, or none",
+    "readable_at_presentation_size": "yes / no / untested",
+    "distracting_change": "yes / no / uncertain",
+    "premature_reveal": "Does a title, filename, label or graphic disclose a planned answer too early?",
+    "transition_timing": "early / acceptable / late / uncertain",
+    "reason": "Brief source-backed judgment"
+  },
+  "audience_comprehension_study_completed": false
+}

@@ -5,7 +5,7 @@ export function el(tag, className = '', value = '') {
   return node;
 }
 
-const labels = { definition: 'THE IDEA', flow: 'HOW IT WORKS', comparison: 'A CLOSER LOOK', metric: 'BY THE NUMBERS', chart: 'THE MEASUREMENTS', evidence: 'THE SOURCE' };
+const labels = { definition: 'THE IDEA', flow: 'HOW IT WORKS', comparison: 'A CLOSER LOOK', metric: 'BY THE NUMBERS', chart: 'THE MEASUREMENTS', evidence: 'THE SOURCE', image: 'THE VISUAL' };
 
 export function renderScene(scene, compact = false) {
   const root = el('article', `scene kind-${scene.kind}${compact ? ' compact' : ''}`);
@@ -37,6 +37,14 @@ export function renderScene(scene, compact = false) {
     content.append(el('div', 'metric-value', scene.value), el('p', 'metric-label', scene.label));
   } else if (scene.kind === 'chart') {
     content.append(chart(scene));
+  } else if (scene.kind === 'image') {
+    const picture = el('img', 'supplied-image');
+    picture.alt = scene.asset.alt;
+    picture.width = scene.asset.width;
+    picture.height = scene.asset.height;
+    picture.decoding = 'async';
+    picture.src = scene.asset.data_url;
+    content.append(picture);
   } else if (scene.kind === 'evidence') {
     scene.source_refs.slice(0, 2).forEach(ref => {
       const quote = el('blockquote');

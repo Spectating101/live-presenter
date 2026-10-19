@@ -6,6 +6,7 @@ The ordinary controller still owns approval, hold, dwell and stale-result checks
 from collections import Counter
 import math
 from .language import sequence, tokens
+from .selection import choose_scene
 
 FILLER = set('look here there just will would could really very say said yes know everyone something thing also got get all even well right like when where who want tell told today'.split())
 
@@ -61,8 +62,7 @@ class CueIndex:
         margin = score - (ranked[1][0] if len(ranked)>1 else 0)
         supported = [r['concept_id'] for value,r,_ in ranked if value >= .45]
         chosen = score >= .45 and margin >= .12
-        scenes = [s for s in self.package['scenes'] if s['concept_id'] == row['concept_id']]
-        scene = next((s for s in scenes if s['kind'] == preferred), scenes[0])
+        scene = choose_scene(self.package,row['concept_id'],preferred)
         return {'scene_id':scene['id'] if chosen else None,'score':round(score,3),
                 'supported_concepts':supported,'confirmed':chosen and cue and score >= .88 and margin >= .2,
                 'method':'compiled_source_cues','margin':round(margin,3),

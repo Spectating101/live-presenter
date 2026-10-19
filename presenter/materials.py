@@ -32,11 +32,14 @@ def number(value):
         return None
 
 
-def ingest(name, data):
+def ingest(name, data, description=''):
     name = Path(name).name[:150]
     if not name or len(data) > 4_000_000:
         raise MaterialError("Each material needs a filename and must be under 4 MB.")
     suffix = Path(name).suffix.lower()
+    if suffix in {'.png', '.jpg', '.jpeg'}:
+        from .images import image_source
+        return image_source(name, data, description)
     if suffix == ".pdf":
         if not shutil.which("pdftotext"):
             raise MaterialError("PDF import needs pdftotext. Export the document as text instead.")
@@ -64,7 +67,7 @@ def ingest(name, data):
         except UnicodeDecodeError:
             raise MaterialError("Text and CSV files must use UTF-8 encoding.") from None
     else:
-        raise MaterialError("Use TXT, Markdown, CSV, TSV, PDF or DOCX files.")
+        raise MaterialError("Use TXT, Markdown, CSV, TSV, PDF, DOCX, PNG or JPEG files.")
     if not text.strip() or len(text) > 100_000:
         raise MaterialError("Material must contain readable text, up to 100,000 characters per file.")
     source_id = "src_" + hashlib.sha256(data).hexdigest()[:12]

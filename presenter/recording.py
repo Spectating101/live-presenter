@@ -307,6 +307,29 @@ def schedule_chunks(chunks, fresh=False):
         index = selected + 1
 
 
+def preparation_inputs(folder, project, source):
+    """Additional advance material must be declared and bound, never silently added."""
+    inputs = [{'id':s['id'],'sha256':s['sha256']} for s in project['sources']]
+    primary = [s for s in project['sources'] if s['sha256'] == source['preparation_sha256']]
+    if len(primary) != 1:
+        raise ValueError('The approved package belongs to different preparation material.')
+    manifest = Path(folder)/'preparation-inputs.json'
+    if not manifest.exists() and len(inputs) == 1:
+        return {'condition':'Same-talk untimed transcript only','original_visual_assets_supplied':False,'sources':inputs}
+    if not manifest.exists():
+        raise ValueError('Additional preparation material requires a package-bound preparation-inputs.json manifest.')
+    declared = json.loads(manifest.read_text())
+    if (declared.get('schema') != 'live_presenter.preparation_inputs.v1'
+            or declared.get('sources') != inputs
+            or json_hash(project['sources']) != project['approval']['source_hash']
+            or declared.get('source_hash') != project['approval']['source_hash']
+            or declared.get('package_hash') != project['approval']['package_hash']
+            or not isinstance(declared.get('original_visual_assets_supplied'),bool)
+            or not isinstance(declared.get('condition'),str) or not declared['condition'].strip()):
+        raise ValueError('Additional preparation inputs no longer match the approved package.')
+    return declared
+
+
 def replay(folder, asr_path, *, mode='local', output=None, reflex=False, fresh=False):
     if mode not in {'local','jev'}:
         raise ValueError('Unknown replay mode.')
@@ -332,8 +355,7 @@ def _replay(folder, asr_path, *, mode, output, store, reflex, tag, fresh):
     pid = json.loads((folder / 'project.json').read_text())['project_id']
     original = Store(folder / 'studio').read(pid)
     Studio.package(original)  # Never silently approve the generated package.
-    if len(original['sources']) != 1 or original['sources'][0]['sha256'] != source['preparation_sha256']:
-        raise ValueError('The approved package belongs to different preparation material.')
+    inputs = preparation_inputs(folder,original,source)
     # Evaluation copies the approved project, never modifies an active workspace.
     store.save(copy.deepcopy(original))
     clock = ReplayClock()
@@ -373,12 +395,14 @@ def _replay(folder, asr_path, *, mode, output, store, reflex, tag, fresh):
               'controller_sha256': controller_hash,
               'runner_sha256': runner_hash,
               'cue_index_sha256': cue_hash, 'language_sha256': language_hash,
+              'visual_selection_sha256':file_hash(Path(__file__).with_name('selection.py')),
+              'preparation_inputs':inputs,
               'dwell_s': studio.dwell_s,
               'asr': {k:v for k,v in asr.items() if k != 'chunks'}, 'asr_sha256': file_hash(asr_path),
               'package_hash': original['approval']['package_hash'], 'package': original['approval']['package'],
               'duration_s': asr['chunks'][-1]['end'], 'rows': rows, 'events': events,
               'limitations': ['Accelerated serial-worker simulation with measured ASR and adviser time; no browser rendering or device latency.',
-                              'Same-talk transcript supplied in advance: an upper-bound preparation condition.',
+                              'Advance material: '+inputs['condition']+'. This is a development preparation condition.',
                               'Original video is a reference, not the only valid visual design or a gold editorial trace.',
                               'Within-talk development evaluation; no held-out accuracy or audience-usefulness claim.',
                               'Freshness policy is simulated from independently measured per-window costs, not an actual microphone stream.']}
@@ -462,7 +486,7 @@ def build_report(folder, *, reflex=False, fresh=False):
     suffix = ('-reflex' if reflex else '') + ('-fresh' if fresh else '')
     results = {mode: json.loads((folder / ('result-' + mode + suffix + '.json')).read_text()) for mode in ('local','jev')}
     if len({(r['package_hash'], r['asr_sha256'], r['controller_sha256'],
-             r['runner_sha256'], r.get('audio_queue_policy', 'all_windows')) for r in results.values()}) != 1:
+             r['runner_sha256'], r.get('visual_selection_sha256'), r.get('audio_queue_policy', 'all_windows')) for r in results.values()}) != 1:
         raise ValueError('Comparison requires the same prepared package, ASR trace, controller, runner and queue policy.')
     if any(r.get('audio_queue_policy', 'all_windows') != ('latest_available' if fresh else 'all_windows')
            for r in results.values()):
@@ -488,6 +512,10 @@ def build_report(folder, *, reflex=False, fresh=False):
         reflex_note += ' Stale audio windows are explicitly skipped in a latest-available replay simulation.'
     visual_notes = html_module.escape(reference.get('visual_comparison_notes',
         'Compare the original visual forms against the prepared alternatives. Topic alignment does not score visual design.'))
+    inputs = results['local'].get('preparation_inputs',{'condition':'Same-talk untimed transcript only','original_visual_assets_supplied':False})
+    preparation_note = html_module.escape(inputs['condition'])
+    asset_note = ('Selected original visual assets were supplied in advance in this condition; it is not the transcript-only comparison.'
+                  if inputs['original_visual_assets_supplied'] else 'Original video frames and caption timing were held out from the follower.')
     jev_stats = metrics['jev']
     onset = [c['first_matching_visual_lag_s'] for c in jev_stats['chapters'] if c['first_matching_visual_lag_s']]
     findings = (f"Jev-assisted matching displayed {jev_stats['ideas_displayed_during_audio']}/{jev_stats['prepared_ideas']} prepared ideas. "
@@ -511,7 +539,7 @@ def build_report(folder, *, reflex=False, fresh=False):
 <h2>Development comparison</h2><div id="metrics"></div>
 <details><summary>What this test measures and leaves unresolved</summary><ul id="limitations"></ul>
 <p>{visual_notes}</p><p>Chapter alignment is a coarse operator-authored reference, not a gold standard for visual quality. The opening visual is preselected and contributes scored time. Comparison-player layout and media synchronization have not been browser-verified.</p>
-<p>Preparation received the same talk’s complete untimed transcript in advance. The live follower received only the current recognized chunk and the approved package. Original video frames and caption timing were held out from the follower.</p>
+<p>Advance preparation: {preparation_note}. The live follower received only recognized past audio and the approved package. {asset_note} Caption timing is reference-only.</p>
 <p>Local media and transcript remain outside Git. Original talk: {speaker}. <a href="{source_link}" target="_blank" rel="noopener">View source and attribution</a>. No TED endorsement is implied.</p></details>
 </main><script type="application/json" id="recording-data">{payload}</script><script>{renderer}\n{script}</script></html>'''
     (folder / ('comparison' + suffix + '.html')).write_text(markup)
