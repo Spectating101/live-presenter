@@ -1,5 +1,28 @@
 import { renderScene, el } from '/visuals.js';
 const root = document.getElementById('projector-stage');
+const fullscreenButton = document.getElementById('projector-fullscreen');
+const fullscreenStatus = document.getElementById('projector-fullscreen-status');
+function fullscreenChanged() {
+  root.dataset.fullscreen = document.fullscreenElement ? 'active' : 'windowed';
+  fullscreenButton.textContent = document.fullscreenElement ? 'Exit full screen' : 'Full screen';
+}
+async function toggleFullscreen() {
+  root.dataset.fullscreenAttempts = String(Number(root.dataset.fullscreenAttempts || 0) + 1);
+  try {
+    if (document.fullscreenElement) await document.exitFullscreen();
+    else await document.documentElement.requestFullscreen();
+    delete root.dataset.fullscreenError;
+    fullscreenStatus.textContent = '';
+    fullscreenChanged();
+  } catch (error) {
+    root.dataset.fullscreen = 'unavailable';
+    root.dataset.fullscreenError = error.name;
+    fullscreenStatus.textContent = 'Full screen is unavailable here. Use your browser’s full screen command.';
+  }
+}
+fullscreenButton.addEventListener('click', toggleFullscreen);
+document.addEventListener('fullscreenchange', fullscreenChanged);
+fullscreenChanged();
 const pid = location.pathname.split('/').filter(Boolean)[1];
 const bootstrap = new URLSearchParams(location.hash.slice(1));
 if (bootstrap.has('access')) {
@@ -17,6 +40,7 @@ async function update() {
     const receivedAt = performance.now();
     const receivedEpochMs = Date.now();
     if ((state.state_version || 0) < lastVersion) return;
+    const initialPacket = lastVersion < 0;
     lastVersion = state.state_version || 0;
     document.title = `${state.title} · Projector`;
     root.dataset.reflex = String(!!state.reflex_enabled);
@@ -45,6 +69,7 @@ async function update() {
       performance.clearMeasures('presenter-stage-dom');
       performance.measure('presenter-stage-dom', { start: receivedAt, end: performance.now() });
       const sample = {state_version: state.state_version, scene_id: state.scene?.id || null,
+        initial_packet: initialPacket,
         received_epoch_ms: receivedEpochMs, dom_epoch_ms: Date.now(),
         dom_ms: performance.now() - receivedAt, frame_opportunity_ms: null,
         visibility: document.visibilityState, focused: document.hasFocus()};
@@ -70,5 +95,5 @@ async function update() {
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
 }
-root.addEventListener('dblclick', () => document.documentElement.requestFullscreen?.());
+root.addEventListener('dblclick', toggleFullscreen);
 while (true) await update();

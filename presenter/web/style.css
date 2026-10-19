@@ -17,3 +17,5 @@
 .default-visual{font-size:12px;margin-top:6px}
 
 .web-credit{display:flex;flex-direction:column;gap:.4em}.web-credit a{text-decoration:underline}.research-paper{display:block;font-size:12px;line-height:1.5;margin:10px 0;text-decoration:underline}
+
+.projector-fullscreen{position:fixed;right:12px;top:12px;z-index:10;padding:8px 12px;border:1px solid #8da299;border-radius:6px;background:#17372d;color:#fff;font-size:12px;opacity:.55}.projector-fullscreen:hover,.projector-fullscreen:focus-visible{opacity:1}.projector-fullscreen-status{position:fixed;bottom:8px;left:12px;right:12px;z-index:10;color:#fff;text-align:center;font-size:12px;background:#17372d}.projector-fullscreen-status:empty{display:none}
