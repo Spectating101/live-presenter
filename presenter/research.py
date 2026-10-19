@@ -20,6 +20,12 @@ class ResearchProcess:
     def __init__(self, timeout_s=25,command=None):self.timeout_s,self.command=timeout_s,command
 
     def run(self, context, cancelled):
+        return self._run(context,cancelled,None)
+
+    def run_progressive(self,context,cancelled,publish):
+        return self._run({**context,'_stream':True},cancelled,publish)
+
+    def _run(self, context, cancelled, publish):
         env=os.environ.copy()
         for key in list(env):
             if key.endswith(('API_KEY','TOKEN')) and key not in {'JEV_API_KEY','TYPESAFE_API_KEY'}:env.pop(key,None)
@@ -32,12 +38,26 @@ class ResearchProcess:
               stderr=subprocess.DEVNULL,start_new_session=True)
             try:
                 deadline=time.monotonic()+self.timeout_s
+                offset=0;buffer=b'';result=None
+                def consume():
+                    nonlocal offset,buffer,result
+                    size=os.fstat(output.fileno()).st_size
+                    if size>2_000_000:raise ValueError('Research output exceeded its limit.')
+                    block=os.pread(output.fileno(),size-offset,offset);offset+=len(block);buffer+=block
+                    while b'\n' in buffer:
+                        line,buffer=buffer.split(b'\n',1)
+                        if not line.strip():continue
+                        packet=json.loads(line)
+                        if 'progress' in packet:
+                            if publish:publish(packet['progress'])
+                        else:result=packet
                 while process.poll() is None:
                     if cancelled.wait(.04):raise TimeoutError('Research superseded or stopped.')
                     if time.monotonic()>deadline:raise TimeoutError(f'Research exceeded its {self.timeout_s:g}-second budget.')
-                    if os.fstat(output.fileno()).st_size>2_000_000:raise ValueError('Research output exceeded its limit.')
-                if os.fstat(output.fileno()).st_size>2_000_000:raise ValueError('Research output exceeded its limit.')
-                output.seek(0);result=json.loads(output.read())
+                    consume()
+                consume()
+                if buffer.strip():result=json.loads(buffer)
+                if not isinstance(result,dict):raise ValueError('Research returned no final result.')
                 if process.returncode or result.get('status')=='error':raise ValueError(result.get('message','Research unavailable.'))
                 return result
             finally:
@@ -96,18 +116,21 @@ class LiveResearch:
                 if current['live']['generation']==live['generation']:
                     current['live']['research'].update(last_heard=now,novel=sorted(novel))
             return
-        if continuation and research.get('request_id') and research.get('status') in {'queued','searching'}:
+        if continuation and research.get('request_id') and research.get('status') in {'queued','searching','enriching'}:
             with self.store.change(pid) as current:
                 if current['live'].get('research',{}).get('request_id')==research['request_id']:
                     current['live']['research']['last_heard']=now
                     current['live']['research']['novel']=sorted(novel)
             return
-        if previous and novel and not continuation and research.get('request_id') and research.get('status') in {'queued','searching'}:
+        if previous and novel and not continuation and research.get('request_id') and research.get('status') in {'queued','searching','enriching'}:
             with self.store.change(pid) as current:
                 if current['live'].get('research',{}).get('request_id')==research['request_id']:
                     current['live']['research'].update(request_id='',status='idle',message='The topic changed; earlier research will not take the stage.')
             self.invalidate(pid)
-        if not force and now-research.get('last_requested',0)<self.cooldown_s:return
+        elapsed=now-research.get('last_requested',0)
+        stable_new=(tokens(utterance)&tokens(recent[-1]) if recent else set())-known-set(research.get('requested_novel',[]))
+        early=(research.get('status') in {'no_match','no_results','idle'} and elapsed>=1.5 and len(stable_new)>=2)
+        if not force and elapsed<self.cooldown_s and not early:return
         cache_key=(p['approval']['package_hash'],tuple(sorted(tokens(utterance))))
         with self.condition:cached=self.cache.get(cache_key)
         warm=bool(cached and now-cached[0]<300)
@@ -122,7 +145,7 @@ class LiveResearch:
                  'utterance':utterance[:600],'recent_past':recent}
         job={'pid':pid,'generation':live['generation'],'package_hash':p['approval']['package_hash'],
              'request_id':request_id,'context':context,'cancel':threading.Event(),
-             'cache_key':cache_key}
+             'cache_key':cache_key,'queued_at':now}
         with self.store.change(pid) as current:
             if (current['live']['generation']!=job['generation'] or not current['live'].get('research_enabled')
                     or not current['live']['active'] or current['live']['locked']
@@ -130,6 +153,7 @@ class LiveResearch:
             current['live']['research']={**research,'status':'queued','request_id':request_id,'novel':sorted(novel),
               'last_heard':now,'last_requested':now,'request_count':research.get('request_count',0)+int(not warm),
               'assessment_count':research.get('assessment_count',0)+int(not warm),
+              'requested_novel':sorted(novel),
               'message':'Finding related sources and visual material online…'}
         with self.condition:
             if self.closed:return
@@ -143,38 +167,54 @@ class LiveResearch:
             and (p.get('approval') or {}).get('package_hash')==job['package_hash']
             and research.get('request_id')==job['request_id'])
 
-    def complete(self,job,result):
+    def complete(self,job,result,*,final=True):
         with self.store.change(job['pid']) as p:
             if not self.valid(job,p):return
             self.studio.package(p)
             research=p['live']['research'];fresh=self.clock()-research['last_heard']<=self.fresh_s
             items=result.get('items',[])[:2]
-            research.update(status=result['status'],query=result.get('query',''),items=copy.deepcopy(items),
+            research.update(status=result['status'] if final else 'enriching',query=result.get('query',''),items=copy.deepcopy(items),
               papers=result.get('papers',[])[:3],completed_at=self.clock(),errors=result.get('errors',[]),
               message=result.get('message') or ('Related material found.' if fresh else 'Related material found after the topic expired; retained backstage.'),
               cache_hit=result.get('cache_hit',False),provider_scope=result.get('provider_scope',[]))
             research['classifier_calls']=result.get('classifier_calls',[])
             research['plan_decision']=result.get('plan_decision',{})
             research['allow_auto_display']=result.get('allow_auto_display',True)
+            research['timing']=result.get('timing',{})
             if items and not fresh:research['message']='Material arrived after the topic expired; retained backstage.'
             elif items and not result.get('allow_auto_display',True):research['message']='Material found with uncertain topic context; retained backstage for review.'
-            if result['status']=='no_match' and not result.get('query') and not result.get('cache_hit'):
+            if final and result['status']=='no_match' and not result.get('query') and not result.get('cache_hit'):
                 research['request_count']=max(0,research.get('request_count',1)-1)
             displayed=False
-            if items and fresh and result.get('allow_auto_display',True) and self.studio.clock()-p['live']['last_change']>=self.studio.dwell_s:
+            current=p['live'].get('research_scene')
+            same_source=bool(current and items and current['object_id']==items[0]['object_id'])
+            if items and fresh and result.get('allow_auto_display',True) and (same_source or self.studio.clock()-p['live']['last_change']>=self.studio.dwell_s):
                 p['live']['research_scene']=copy.deepcopy(items[0])
-                p['live']['last_change']=self.studio.clock()
+                if not current or current['id']!=items[0]['id']:p['live']['last_change']=self.studio.clock()
                 p['live']['decision']={'action':'SHOW_RESEARCH','scene_id':items[0]['id'],
                     'reason':'Showing a related web source; retrieved live, not presenter-reviewed.'}
                 displayed=True
-            p.setdefault('research_history',[]).append({'completed_at':self.clock(),'query':result.get('query',''),
-                'status':result['status'],'package_hash':job['package_hash'],'displayed_automatically':displayed,
+                job['displayed']=True
+                if items[0]['id'] not in job.setdefault('displayed_scene_ids',[]):job['displayed_scene_ids'].append(items[0]['id'])
+            if items:
+                job.setdefault('first_result_at',self.clock())
+                research['first_result_latency_s']=job['first_result_at']-job.get('queued_at',job['first_result_at'])
+            if not final:
+                job['progress_result']=copy.deepcopy(result)
+            entry={'completed_at':self.clock(),'query':result.get('query',''),'request_id':job['request_id'],'final':final,
+                'status':result['status'],'package_hash':job['package_hash'],'displayed_automatically':job.get('displayed',displayed),
+                'displayed_scene_ids':list(job.get('displayed_scene_ids',[])),
+                'first_result_at':job.get('first_result_at'),'first_result_latency_s':(job['first_result_at']-job['queued_at']) if 'first_result_at' in job and 'queued_at' in job else None,
+                'timing':result.get('timing',{}),
                 'allow_auto_display':result.get('allow_auto_display',True),
                 'utterance':job['context']['utterance'],'recent_past':job['context']['recent_past'],
                 'plan_decision':result.get('plan_decision',{}),'classifier_calls':result.get('classifier_calls',[]),
                 'message':result.get('message',''),'errors':result.get('errors',[]),
                 'sources':[{'scene_id':s['id'],'url':s['web_source']['url'],'image_url':s['web_source'].get('image_url'),
-                            'asset_sha256':s.get('asset',{}).get('sha256'),'quote':s['source_refs'][0]['quote']} for s in items]})
+                            'asset_sha256':s.get('asset',{}).get('sha256'),'quote':s['source_refs'][0]['quote']} for s in items]}
+            previous_entry=next((h for h in p.setdefault('research_history',[]) if h.get('request_id')==job['request_id']),None)
+            if previous_entry is not None:previous_entry.update(entry)
+            else:p['research_history'].append(entry)
             p['research_history']=p['research_history'][-50:]
 
     def work(self):
@@ -191,7 +231,9 @@ class LiveResearch:
                 if cached and self.clock()-cached[0]<300:
                     result={**copy.deepcopy(cached[1]),'cache_hit':True}
                 else:
-                    result=self.backend.run(job['context'],job['cancel'])
+                    if hasattr(self.backend,'run_progressive'):
+                        result=self.backend.run_progressive(job['context'],job['cancel'],lambda partial:self.complete(job,partial,final=False))
+                    else:result=self.backend.run(job['context'],job['cancel'])
                     if result.get('status')=='ready' and not job['cancel'].is_set():
                         with self.condition:
                             self.cache[job['cache_key']]=(self.clock(),copy.deepcopy(result))
@@ -199,7 +241,8 @@ class LiveResearch:
                             while len(self.cache)>8:self.cache.popitem(last=False)
                 self.complete(job,result)
             except Exception:
-                try:self.complete(job,{'status':'error','message':'Live research was unavailable or exceeded its budget. Prepared following continues.','items':[]})
+                fallback={**job['progress_result'],'errors':[*job['progress_result'].get('errors',[]),'Optional enrichment unavailable.']} if job.get('progress_result') else {'status':'error','message':'Live research was unavailable or exceeded its budget. Prepared following continues.','items':[]}
+                try:self.complete(job,fallback)
                 except (KeyError,ValueError):pass
             finally:
                 with self.condition:

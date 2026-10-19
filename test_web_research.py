@@ -105,6 +105,19 @@ class PublicFetch(unittest.TestCase):
             if expected=='ready':self.assertEqual(result['items'][0]['source_refs'][0]['quote'],page['text'])
             else:self.assertEqual(result['items'],[])
 
+    def test_checked_live_source_is_published_without_waiting_for_images(self):
+        context={'title':'Cooling','utterance':'Heat pipes use phase change','concepts':[]}
+        page={'title':'Heat pipes','url':'https://example.edu/pipe','text':'A heat pipe transfers heat by evaporation and condensation of a working fluid.'}
+        release=threading.Event();image_saw_publication=[];published=[]
+        def media(query):image_saw_publication.append(release.wait(1));return []
+        def publish(result):published.append(copy.deepcopy(result));release.set()
+        selected=SimpleNamespace(answers={'source':SimpleNamespace(value='0',confidence=.01)})
+        supported=SimpleNamespace(answers={'source_support':SimpleNamespace(value=.95)})
+        with patch.object(web.sources,'choose_query',return_value={'query':'heat pipe'}),patch.object(web,'search',return_value=[page]),patch.object(web,'passages',return_value=[page]),patch.object(web,'discover_media',side_effect=media),patch.object(web.sources,'assess',side_effect=[selected,supported]):
+            result=web.procure_live(context,publish)
+        self.assertEqual(image_saw_publication,[True]);self.assertEqual(len(published),1)
+        self.assertEqual(result['items'][0]['source_refs'][0]['quote'],page['text'])
+
 
 class ResearchedPreparation(unittest.TestCase):
     def setUp(self):
