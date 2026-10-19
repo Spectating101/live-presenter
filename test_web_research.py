@@ -5,6 +5,7 @@ import socket
 import tempfile
 import threading
 import unittest
+from types import SimpleNamespace
 from unittest.mock import patch, MagicMock
 
 from presenter import web_research as web
@@ -82,6 +83,15 @@ class PublicFetch(unittest.TestCase):
         merged=spoken_context(context)
         self.assertEqual(merged,'a thermoelectric cooler moves heat does it actually work?')
         self.assertIn('thermoelectric cooler',candidates(context))
+    def test_tentative_query_requires_a_separate_strong_relation_check(self):
+        context={'title':'Engineering cooling','brief':'Move heat from a component.','utterance':'A new mechanism','concepts':[]}
+        query=SimpleNamespace(answers={'query':SimpleNamespace(value='0',confidence=.25)},model='fixture')
+        related=SimpleNamespace(answers={'related':SimpleNamespace(value=.92,confidence=.8)})
+        unrelated=SimpleNamespace(answers={'related':SimpleNamespace(value=.02,confidence=.98)})
+        with patch.object(web.sources,'candidates',return_value=['new mechanism']),patch.object(web.sources,'assess',side_effect=[query,related]):
+            self.assertEqual(web.sources.choose_query(context)['query'],'new mechanism')
+        with patch.object(web.sources,'candidates',return_value=['new mechanism']),patch.object(web.sources,'assess',side_effect=[query,unrelated]):
+            self.assertIsNone(web.sources.choose_query(context))
 
 
 class ResearchedPreparation(unittest.TestCase):
