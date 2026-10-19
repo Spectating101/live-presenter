@@ -4,11 +4,13 @@ CORPUS_DIR ?= artifacts/corpus_tranche1
 CORPUS_SOURCES ?= data/corpus_sources_v10.json
 NATIVE_PY ?= .venv-native/bin/python
 NATIVE_OUT ?= artifacts/native_motion_v1
+SPEECH_OUT ?= artifacts/native_speech_probe
 
-.PHONY: help test pilot eval-mock eval-jev bench clean verify doctor corpus-acquire corpus-audit corpus-jobs studio studio-local studio-research studio-research-agent studio-researched native-preview native-test
+.PHONY: help test pilot eval-mock eval-jev bench clean verify doctor corpus-acquire corpus-audit corpus-jobs studio studio-local studio-research studio-research-agent studio-researched native-preview native-test native-speech
 help:
 	@echo "make native-preview  export a visual-only native motion sample headlessly (optional .venv-native)"
 	@echo "make native-test     run native backend/Qt checks offscreen"
+	@echo "make native-speech   real-paced speech recognition to native video, headlessly; choose a fresh SPEECH_OUT"
 	@echo "make studio     open the preparation-first local app (use the access URL printed in the terminal)"
 	@echo "make studio-local  enable optional local continuous speech recognition (.venv-asr required)"
 	@echo "make studio-researched  unattended web research before preparation and during rehearsal"
@@ -32,7 +34,10 @@ native-preview:
 	$(NATIVE_PY) -m presenter.native --demo --export-motion $(NATIVE_OUT)
 
 native-test:
-	$(NATIVE_PY) -m unittest test_native_output
+	$(NATIVE_PY) -m unittest test_native_output test_native_speech_probe
+
+native-speech:
+	$(NATIVE_PY) -m presenter.native_speech_probe --out-dir $(SPEECH_OUT)
 
 studio:
 	$(PY) -m presenter.server

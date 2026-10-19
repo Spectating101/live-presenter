@@ -5,6 +5,7 @@ import collections
 import json
 import math
 import os
+import re
 from pathlib import Path
 import secrets
 import selectors
@@ -14,6 +15,16 @@ import threading
 import time
 
 from .engine import Conflict
+
+
+def repeated_window_tail(previous, current, gap):
+    """An overlapping window's suffix is not a second spoken instruction.
+
+    Conservative four-second suppression; a later repetition or a new modifier
+    such as 'actually' remains actionable. Recognition still appears in logs.
+    """
+    before=re.findall(r'\w+',previous.lower());after=re.findall(r'\w+',current.lower())
+    return bool(0<gap<=4 and after and len(after)<=len(before) and before[-len(after):]==after)
 
 
 class SubprocessRecognizer:
@@ -115,7 +126,7 @@ class LiveAudio:
             s = self.session
             if not s or s['pid'] != pid:
                 return {'status': 'idle'}
-            return {k:v for k,v in s.items() if k not in {'pending','rows','pid'}} | {'updates': list(s['rows'])}
+            return {k:v for k,v in s.items() if k not in {'pending','rows','pid','last_committed_text','last_committed_seq'}} | {'updates': list(s['rows'])}
 
     def start(self, pid, generation):
         with self.condition:
@@ -129,6 +140,7 @@ class LiveAudio:
                 'received': 0, 'processed': 0, 'dropped': 0, 'rejected': 0, 'timeouts': 0, 'expired': 0,
                 'last_seen': self.clock(),
                 'pending': None, 'rows': collections.deque(maxlen=120), 'error': None}
+            self.session.update(last_committed_text='',last_committed_seq=-100)
             self.condition.notify_all()
             return self.snapshot(pid)
 
@@ -252,9 +264,11 @@ class LiveAudio:
                             s['status'] = 'ready'
                     continue
                 p = self.studio.store.read(s['pid'])
-                if result['text'].strip():
+                suppressed=repeated_window_tail(s['last_committed_text'],result['text'],seq-s['last_committed_seq'])
+                if result['text'].strip() and not suppressed:
                     p = self.studio.transcript(s['pid'], result['text'], None, generation=s['generation'],
                         expires_at=time.time()+expires-decoded_at)
+                    s.update(last_committed_text=result['text'],last_committed_seq=seq)
                 completed = self.clock()
                 with self.condition:
                     if self.session is s and s['status'] != 'stopped' and self.valid(s):
@@ -263,6 +277,9 @@ class LiveAudio:
                         s['expired'] += int(completed > expires)
                         s['status'] = 'ready'
                         s['rows'].append({'seq': seq, 'text': result['text'], 'rejection': result.get('rejection'),
+                            'transcript_suppressed':'overlapping_window_tail' if suppressed else None,
+                            'received_at':received, 'recognition_started_at':begun,
+                            'recognized_at':decoded_at, 'decision_completed_at':completed,
                             'asr_s': decoded_at-begun, 'received_to_decision_s': completed-received,
                             'capture_age_s':age, 'capture_end_to_decision_estimate_s':completed-received+age,
                             'scene_id': p['live']['current_scene_id'], 'state_version': p['state_version'],

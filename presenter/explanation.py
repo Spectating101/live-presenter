@@ -25,7 +25,7 @@ def explanation_need(utterance, audience='', *, goal=None):
         ('source', r'\b(?:show|read|quote|cite|open|see)\b.{0,45}\b(?:source|citation|evidence|quote|quotation)\b'),
         ('comparison', r'\b(?:compar\w*|versus|difference|instead of)\b'),
         ('quantity', r'\b(?:how much|how many|trend|measured|measurements|data|chart)\b'),
-        ('mechanism', r'\b(?:how .{0,60}works?|why|mechanism|heat transfer|circulat\w*|flow\w*)\b'),
+        ('mechanism', r'\b(?:how (?:does|do|can|is|are)\b|how .{0,60}works?|why|mechanism|heat transfer|circulat\w*|flow\w*)\b'),
         ('location', r'\b(?:where|location|geograph\w*|map)\b'),
         ('sequence', r'\b(?:sequence|stages|step by step|what happens next)\b'),
         ('example', r'\b(?:show .{0,30}example|demonstrat\w*|what .{0,40}looks like)\b'),

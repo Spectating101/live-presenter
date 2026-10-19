@@ -32,11 +32,23 @@ def retrieved_scenes(raw):
             data=base64.b64decode(image['base64'],validate=True)
             material=ingest(image['name'],data,image.get('description',''))
             if not material.get('asset'):raise ValueError('Retrieve a PNG/JPEG image.')
+            review=image.get('visual_review')
+            if review is not None:
+                if not isinstance(review,dict) or review.get('method')!='connected_agent_pixel_inspection':
+                    raise ValueError('Visual review must describe connected-agent pixel inspection.')
+                if review.get('sha256')!=material['sha256']:
+                    raise ValueError('Visual review does not match the retrieved image bytes.')
+                for field in ('reviewer','question','observed_content','explanatory_fit'):
+                    if not isinstance(review.get(field),str) or not 8<=len(review[field].strip())<=1200:
+                        raise ValueError('Visual review needs a bounded, explicit '+field+'.')
+                review={key:review[key] for key in ('method','sha256','reviewer','question','observed_content','explanatory_fit')}
             scene.update(id=scene['id']+'_'+material['sha256'][:12],kind='image',asset=material['asset'],grounding='agent_attested_image',
                 web_source={**origin,'image_url':public_url(image['source_url']),'artist':normalized(image['artist'])[:180],
                             'image_license':normalized(image['license'])[:100],
                             'image_license_url':public_url(image['license_url']) if image.get('license_url') else '',
-                            'pixels_semantically_verified':False})
+                            'pixels_semantically_verified':review is not None,
+                            'visual_verification':'connected_agent_attested_pixels' if review else 'metadata_only',
+                            'visual_review':copy.deepcopy(review)})
         scenes.append(scene)
     return scenes
 
@@ -56,6 +68,10 @@ class ResearchBridge:
             job=self.job
             if not job or job['id']!=job_id or job['cancel'].is_set() or job['result'] is not None:
                 raise ValueError('This research request expired, was answered or was superseded.')
+            for scene in scenes:
+                review=scene['web_source'].get('visual_review')
+                if review and normalized(review['question'])!=normalized(job['context']['utterance']):
+                    raise ValueError('Visual review must answer this research request.')
             job['result']={'status':status,'query':job['context']['utterance'],'items':scenes,'papers':[],
                            'message':'No suitable source was found.' if status=='no_match' else 'Related material found by the connected research agent.',
                            'provider_scope':['Connected web-capable research agent']}

@@ -13,7 +13,7 @@ import urllib.error
 import urllib.request
 
 from presenter.engine import Conflict, Store
-from presenter.live_audio import SubprocessRecognizer
+from presenter.live_audio import SubprocessRecognizer, repeated_window_tail
 from presenter.server import make_server
 from test_prepared_reflex import example
 
@@ -36,6 +36,14 @@ class Decoder:
 
 
 class LiveAudioTests(unittest.TestCase):
+    def test_overlapping_suffix_does_not_replay_but_later_or_corrected_speech_does(self):
+        previous='Compare the low setting and the high setting.'
+        self.assertTrue(repeated_window_tail(previous,'the high setting',3))
+        self.assertTrue(repeated_window_tail(previous,previous,1))
+        self.assertFalse(repeated_window_tail(previous,'the high setting',5))
+        self.assertFalse(repeated_window_tail(previous,'Actually the high setting',2))
+        self.assertFalse(repeated_window_tail(previous,'At the low setting',2))
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.store = Store(self.temp.name)

@@ -116,6 +116,7 @@ def qt_types():
             finished = time.perf_counter()
             if self.pending_at is not None:
                 self.samples.append({'scene_id':(self.scene or {}).get('id'),
+                    'paint_completed_at':finished,
                     'target_id':(self.attention or {}).get('annotation_id'),
                     'target_ids':(self.attention or {}).get('target_ids',[]),
                     'motion_enabled':self.animate,

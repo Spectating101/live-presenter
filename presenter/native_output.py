@@ -58,7 +58,7 @@ class VisualOutput:
         return previous != (self.package_hash, (self.scene or {}).get('id'), self.attention)
 
 
-def demo_engine(root):
+def demo_engine(root, *, brief=None):
     """A sourced numeric demonstration, explicitly not an ASR benchmark."""
     from .engine import Store
     from .materials import ingest
@@ -82,7 +82,7 @@ def demo_engine(root):
             return validate_plan(raw, project)
     store = Store(root)
     studio = Studio(store, planner=Planner(), dwell_s=0)
-    p = store.create(title=raw['title'], brief=raw['takeaway'], audience=raw['audience'], sources=[source])
+    p = store.create(title=raw['title'], brief=brief or raw['takeaway'], audience=raw['audience'], sources=[source])
     p = studio.prepare(p['id'], background=False)
     p = studio.approve(p['id'], p['revision'], True)
     studio.control(p['id'], 'start')

@@ -1,0 +1,551 @@
+{
+  "schema": "live_presenter.native_speech_experiments.v1",
+  "scope": "Controlled synthetic speech, actual paced PCM, tiny.en ASR, Qt offscreen changed pixels and captured video. No browser, physical mic or physical display.",
+  "prepared_fixture": "CSV supplied; local cue follower. No generative model used for prepared decisions. Fixture approval is automated, not a human review.",
+  "unprepared_scope": "Active Codex agent browsed and inspected a NASA source during replay via authenticated research bridge. No unattended vision provider. No heat-pipe asset in preparation.",
+  "claims": {
+    "prepared_cues_latest": "4/4 correct requested changes; 0.019 to 0.336 seconds after phrase completion, 1.625 to 2.701 seconds after phrase onset.",
+    "unprepared_cold": "64.771 seconds from first question onset, including 55s timeout. Retry backend 6.133s is not cold latency.",
+    "quality": "Useful mechanism figure inspected by development agent; not independently or audience evaluated.",
+    "fixes": "Suppress overlapping ASR suffix instructions; recognize partial causal questions as mechanism needs.",
+    "limitations": [
+      "Synthetic, development-authored script; no human or blinded evaluation.",
+      "ASR warmup excluded from cue latency; warmup recorded.",
+      "Zero editorial dwell in this developer fixture.",
+      "Source caches may be warm.",
+      "Cold detour predates overlap and intent fixes; not rerun after those changes.",
+      "v2 source fingerprints were taken at end; snapshot-only edit during that replay. v3 fingerprints are captured before replay and unchanged."
+    ]
+  },
+  "runs": [
+    {
+      "attempt": "native_speech_v1",
+      "report_sha256": "f65d99eb962eb6d6e43afa792c136ad6985541ea449a078203a215f491b881d4",
+      "video_sha256": "41d5f5026e0ca7ff15045fe827804dbf4fa05290407cb0e3a5ac26fe5c8a82bc",
+      "source_sha256": "3a537ac57c47c1a33d936f39a260002fb9a6992afb2b17c141a2127f23fc670d",
+      "audio_sha256": "8fdc16c693b8d5b337c2ad0585fec062ab17126b5fd9a0edcd865a91dcc0276f",
+      "code_fingerprints": {
+        "native_speech_probe.py": "b86196949f4fc1d290943409523fa482ffd4ff8be43df05dfedd1a5126b938c1",
+        "native.py": "032032d77997f47b530d8c050e56d56bf0a8c9612e7b604997042a359b501891",
+        "native_output.py": "c0093dc472bd575e87f9544e79e3bacb7996dbc3796dff069f33b68510cf7a01",
+        "engine.py": "f18a169ef605a39570bfbacb6f307435f21257a29cf1cfa912bdbe3bbcfe4db4",
+        "live_audio.py": "9072b8a838984dc0339d728eca1b3f0bcffed155e565b26b23a24f2266d405fb",
+        "research.py": "992a388a9eff00cad2d8b4e18fd0fdfd650ce2cf52435f252436089fba97837e",
+        "research_bridge.py": "d6e6993a0196251ad9c03d6c754eab521cfc67eda07aa4f8194fc9b9cc8ffd2a"
+      },
+      "code_changed_during_run": null,
+      "asr_warmup_s": 3.330813726002816,
+      "worker": {
+        "status": "ready",
+        "last_seq": 39,
+        "received": 40,
+        "processed": 40,
+        "dropped": 0,
+        "rejected": 0,
+        "timeouts": 0,
+        "expired": 0,
+        "error": null
+      },
+      "cue_results": [
+        {
+          "start_s": 1,
+          "end_s": 1.89,
+          "text": "Flow rate.",
+          "condition": "prepared_baseline",
+          "changed_visual_observed": false,
+          "first_changed_pixels_at_s": null,
+          "cue_start_to_pixels_s": null,
+          "cue_end_to_pixels_s": null,
+          "episode_start_to_pixels_s": null,
+          "baseline_excluded": true
+        },
+        {
+          "start_s": 7,
+          "end_s": 8.42,
+          "text": "At the high setting.",
+          "condition": "prepared_focus_high",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 8.59658795996802,
+          "cue_start_to_pixels_s": 1.5965879599680193,
+          "cue_end_to_pixels_s": 0.17658795996801935,
+          "episode_start_to_pixels_s": 1.5965879599680193,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 14,
+          "end_s": 16.46,
+          "text": "Compare the low setting and the high setting.",
+          "condition": "prepared_comparison",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 16.649847175984178,
+          "cue_start_to_pixels_s": 2.6498471759841777,
+          "cue_end_to_pixels_s": 0.18984717598417689,
+          "episode_start_to_pixels_s": 2.6498471759841777,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 23,
+          "end_s": 25.615,
+          "text": "Now electrical power consumption.",
+          "condition": "prepared_power",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 25.569655401981436,
+          "cue_start_to_pixels_s": 2.5696554019814357,
+          "cue_end_to_pixels_s": -0.04534459801856272,
+          "episode_start_to_pixels_s": 2.5696554019814357,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 31,
+          "end_s": 32.435,
+          "text": "At the low setting.",
+          "condition": "prepared_focus_low",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 32.642934089002665,
+          "cue_start_to_pixels_s": 1.6429340890026651,
+          "cue_end_to_pixels_s": 0.20793408900266286,
+          "episode_start_to_pixels_s": 1.6429340890026651,
+          "baseline_excluded": false
+        }
+      ],
+      "visual_events_count": 6,
+      "comparison_preserved_until_next_quantity": false,
+      "research_history": [],
+      "first_detour_onset_to_image_s": null,
+      "first_detour_end_to_image_s": null,
+      "image_source": null
+    },
+    {
+      "attempt": "native_speech_v2",
+      "report_sha256": "47bf374f9b1c894678f53ab0f612d5fafba53dd80dd3a0a5fa129eaf2b803124",
+      "video_sha256": "7751001306ac0ecb67e777d426efbdd5cbaac049ed27422b0a4609b60d4d3c8d",
+      "source_sha256": "3a537ac57c47c1a33d936f39a260002fb9a6992afb2b17c141a2127f23fc670d",
+      "audio_sha256": "8fdc16c693b8d5b337c2ad0585fec062ab17126b5fd9a0edcd865a91dcc0276f",
+      "code_fingerprints": {
+        "native_speech_probe.py": "f469bdf66019a3250b009522b48dc9b061cef45467f1bbf548a89d2e61b6d1a7",
+        "native.py": "032032d77997f47b530d8c050e56d56bf0a8c9612e7b604997042a359b501891",
+        "native_output.py": "c0093dc472bd575e87f9544e79e3bacb7996dbc3796dff069f33b68510cf7a01",
+        "engine.py": "f18a169ef605a39570bfbacb6f307435f21257a29cf1cfa912bdbe3bbcfe4db4",
+        "live_audio.py": "688d144d89074d34df250c29490b094dae6c2429bb17a890fdd01bb8298934f9",
+        "research.py": "992a388a9eff00cad2d8b4e18fd0fdfd650ce2cf52435f252436089fba97837e",
+        "research_bridge.py": "d6e6993a0196251ad9c03d6c754eab521cfc67eda07aa4f8194fc9b9cc8ffd2a"
+      },
+      "code_changed_during_run": null,
+      "asr_warmup_s": 3.3992177310283296,
+      "worker": {
+        "status": "ready",
+        "last_seq": 39,
+        "received": 40,
+        "processed": 40,
+        "dropped": 0,
+        "rejected": 0,
+        "timeouts": 0,
+        "expired": 0,
+        "error": null
+      },
+      "cue_results": [
+        {
+          "start_s": 1,
+          "end_s": 1.89,
+          "text": "Flow rate.",
+          "condition": "prepared_baseline",
+          "changed_visual_observed": false,
+          "first_changed_pixels_at_s": null,
+          "cue_start_to_pixels_s": null,
+          "cue_end_to_pixels_s": null,
+          "episode_start_to_pixels_s": null,
+          "baseline_excluded": true
+        },
+        {
+          "start_s": 7,
+          "end_s": 8.42,
+          "text": "At the high setting.",
+          "condition": "prepared_focus_high",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 8.602307280991226,
+          "cue_start_to_pixels_s": 1.6023072809912264,
+          "cue_end_to_pixels_s": 0.1823072809912265,
+          "episode_start_to_pixels_s": 1.6023072809912264,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 14,
+          "end_s": 16.46,
+          "text": "Compare the low setting and the high setting.",
+          "condition": "prepared_comparison",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 16.621924559993204,
+          "cue_start_to_pixels_s": 2.6219245599932037,
+          "cue_end_to_pixels_s": 0.16192455999320288,
+          "episode_start_to_pixels_s": 2.6219245599932037,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 23,
+          "end_s": 25.615,
+          "text": "Now electrical power consumption.",
+          "condition": "prepared_power",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 25.715672830992844,
+          "cue_start_to_pixels_s": 2.715672830992844,
+          "cue_end_to_pixels_s": 0.10067283099284552,
+          "episode_start_to_pixels_s": 2.715672830992844,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 31,
+          "end_s": 32.435,
+          "text": "At the low setting.",
+          "condition": "prepared_focus_low",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 32.57978691498283,
+          "cue_start_to_pixels_s": 1.579786914982833,
+          "cue_end_to_pixels_s": 0.1447869149828307,
+          "episode_start_to_pixels_s": 1.579786914982833,
+          "baseline_excluded": false
+        }
+      ],
+      "visual_events_count": 5,
+      "comparison_preserved_until_next_quantity": true,
+      "research_history": [],
+      "first_detour_onset_to_image_s": null,
+      "first_detour_end_to_image_s": null,
+      "image_source": null
+    },
+    {
+      "attempt": "native_speech_v3",
+      "report_sha256": "c1a34fa32d917079e66a4b07a0c753e992a6ea1275bd699d09412e733ced3353",
+      "video_sha256": "192f912f5d44874947fcd174a5a97d94daeb24539cc4a66f40dfc09caba0c13d",
+      "source_sha256": "3a537ac57c47c1a33d936f39a260002fb9a6992afb2b17c141a2127f23fc670d",
+      "audio_sha256": "8fdc16c693b8d5b337c2ad0585fec062ab17126b5fd9a0edcd865a91dcc0276f",
+      "code_fingerprints": {
+        "native_speech_probe.py": "aa95500e78f0556b8d59eb1fc2c21d8a44657d930aa437e3bcc9e474158106af",
+        "native.py": "032032d77997f47b530d8c050e56d56bf0a8c9612e7b604997042a359b501891",
+        "native_output.py": "c0093dc472bd575e87f9544e79e3bacb7996dbc3796dff069f33b68510cf7a01",
+        "engine.py": "f18a169ef605a39570bfbacb6f307435f21257a29cf1cfa912bdbe3bbcfe4db4",
+        "live_audio.py": "688d144d89074d34df250c29490b094dae6c2429bb17a890fdd01bb8298934f9",
+        "research.py": "992a388a9eff00cad2d8b4e18fd0fdfd650ce2cf52435f252436089fba97837e",
+        "research_bridge.py": "d6e6993a0196251ad9c03d6c754eab521cfc67eda07aa4f8194fc9b9cc8ffd2a",
+        "explanation.py": "8e8de7d39f1ffde8207d2a4242789ec278d21674a8a13174ab6568add7c1f6f1"
+      },
+      "code_changed_during_run": false,
+      "asr_warmup_s": 3.189165593998041,
+      "worker": {
+        "status": "ready",
+        "last_seq": 39,
+        "received": 40,
+        "processed": 40,
+        "dropped": 0,
+        "rejected": 0,
+        "timeouts": 0,
+        "expired": 0,
+        "error": null
+      },
+      "cue_results": [
+        {
+          "start_s": 1,
+          "end_s": 1.89,
+          "text": "Flow rate.",
+          "condition": "prepared_baseline",
+          "changed_visual_observed": false,
+          "first_changed_pixels_at_s": null,
+          "cue_start_to_pixels_s": null,
+          "cue_end_to_pixels_s": null,
+          "episode_start_to_pixels_s": null,
+          "baseline_excluded": true
+        },
+        {
+          "start_s": 7,
+          "end_s": 8.42,
+          "text": "At the high setting.",
+          "condition": "prepared_focus_high",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 8.755924399010837,
+          "cue_start_to_pixels_s": 1.755924399010837,
+          "cue_end_to_pixels_s": 0.33592439901083715,
+          "episode_start_to_pixels_s": 1.755924399010837,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 14,
+          "end_s": 16.46,
+          "text": "Compare the low setting and the high setting.",
+          "condition": "prepared_comparison",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 16.701458996045403,
+          "cue_start_to_pixels_s": 2.701458996045403,
+          "cue_end_to_pixels_s": 0.24145899604540233,
+          "episode_start_to_pixels_s": 2.701458996045403,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 23,
+          "end_s": 25.615,
+          "text": "Now electrical power consumption.",
+          "condition": "prepared_power",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 25.633752005000133,
+          "cue_start_to_pixels_s": 2.633752005000133,
+          "cue_end_to_pixels_s": 0.01875200500013463,
+          "episode_start_to_pixels_s": 2.633752005000133,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 31,
+          "end_s": 32.435,
+          "text": "At the low setting.",
+          "condition": "prepared_focus_low",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 32.625427665014286,
+          "cue_start_to_pixels_s": 1.6254276650142856,
+          "cue_end_to_pixels_s": 0.19042766501428332,
+          "episode_start_to_pixels_s": 1.6254276650142856,
+          "baseline_excluded": false
+        }
+      ],
+      "visual_events_count": 5,
+      "comparison_preserved_until_next_quantity": true,
+      "research_history": [],
+      "first_detour_onset_to_image_s": null,
+      "first_detour_end_to_image_s": null,
+      "image_source": null
+    },
+    {
+      "attempt": "native_speech_unprepared_v1",
+      "report_sha256": "ede57041c0756d00c4a1e168034aacc2f213e98fb833fa98fd8f33d892d03246",
+      "video_sha256": "be47a66f41fc6461162278f0e6a3d84483fe53a95f3e7a770561299cbf847b59",
+      "source_sha256": "3a537ac57c47c1a33d936f39a260002fb9a6992afb2b17c141a2127f23fc670d",
+      "audio_sha256": "a3fae831ab6b0a18c0505ad97846a6a5ace90ea264b7b279f48e27061cd73b15",
+      "code_fingerprints": {
+        "native_speech_probe.py": "b86196949f4fc1d290943409523fa482ffd4ff8be43df05dfedd1a5126b938c1",
+        "native.py": "032032d77997f47b530d8c050e56d56bf0a8c9612e7b604997042a359b501891",
+        "native_output.py": "c0093dc472bd575e87f9544e79e3bacb7996dbc3796dff069f33b68510cf7a01",
+        "engine.py": "f18a169ef605a39570bfbacb6f307435f21257a29cf1cfa912bdbe3bbcfe4db4",
+        "live_audio.py": "9072b8a838984dc0339d728eca1b3f0bcffed155e565b26b23a24f2266d405fb",
+        "research.py": "992a388a9eff00cad2d8b4e18fd0fdfd650ce2cf52435f252436089fba97837e",
+        "research_bridge.py": "d6e6993a0196251ad9c03d6c754eab521cfc67eda07aa4f8194fc9b9cc8ffd2a"
+      },
+      "code_changed_during_run": null,
+      "asr_warmup_s": 3.3017828459851444,
+      "worker": {
+        "status": "ready",
+        "last_seq": 125,
+        "received": 126,
+        "processed": 126,
+        "dropped": 0,
+        "rejected": 0,
+        "timeouts": 0,
+        "expired": 0,
+        "error": null
+      },
+      "cue_results": [
+        {
+          "start_s": 1,
+          "end_s": 1.89,
+          "text": "Flow rate.",
+          "condition": "prepared_baseline",
+          "changed_visual_observed": false,
+          "first_changed_pixels_at_s": null,
+          "cue_start_to_pixels_s": null,
+          "cue_end_to_pixels_s": null,
+          "episode_start_to_pixels_s": null,
+          "baseline_excluded": true
+        },
+        {
+          "start_s": 7,
+          "end_s": 8.42,
+          "text": "At the high setting.",
+          "condition": "prepared_focus_high",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 8.756410652014893,
+          "cue_start_to_pixels_s": 1.7564106520148925,
+          "cue_end_to_pixels_s": 0.3364106520148926,
+          "episode_start_to_pixels_s": 1.7564106520148925,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 14,
+          "end_s": 16.46,
+          "text": "Compare the low setting and the high setting.",
+          "condition": "prepared_comparison",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 16.625595827994402,
+          "cue_start_to_pixels_s": 2.6255958279944025,
+          "cue_end_to_pixels_s": 0.16559582799440165,
+          "episode_start_to_pixels_s": 2.6255958279944025,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 23,
+          "end_s": 25.615,
+          "text": "Now electrical power consumption.",
+          "condition": "prepared_power",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 25.569820636010263,
+          "cue_start_to_pixels_s": 2.569820636010263,
+          "cue_end_to_pixels_s": -0.04517936398973532,
+          "episode_start_to_pixels_s": 2.569820636010263,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 31,
+          "end_s": 32.435,
+          "text": "At the low setting.",
+          "condition": "prepared_focus_low",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 32.6662957459921,
+          "cue_start_to_pixels_s": 1.6662957459921017,
+          "cue_end_to_pixels_s": 0.23129574599209946,
+          "episode_start_to_pixels_s": 1.6662957459921017,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 42,
+          "end_s": 46.08,
+          "text": "How does a heat pipe move heat using evaporation and condensation?",
+          "condition": "unprepared_mechanism",
+          "changed_visual_observed": false,
+          "first_changed_pixels_at_s": null,
+          "cue_start_to_pixels_s": null,
+          "cue_end_to_pixels_s": null,
+          "episode_start_to_pixels_s": null,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 50,
+          "end_s": 54.08,
+          "text": "How does a heat pipe move heat using evaporation and condensation?",
+          "condition": "unprepared_mechanism",
+          "changed_visual_observed": false,
+          "first_changed_pixels_at_s": null,
+          "cue_start_to_pixels_s": null,
+          "cue_end_to_pixels_s": null,
+          "episode_start_to_pixels_s": null,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 58,
+          "end_s": 62.08,
+          "text": "How does a heat pipe move heat using evaporation and condensation?",
+          "condition": "unprepared_mechanism",
+          "changed_visual_observed": false,
+          "first_changed_pixels_at_s": null,
+          "cue_start_to_pixels_s": null,
+          "cue_end_to_pixels_s": null,
+          "episode_start_to_pixels_s": null,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 66,
+          "end_s": 70.08,
+          "text": "How does a heat pipe move heat using evaporation and condensation?",
+          "condition": "unprepared_mechanism",
+          "changed_visual_observed": false,
+          "first_changed_pixels_at_s": null,
+          "cue_start_to_pixels_s": null,
+          "cue_end_to_pixels_s": null,
+          "episode_start_to_pixels_s": null,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 74,
+          "end_s": 78.08,
+          "text": "How does a heat pipe move heat using evaporation and condensation?",
+          "condition": "unprepared_mechanism",
+          "changed_visual_observed": false,
+          "first_changed_pixels_at_s": null,
+          "cue_start_to_pixels_s": null,
+          "cue_end_to_pixels_s": null,
+          "episode_start_to_pixels_s": null,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 82,
+          "end_s": 86.08,
+          "text": "How does a heat pipe move heat using evaporation and condensation?",
+          "condition": "unprepared_mechanism",
+          "changed_visual_observed": false,
+          "first_changed_pixels_at_s": null,
+          "cue_start_to_pixels_s": null,
+          "cue_end_to_pixels_s": null,
+          "episode_start_to_pixels_s": null,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 90,
+          "end_s": 94.08,
+          "text": "How does a heat pipe move heat using evaporation and condensation?",
+          "condition": "unprepared_mechanism",
+          "changed_visual_observed": false,
+          "first_changed_pixels_at_s": null,
+          "cue_start_to_pixels_s": null,
+          "cue_end_to_pixels_s": null,
+          "episode_start_to_pixels_s": null,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 98,
+          "end_s": 102.08,
+          "text": "How does a heat pipe move heat using evaporation and condensation?",
+          "condition": "unprepared_mechanism",
+          "changed_visual_observed": false,
+          "first_changed_pixels_at_s": null,
+          "cue_start_to_pixels_s": null,
+          "cue_end_to_pixels_s": null,
+          "episode_start_to_pixels_s": null,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 106,
+          "end_s": 110.08,
+          "text": "How does a heat pipe move heat using evaporation and condensation?",
+          "condition": "unprepared_mechanism",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 106.77116099698469,
+          "cue_start_to_pixels_s": 0.7711609969846904,
+          "cue_end_to_pixels_s": -3.308839003015308,
+          "episode_start_to_pixels_s": 64.77116099698469,
+          "baseline_excluded": false
+        },
+        {
+          "start_s": 117,
+          "end_s": 118.4,
+          "text": "Back to the flow rate.",
+          "condition": "return_to_prepared",
+          "changed_visual_observed": true,
+          "first_changed_pixels_at_s": 119.61395588296,
+          "cue_start_to_pixels_s": 2.613955882959999,
+          "cue_end_to_pixels_s": 1.2139558829599935,
+          "episode_start_to_pixels_s": 2.613955882959999,
+          "baseline_excluded": false
+        }
+      ],
+      "visual_events_count": 8,
+      "comparison_preserved_until_next_quantity": false,
+      "research_history": [
+        {
+          "status": "error",
+          "utterance": "How does a heat pipe move using",
+          "first_result_latency_s": null,
+          "displayed_automatically": false,
+          "message": "Live research was unavailable or exceeded its budget. Prepared following continues."
+        },
+        {
+          "status": "ready",
+          "utterance": "How does a heat pipe move using",
+          "first_result_latency_s": 6.133437395095825,
+          "displayed_automatically": true,
+          "message": "Related material found by the connected research agent."
+        }
+      ],
+      "first_detour_onset_to_image_s": 64.77116099698469,
+      "first_detour_end_to_image_s": 60.69116099698469,
+      "image_source": {
+        "url": "https://www.nasa.gov/smallsat-institute/sst-soa/thermal-control/",
+        "image_url": "https://ntrs.nasa.gov/api/citations/20150018080/downloads/20150018080.pdf",
+        "artist": "Jentung Ku, NASA Goddard Space Flight Center",
+        "visual_verification": "connected_agent_attested_pixels"
+      }
+    }
+  ]
+}

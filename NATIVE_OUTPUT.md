@@ -78,8 +78,9 @@ values are supported. Arbitrary footage playback and newly generated mechanism
 illustrations are not implemented here.
 
 The demo's terminal text is a rehearsal input. Existing ASR and research workers
-can update the shared live state, but this increment does not add a native
-microphone capture adapter or finish headless intake/preparation. The previous
+update the shared live state. The headless speech probe below exercises that
+connection with real paced audio. It does not add a physical native microphone
+capture adapter or finish headless intake/preparation. The previous
 web studio remains a legacy diagnostic/operator tool; it is not the target
 audience output or the intended presentation experience.
 
@@ -96,6 +97,76 @@ the small local runs, with variation from initialization and machine load. These
 exclude microphone capture, ASR, internet procurement, animation settling and
 physical display. The old seconds-long retrieval measurements remain relevant
 to unprepared material. Removing the webpage does not remove those delays.
+
+## Speech to visuals and a fresh detour
+
+```bash
+make native-speech SPEECH_OUT=artifacts/native_speech_new_attempt
+# With an active connected web-capable agent, in a separate fresh directory:
+.venv-native/bin/python -m presenter.native_speech_probe \
+  --out-dir artifacts/native_speech_detour_new_attempt --unprepared
+```
+
+Both commands force Qt offscreen. They synthesize local speech with FFmpeg's
+libflite, then deliver **actual PCM at one-second intervals**, with only the
+available past four seconds passed to local tiny.en recognition. Future speech
+and captions are never passed to preparation or the follower. The prepared CSV
+contains two measurements and no heat-pipe material. The harness records native
+pixels during the replay and muxes the input audio into `speech-visual.mp4`.
+It does not play it. `report.json` binds cue times, ASR rows, visual state,
+changed-pixel captures, source hashes and code fingerprints. Newly captured
+pixels enter the video at the next frame boundary; missed frame intervals retain
+the previous pixels rather than backdating a new illustration.
+
+The already-visible starting chart is excluded from responsive successes.
+Recognized suffixes of a recently committed transcript are suppressed for the
+four-second overlap window. This prevents the tail of “compare low and high”
+from becoming a separate “high” focus instruction. Later repetitions and new
+modifiers remain actionable. This is conservative deduplication, not complete
+word-level speech alignment; rapid intentional repetitions can be withheld.
+
+`--unprepared` adds a repeated heat-pipe mechanism question at 42 seconds. It
+starts the authenticated research bridge and writes connection details to a
+private ignored `connection.json`. **An active agent must read the current
+`/api/research/job`, browse, inspect a useful visual, and return it through
+`/api/research/result`.** The probe itself does not run an autonomous vision
+provider. Without the agent, requests expire and the current visual stays.
+Never print connection credentials or open its web interface for this test.
+
+An image's `visual_review` must carry its exact SHA-256, method
+`connected_agent_pixel_inspection`, reviewer, the exact pending utterance,
+observed pixel content and explanatory fit. Review is bound to both the image
+bytes and the pending request. Metadata-only images remain backstage. A review
+is an **authenticated agent attestation**, not independent app verification;
+creator, license and source attribution remain attached. Stop, Hold, approval
+and freshness checks still apply. This handoff is implemented and tested; a
+working unattended visual research provider is still needed for product use.
+
+The first cold detour attempt (`artifacts/native_speech_unprepared_v1`) did
+procure and display an inspected NASA mechanism figure absent from preparation,
+then returned to the prepared flow chart. However, it took **64.77 seconds from
+the first question** (60.69 seconds after that phrase ended), including a
+55-second agent timeout. The successful retry took 6.13 seconds at the backend.
+That retry is not the cold latency. Repeated questions are one episode in the
+scoring, so a late answer cannot reset the clock. The agent's search, download,
+figure extraction and pixel inspection occurred during the running replay.
+The diagram is static; it is not newly generated animated mechanism content.
+
+The same cold run handled all 126 audio windows without a drop or ASR timeout;
+that does not compensate for slow research. Its prepared changes appeared
+between 45 ms before and 336 ms after phrase completion. These are four
+development-authored cues, not a latency distribution or a real-speaker study.
+Subsequent prepared-only runs verify the overlap fix; the cold detour was not
+rerun after that fix. These measurements exclude physical capture and display,
+and the fixture uses zero editorial dwell. Complete run details and shortcomings
+are in [the compact experiment record](data/native_speech_experiments.json).
+
+The final prepared-only run (`artifacts/native_speech_v3`) used unchanged code:
+all four changes appeared 0.019–0.336 seconds after phrase completion,
+1.625–2.701 seconds after phrase onset. All 40 windows were processed without
+drops or timeouts; ASR startup took 3.19 seconds before replay. The comparison
+remained visible until the next quantity. This records useful local progress,
+not a claim that arbitrary speech or arbitrary fresh visual requests are solved.
 
 The next quality target is visual direction across different explanation types:
 choose a useful representation, reveal a relationship, handle a genuine detour,

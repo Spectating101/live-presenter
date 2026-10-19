@@ -14,7 +14,7 @@ import time
 import uuid
 
 from .language import tokens,STOP
-from .explanation import explanation_need, presentation_fit, focus_target
+from .explanation import explanation_need, presentation_fit, focus_target, chart_comparison, attention_targets
 
 
 class ResearchProcess:
@@ -118,13 +118,14 @@ class LiveResearch:
         if seq is not None and live['last_seq']!=seq:return
         package=self.studio.package(p)
         known=tokens(' '.join(c['title']+' '+c['summary']+' '+' '.join(c['aliases']) for c in package['concepts']))
-        known |= tokens(' '.join(phrase for scene in package['scenes'] for target in scene.get('annotations', []) for phrase in target['cue_phrases']))
+        known |= tokens(' '.join(phrase for scene in package['scenes'] for target in attention_targets(scene) for phrase in target['cue_phrases']))
         recent=[r['text'] for r in live['transcript'][-4:-1] if self.clock()-r['at']<=8]
         from .research_sources import spoken_context
         topic_speech=spoken_context({'utterance':utterance,'recent_past':recent})
         novel=tokens(topic_speech)-known-{'compared','instead','please','find','show','explain','could','would','about','tell'}
         current_scene = next((s for s in package['scenes'] if s['id'] == live['current_scene_id']), None)
-        prepared=bool((recommendation.get('scene_id') and recommendation.get('score',0)>=.88) or focus_target(current_scene,utterance))
+        prepared=bool((recommendation.get('scene_id') and recommendation.get('score',0)>=.88)
+            or focus_target(current_scene,utterance) or chart_comparison(current_scene,utterance))
         explicit=bool(re.search(r'\b(?:what about|how about|instead of|compared with|versus|can you find|look up|research)\b',utterance,re.I))
         if prepared and len(novel)<2 and not force and not (explicit and novel):
             with self.store.change(pid) as current:
