@@ -116,7 +116,7 @@ def choose_query(context):
     PLAN_TRACE.update(query=criteria.get(query.value),query_confidence=query.confidence)
     # Overlapping n-gram options split confidence. This selects a bounded search
     # candidate, not permission to display it. Relation and source checks follow.
-    if query.value=='none' or query.confidence<.20:return None
+    if query.value=='none':return None
     topic=criteria[query.value]
     known=tokens(' '.join(c['title']+' '+c.get('summary','') for c in context['concepts']))
     if not tokens(topic)-known:

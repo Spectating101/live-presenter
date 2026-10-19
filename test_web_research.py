@@ -85,7 +85,7 @@ class PublicFetch(unittest.TestCase):
         self.assertIn('thermoelectric cooler',candidates(context))
     def test_tentative_query_requires_a_separate_strong_relation_check(self):
         context={'title':'Engineering cooling','brief':'Move heat from a component.','utterance':'A new mechanism','concepts':[]}
-        query=SimpleNamespace(answers={'query':SimpleNamespace(value='0',confidence=.25)},model='fixture')
+        query=SimpleNamespace(answers={'query':SimpleNamespace(value='0',confidence=.01)},model='fixture')
         related=SimpleNamespace(answers={'related':SimpleNamespace(value=.92,confidence=.8)})
         unrelated=SimpleNamespace(answers={'related':SimpleNamespace(value=.02,confidence=.98)})
         with patch.object(web.sources,'candidates',return_value=['new mechanism']),patch.object(web.sources,'assess',side_effect=[query,related]):
@@ -95,8 +95,8 @@ class PublicFetch(unittest.TestCase):
     def test_source_ranking_does_not_substitute_for_a_support_check(self):
         context={'title':'Cooling engineering','utterance':'Heat pipes use phase change','concepts':[]}
         page={'title':'Heat pipes','url':'https://example.edu/pipe','text':'A heat pipe transfers heat by evaporation and condensation of a working fluid.'}
-        select_page=SimpleNamespace(answers={'page':SimpleNamespace(value='0',confidence=.4)})
-        select_source=SimpleNamespace(answers={'source':SimpleNamespace(value='0',confidence=.3)})
+        select_page=SimpleNamespace(answers={'page':SimpleNamespace(value='0',confidence=.01)})
+        select_source=SimpleNamespace(answers={'source':SimpleNamespace(value='0',confidence=.01)})
         for probability,expected in ((.95,'ready'),(.1,'no_match')):
             verify=SimpleNamespace(answers={'source_support':SimpleNamespace(value=probability)})
             with patch.object(web.sources,'choose_query',return_value={'query':'heat pipe'}),patch.object(web,'search',return_value=[page]),patch.object(web,'passages',return_value=[page]),patch.object(web,'discover_media',return_value=[]),patch.object(web.sources,'assess',side_effect=[select_page,select_source,verify]):
