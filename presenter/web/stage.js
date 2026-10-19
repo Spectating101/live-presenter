@@ -23,6 +23,13 @@ async function update() {
       packageHash = state.package_hash;
       current = '';
     }
+    if (state.scene && !cache.has(state.scene.id)) cache.set(state.scene.id, renderScene(state.scene));
+    const preparedIds = new Set(state.scenes.map(scene => scene.id));
+    while (cache.size > preparedIds.size + 8) {
+      const old = [...cache.keys()].find(id => !preparedIds.has(id) && id !== state.scene?.id);
+      if (!old) break;
+      cache.delete(old);
+    }
     const key = `${state.package_hash || ''}:${state.scene?.id || ''}`;
     if (current === key) return;
     current = key;

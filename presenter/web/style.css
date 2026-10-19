@@ -15,3 +15,5 @@
 .compact .supplied-image{max-height:145px}
 .visual-option{min-width:0}.visual-option .visual-thumbnail{width:100%}
 .default-visual{font-size:12px;margin-top:6px}
+
+.web-credit{display:flex;flex-direction:column;gap:.4em}.web-credit a{text-decoration:underline}.research-paper{display:block;font-size:12px;line-height:1.5;margin:10px 0;text-decoration:underline}

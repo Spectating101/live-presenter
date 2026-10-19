@@ -20,6 +20,8 @@ from jev_credentials_v10 import load_jev_env
 from .engine import Conflict, Store, Studio, jev_adviser
 from .materials import ingest
 from .live_audio import LiveAudio, SubprocessRecognizer
+from .research import LiveResearch
+from .research_bridge import ResearchBridge
 
 STATIC = Path(__file__).parent / "web"
 
@@ -52,7 +54,7 @@ def public_project(project):
     return project
 
 
-def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=True, dwell_s=2.5, audio_decoder=None):
+def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=True, dwell_s=2.5, audio_decoder=None, research_backend=None, live_research=False, research_bridge=False):
     writer_lock = (store.root / '.server.lock').open('a')
     try:
         fcntl.flock(writer_lock,fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -78,6 +80,9 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
 
     studio = Studio(store, planner=planner, live_assessor=jev_adviser if use_jev else None, dwell_s=dwell_s)
     audio = LiveAudio(studio, audio_decoder) if audio_decoder else None
+    if research_bridge:research_backend=ResearchBridge()
+    research = LiveResearch(studio,research_backend) if live_research or research_backend is not None else None
+    studio.research = research
 
     class Handler(BaseHTTPRequestHandler):
         server_version = "LivePresenter/1"
@@ -119,9 +124,14 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                 if path == "/api/status":
                     return self.reply(200, {"conversation_available": bool(shutil.which(studio.planner.command)) if hasattr(studio.planner, "command") else True,
                                             "live_adviser": "jev" if use_jev else "prepared_cues", 'local_audio': audio is not None,
+                                            'live_research':research is not None,
+                                            'research_mode':'connected_agent' if research and isinstance(research.backend,ResearchBridge) else 'public_sources',
                                             "formats": ["TXT", "MD", "CSV", "TSV", "PDF", "DOCX", "PNG", "JPEG"]})
                 if path == "/api/example":
                     return self.reply(200, EXAMPLE)
+                if path=='/api/research/job':
+                    if not research or not isinstance(research.backend,ResearchBridge):raise KeyError('No connected research agent mode.')
+                    return self.reply(200,{'job':research.backend.snapshot()})
                 if path == "/api/projects":
                     return self.reply(200, {"projects": store.listing()})
                 parts = path.strip("/").split("/")
@@ -143,6 +153,8 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                         except Conflict:
                             package = None
                         scene = next((s for s in package["scenes"] if s["id"] == p["live"]["current_scene_id"]), None) if package and p['live']['active'] else None
+                        if package and p['live']['active'] and p['live'].get('research_enabled') and p['live'].get('research_scene'):
+                            scene=p['live']['research_scene']
                         return self.reply(200, {"title": package["title"] if package else p["title"], "scene": scene,
                                                 'reflex_enabled':p['live'].get('reflex_enabled',False),
                                                 "state_version": p.get('state_version',0),
@@ -186,6 +198,10 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                     p = store.create(title=str(body.get("title", "")), brief=str(body.get("brief", "")),
                                      audience=str(body.get("audience", "")), sources=sources, provider=body.get("provider", "copilot"))
                     return self.reply(201, project_view(studio.prepare(p["id"])))
+                if path=='/api/research/result':
+                    if not research or not isinstance(research.backend,ResearchBridge):raise KeyError('No connected research agent mode.')
+                    research.backend.supply(str(body.get('job_id','')),body.get('sources'),body.get('status','ready'))
+                    return self.reply(200,{'accepted':True})
                 parts = path.strip("/").split("/")
                 if len(parts) != 4 or parts[:2] != ["api", "projects"]:
                     raise KeyError("Unknown route.")
@@ -207,9 +223,19 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                     result = studio.default_scene(pid,body.get('scene_id'))
                 elif action == "control":
                     result = studio.control(pid, body.get("action"), body.get("scene_id"), body.get('enabled'))
+                    if research and body.get('action')!='start':research.invalidate(pid)
                     if audio:
                         audio.invalidate(pid)
                         result = store.read(pid)
+                elif action=='research':
+                    if not research:raise Conflict('Live research is disabled in this studio.')
+                    current=store.read(pid)['live']
+                    if not current['active'] or not current.get('research_enabled') or current['locked']:
+                        raise Conflict('Start following, enable live research and release Hold before researching a new topic.')
+                    query=str(body.get('query','')).strip()
+                    if not query:raise ValueError('Describe the related topic to research.')
+                    research.observe(pid,query,{},force=True)
+                    result=store.read(pid)
                 elif action == 'audio':
                     if not audio:
                         raise Conflict('Local audio is disabled. Start the studio with --asr-python.')
@@ -245,6 +271,7 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
 
     class LocalServer(ThreadingHTTPServer):
         def server_close(self):
+            if research:research.close()
             if audio:
                 audio.close()
             super().server_close()
@@ -252,6 +279,7 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
     try:
         server = LocalServer((host, port), Handler)
     except Exception:
+        if research:research.close()
         if audio:
             audio.close()
         writer_lock.close()
@@ -260,6 +288,7 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
     server.access_token = access_token
     server.stage_token = stage_token
     server.audio = audio
+    server.research = research
     server.daemon_threads = True
     return server
 
@@ -271,11 +300,13 @@ def main():
     ap.add_argument("--no-jev", action="store_true")
     ap.add_argument("--env-file")
     ap.add_argument('--asr-python', type=Path, help='Enable local PCM recognition with this optional ASR Python environment')
+    ap.add_argument('--research',action='store_true',help='Enable the optional background live source-procurement worker (uses existing Jev credentials).')
+    ap.add_argument('--research-bridge',action='store_true',help='Connect an active research agent through the authenticated research job/result API.')
     args = ap.parse_args()
     load_jev_env(args.env_file)
     enabled = not args.no_jev and bool(os.getenv("JEV_API_KEY") or os.getenv("TYPESAFE_API_KEY"))
     server = make_server(Store(args.data_dir), port=args.port, use_jev=enabled,
-                         audio_decoder=SubprocessRecognizer(args.asr_python) if args.asr_python else None)
+                         audio_decoder=SubprocessRecognizer(args.asr_python) if args.asr_python else None,live_research=args.research,research_bridge=args.research_bridge)
     print(f"Live Presenter studio: http://127.0.0.1:{server.server_port}/#access={server.access_token}", flush=True)
     print("Sources, conversations and approval packages stay in " + str(args.data_dir.resolve()), flush=True)
     try:

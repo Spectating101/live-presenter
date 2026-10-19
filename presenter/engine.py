@@ -57,6 +57,7 @@ class DeadlineAdviser:
 
 def fresh_live():
     return {"active": False, "locked": False, "adviser_enabled": False, "reflex_enabled": False, "current_scene_id": None, "history": [],
+            'research_enabled':False,'research_scene':None,'research':{},
             "transcript": [], "last_seq": -1, "generation": uuid.uuid4().hex, "last_change": 0,
             "candidate_id": None, "candidate_count": 0, "decision": {"action": "HOLD", "reason": "Start a rehearsal after approving the material."}}
 
@@ -72,6 +73,7 @@ def reset_live(project):
     project['live'] = fresh_live()
     project['live']['adviser_enabled'] = previous.get('adviser_enabled', False)
     project['live']['reflex_enabled'] = previous.get('reflex_enabled', False)
+    project['live']['research_enabled'] = previous.get('research_enabled',False)
 
 
 def clear_candidate(live):
@@ -154,6 +156,7 @@ class Studio:
         self.clock = clock or time.time
         self.cue_indexes = {}
         self.cue_lock = threading.RLock()
+        self.research = None
         # Recover interrupted preparation jobs; never resume a public stage after restart.
         for path in store.root.glob("*.json"):
             with store.change(path.stem) as p:
@@ -266,7 +269,7 @@ class Studio:
         with self.store.change(pid) as p:
             package = self.package(p)
             live, scenes = p["live"], package["scenes"]
-            if action not in {'start','adviser','reflex','stop'} and not live['active']:
+            if action not in {'start','adviser','reflex','research','stop'} and not live['active']:
                 raise Conflict('Start the rehearsal before using stage controls.')
             if action == "start":
                 if live['active']:
@@ -291,12 +294,24 @@ class Studio:
                 clear_candidate(live)
                 live["locked"] = False
                 live["generation"] = uuid.uuid4().hex
-            elif action in {'adviser','reflex'}:
+            elif action in {'adviser','reflex','research'}:
+                if action=='research' and self.research is None:
+                    raise Conflict('Start the studio with live research enabled first.')
                 clear_candidate(live)
                 live[action + '_enabled'] = enabled is True
+                if action=='research':
+                    live['research'].update(request_id='',status='idle')
+                    if not enabled:live['research_scene']=None
                 if action == 'reflex' and enabled is True:
                     self.cue_index(p)
                 live['generation'] = uuid.uuid4().hex
+            elif action=='research-show':
+                scene=next((s for s in live.get('research',{}).get('items',[]) if s['id']==scene_id),None)
+                if not scene or not live.get('research_enabled'):
+                    raise ValueError('Choose a retrieved visual from this rehearsal.')
+                clear_candidate(live);live['generation']=uuid.uuid4().hex
+                live['research_scene']=copy.deepcopy(scene);live['last_change']=self.clock()
+                live['decision']={'action':'SHOW_RESEARCH','scene_id':scene['id'],'reason':'Presenter selected a retrieved web source.'}
             elif action in {"next", "back", "show"}:
                 ids = [s["id"] for s in scenes]
                 current = next((s for s in scenes if s['id'] == live['current_scene_id']), scenes[0])
@@ -311,9 +326,12 @@ class Studio:
                 self.show(live, target, "Presenter selected a prepared visual.", remember=action != 'back')
             else:
                 raise ValueError("Unknown stage control.")
+            if action!='start':
+                live.setdefault('research',{}).update(request_id='',status='idle')
         return self.store.read(pid)
 
     def show(self, live, scene_id, reason, *, remember=True):
+        live['research_scene']=None
         if scene_id != live["current_scene_id"]:
             if live["current_scene_id"] and remember:
                 live["history"].append(live["current_scene_id"])
@@ -370,6 +388,8 @@ class Studio:
                        'recent_utterances':[r['text'] for r in live['transcript'][-4:-1]
                                             if self.clock()-r['at'] <= 8]}
         recommendation = index.match(utterance, preferred_kind(utterance)) if index else recommend(package, utterance)
+        if self.research:
+            self.research.observe(pid,utterance,recommendation,generation=session,seq=seq)
         if self.live_assessor and use_adviser and (not index or (
                 not recommendation.get('reflex_ready') and recommendation.get('supported_concepts'))):
             try:
