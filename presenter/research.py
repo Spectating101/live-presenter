@@ -273,7 +273,8 @@ class LiveResearch:
                             items=copy.deepcopy([s for s in original['items'] if s['kind']=='evidence'])[:1]
                             for scene in items:
                                 scene['web_source'].update(revalidated_at=self.clock(),
-                                    revalidation_support_probability=checked.get('plan_decision',{}).get('source_support_probability'))
+                                    revalidation_support_probability=checked.get('plan_decision',{}).get('source_support_probability'),
+                                    revalidation_support_scope=checked.get('plan_decision',{}).get('source_support_scope'))
                             result={**copy.deepcopy(original),**checked,'items':items,
                                 'cache_hit':True,'cache_kind':'topic_revalidated','reuse_source_age_s':self.clock()-created,
                                 'message':'Previously retrieved source rechecked for the current explanation.'}
