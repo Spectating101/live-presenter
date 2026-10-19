@@ -45,9 +45,9 @@ rather than changing system packages. This does not affect offscreen exports.
 
 ## What is dynamic now
 
-- Prepared chart geometry builds in a short, bounded sequence. Source numbers
-  appear at their actual values after each mark finishes; animation does not
-  invent intermediate measurements.
+- Chart geometry and numerical labels are correct from the first frame. An
+  earlier staggered entrance distorted relative bar lengths during the reveal;
+  that effect was removed. Movement is reserved for emphasis and relationships.
 - A prepared category cue shifts emphasis within the same chart. Categories,
   values and their positions remain available for comparison.
 - An explicit two-category comparison computes the difference and, when valid,

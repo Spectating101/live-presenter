@@ -39,7 +39,6 @@ def qt_types():
             self.pending_at = None
             self.animate, self.clock = animate, clock
             self.transition_started = clock()
-            self.reveal = False
             self.from_weights = []
             self.to_weights = []
             self.animation_timer = QTimer(self)
@@ -82,7 +81,6 @@ def qt_types():
                 self.from_weights=previous_weights if same_scene and len(previous_weights)==len(self.to_weights) else [1]*len(self.to_weights)
             else:
                 self.from_weights=self.to_weights=[]
-            self.reveal=not same_scene
             self.transition_started=self.clock()
             if self.animate:self.animation_timer.start(16)
             self.pending_at = received_at if received_at is not None else time.perf_counter()
@@ -178,22 +176,18 @@ def qt_types():
                 p.setBrush(QColor.fromRgbF(*(a+(b-a)*weight for a,b in zip(
                     (muted.redF(),muted.greenF(),muted.blueF()),(ink.redF(),ink.greenF(),ink.blueF())))))
                 height=min(band*.42,h*.105)
-                reveal=1
-                if self.animate and self.reveal:
-                    elapsed=self.clock()-self.transition_started
-                    reveal=min(1,max(0,(elapsed-.22*i/max(1,len(rows)-1))/.42))
-                    reveal=1-(1-reveal)**3
-                endpoint=x(0)+(x(row['value'])-x(0))*reveal
+                # Keep quantitative geometry correct in every frame. Motion
+                # may direct attention, but cannot fabricate transient values.
+                endpoint=x(row['value'])
                 bar=QRectF(min(x(0),endpoint),yy-height/2,abs(endpoint-x(0)),height)
                 p.drawRect(bar)
-                if active and reveal>=.999:
+                if active:
                     p.setBrush(QColor('#152e3c'))
                     p.drawEllipse(QPointF(x(row['value']),yy),max(4,size*.17),max(4,size*.17))
                 p.setPen(QColor('#152e3c'))
                 value_x=x(row['value'])+12 if row['value']>=0 else x(row['value'])-105
                 align=Qt.AlignmentFlag.AlignLeft if row['value']>=0 else Qt.AlignmentFlag.AlignRight
-                if reveal>=.999:
-                    p.drawText(QRectF(value_x,yy-size,94,size*2),align|Qt.AlignmentFlag.AlignVCenter,f"{row['value']:g}")
+                p.drawText(QRectF(value_x,yy-size,94,size*2),align|Qt.AlignmentFlag.AlignVCenter,f"{row['value']:g}")
             p.setFont(self.make_font(h*.029))
             p.setPen(QColor('#243d4a'))
             p.drawText(QRectF(left,bottom+h*.065,right-left,h*.05),Qt.AlignmentFlag.AlignHCenter,axis_label(scene['y']))
