@@ -148,6 +148,52 @@ class LiveResearchAuthority(unittest.TestCase):
         self.research.observe(self.pid,'What about Peltier circulation?',{'scene_id':'prepared','score':.99})
         self.assertTrue(self.backend.entered.wait(1));self.finish()
 
+    def progressive_backend(self):
+        def run_progressive(context,cancel,publish):
+            first=result();publish(first);self.backend.entered.set();self.backend.release.wait(2)
+            enriched=copy.deepcopy(first);enriched['items'][0]['id']+='_enriched'
+            return enriched
+        self.backend.run_progressive=run_progressive
+
+    def test_checked_source_appears_while_optional_enrichment_is_still_running(self):
+        self.progressive_backend();self.queue()
+        p=self.store.read(self.pid)
+        self.assertEqual(p['live']['research_scene']['id'],'web_Heat_pipe')
+        self.assertEqual(p['live']['research']['status'],'enriching')
+        self.assertFalse(p['research_history'][-1]['final'])
+        self.studio.dwell_s=100  # An upgrade of this same source is not a new topic.
+        p=self.finish()
+        self.assertEqual(p['live']['research_scene']['id'],'web_Heat_pipe_enriched')
+        self.assertEqual(len(p['research_history']),1)
+        self.assertTrue(p['research_history'][-1]['final'])
+
+    def test_hold_rejects_optional_upgrade_but_retains_the_already_shown_source(self):
+        self.progressive_backend();self.queue();self.studio.control(self.pid,'hold');p=self.finish()
+        self.assertEqual(p['live']['research_scene']['id'],'web_Heat_pipe')
+        self.assertEqual(p['research_history'][-1]['displayed_scene_ids'],['web_Heat_pipe'])
+
+    def test_stop_during_enrichment_clears_the_source_and_rejects_the_upgrade(self):
+        self.progressive_backend();self.queue();self.studio.control(self.pid,'stop');p=self.finish()
+        self.assertIsNone(p['live']['research_scene'])
+
+    def test_enrichment_failure_keeps_the_checked_source(self):
+        def run_progressive(context,cancel,publish):
+            publish(result());raise TimeoutError('image lookup too slow')
+        self.backend.run_progressive=run_progressive
+        self.research.observe(self.pid,'What about heat pipes and condensation?',{},force=True)
+        until(lambda:self.store.read(self.pid)['live']['research'].get('status')=='ready')
+        p=self.store.read(self.pid)
+        self.assertEqual(p['live']['research_scene']['id'],'web_Heat_pipe')
+        self.assertTrue(p['live']['research']['errors'])
+
+    def test_stable_new_topic_can_start_before_the_general_cooldown(self):
+        self.research.cooldown_s=100
+        with self.store.change(self.pid) as p:
+            p['live']['research']={'status':'no_match','last_requested':time.time()-2,'requested_novel':['old'],'request_count':0,'assessment_count':1}
+            p['live']['transcript']=[{'text':'semiconductor voltage transport','at':time.time()},{'text':'semiconductor voltage transport mechanism','at':time.time()}]
+        self.research.observe(self.pid,'semiconductor voltage transport mechanism',{})
+        self.assertTrue(self.backend.entered.wait(1));self.finish()
+
 
 class ConnectedResearchAgent(unittest.TestCase):
     def test_actual_http_handoff_is_operator_only_and_stop_rejects_a_pending_answer(self):
@@ -258,6 +304,16 @@ class ProcurementSources(unittest.TestCase):
     def test_oversized_provider_output_is_rejected(self):
         backend=ResearchProcess(timeout_s=2,command=[sys.executable,'-c','print("x"*2000001)'])
         with self.assertRaises(ValueError):backend.run({},threading.Event())
+
+    def test_subprocess_stream_publishes_before_optional_work_finishes(self):
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as folder:
+            gate=Path(folder)/'published';source=result()
+            script='import json,time;from pathlib import Path;print(json.dumps({"progress":'+repr(source)+'}),flush=True)\nwhile not Path('+repr(str(gate))+').exists():time.sleep(.01)\nprint(json.dumps('+repr(source)+'),flush=True)'
+            backend=ResearchProcess(timeout_s=2,command=[sys.executable,'-c',script]);published=[]
+            def publish(packet):published.append(packet);gate.touch()
+            completed=backend.run_progressive({},threading.Event(),publish)
+            self.assertEqual(completed['status'],'ready');self.assertEqual(len(published),1)
 
 
 if __name__=='__main__':unittest.main()

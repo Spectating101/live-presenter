@@ -23,6 +23,7 @@ research lane for evaluating causal visual editing and an advisory learned polic
 - `SUPPLIED_VISUALS.md` — supplied images, presenter-selected defaults and a follow-up test with original graphics and CSV values
 - `LIVE_RESEARCH.md` — background lookup of unprepared related topics, online diagrams and source quotes; optional connected browsing-agent handoff
 - `RESEARCHED_REHEARSAL.md` — automatic web procurement before preparation, unattended live search and a continuous paced-audio probe
+- `FASTER_LIVE_RESEARCH.md` — progressive source publication, paired backend timing and a preserved recognition failure
 - `RESEARCH_ROADMAP.md` — current execution plan, measured results, acceptance gates and blockers
 - `make verify` — reproducible offline checks from this checkout
 - `HANDOFF.md` — canonical project handoff and restart instructions

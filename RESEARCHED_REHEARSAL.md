@@ -67,6 +67,10 @@ new lookup attempts. A rejected ambiguous fragment that never produces a search
 query does not consume a lookup slot. The six-second automatic request cooldown,
 latest-only scheduling, eight-entry/five-minute exact-query cache, 20-second
 topic freshness window and 25-second provider-process budget remain in effect.
+`FASTER_LIVE_RESEARCH.md` adds an early reassessment exception for stable new
+speech cues and progressive publication of checked sources before enrichment.
+It records paired backend timing separately from the unsuccessful follow-up
+audio replay; the earlier audio measurements below are preserved unchanged.
 
 ## Public web integration
 
