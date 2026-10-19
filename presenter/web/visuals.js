@@ -5,7 +5,7 @@ export function el(tag, className = '', value = '') {
   return node;
 }
 
-const labels = { definition: 'THE IDEA', flow: 'HOW IT WORKS', comparison: 'A CLOSER LOOK', metric: 'BY THE NUMBERS', chart: 'THE MEASUREMENTS', evidence: 'THE SOURCE', image: 'THE VISUAL' };
+const labels = { definition: 'THE IDEA', flow: 'HOW IT WORKS', comparison: 'A CLOSER LOOK', metric: 'BY THE NUMBERS', chart: 'THE MEASUREMENTS', evidence: 'THE SOURCE', image: 'THE VISUAL', annotated_image: 'A CLOSER LOOK' };
 
 export function renderScene(scene, compact = false) {
   const root = el('article', `scene kind-${scene.kind}${compact ? ' compact' : ''}`);
@@ -38,6 +38,8 @@ export function renderScene(scene, compact = false) {
     content.append(el('div', 'metric-value', scene.value), el('p', 'metric-label', scene.label));
   } else if (scene.kind === 'chart') {
     content.append(chart(scene));
+  } else if (scene.kind === 'annotated_image') {
+    content.append(annotatedImage(scene));
   } else if (scene.kind === 'image') {
     const picture = el('img', 'supplied-image');
     picture.alt = scene.asset.alt;
@@ -73,6 +75,80 @@ export function renderScene(scene, compact = false) {
   } else footer.append(el('span', '', names.join(' · ') + (scene.data_note ? ' · ' + scene.data_note : '')), el('span', 'scene-mark', '↗'));
   root.append(footer);
   return root;
+}
+
+function annotatedImage(scene) {
+  const canvas = el('figure', 'annotation-canvas');
+  canvas.style.setProperty('--image-ratio', scene.asset.width / scene.asset.height);
+  const picture = el('img', 'annotation-image');
+  picture.src = scene.asset.data_url;
+  picture.alt = scene.asset.alt;
+  picture.width = scene.asset.width; picture.height = scene.asset.height;
+  canvas.append(picture);
+  const ns = 'http://www.w3.org/2000/svg';
+  const overlay = document.createElementNS(ns, 'svg');
+  overlay.setAttribute('viewBox', '0 0 1000 1000');
+  overlay.setAttribute('preserveAspectRatio', 'none');
+  overlay.setAttribute('aria-hidden', 'true');
+  overlay.classList.add('attention-overlay');
+  scene.annotations.forEach(target => {
+    const group = document.createElementNS(ns, 'g');
+    group.dataset.attentionId = target.id;
+    const line = document.createElementNS(ns, 'line');
+    Object.entries({x1: target.x * 1000, y1: target.y * 1000,
+      x2: target.label_x * 1000, y2: target.label_y * 1000}).forEach(([key,value]) => line.setAttribute(key, value));
+    line.classList.add('attention-leader');
+    const ring = document.createElementNS(ns, 'ellipse');
+    Object.entries({cx: target.x * 1000, cy: target.y * 1000, rx: 14,
+      ry: 14 * scene.asset.width / scene.asset.height}).forEach(([key,value]) => ring.setAttribute(key, value));
+    ring.classList.add('attention-ring');
+    group.append(line,ring); overlay.append(group);
+  });
+  canvas.append(overlay);
+  scene.annotations.forEach(target => {
+    const label = el('span', 'attention-label', target.label);
+    label.dataset.attentionId = target.id;
+    // Label placement is reviewed with the image. The bounded label width
+    // and clamped position keep text inside the image at narrow viewports.
+    label.style.left = `clamp(4.5rem, ${target.label_x * 100}%, calc(100% - 4.5rem))`;
+    label.style.top = `clamp(1.5rem, ${target.label_y * 100}%, calc(100% - 1.5rem))`;
+    canvas.append(label);
+  });
+  attentionResize?.observe(canvas);
+  return canvas;
+}
+
+function alignLabels(canvas) {
+  const frame = canvas.getBoundingClientRect();
+  if (!frame.width || !frame.height) return;
+  canvas.querySelectorAll('.attention-label:not([hidden])').forEach(label => {
+    const box = label.getBoundingClientRect();
+    const line = canvas.querySelector(`g[data-attention-id="${label.dataset.attentionId}"] line`);
+    line.setAttribute('x2', ((box.left + box.width / 2 - frame.left) / frame.width) * 1000);
+    line.setAttribute('y2', ((box.top + box.height / 2 - frame.top) / frame.height) * 1000);
+  });
+}
+
+const attentionResize = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(entries => {
+  entries.forEach(({target}) => {
+    if (target.isConnected) alignLabels(target);
+    else attentionResize.unobserve(target);
+  });
+});
+
+export function applyAttention(container, scene, attention) {
+  if (!scene || scene.kind !== 'annotated_image') return;
+  const active = attention?.scene_id === scene.id &&
+    scene.annotations.some(target => target.id === attention.annotation_id) ? attention.annotation_id : '';
+  const illustration = container.querySelector('.annotation-canvas');
+  if (!illustration) return;
+  illustration.dataset.attention = active;
+  illustration.querySelectorAll('[data-attention-id]').forEach(node => {
+    node.dataset.focused = String(node.dataset.attentionId === active);
+    if (node.classList.contains('attention-label')) node.hidden = node.dataset.attentionId !== active;
+  });
+  alignLabels(illustration);
+  attentionResize?.observe(illustration);
 }
 
 function chart(scene) {

@@ -19,3 +19,24 @@
 .web-credit{display:flex;flex-direction:column;gap:.4em}.web-credit a{text-decoration:underline}.research-paper{display:block;font-size:12px;line-height:1.5;margin:10px 0;text-decoration:underline}
 
 .projector-fullscreen{position:fixed;right:12px;top:12px;z-index:10;padding:8px 12px;border:1px solid #8da299;border-radius:6px;background:#17372d;color:#fff;font-size:12px;opacity:.55}.projector-fullscreen:hover,.projector-fullscreen:focus-visible{opacity:1}.projector-fullscreen-status{position:fixed;bottom:8px;left:12px;right:12px;z-index:10;color:#fff;text-align:center;font-size:12px;background:#17372d}.projector-fullscreen-status:empty{display:none}
+
+/* Keep one source image spatially stable; signal a referent in place. */
+.kind-annotated_image{padding:3%}
+.kind-annotated_image .scene-header h2{font-size:clamp(18px,2.8cqw,42px)}
+.kind-annotated_image .scene-kicker{display:none}
+.kind-annotated_image .scene-content{container-type:size;align-items:center;padding:1cqw 0}
+.annotation-canvas{position:relative;margin:0;width:min(100cqw,calc(100cqh * var(--image-ratio)));aspect-ratio:var(--image-ratio);flex-shrink:0;max-width:100%}
+.annotation-image{display:block;width:100%;height:100%;object-fit:contain}
+.attention-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.attention-ring{fill:var(--white);fill-opacity:.15;stroke:var(--orange);stroke-width:2;vector-effect:non-scaling-stroke}
+.attention-leader{stroke:var(--orange);stroke-width:2;vector-effect:non-scaling-stroke}
+.attention-label{position:absolute;transform:translate(-50%,-50%);max-width:min(9rem,calc(100% - 1rem));padding:.3em .45em;background:var(--white);color:var(--ink);border-left:3px solid var(--orange);font-size:clamp(12px,1.7cqw,28px);line-height:1.35;overflow-wrap:anywhere}
+.annotation-canvas[data-attention] g .attention-leader{opacity:0}
+.annotation-canvas[data-attention] g .attention-ring{opacity:.3}
+.annotation-canvas[data-attention] g[data-focused=true] .attention-leader,.annotation-canvas[data-attention] g[data-focused=true] .attention-ring{opacity:1}
+.annotation-canvas g[data-focused=true] .attention-ring{stroke-width:4}
+.attention-controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.attention-controls:empty{display:none}
+.attention-controls [aria-pressed=true]{background:var(--sage);border-color:var(--green)}
+.compact .attention-label{display:none}
+.compact.kind-annotated_image .scene-header h2{font-size:clamp(11px,5cqw,21px)}

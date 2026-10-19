@@ -165,6 +165,7 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                             scene=p['live']['research_scene']
                         return self.reply(200, {"title": package["title"] if package else p["title"], "scene": scene,
                                                 'reflex_enabled':p['live'].get('reflex_enabled',False),
+                                                'attention':p['live'].get('attention') if scene else None,
                                                 "state_version": p.get('state_version',0),
                                                 "package_hash": p["approval"]["package_hash"] if package else None,
                                                 "scenes": package["scenes"] if package else []})
@@ -230,7 +231,7 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                 elif action == 'default-scene':
                     result = studio.default_scene(pid,body.get('scene_id'))
                 elif action == "control":
-                    result = studio.control(pid, body.get("action"), body.get("scene_id"), body.get('enabled'))
+                    result = studio.control(pid, body.get("action"), body.get("scene_id"), body.get('enabled'), body.get('annotation_id'))
                     if research and body.get('action')!='start':research.invalidate(pid)
                     if audio:
                         audio.invalidate(pid)

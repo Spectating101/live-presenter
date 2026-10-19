@@ -1,4 +1,4 @@
-import { el, renderScene } from '/visuals.js';
+import { el, renderScene, applyAttention } from '/visuals.js';
 import { LocalMicrophone } from '/microphone.js';
 
 const $ = id => document.getElementById(id);
@@ -159,6 +159,10 @@ function renderPreparation(p) {
     const heading = el('div', 'concept-heading');
     heading.append(el('span', 'concept-number', String(index + 1).padStart(2, '0')), el('h3', '', concept.title));
     card.append(heading, el('p', 'concept-summary', concept.summary));
+    if (concept.explanation) {
+      card.append(el('p', 'concept-summary', 'Audience question: ' + concept.explanation.question));
+      if (concept.explanation.rationale) card.append(el('p', 'concept-summary', concept.explanation.rationale));
+    }
     const grid = el('div', 'visual-grid');
     plan.scenes.filter(s => s.concept_id === concept.id).forEach(scene => {
       const option = el('div', 'visual-option');
@@ -206,7 +210,21 @@ function renderLive(p) {
       standby.append(el('span', 'brand-mark', '↗'), el('h2', '', 'Ready when you are.'), el('p', '', 'Start the rehearsal to bring your story onto the stage.'));
       $('stage-preview').replaceChildren(standby);
     }
+    $('attention-controls').replaceChildren();
+    if (scene?.kind === 'annotated_image') {
+      [null, ...scene.annotations].forEach(target => {
+        const button = el('button', 'button secondary', target?.label || 'Whole image');
+        button.dataset.attentionId = target?.id || '';
+        button.onclick = () => action('control', {action:'focus', annotation_id:target?.id || null}).catch(e => notify(e.message));
+        $('attention-controls').append(button);
+      });
+    }
   }
+  applyAttention($('stage-preview'), scene, p.live.attention);
+  $('attention-controls').querySelectorAll('button').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.attentionId === (p.live.attention?.annotation_id || '')));
+    button.disabled = !p.live.active;
+  });
   $('live-library').querySelectorAll('button').forEach(b => b.classList.toggle('current', b.dataset.sceneId === scene?.id));
   $('start').hidden = p.live.active;
   $('stop').disabled = !p.live.active;

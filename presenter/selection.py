@@ -13,6 +13,9 @@ def choose_scene(package, concept_id, preferred=None, advised=None):
     default = next((s for s in scenes if s['id'] == concept.get('default_scene_id')), None)
     if default:
         return default
+    illustration = next((s for s in scenes if s['kind'] == 'annotated_image'), None)
+    if illustration:
+        return illustration
     # A classifier saying "evidence" is not a request to replace the current
     # explanation with quotation cards. Explicit requests use preferred above.
     return next((s for s in scenes if advised != 'evidence' and s['kind'] == advised), scenes[0])

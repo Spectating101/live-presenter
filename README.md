@@ -6,6 +6,18 @@ partner, review the visual alternatives and approve a version. During the talk,
 the app follows your explanation through that prepared material while you retain
 direct stage controls.
 
+The target is a live explanation environment: choose the visual form that makes
+the idea understandable, procure missing material as needed, and let speech
+direct attention within it. It is not a slide-deck generator. See
+[`EXPLANATION_DESIGN.md`](EXPLANATION_DESIGN.md) for the research basis, current
+implementation and the audience evidence still needed.
+
+The audience output is the visual itself, with no visible webpage or operator
+interface. The new native path renders charts and images directly, supports
+speech-cue focus and grounded comparisons, and exports motion samples headlessly.
+Start with [`NATIVE_OUTPUT.md`](NATIVE_OUTPUT.md). The existing web studio is a
+legacy operator/diagnostic tool, rather than the target presentation experience.
+
 The new local studio implements this preparation-to-stage loop. It is a functional
 prototype with backend acceptance checks; browser layout and physical microphone/
 projector operation remain unverified. The repository also contains the v10
@@ -13,6 +25,8 @@ research lane for evaluating causal visual editing and an advisory learned polic
 
 ## Start here
 
+- `make native-preview` — export the native visual-only motion sample without using the screen (optional native dependencies)
+- `make native-test` — test native output and attention offscreen
 - `make studio` — run the new preparation-first local app; open its terminal access URL
 - `STUDIO.md` — intake, clarification, visual review, approval, rehearsal and projector guide
 - `RECORDED_TALKS.md` — real audio replay, original-video comparison and measured pilot limitations

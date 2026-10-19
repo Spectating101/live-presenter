@@ -1,4 +1,4 @@
-import { renderScene, el } from '/visuals.js';
+import { renderScene, el, applyAttention } from '/visuals.js';
 const root = document.getElementById('projector-stage');
 const fullscreenButton = document.getElementById('projector-fullscreen');
 const fullscreenStatus = document.getElementById('projector-fullscreen-status');
@@ -29,7 +29,7 @@ if (bootstrap.has('access')) {
   sessionStorage.setItem('presenter_stage_' + pid, bootstrap.get('access'));
   history.replaceState(null, '', location.pathname);
 }
-let current = '', packageHash = '', cache = new Map(), lastVersion = -1;
+let current = '', renderedSceneKey = '', packageHash = '', cache = new Map(), lastVersion = -1;
 let renderSamples = [];
 
 async function update() {
@@ -48,6 +48,7 @@ async function update() {
       cache = new Map(state.scenes.map(scene => [scene.id, renderScene(scene)]));
       packageHash = state.package_hash;
       current = '';
+      renderedSceneKey = '';
     }
     if (state.scene && !cache.has(state.scene.id)) cache.set(state.scene.id, renderScene(state.scene));
     const preparedIds = new Set(state.scenes.map(scene => scene.id));
@@ -56,19 +57,26 @@ async function update() {
       if (!old) break;
       cache.delete(old);
     }
-    const key = `${state.package_hash || ''}:${state.scene?.id || ''}`;
+    const sceneKey = `${state.package_hash || ''}:${state.scene?.id || ''}`;
+    const key = `${sceneKey}:${state.attention?.annotation_id || ''}`;
     if (current === key) return;
     current = key;
+    const sameIllustration = renderedSceneKey === sceneKey && state.scene?.kind === 'annotated_image';
     const replace = () => {
-      if (state.scene) root.replaceChildren(cache.get(state.scene.id).cloneNode(true));
+      if (state.scene && !sameIllustration) root.replaceChildren(cache.get(state.scene.id).cloneNode(true));
       else {
-        const standby = el('div', 'stage-standby');
-        standby.append(el('span', 'brand-mark', '↗'), el('h1', '', state.title), el('p', '', 'Ready when you are.'));
-        root.replaceChildren(standby);
+        if (!state.scene) {
+          const standby = el('div', 'stage-standby');
+          standby.append(el('span', 'brand-mark', '↗'), el('h1', '', state.title), el('p', '', 'Ready when you are.'));
+          root.replaceChildren(standby);
+        }
       }
+      renderedSceneKey = sceneKey;
+      applyAttention(root, state.scene, state.attention);
       performance.clearMeasures('presenter-stage-dom');
       performance.measure('presenter-stage-dom', { start: receivedAt, end: performance.now() });
       const sample = {state_version: state.state_version, scene_id: state.scene?.id || null,
+        annotation_id:state.attention?.annotation_id || null, preserved_illustration:sameIllustration,
         initial_packet: initialPacket,
         received_epoch_ms: receivedEpochMs, dom_epoch_ms: Date.now(),
         dom_ms: performance.now() - receivedAt, frame_opportunity_ms: null,
@@ -88,10 +96,10 @@ async function update() {
         root.dataset.renderSamples = JSON.stringify(renderSamples);
       }));
     };
-    if (!state.reflex_enabled && document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(replace);
+    if (!sameIllustration && !state.reflex_enabled && document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(replace);
     else replace();
   } catch {
-    // Keep the last approved visual and retry a dropped long poll.
+    // Keep the last visual and retry a dropped long poll.
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
 }

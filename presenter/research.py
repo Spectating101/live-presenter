@@ -14,6 +14,7 @@ import time
 import uuid
 
 from .language import tokens,STOP
+from .explanation import explanation_need, presentation_fit, focus_target
 
 
 class ResearchProcess:
@@ -117,11 +118,13 @@ class LiveResearch:
         if seq is not None and live['last_seq']!=seq:return
         package=self.studio.package(p)
         known=tokens(' '.join(c['title']+' '+c['summary']+' '+' '.join(c['aliases']) for c in package['concepts']))
+        known |= tokens(' '.join(phrase for scene in package['scenes'] for target in scene.get('annotations', []) for phrase in target['cue_phrases']))
         recent=[r['text'] for r in live['transcript'][-4:-1] if self.clock()-r['at']<=8]
         from .research_sources import spoken_context
         topic_speech=spoken_context({'utterance':utterance,'recent_past':recent})
         novel=tokens(topic_speech)-known-{'compared','instead','please','find','show','explain','could','would','about','tell'}
-        prepared=bool(recommendation.get('scene_id') and recommendation.get('score',0)>=.88)
+        current_scene = next((s for s in package['scenes'] if s['id'] == live['current_scene_id']), None)
+        prepared=bool((recommendation.get('scene_id') and recommendation.get('score',0)>=.88) or focus_target(current_scene,utterance))
         explicit=bool(re.search(r'\b(?:what about|how about|instead of|compared with|versus|can you find|look up|research)\b',utterance,re.I))
         if prepared and len(novel)<2 and not force and not (explicit and novel):
             with self.store.change(pid) as current:
@@ -170,6 +173,12 @@ class LiveResearch:
         request_id=uuid.uuid4().hex
         context={'title':package['title'],'brief':p['brief'],'concepts':[{k:c[k] for k in ('title','summary','aliases')} for c in package['concepts']],
                  'utterance':utterance[:600],'recent_past':recent}
+        need = explanation_need(topic_speech, p.get('audience', ''))
+        current_scene = next((s for s in package['scenes'] if s['id'] == live['current_scene_id']), None)
+        current_concept = next((c for c in package['concepts'] if current_scene and c['id'] == current_scene['concept_id']), {})
+        if need['missing_intent'] and current_concept.get('explanation', {}).get('goal'):
+            need = explanation_need(topic_speech, p.get('audience', ''), goal=current_concept['explanation']['goal'])
+        context['explanation_need'] = need
         job={'pid':pid,'generation':live['generation'],'package_hash':p['approval']['package_hash'],
              'request_id':request_id,'context':context,'cancel':threading.Event(),
              'cache_key':cache_key,'queued_at':now,'reuse':reuse}
@@ -209,21 +218,32 @@ class LiveResearch:
             research['plan_decision']=result.get('plan_decision',{})
             research['allow_auto_display']=result.get('allow_auto_display',True)
             research['timing']=result.get('timing',{})
+            need = job['context'].get('explanation_need')
+            fits = {s['id']: presentation_fit(s, need) for s in items}
+            research['explanation_need'] = copy.deepcopy(need)
+            research['presentation_fit'] = fits
             if items and not fresh:research['message']='Material arrived after the topic expired; retained backstage.'
             elif items and not result.get('allow_auto_display',True):research['message']='Material found with uncertain topic context; retained backstage for review.'
             if final and result['status']=='no_match' and not result.get('query') and not result.get('cache_hit'):
                 research['request_count']=max(0,research.get('request_count',1)-1)
             displayed=False
             current=p['live'].get('research_scene')
-            same_source=bool(current and items and current['object_id']==items[0]['object_id'])
-            if items and fresh and result.get('allow_auto_display',True) and (same_source or self.studio.clock()-p['live']['last_change']>=self.studio.dwell_s):
-                p['live']['research_scene']=copy.deepcopy(items[0])
-                if not current or current['id']!=items[0]['id']:p['live']['last_change']=self.studio.clock()
-                p['live']['decision']={'action':'SHOW_RESEARCH','scene_id':items[0]['id'],
+            suitable = [s for s in items if fits[s['id']]['automatic']]
+            if need and need['goal'] == 'source':
+                suitable.sort(key=lambda s: s['kind'] != 'evidence')
+            chosen = suitable[0] if suitable else None
+            if items and not chosen:
+                research['message'] = fits[items[0]['id']]['reason'] + ' Retained backstage; the current visual stays.'
+            same_source=bool(current and chosen and current['object_id']==chosen['object_id'])
+            if chosen and fresh and result.get('allow_auto_display',True) and (same_source or self.studio.clock()-p['live']['last_change']>=self.studio.dwell_s):
+                p['live']['research_scene']=copy.deepcopy(chosen)
+                p['live']['attention']=None
+                if not current or current['id']!=chosen['id']:p['live']['last_change']=self.studio.clock()
+                p['live']['decision']={'action':'SHOW_RESEARCH','scene_id':chosen['id'],
                     'reason':'Showing a related web source; retrieved live, not presenter-reviewed.'}
                 displayed=True
                 job['displayed']=True
-                if items[0]['id'] not in job.setdefault('displayed_scene_ids',[]):job['displayed_scene_ids'].append(items[0]['id'])
+                if chosen['id'] not in job.setdefault('displayed_scene_ids',[]):job['displayed_scene_ids'].append(chosen['id'])
             if items:
                 job.setdefault('first_result_at',self.clock())
                 research['first_result_latency_s']=job['first_result_at']-job.get('queued_at',job['first_result_at'])
@@ -239,6 +259,7 @@ class LiveResearch:
                 'allow_auto_display':result.get('allow_auto_display',True),
                 'utterance':job['context']['utterance'],'recent_past':job['context']['recent_past'],
                 'plan_decision':result.get('plan_decision',{}),'classifier_calls':result.get('classifier_calls',[]),
+                'explanation_need':copy.deepcopy(need),'presentation_fit':fits,
                 'message':result.get('message',''),'errors':result.get('errors',[]),
                 'sources':[{'scene_id':s['id'],'url':s['web_source']['url'],'image_url':s['web_source'].get('image_url'),
                             'asset_sha256':s.get('asset',{}).get('sha256'),'quote':s['source_refs'][0]['quote']} for s in items]}

@@ -20,6 +20,7 @@ from .planning import CopilotPreparation, PlanError, source_outline
 from .language import tokens
 from .reflex import CueIndex
 from .selection import choose_scene
+from .explanation import focus_target, attention_targets, chart_comparison
 
 
 class Conflict(ValueError):
@@ -57,7 +58,7 @@ class DeadlineAdviser:
 
 def fresh_live():
     return {"active": False, "locked": False, "adviser_enabled": False, "reflex_enabled": False, "current_scene_id": None, "history": [],
-            'research_enabled':False,'research_scene':None,'research':{},
+            'research_enabled':False,'research_scene':None,'research':{},'attention':None,'last_focus_change':0,
             "transcript": [], "last_seq": -1, "generation": uuid.uuid4().hex, "last_change": 0,
             "candidate_id": None, "candidate_count": 0, "decision": {"action": "HOLD", "reason": "Start a rehearsal after approving the material."}}
 
@@ -275,7 +276,7 @@ class Studio:
             raise Conflict("This material has no current, intact approval.")
         return a["package"]
 
-    def control(self, pid, action, scene_id=None, enabled=None):
+    def control(self, pid, action, scene_id=None, enabled=None, annotation_id=None):
         with self.store.change(pid) as p:
             package = self.package(p)
             live, scenes = p["live"], package["scenes"]
@@ -321,7 +322,16 @@ class Studio:
                     raise ValueError('Choose a retrieved visual from this rehearsal.')
                 clear_candidate(live);live['generation']=uuid.uuid4().hex
                 live['research_scene']=copy.deepcopy(scene);live['last_change']=self.clock()
+                live['attention']=None
                 live['decision']={'action':'SHOW_RESEARCH','scene_id':scene['id'],'reason':'Presenter selected a retrieved web source.'}
+            elif action == 'focus':
+                scene = next((s for s in scenes if s['id'] == live['current_scene_id']), None)
+                if not scene or not attention_targets(scene) or live.get('research_scene'):
+                    raise Conflict('Focus needs the current prepared illustration or chart.')
+                if annotation_id is not None and annotation_id not in {a['id'] for a in attention_targets(scene)}:
+                    raise ValueError('Choose a prepared attention target.')
+                clear_candidate(live);live['generation']=uuid.uuid4().hex
+                self.focus(live, scene, annotation_id, 'Presenter directed attention within the current visual.')
             elif action in {"next", "back", "show"}:
                 ids = [s["id"] for s in scenes]
                 current = next((s for s in scenes if s['id'] == live['current_scene_id']), scenes[0])
@@ -341,6 +351,9 @@ class Studio:
         return self.store.read(pid)
 
     def show(self, live, scene_id, reason, *, remember=True):
+        if live.get('research_scene') or scene_id != live['current_scene_id']:
+            live['attention'] = None
+            live['last_focus_change'] = 0
         live['research_scene']=None
         if scene_id != live["current_scene_id"]:
             if live["current_scene_id"] and remember:
@@ -349,6 +362,11 @@ class Studio:
             live["current_scene_id"] = scene_id
             live["last_change"] = self.clock()
         live["decision"] = {"action": "SHOW", "scene_id": scene_id, "reason": reason}
+
+    def focus(self, live, scene, annotation_id, reason):
+        live['attention'] = {'scene_id': scene['id'], 'annotation_id': annotation_id}
+        live['last_focus_change'] = self.clock()
+        live['decision'] = {'action':'FOCUS', 'scene_id':scene['id'], 'annotation_id':annotation_id, 'reason':reason}
 
     def cue_index(self, project):
         key = (project['approval']['package_hash'], project['approval']['source_hash'])
@@ -443,17 +461,37 @@ class Studio:
                 return p  # Delayed advice cannot change a newer session/utterance.
             if expires_at is not None and self.clock() > expires_at:
                 clear_candidate(live)
+                live['recommendation'] = {**recommendation, 'expired': True}
                 live['decision'] = {'action':'HOLD', 'reason':'Audio expired before matching completed; retaining the stage.'}
                 return p
             candidate = recommendation["scene_id"]
             live["candidate_count"] = live["candidate_count"] + 1 if candidate == live["candidate_id"] else 1
             live["candidate_id"] = candidate
             live["recommendation"] = recommendation
+            current_scene = next((s for s in package['scenes'] if s['id'] == live['current_scene_id']), None)
             reason = ("Several prepared ideas could fit; retaining the stage until the meaning is clearer."
                       if recommendation.get('supported_concepts') else "No supported prepared visual for this utterance; retaining the stage.")
             if live["locked"]:
                 reason = "Stage held by presenter; recommendation stays backstage."
-            elif candidate and recommendation["score"] >= .45:
+            elif (current_scene and attention_targets(current_scene) and not live.get('research_scene')
+                  and (not candidate or candidate == live['current_scene_id'])):
+                comparison = chart_comparison(current_scene, utterance)
+                if comparison and self.clock() - live.get('last_focus_change',0) >= self.dwell_s:
+                    live['attention'] = {'scene_id':current_scene['id'], 'annotation_id':None,
+                        'target_ids':comparison['target_ids'], 'comparison':comparison}
+                    live['last_focus_change'] = self.clock()
+                    live['decision'] = {'action':'COMPARE','scene_id':current_scene['id'],
+                        'reason':'Comparing the requested categories using approved data values.'}
+                    return p
+                target = focus_target(current_scene, utterance)
+                previous = (live.get('attention') or {}).get('annotation_id')
+                if target and target != previous and self.clock() - live.get('last_focus_change', 0) >= self.dwell_s:
+                    self.focus(live, current_scene, target, 'Prepared spoken cue directed attention within the same visual.')
+                    return p
+                if candidate == live['current_scene_id']:
+                    live['decision'] = {'action':'HOLD', 'reason':'Retaining the current illustration and attention.'}
+                    return p
+            if not live['locked'] and candidate and recommendation["score"] >= .45:
                 if self.clock() - live["last_change"] < self.dwell_s:
                     reason = "Current visual is still inside its minimum display time."
                 elif recommendation["confirmed"] or (not index and (

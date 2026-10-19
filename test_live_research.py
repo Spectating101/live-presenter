@@ -53,7 +53,7 @@ class LiveResearchAuthority(unittest.TestCase):
         self.research=LiveResearch(self.studio,self.backend,cooldown_s=0);self.studio.research=self.research
         self.studio.control(self.pid,'start');self.studio.control(self.pid,'research',enabled=True)
     def tearDown(self):self.backend.release.set();self.research.close();self.temp.cleanup()
-    def queue(self,text='What about heat pipes using evaporation and condensation?'):
+    def queue(self,text='Show the source for heat pipes using evaporation and condensation.'):
         self.research.observe(self.pid,text,{},force=True)
         self.assertTrue(self.backend.entered.wait(1))
     def finish(self):
@@ -67,10 +67,15 @@ class LiveResearchAuthority(unittest.TestCase):
         self.assertTrue(self.backend.entered.wait(1))
         self.assertIsNone(self.store.read(self.pid)['live']['research_scene'])
         p=self.finish()
-        self.assertEqual(p['live']['research_scene']['title'],'Heat pipe')
+        self.assertIsNone(p['live']['research_scene'])
+        self.assertEqual(p['live']['research']['items'][0]['title'],'Heat pipe')
         self.assertEqual(p['approval']['package_hash'],self.original_hash)
         self.assertNotIn('web_Heat_pipe',[s['id'] for s in p['approval']['package']['scenes']])
-        self.assertTrue(p['research_history'][-1]['displayed_automatically'])
+        self.assertFalse(p['research_history'][-1]['displayed_automatically'])
+        self.assertIn('explanatory visual',p['live']['research']['message'])
+        self.assertIn('preferred_media',self.backend.calls[0]['explanation_need'])
+        p=self.studio.control(self.pid,'research-show',scene_id=p['live']['research']['items'][0]['id'])
+        self.assertEqual(p['live']['research_scene']['title'],'Heat pipe')
 
     def reject_after(self,action,**kwargs):
         self.queue();self.studio.control(self.pid,action,**kwargs);p=self.finish()
@@ -124,7 +129,7 @@ class LiveResearchAuthority(unittest.TestCase):
         self.assertEqual(self.store.read(self.pid)['live']['research']['status'],'limit')
 
     def test_pending_topic_supersedes_old_result(self):
-        self.queue();self.research.observe(self.pid,'Discuss thermoelectric semiconductor modules and voltage.',{},force=True)
+        self.queue();self.research.observe(self.pid,'Show the source for thermoelectric semiconductor modules and voltage.',{},force=True)
         p=self.finish()
         until(lambda:self.store.read(self.pid)['live']['research'].get('status')=='ready')
         p=self.store.read(self.pid)
@@ -180,7 +185,7 @@ class LiveResearchAuthority(unittest.TestCase):
         def run_progressive(context,cancel,publish):
             publish(result());raise TimeoutError('image lookup too slow')
         self.backend.run_progressive=run_progressive
-        self.research.observe(self.pid,'What about heat pipes and condensation?',{},force=True)
+        self.research.observe(self.pid,'Show the source for heat pipes and condensation.',{},force=True)
         until(lambda:self.store.read(self.pid)['live']['research'].get('status')=='ready')
         p=self.store.read(self.pid)
         self.assertEqual(p['live']['research_scene']['id'],'web_Heat_pipe')
@@ -211,7 +216,8 @@ class LiveResearchAuthority(unittest.TestCase):
         p=self.store.read(self.pid)
         self.assertEqual(len(self.backend.calls),1);self.assertEqual(p['live']['research']['request_count'],12)
         self.assertEqual(p['live']['research']['assessment_count'],2)
-        self.assertEqual(p['live']['research_scene']['title'],'Heat pipe')
+        self.assertIsNone(p['live']['research_scene'])
+        self.assertEqual(p['live']['research']['items'][0]['title'],'Heat pipe')
         self.assertEqual(p['research_history'][-1]['cache_kind'],'topic_revalidated')
         self.assertEqual(list(self.research.cache.values())[0][0],created)
         self.assertEqual(p['approval']['package_hash'],self.original_hash)
@@ -287,7 +293,7 @@ class ConnectedResearchAgent(unittest.TestCase):
                 until(lambda:call(url)['job']['status']=='ready');p=call(url)
                 p=call(url+'/approve',{'revision':p['revision'],'reviewed':True});approval=p['approval']['package_hash']
                 p=call(url+'/control',{'action':'start'});p=call(url+'/control',{'action':'research','enabled':True})
-                call(url+'/transcript',{'text':'What about heat pipes and evaporation?','seq':0,'final':True,'generation':p['live']['generation']})
+                call(url+'/transcript',{'text':'Show the source for heat pipes and evaporation.','seq':0,'final':True,'generation':p['live']['generation']})
                 until(lambda:call('/api/research/job')['job'] is not None)
                 job=call('/api/research/job')['job']
                 with self.assertRaises(urllib.error.HTTPError) as error:call('/api/research/job',key=p['stage_access'])

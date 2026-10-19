@@ -1,0 +1,2 @@
+# Optional native output only; no browser engine or Qt WebEngine.
+PySide6-Essentials==6.12.0
