@@ -90,6 +90,14 @@ class LiveResearchAuthority(unittest.TestCase):
         self.assertEqual(p['live']['research']['items'][0]['title'],'Heat pipe')
         self.assertFalse(p['research_history'][-1]['displayed_automatically'])
 
+    def test_uncertain_relation_can_retrieve_material_without_automatic_display(self):
+        self.backend.run=lambda context,cancel:{**result(),'allow_auto_display':False}
+        self.research.observe(self.pid,'What about an alternative heat-transfer mechanism?',{},force=True)
+        until(lambda:self.store.read(self.pid)['live']['research'].get('status')=='ready')
+        p=self.store.read(self.pid)
+        self.assertTrue(p['live']['research']['items']);self.assertIsNone(p['live']['research_scene'])
+        self.assertFalse(p['research_history'][-1]['displayed_automatically'])
+
     def test_old_transcript_generation_and_sequence_cannot_start_research(self):
         old=self.store.read(self.pid)['live']['generation'];self.studio.control(self.pid,'hold');self.studio.control(self.pid,'resume')
         self.research.observe(self.pid,'What about heat pipes and evaporation?',{},generation=old,seq=0)

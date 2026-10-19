@@ -92,6 +92,18 @@ class PublicFetch(unittest.TestCase):
             self.assertEqual(web.sources.choose_query(context)['query'],'new mechanism')
         with patch.object(web.sources,'candidates',return_value=['new mechanism']),patch.object(web.sources,'assess',side_effect=[query,unrelated]):
             self.assertIsNone(web.sources.choose_query(context))
+    def test_source_ranking_does_not_substitute_for_a_support_check(self):
+        context={'title':'Cooling engineering','utterance':'Heat pipes use phase change','concepts':[]}
+        page={'title':'Heat pipes','url':'https://example.edu/pipe','text':'A heat pipe transfers heat by evaporation and condensation of a working fluid.'}
+        select_page=SimpleNamespace(answers={'page':SimpleNamespace(value='0',confidence=.4)})
+        select_source=SimpleNamespace(answers={'source':SimpleNamespace(value='0',confidence=.3)})
+        for probability,expected in ((.95,'ready'),(.1,'no_match')):
+            verify=SimpleNamespace(answers={'source_support':SimpleNamespace(value=probability)})
+            with patch.object(web.sources,'choose_query',return_value={'query':'heat pipe'}),patch.object(web,'search',return_value=[page]),patch.object(web,'passages',return_value=[page]),patch.object(web,'discover_media',return_value=[]),patch.object(web.sources,'assess',side_effect=[select_page,select_source,verify]):
+                result=web.procure(context)
+            self.assertEqual(result['status'],expected)
+            if expected=='ready':self.assertEqual(result['items'][0]['source_refs'][0]['quote'],page['text'])
+            else:self.assertEqual(result['items'],[])
 
 
 class ResearchedPreparation(unittest.TestCase):

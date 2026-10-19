@@ -155,10 +155,13 @@ class LiveResearch:
               cache_hit=result.get('cache_hit',False),provider_scope=result.get('provider_scope',[]))
             research['classifier_calls']=result.get('classifier_calls',[])
             research['plan_decision']=result.get('plan_decision',{})
+            research['allow_auto_display']=result.get('allow_auto_display',True)
+            if items and not fresh:research['message']='Material arrived after the topic expired; retained backstage.'
+            elif items and not result.get('allow_auto_display',True):research['message']='Material found with uncertain topic context; retained backstage for review.'
             if result['status']=='no_match' and not result.get('query') and not result.get('cache_hit'):
                 research['request_count']=max(0,research.get('request_count',1)-1)
             displayed=False
-            if items and fresh and self.studio.clock()-p['live']['last_change']>=self.studio.dwell_s:
+            if items and fresh and result.get('allow_auto_display',True) and self.studio.clock()-p['live']['last_change']>=self.studio.dwell_s:
                 p['live']['research_scene']=copy.deepcopy(items[0])
                 p['live']['last_change']=self.studio.clock()
                 p['live']['decision']={'action':'SHOW_RESEARCH','scene_id':items[0]['id'],
@@ -166,6 +169,7 @@ class LiveResearch:
                 displayed=True
             p.setdefault('research_history',[]).append({'completed_at':self.clock(),'query':result.get('query',''),
                 'status':result['status'],'package_hash':job['package_hash'],'displayed_automatically':displayed,
+                'allow_auto_display':result.get('allow_auto_display',True),
                 'utterance':job['context']['utterance'],'recent_past':job['context']['recent_past'],
                 'plan_decision':result.get('plan_decision',{}),'classifier_calls':result.get('classifier_calls',[]),
                 'message':result.get('message',''),'errors':result.get('errors',[]),
