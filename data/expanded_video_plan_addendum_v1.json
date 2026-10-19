@@ -1,0 +1,14 @@
+{
+  "schema": "live_presenter.expanded_video_plan_addendum.v1",
+  "timing": "Added after McCandless preparation failures, before either McCandless follower run. Sivers follower results were already available.",
+  "trigger": "Initial Copilot draft covered five broad ideas and omitted multiple substantial source sections. Both an expanded preparation request and an exact-quote repair request failed source-quotation validation.",
+  "additional_conditions": [
+    "Evaluate the original valid five-idea partial draft unchanged in an isolated development workspace; missing source sections remain in the scoring denominator.",
+    "Evaluate a separately labeled ten-idea Copilot package created after the operator supplied compact exact-quote candidates. Operator source review corrects the mystery dataset and its Facebook reveal being framed as two examples. This assisted condition is not counted as automatic preparation success."
+  ],
+  "frozen_controller_changes": false,
+  "reference": "Write both package-bound references before inspecting McCandless follower outputs. Preserve both first-pass results without retuning.",
+  "pre_run_correction": "Before either McCandless follower run, the compact quote repair succeeded. The prior long repair request contained 10,748 characters and was truncated by the application's 5,000-character message limit; that failure includes an operator input mistake. The initial expansion request also failed quote validation. The successful plan was produced by Copilot with operator assistance, rather than manually authored in full.",
+  "partial_reference_rule": "The original draft's broad knowledge-compression idea is accepted for evidence curation and updateable exploration. Data-soil/Facebook, visual-CV/senses and political perspectives have no supplied topic-specific concept and remain in the scoring denominator.",
+  "qualification": "This adds an assisted preparation condition to diagnose a failure. It does not establish independent editorial quality or erase the preparation failures."
+}

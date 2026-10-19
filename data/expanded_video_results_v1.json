@@ -1,0 +1,1540 @@
+{
+  "schema": "live_presenter.expanded_video_results.v1",
+  "created_utc": "2026-10-17T16:17:29.730273+00:00",
+  "base_commit": "bfeebe9f9b826eac343cd16f318d6e65533e825d",
+  "prospective_plan_sha256": "486bf829a0a53046593bdb44efecf2e76ffdd1c2590bb985c0c576d2fcefd326",
+  "prospective_addendum_sha256": "77509f02d2315ef8cc1f76df981d546294631d263c19aca76d132dab43a8b31f",
+  "scope": "Two new TED recordings with frozen controller; same-talk untimed transcript preparation. Three package conditions, six full audio replays, one separately measured paced native audio run. Coarse implementation-operator reference, not independent editorial quality.",
+  "timing_model": "Full replay models serial ASR and latest-available scheduling using measured per-window recognition durations; it is accelerated, not actual playback-speed execution. The Sivers paced run separately measures the real worker.",
+  "frozen_code": {
+    "engine.py": "cdef7066fabb754b7a54111036467fbd49da3182ad3489eac1f1775f1d33f963",
+    "reflex.py": "ef35942bb5a6d345dfdeb35337c48d2d30070fac69e6222bba26455baa82b261",
+    "language.py": "88a6b267389ccd7695ef55b134cda60f61277cef25774224599adcae10ae2c82",
+    "recording.py": "14ce7e3f3d02443538106b7741a171d5bed37853cdc15d612123f7314433f3b3",
+    "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+    "live_probe.py": "0126d87971d89fea318ce25ccd6eadd0e45e3035d684317578c7a78730b22725"
+  },
+  "conditions": {
+    "sivers": {
+      "label": "Five source-reviewed Copilot ideas after clarification",
+      "reference": {
+        "package_hash": "dc0007c64aa6cf05e2fe5c20a1dd21f7dc998272ed01c56f2c2ee7f08d4a30d5",
+        "reviewer": "Codex implementation operator",
+        "independent": false,
+        "fixed_before_follower_replay": true,
+        "boundary_exclusion_s": 6,
+        "timing_basis": "Official cue boundaries plus approximate 3.3-second media intro; sampled original frames. Camera cuts are not topic changes.",
+        "ambiguous_passages": [
+          "The recap explicitly returns to the first-follower idea, so either that idea or the combined recap/conclusion idea is acceptable there. The final exhortation is scored as the conclusion."
+        ],
+        "visual_comparison_notes": "The original hillside footage is the concrete evidence for the explanation. Prepared flows/comparisons can summarize the argument, but this transcript-only package cannot show or coordinate that footage. Rhetorical crowd counts are not general empirical thresholds.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 14.3,
+            "label": "Introducing the demonstration",
+            "acceptable_concept_ids": [
+              "concept_d8382e54ed5e"
+            ],
+            "original_visual": "Speaker with the hillside clip on screen"
+          },
+          {
+            "start": 14.3,
+            "end": 53.54,
+            "label": "Initiator and first follower",
+            "acceptable_concept_ids": [
+              "concept_f3cfda6b1d07"
+            ],
+            "original_visual": "Footage of the lone dancer, first joiner and welcoming interaction"
+          },
+          {
+            "start": 53.54,
+            "end": 70.3,
+            "label": "Followers become publicly visible",
+            "acceptable_concept_ids": [
+              "concept_1a22f9491773"
+            ],
+            "original_visual": "Additional dancers join; observers can see ordinary followers"
+          },
+          {
+            "start": 70.3,
+            "end": 106.24,
+            "label": "Momentum and lower participation risk",
+            "acceptable_concept_ids": [
+              "concept_b5c885f43db9"
+            ],
+            "original_visual": "The group rapidly grows across the hillside"
+          },
+          {
+            "start": 106.24,
+            "end": 124.4,
+            "label": "Recap: nurture early followers",
+            "acceptable_concept_ids": [
+              "concept_f3cfda6b1d07",
+              "concept_8285d62d0154"
+            ],
+            "original_visual": "Speaker recaps alongside the continuing crowd footage"
+          },
+          {
+            "start": 124.4,
+            "end": 159.3,
+            "label": "Concluding lesson about following",
+            "acceptable_concept_ids": [
+              "concept_8285d62d0154"
+            ],
+            "original_visual": "Speaker and crowd footage; spoken argument challenges the focus on leaders"
+          }
+        ]
+      },
+      "visual_review": {
+        "schema": "live_presenter.visual_input_review.v1",
+        "reviewer": "Codex implementation operator",
+        "independent": false,
+        "timing": "Written after inspecting source frames and approved package, before follower replay outputs.",
+        "package_hash": "dc0007c64aa6cf05e2fe5c20a1dd21f7dc998272ed01c56f2c2ee7f08d4a30d5",
+        "reference_sha256": "eddd1a85c1159ed7e785d5532b0a090ab31713d36907d03cc2ada27e65afab71",
+        "frame_manifest_sha256": "95188f57b6f2d992d8a4de0023cb451c7704348b748e78247a12ec04ae126350",
+        "preparation_inputs": {
+          "untimed_transcript": true,
+          "original_footage_as_asset": false,
+          "dataset": false
+        },
+        "prepared_scene_kinds": [
+          "comparison",
+          "definition",
+          "evidence",
+          "flow",
+          "metric"
+        ],
+        "observations": [
+          {
+            "section": "Initiator and first follower",
+            "reference_evidence": "Visible solo dancer and first joiner",
+            "prepared_relation": "Flow and role comparison preserve the verbal explanation",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Followers become publicly visible",
+            "reference_evidence": "Actual people joining and being imitated",
+            "prepared_relation": "Comparison explains leader/follower roles",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Momentum and lower participation risk",
+            "reference_evidence": "The temporal growth of the crowd",
+            "prepared_relation": "Ordered flow summarizes the described progression",
+            "essential_visual_evidence_supplied": false
+          }
+        ],
+        "finding": "Potentially useful argument summary; does not replace the demonstration footage. No audience-usefulness score."
+      },
+      "pre_replay_bindings": {
+        "created_utc": "2026-10-17T16:06:26.950504+00:00",
+        "frozen_plan_sha256": "486bf829a0a53046593bdb44efecf2e76ffdd1c2590bb985c0c576d2fcefd326",
+        "reference_sha256": "eddd1a85c1159ed7e785d5532b0a090ab31713d36907d03cc2ada27e65afab71",
+        "visual_review_sha256": "8e9657290f5fef19818c06d04e95800c62f951365e55d0129f88dc4d276bea0f",
+        "asr_sha256": "97d5b0d7ecc7f1386fddae2b9fd4e281846fd6fc71fc27f195197acb2b9063f2",
+        "package_hash": "dc0007c64aa6cf05e2fe5c20a1dd21f7dc998272ed01c56f2c2ee7f08d4a30d5"
+      },
+      "results": {
+        "local": {
+          "metrics": {
+            "development_chapter_alignment": 0.963648264948572,
+            "scored_s": 87.30000000000001,
+            "aligned_s": 84.12649353001035,
+            "chapters": [
+              {
+                "label": "Introducing the demonstration",
+                "scored_s": 2.3000000000000007,
+                "aligned_s": 2.3000000000000007,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 0,
+                "original_visual": "Speaker with the hillside clip on screen"
+              },
+              {
+                "label": "Initiator and first follower",
+                "scored_s": 27.24,
+                "aligned_s": 24.066493530010337,
+                "fraction": 0.883498294053243,
+                "first_matching_visual_lag_s": 4.72613119201851,
+                "original_visual": "Footage of the lone dancer, first joiner and welcoming interaction"
+              },
+              {
+                "label": "Followers become publicly visible",
+                "scored_s": 4.759999999999998,
+                "aligned_s": 4.759999999999998,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 1.8442240149970175,
+                "original_visual": "Additional dancers join; observers can see ordinary followers"
+              },
+              {
+                "label": "Momentum and lower participation risk",
+                "scored_s": 23.939999999999998,
+                "aligned_s": 23.939999999999998,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.1036991799657727,
+                "original_visual": "The group rapidly grows across the hillside"
+              },
+              {
+                "label": "Recap: nurture early followers",
+                "scored_s": 6.160000000000011,
+                "aligned_s": 6.160000000000011,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 2.2271176380070443,
+                "original_visual": "Speaker recaps alongside the continuing crowd footage"
+              },
+              {
+                "label": "Concluding lesson about following",
+                "scored_s": 22.900000000000006,
+                "aligned_s": 22.900000000000006,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 0.0,
+                "original_visual": "Speaker and crowd footage; spoken argument challenges the focus on leaders"
+              }
+            ],
+            "visual_changes_during_audio": 6,
+            "ideas_displayed_during_audio": 5,
+            "prepared_ideas": 5,
+            "asr_processing_s": 96.28789914329536,
+            "asr_processing_real_time_factor": 0.557212166276371,
+            "chunk_end_to_decision_p50_s": 0.4746658169897273,
+            "chunk_end_to_decision_p95_s": 1.5009939309966285,
+            "chunk_end_to_decision_max_s": 2.483669868990546,
+            "processed_windows": 170,
+            "dropped_windows": 3,
+            "rejected_windows": 4,
+            "token_budget_reached_windows": 1,
+            "adviser_calls": 0,
+            "adviser_failures": 0,
+            "clear_cue_reflex_decisions": 121,
+            "misaligned_changes_within_scored_sections": [
+              {
+                "at": 22.86795245599933,
+                "scene_id": "concept_b5c885f43db9_0",
+                "expected_section": "Initiator and first follower"
+              }
+            ],
+            "adviser_models": [],
+            "causality_violations": 0,
+            "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness.",
+            "same_idea_view_changes": 0,
+            "same_idea_view_change_details": []
+          },
+          "result_sha256": "b2193d1f228e39f0b595a3a405701ef42087c8d7fc8d94bfd955209e7afde279",
+          "source_url": "https://www.ted.com/talks/derek_sivers_how_to_start_a_movement",
+          "asr_sha256": "97d5b0d7ecc7f1386fddae2b9fd4e281846fd6fc71fc27f195197acb2b9063f2",
+          "package_hash": "dc0007c64aa6cf05e2fe5c20a1dd21f7dc998272ed01c56f2c2ee7f08d4a30d5",
+          "audio_sha256": "228ec6e6c7a441aade263a3f384dee4358e15590e439bc1891ca301220dc0fa0",
+          "preparation_sha256": "0907de5260afeadbaaabb72c4782a5cd82cf9fc6267b8eeb8a72466d25010f18",
+          "duration_s": 172.8029375
+        },
+        "jev": {
+          "metrics": {
+            "development_chapter_alignment": 0.9638605019241547,
+            "scored_s": 87.30000000000001,
+            "aligned_s": 84.14502181797872,
+            "chapters": [
+              {
+                "label": "Introducing the demonstration",
+                "scored_s": 2.3000000000000007,
+                "aligned_s": 2.3000000000000007,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 0,
+                "original_visual": "Speaker with the hillside clip on screen"
+              },
+              {
+                "label": "Initiator and first follower",
+                "scored_s": 27.24,
+                "aligned_s": 24.085021817978703,
+                "fraction": 0.8841784808362226,
+                "first_matching_visual_lag_s": 4.726091410021763,
+                "original_visual": "Footage of the lone dancer, first joiner and welcoming interaction"
+              },
+              {
+                "label": "Followers become publicly visible",
+                "scored_s": 4.759999999999998,
+                "aligned_s": 4.759999999999998,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 1.84648886900046,
+                "original_visual": "Additional dancers join; observers can see ordinary followers"
+              },
+              {
+                "label": "Momentum and lower participation risk",
+                "scored_s": 23.939999999999998,
+                "aligned_s": 23.939999999999998,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.1136777599924272,
+                "original_visual": "The group rapidly grows across the hillside"
+              },
+              {
+                "label": "Recap: nurture early followers",
+                "scored_s": 6.160000000000011,
+                "aligned_s": 6.160000000000011,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 2.226782116011023,
+                "original_visual": "Speaker recaps alongside the continuing crowd footage"
+              },
+              {
+                "label": "Concluding lesson about following",
+                "scored_s": 22.900000000000006,
+                "aligned_s": 22.900000000000006,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 0.0,
+                "original_visual": "Speaker and crowd footage; spoken argument challenges the focus on leaders"
+              }
+            ],
+            "visual_changes_during_audio": 6,
+            "ideas_displayed_during_audio": 5,
+            "prepared_ideas": 5,
+            "asr_processing_s": 96.28789914329536,
+            "asr_processing_real_time_factor": 0.557212166276371,
+            "chunk_end_to_decision_p50_s": 0.48959403397748247,
+            "chunk_end_to_decision_p95_s": 1.5147005709877703,
+            "chunk_end_to_decision_max_s": 2.483669546985766,
+            "processed_windows": 170,
+            "dropped_windows": 3,
+            "rejected_windows": 4,
+            "token_budget_reached_windows": 1,
+            "adviser_calls": 13,
+            "adviser_failures": 0,
+            "clear_cue_reflex_decisions": 121,
+            "misaligned_changes_within_scored_sections": [
+              {
+                "at": 22.883297428983497,
+                "scene_id": "concept_b5c885f43db9_0",
+                "expected_section": "Initiator and first follower"
+              }
+            ],
+            "adviser_models": [
+              "jev-1.13.0"
+            ],
+            "causality_violations": 0,
+            "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness.",
+            "same_idea_view_changes": 0,
+            "same_idea_view_change_details": []
+          },
+          "result_sha256": "e52be55a8df63ae1b01686e16e595087ee87f68870b053c789d02b4d095c29b2",
+          "source_url": "https://www.ted.com/talks/derek_sivers_how_to_start_a_movement",
+          "asr_sha256": "97d5b0d7ecc7f1386fddae2b9fd4e281846fd6fc71fc27f195197acb2b9063f2",
+          "package_hash": "dc0007c64aa6cf05e2fe5c20a1dd21f7dc998272ed01c56f2c2ee7f08d4a30d5",
+          "audio_sha256": "228ec6e6c7a441aade263a3f384dee4358e15590e439bc1891ca301220dc0fa0",
+          "preparation_sha256": "0907de5260afeadbaaabb72c4782a5cd82cf9fc6267b8eeb8a72466d25010f18",
+          "duration_s": 172.8029375
+        }
+      },
+      "comparison_json_sha256": "85770b7d6a6faedf8bb174d8490436f64cc2cc37fabde84dd0702e0a2b2d0023",
+      "comparison_html_sha256": "e7d527d7a201462ca31f4aa3f3863e9a1f5f8f07d72351348acfaa2c17834e07"
+    },
+    "mccandless-default": {
+      "label": "Original valid partial five-idea Copilot draft, source-reviewed and reapproved only as a deliberately incomplete evaluation baseline.",
+      "reference": {
+        "package_hash": "a4c675a3c6bb84223f5757df587c58e9b86d215e02aba2ee2137f0a971a4c8b7",
+        "reviewer": "Codex implementation operator",
+        "independent": false,
+        "fixed_before_follower_replay": true,
+        "boundary_exclusion_s": 6,
+        "timing_basis": "Official cue section boundaries plus approximate 3.3-second media intro; sampled original frames. Six-second boundary exclusion.",
+        "ambiguous_passages": [
+          "The partial draft explicitly mentions evidence compression and updateable exploration, so its broad conclusion concept is accepted during curation and living-image sections. It has no supplied topic-specific idea for data-soil/Facebook, visual-CV/senses or political perspectives; those sections remain in the denominator with no acceptable idea."
+        ],
+        "visual_comparison_notes": "Topic matching does not establish chart fidelity or audience usefulness. Neither condition receives the original figures, CSV datasets, visual CV, political map or interactive application.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 29.3,
+            "label": "Information overload",
+            "acceptable_concept_ids": [
+              "concept_52d752948192"
+            ],
+            "original_visual": "Speaker introduces visualization"
+          },
+          {
+            "start": 29.3,
+            "end": 166.3,
+            "label": "Billion-dollar scale",
+            "acceptable_concept_ids": [
+              "concept_b5e9801ea5be"
+            ],
+            "original_visual": "Area-scaled financial boxes"
+          },
+          {
+            "start": 166.3,
+            "end": 297.3,
+            "label": "Media fear patterns",
+            "acceptable_concept_ids": [
+              "concept_991437d7f91b"
+            ],
+            "original_visual": "Fear timelines and media peaks"
+          },
+          {
+            "start": 297.3,
+            "end": 452.3,
+            "label": "Data soil and Facebook breakups",
+            "acceptable_concept_ids": [],
+            "original_visual": "Seasonal breakup pattern and reveal"
+          },
+          {
+            "start": 452.3,
+            "end": 609.3,
+            "label": "Visual literacy and sensory language",
+            "acceptable_concept_ids": [],
+            "original_visual": "Visual CV and sensory bandwidth graphic"
+          },
+          {
+            "start": 609.3,
+            "end": 737.3,
+            "label": "Relative military measures",
+            "acceptable_concept_ids": [
+              "concept_935a85cf0830"
+            ],
+            "original_visual": "Absolute and relative military comparisons"
+          },
+          {
+            "start": 737.3,
+            "end": 826.3,
+            "label": "Historical supplement evidence and curation",
+            "acceptable_concept_ids": [
+              "concept_d63ae8660fec"
+            ],
+            "original_visual": "Evidence versus popularity bubble chart"
+          },
+          {
+            "start": 826.3,
+            "end": 877.3,
+            "label": "Living spreadsheet images",
+            "acceptable_concept_ids": [
+              "concept_d63ae8660fec"
+            ],
+            "original_visual": "Interactive filtering of the bubble chart"
+          },
+          {
+            "start": 877.3,
+            "end": 986.3,
+            "label": "Political perspectives",
+            "acceptable_concept_ids": [],
+            "original_visual": "Connected map of political ideas"
+          },
+          {
+            "start": 986.3,
+            "end": 1071.3,
+            "label": "Information design and volcano",
+            "acceptable_concept_ids": [
+              "concept_d63ae8660fec"
+            ],
+            "original_visual": "Information design conclusion and emissions area comparison"
+          }
+        ]
+      },
+      "visual_review": {
+        "schema": "live_presenter.visual_input_review.v1",
+        "reviewer": "Codex implementation operator",
+        "independent": false,
+        "timing": "Source-frame and package review fixed before either McCandless follower output.",
+        "package_hash": "a4c675a3c6bb84223f5757df587c58e9b86d215e02aba2ee2137f0a971a4c8b7",
+        "reference_sha256": "af15551e5598e0ef42d223d8072a35143389310ea961556ba90dabbdb57bca0c",
+        "frame_manifest_sha256": "2dca46d6d03f6eb01e8e479234db70b781162e7bacd5c3e5d1d4d4b6ebcebaad",
+        "preparation_inputs": {
+          "untimed_transcript": true,
+          "original_figures_as_assets": false,
+          "dataset": false
+        },
+        "prepared_scene_kinds": [
+          "comparison",
+          "definition",
+          "evidence",
+          "flow"
+        ],
+        "observations": [
+          {
+            "section": "Billion-dollar scale",
+            "reference_evidence": "Area-scaled financial boxes",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Media fear patterns",
+            "reference_evidence": "Fear timelines and media peaks",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Data soil and Facebook breakups",
+            "reference_evidence": "Seasonal breakup pattern and reveal",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Visual literacy and sensory language",
+            "reference_evidence": "Visual CV and sensory bandwidth graphic",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Relative military measures",
+            "reference_evidence": "Absolute and relative military comparisons",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Historical supplement evidence and curation",
+            "reference_evidence": "Evidence versus popularity bubble chart",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Living spreadsheet images",
+            "reference_evidence": "Interactive filtering of the bubble chart",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Political perspectives",
+            "reference_evidence": "Connected map of political ideas",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Information design and volcano",
+            "reference_evidence": "Information design conclusion and emissions area comparison",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          }
+        ],
+        "finding": "Summary cards cannot reproduce the quantitative patterns, shapes, visual joke/reveal, worldview map or interactive filtering demonstrated in the original. The expanded condition improves source-topic coverage but does not add those visual assets. No audience-usefulness score."
+      },
+      "pre_replay_bindings": {
+        "created_utc": "2026-10-17T16:13:40.319283+00:00",
+        "frozen_plan_sha256": "486bf829a0a53046593bdb44efecf2e76ffdd1c2590bb985c0c576d2fcefd326",
+        "reference_sha256": "af15551e5598e0ef42d223d8072a35143389310ea961556ba90dabbdb57bca0c",
+        "visual_review_sha256": "3cf53d6871b62acd19d75458596b4f743f8f6bb16593521e5adc6a4d934342c9",
+        "asr_sha256": "6ba8161e203ba36e84546e5921505030cc93ff7133dfcca9a556196868ae6812",
+        "package_hash": "a4c675a3c6bb84223f5757df587c58e9b86d215e02aba2ee2137f0a971a4c8b7"
+      },
+      "results": {
+        "local": {
+          "metrics": {
+            "development_chapter_alignment": 0.5436985793009429,
+            "scored_s": 951.3,
+            "aligned_s": 517.220458488987,
+            "chapters": [
+              {
+                "label": "Information overload",
+                "scored_s": 17.3,
+                "aligned_s": 17.3,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 0,
+                "original_visual": "Speaker introduces visualization"
+              },
+              {
+                "label": "Billion-dollar scale",
+                "scored_s": 125.00000000000001,
+                "aligned_s": 124.2516009539948,
+                "fraction": 0.9940128076319582,
+                "first_matching_visual_lag_s": 6.748399046005215,
+                "original_visual": "Area-scaled financial boxes"
+              },
+              {
+                "label": "Media fear patterns",
+                "scored_s": 119.0,
+                "aligned_s": 119.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.1056090029771326,
+                "original_visual": "Fear timelines and media peaks"
+              },
+              {
+                "label": "Data soil and Facebook breakups",
+                "scored_s": 143.0,
+                "aligned_s": 0,
+                "fraction": 0.0,
+                "first_matching_visual_lag_s": null,
+                "original_visual": "Seasonal breakup pattern and reveal"
+              },
+              {
+                "label": "Visual literacy and sensory language",
+                "scored_s": 144.99999999999994,
+                "aligned_s": 0,
+                "fraction": 0.0,
+                "first_matching_visual_lag_s": null,
+                "original_visual": "Visual CV and sensory bandwidth graphic"
+              },
+              {
+                "label": "Relative military measures",
+                "scored_s": 116.0,
+                "aligned_s": 116.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 2.1499676620180708,
+                "original_visual": "Absolute and relative military comparisons"
+              },
+              {
+                "label": "Historical supplement evidence and curation",
+                "scored_s": 77.0,
+                "aligned_s": 28.786569489003114,
+                "fraction": 0.3738515518052352,
+                "first_matching_visual_lag_s": 54.213430510996886,
+                "original_visual": "Evidence versus popularity bubble chart"
+              },
+              {
+                "label": "Living spreadsheet images",
+                "scored_s": 39.0,
+                "aligned_s": 39.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 0.0,
+                "original_visual": "Interactive filtering of the bubble chart"
+              },
+              {
+                "label": "Political perspectives",
+                "scored_s": 97.0,
+                "aligned_s": 0,
+                "fraction": 0.0,
+                "first_matching_visual_lag_s": null,
+                "original_visual": "Connected map of political ideas"
+              },
+              {
+                "label": "Information design and volcano",
+                "scored_s": 73.0,
+                "aligned_s": 72.88228804598907,
+                "fraction": 0.9983875074793024,
+                "first_matching_visual_lag_s": 6.117711954010929,
+                "original_visual": "Information design conclusion and emissions area comparison"
+              }
+            ],
+            "visual_changes_during_audio": 7,
+            "ideas_displayed_during_audio": 5,
+            "prepared_ideas": 5,
+            "asr_processing_s": 472.95017406818806,
+            "asr_processing_real_time_factor": 0.43777300623464205,
+            "chunk_end_to_decision_p50_s": 0.40023730898974463,
+            "chunk_end_to_decision_p95_s": 0.786490575002972,
+            "chunk_end_to_decision_max_s": 2.000336449011229,
+            "processed_windows": 1081,
+            "dropped_windows": 0,
+            "rejected_windows": 3,
+            "token_budget_reached_windows": 3,
+            "adviser_calls": 0,
+            "adviser_failures": 0,
+            "clear_cue_reflex_decisions": 503,
+            "misaligned_changes_within_scored_sections": [
+              {
+                "at": 512.6888859000173,
+                "scene_id": "concept_d63ae8660fec_0",
+                "expected_section": "Visual literacy and sensory language"
+              },
+              {
+                "at": 980.2946058739908,
+                "scene_id": "concept_935a85cf0830_0",
+                "expected_section": "Political perspectives"
+              }
+            ],
+            "adviser_models": [],
+            "causality_violations": 0,
+            "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness.",
+            "same_idea_view_changes": 0,
+            "same_idea_view_change_details": []
+          },
+          "result_sha256": "4dd613066bd36e27875d17ea0ac38aba4c0d1015a0d435b26db7013a2f2ca6a7",
+          "source_url": "https://www.ted.com/talks/david_mccandless_the_beauty_of_data_visualization",
+          "asr_sha256": "6ba8161e203ba36e84546e5921505030cc93ff7133dfcca9a556196868ae6812",
+          "package_hash": "a4c675a3c6bb84223f5757df587c58e9b86d215e02aba2ee2137f0a971a4c8b7",
+          "audio_sha256": "f48c4da48f7a285bfe472bc6011cc72cac02949b46a294353f62309c8e902650",
+          "preparation_sha256": "2882b440f381ea5e6c5edb8bbebbfcea72ffec1f8fc1734d1eac0902e9959e8b",
+          "duration_s": 1080.3548125
+        },
+        "jev": {
+          "metrics": {
+            "development_chapter_alignment": 0.5436913724103928,
+            "scored_s": 951.3,
+            "aligned_s": 517.2136025740066,
+            "chapters": [
+              {
+                "label": "Information overload",
+                "scored_s": 17.3,
+                "aligned_s": 17.3,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 0,
+                "original_visual": "Speaker introduces visualization"
+              },
+              {
+                "label": "Billion-dollar scale",
+                "scored_s": 125.00000000000001,
+                "aligned_s": 124.25308175700485,
+                "fraction": 0.9940246540560387,
+                "first_matching_visual_lag_s": 6.746918242995161,
+                "original_visual": "Area-scaled financial boxes"
+              },
+              {
+                "label": "Media fear patterns",
+                "scored_s": 119.0,
+                "aligned_s": 119.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.109074611001404,
+                "original_visual": "Fear timelines and media peaks"
+              },
+              {
+                "label": "Data soil and Facebook breakups",
+                "scored_s": 143.0,
+                "aligned_s": 0,
+                "fraction": 0.0,
+                "first_matching_visual_lag_s": null,
+                "original_visual": "Seasonal breakup pattern and reveal"
+              },
+              {
+                "label": "Visual literacy and sensory language",
+                "scored_s": 144.99999999999994,
+                "aligned_s": 0,
+                "fraction": 0.0,
+                "first_matching_visual_lag_s": null,
+                "original_visual": "Visual CV and sensory bandwidth graphic"
+              },
+              {
+                "label": "Relative military measures",
+                "scored_s": 116.0,
+                "aligned_s": 116.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 2.1539929330058385,
+                "original_visual": "Absolute and relative military comparisons"
+              },
+              {
+                "label": "Historical supplement evidence and curation",
+                "scored_s": 77.0,
+                "aligned_s": 28.78361400800054,
+                "fraction": 0.37381316893507194,
+                "first_matching_visual_lag_s": 54.21638599199946,
+                "original_visual": "Evidence versus popularity bubble chart"
+              },
+              {
+                "label": "Living spreadsheet images",
+                "scored_s": 39.0,
+                "aligned_s": 39.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 0.0,
+                "original_visual": "Interactive filtering of the bubble chart"
+              },
+              {
+                "label": "Political perspectives",
+                "scored_s": 97.0,
+                "aligned_s": 0,
+                "fraction": 0.0,
+                "first_matching_visual_lag_s": null,
+                "original_visual": "Connected map of political ideas"
+              },
+              {
+                "label": "Information design and volcano",
+                "scored_s": 73.0,
+                "aligned_s": 72.87690680900118,
+                "fraction": 0.9983137919041258,
+                "first_matching_visual_lag_s": 6.123093190998816,
+                "original_visual": "Information design conclusion and emissions area comparison"
+              }
+            ],
+            "visual_changes_during_audio": 9,
+            "ideas_displayed_during_audio": 5,
+            "prepared_ideas": 5,
+            "asr_processing_s": 472.95017406818806,
+            "asr_processing_real_time_factor": 0.43777300623464205,
+            "chunk_end_to_decision_p50_s": 0.41097733099013567,
+            "chunk_end_to_decision_p95_s": 0.824681061989395,
+            "chunk_end_to_decision_max_s": 2.008361372980289,
+            "processed_windows": 1081,
+            "dropped_windows": 0,
+            "rejected_windows": 3,
+            "token_budget_reached_windows": 3,
+            "adviser_calls": 43,
+            "adviser_failures": 0,
+            "clear_cue_reflex_decisions": 503,
+            "misaligned_changes_within_scored_sections": [
+              {
+                "at": 380.707083005982,
+                "scene_id": "concept_991437d7f91b_1",
+                "expected_section": "Data soil and Facebook breakups"
+              },
+              {
+                "at": 383.89942693099147,
+                "scene_id": "concept_991437d7f91b_0",
+                "expected_section": "Data soil and Facebook breakups"
+              },
+              {
+                "at": 512.693350112997,
+                "scene_id": "concept_d63ae8660fec_0",
+                "expected_section": "Visual literacy and sensory language"
+              },
+              {
+                "at": 980.2993228869746,
+                "scene_id": "concept_935a85cf0830_0",
+                "expected_section": "Political perspectives"
+              }
+            ],
+            "adviser_models": [
+              "jev-1.13.0"
+            ],
+            "causality_violations": 0,
+            "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness.",
+            "same_idea_view_changes": 2,
+            "same_idea_view_change_details": [
+              {
+                "at": 380.707083005982,
+                "from_kind": "definition",
+                "to_kind": "flow",
+                "title": "From pattern to interpretation"
+              },
+              {
+                "at": 383.89942693099147,
+                "from_kind": "flow",
+                "to_kind": "definition",
+                "title": "Mountains Out of Molehills"
+              }
+            ]
+          },
+          "result_sha256": "bde41176155f17b9a0e20f08651d7b5d0fbc501c5bdb1774a947a8a443ae5b32",
+          "source_url": "https://www.ted.com/talks/david_mccandless_the_beauty_of_data_visualization",
+          "asr_sha256": "6ba8161e203ba36e84546e5921505030cc93ff7133dfcca9a556196868ae6812",
+          "package_hash": "a4c675a3c6bb84223f5757df587c58e9b86d215e02aba2ee2137f0a971a4c8b7",
+          "audio_sha256": "f48c4da48f7a285bfe472bc6011cc72cac02949b46a294353f62309c8e902650",
+          "preparation_sha256": "2882b440f381ea5e6c5edb8bbebbfcea72ffec1f8fc1734d1eac0902e9959e8b",
+          "duration_s": 1080.3548125
+        }
+      },
+      "comparison_json_sha256": "2709f945ce92e045bf08568136cb30cdff8c9744ac80ca0d104f85e321e17697",
+      "comparison_html_sha256": "fd45ec6889874246d8df2bca336d83832c3b8cfbf6827bf0ba953e86076dc7b0"
+    },
+    "mccandless": {
+      "label": "Ten-idea Copilot preparation with operator exact-quote assistance and source review",
+      "reference": {
+        "package_hash": "ca7b04449b255505f5e139b19056099a21471167bc1e5105347d8a6f06f50e5c",
+        "reviewer": "Codex implementation operator",
+        "independent": false,
+        "fixed_before_follower_replay": true,
+        "boundary_exclusion_s": 6,
+        "timing_basis": "Official cue section boundaries plus approximate 3.3-second media intro; sampled original frames. Six-second boundary exclusion.",
+        "ambiguous_passages": [
+          "The partial draft explicitly mentions evidence compression and updateable exploration, so its broad conclusion concept is accepted during curation and living-image sections. It has no supplied topic-specific idea for data-soil/Facebook, visual-CV/senses or political perspectives; those sections remain in the denominator with no acceptable idea."
+        ],
+        "visual_comparison_notes": "Topic matching does not establish chart fidelity or audience usefulness. Neither condition receives the original figures, CSV datasets, visual CV, political map or interactive application.",
+        "spans": [
+          {
+            "start": 0,
+            "end": 29.3,
+            "label": "Information overload",
+            "acceptable_concept_ids": [
+              "concept_761d4a5727f4"
+            ],
+            "original_visual": "Speaker introduces visualization"
+          },
+          {
+            "start": 29.3,
+            "end": 166.3,
+            "label": "Billion-dollar scale",
+            "acceptable_concept_ids": [
+              "concept_4c0c46f676ab"
+            ],
+            "original_visual": "Area-scaled financial boxes"
+          },
+          {
+            "start": 166.3,
+            "end": 297.3,
+            "label": "Media fear patterns",
+            "acceptable_concept_ids": [
+              "concept_7255be39776b"
+            ],
+            "original_visual": "Fear timelines and media peaks"
+          },
+          {
+            "start": 297.3,
+            "end": 452.3,
+            "label": "Data soil and Facebook breakups",
+            "acceptable_concept_ids": [
+              "concept_77ce4f712933"
+            ],
+            "original_visual": "Seasonal breakup pattern and reveal"
+          },
+          {
+            "start": 452.3,
+            "end": 609.3,
+            "label": "Visual literacy and sensory language",
+            "acceptable_concept_ids": [
+              "concept_2e839691c2eb"
+            ],
+            "original_visual": "Visual CV and sensory bandwidth graphic"
+          },
+          {
+            "start": 609.3,
+            "end": 737.3,
+            "label": "Relative military measures",
+            "acceptable_concept_ids": [
+              "concept_bc4d978ebc95"
+            ],
+            "original_visual": "Absolute and relative military comparisons"
+          },
+          {
+            "start": 737.3,
+            "end": 826.3,
+            "label": "Historical supplement evidence and curation",
+            "acceptable_concept_ids": [
+              "concept_e7b369d80933"
+            ],
+            "original_visual": "Evidence versus popularity bubble chart"
+          },
+          {
+            "start": 826.3,
+            "end": 877.3,
+            "label": "Living spreadsheet images",
+            "acceptable_concept_ids": [
+              "concept_d1f96d69cbf5"
+            ],
+            "original_visual": "Interactive filtering of the bubble chart"
+          },
+          {
+            "start": 877.3,
+            "end": 986.3,
+            "label": "Political perspectives",
+            "acceptable_concept_ids": [
+              "concept_6348cd21a8cd"
+            ],
+            "original_visual": "Connected map of political ideas"
+          },
+          {
+            "start": 986.3,
+            "end": 1071.3,
+            "label": "Information design and volcano",
+            "acceptable_concept_ids": [
+              "concept_8afbb9835ebb"
+            ],
+            "original_visual": "Information design conclusion and emissions area comparison"
+          }
+        ]
+      },
+      "visual_review": {
+        "schema": "live_presenter.visual_input_review.v1",
+        "reviewer": "Codex implementation operator",
+        "independent": false,
+        "timing": "Source-frame and package review fixed before either McCandless follower output.",
+        "package_hash": "ca7b04449b255505f5e139b19056099a21471167bc1e5105347d8a6f06f50e5c",
+        "reference_sha256": "8d003fadf1df1338a81a35d1c6f8a6b8fc5ba1e2914ab3d037ae6681303f2621",
+        "frame_manifest_sha256": "2dca46d6d03f6eb01e8e479234db70b781162e7bacd5c3e5d1d4d4b6ebcebaad",
+        "preparation_inputs": {
+          "untimed_transcript": true,
+          "original_figures_as_assets": false,
+          "dataset": false
+        },
+        "prepared_scene_kinds": [
+          "comparison",
+          "definition",
+          "evidence",
+          "flow"
+        ],
+        "observations": [
+          {
+            "section": "Billion-dollar scale",
+            "reference_evidence": "Area-scaled financial boxes",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Media fear patterns",
+            "reference_evidence": "Fear timelines and media peaks",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Data soil and Facebook breakups",
+            "reference_evidence": "Seasonal breakup pattern and reveal",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Visual literacy and sensory language",
+            "reference_evidence": "Visual CV and sensory bandwidth graphic",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Relative military measures",
+            "reference_evidence": "Absolute and relative military comparisons",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Historical supplement evidence and curation",
+            "reference_evidence": "Evidence versus popularity bubble chart",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Living spreadsheet images",
+            "reference_evidence": "Interactive filtering of the bubble chart",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Political perspectives",
+            "reference_evidence": "Connected map of political ideas",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          },
+          {
+            "section": "Information design and volcano",
+            "reference_evidence": "Information design conclusion and emissions area comparison",
+            "prepared_relation": "Textual summary or relationship explanation only; no source graphic or underlying dataset supplied.",
+            "essential_visual_evidence_supplied": false
+          }
+        ],
+        "finding": "Summary cards cannot reproduce the quantitative patterns, shapes, visual joke/reveal, worldview map or interactive filtering demonstrated in the original. The expanded condition improves source-topic coverage but does not add those visual assets. No audience-usefulness score."
+      },
+      "pre_replay_bindings": {
+        "created_utc": "2026-10-17T16:14:18.039221+00:00",
+        "frozen_plan_sha256": "486bf829a0a53046593bdb44efecf2e76ffdd1c2590bb985c0c576d2fcefd326",
+        "reference_sha256": "8d003fadf1df1338a81a35d1c6f8a6b8fc5ba1e2914ab3d037ae6681303f2621",
+        "visual_review_sha256": "0edc5f733e011f3ceaa5b3e39c09296135af431608d3d49994f24ba7c1f457d9",
+        "asr_sha256": "6ba8161e203ba36e84546e5921505030cc93ff7133dfcca9a556196868ae6812",
+        "package_hash": "ca7b04449b255505f5e139b19056099a21471167bc1e5105347d8a6f06f50e5c"
+      },
+      "results": {
+        "local": {
+          "metrics": {
+            "development_chapter_alignment": 0.9990858707789273,
+            "scored_s": 951.3,
+            "aligned_s": 950.4303888719935,
+            "chapters": [
+              {
+                "label": "Information overload",
+                "scored_s": 17.3,
+                "aligned_s": 17.3,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 0,
+                "original_visual": "Speaker introduces visualization"
+              },
+              {
+                "label": "Billion-dollar scale",
+                "scored_s": 125.00000000000001,
+                "aligned_s": 124.25099331601524,
+                "fraction": 0.9940079465281219,
+                "first_matching_visual_lag_s": 6.749006683984771,
+                "original_visual": "Area-scaled financial boxes"
+              },
+              {
+                "label": "Media fear patterns",
+                "scored_s": 119.0,
+                "aligned_s": 119.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.1082269420032276,
+                "original_visual": "Fear timelines and media peaks"
+              },
+              {
+                "label": "Data soil and Facebook breakups",
+                "scored_s": 143.0,
+                "aligned_s": 143.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.547723219019815,
+                "original_visual": "Seasonal breakup pattern and reveal"
+              },
+              {
+                "label": "Visual literacy and sensory language",
+                "scored_s": 144.99999999999994,
+                "aligned_s": 144.99999999999994,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 5.2164050660095995,
+                "original_visual": "Visual CV and sensory bandwidth graphic"
+              },
+              {
+                "label": "Relative military measures",
+                "scored_s": 116.0,
+                "aligned_s": 116.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.1711771650182072,
+                "original_visual": "Absolute and relative military comparisons"
+              },
+              {
+                "label": "Historical supplement evidence and curation",
+                "scored_s": 77.0,
+                "aligned_s": 77.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 4.040408109012105,
+                "original_visual": "Evidence versus popularity bubble chart"
+              },
+              {
+                "label": "Living spreadsheet images",
+                "scored_s": 39.0,
+                "aligned_s": 39.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.3521648149937846,
+                "original_visual": "Interactive filtering of the bubble chart"
+              },
+              {
+                "label": "Political perspectives",
+                "scored_s": 97.0,
+                "aligned_s": 97.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.0000904749788333,
+                "original_visual": "Connected map of political ideas"
+              },
+              {
+                "label": "Information design and volcano",
+                "scored_s": 73.0,
+                "aligned_s": 72.87939555597836,
+                "fraction": 0.9983478843284708,
+                "first_matching_visual_lag_s": 6.120604444021637,
+                "original_visual": "Information design conclusion and emissions area comparison"
+              }
+            ],
+            "visual_changes_during_audio": 19,
+            "ideas_displayed_during_audio": 10,
+            "prepared_ideas": 10,
+            "asr_processing_s": 472.95017406818806,
+            "asr_processing_real_time_factor": 0.43777300623464205,
+            "chunk_end_to_decision_p50_s": 0.4032066299987491,
+            "chunk_end_to_decision_p95_s": 0.7886035539559089,
+            "chunk_end_to_decision_max_s": 2.0012429899943527,
+            "processed_windows": 1081,
+            "dropped_windows": 0,
+            "rejected_windows": 3,
+            "token_budget_reached_windows": 3,
+            "adviser_calls": 0,
+            "adviser_failures": 0,
+            "clear_cue_reflex_decisions": 968,
+            "misaligned_changes_within_scored_sections": [],
+            "adviser_models": [],
+            "causality_violations": 0,
+            "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness.",
+            "same_idea_view_changes": 10,
+            "same_idea_view_change_details": [
+              {
+                "at": 748.382155675994,
+                "from_kind": "definition",
+                "to_kind": "evidence",
+                "title": "Historical supplement evidence and curation"
+              },
+              {
+                "at": 758.3292196660186,
+                "from_kind": "evidence",
+                "to_kind": "definition",
+                "title": "How the historical evidence visual works"
+              },
+              {
+                "at": 763.3774362010008,
+                "from_kind": "definition",
+                "to_kind": "evidence",
+                "title": "Historical supplement evidence and curation"
+              },
+              {
+                "at": 766.54470511197,
+                "from_kind": "evidence",
+                "to_kind": "definition",
+                "title": "How the historical evidence visual works"
+              },
+              {
+                "at": 775.541684656986,
+                "from_kind": "definition",
+                "to_kind": "evidence",
+                "title": "Historical supplement evidence and curation"
+              },
+              {
+                "at": 779.5969240460254,
+                "from_kind": "evidence",
+                "to_kind": "definition",
+                "title": "How the historical evidence visual works"
+              },
+              {
+                "at": 867.3659954910108,
+                "from_kind": "definition",
+                "to_kind": "evidence",
+                "title": "Living spreadsheet images"
+              },
+              {
+                "at": 871.6595400520309,
+                "from_kind": "evidence",
+                "to_kind": "definition",
+                "title": "What makes the image living"
+              },
+              {
+                "at": 965.3506225569872,
+                "from_kind": "definition",
+                "to_kind": "comparison",
+                "title": "Being told versus being shown"
+              },
+              {
+                "at": 969.4268743270077,
+                "from_kind": "comparison",
+                "to_kind": "definition",
+                "title": "Ideas as information landscapes"
+              }
+            ]
+          },
+          "result_sha256": "529c994c893428e286c1f8377982fbac7b2cefad2396bbdee718aa6ae92ca491",
+          "source_url": "https://www.ted.com/talks/david_mccandless_the_beauty_of_data_visualization",
+          "asr_sha256": "6ba8161e203ba36e84546e5921505030cc93ff7133dfcca9a556196868ae6812",
+          "package_hash": "ca7b04449b255505f5e139b19056099a21471167bc1e5105347d8a6f06f50e5c",
+          "audio_sha256": "f48c4da48f7a285bfe472bc6011cc72cac02949b46a294353f62309c8e902650",
+          "preparation_sha256": "2882b440f381ea5e6c5edb8bbebbfcea72ffec1f8fc1734d1eac0902e9959e8b",
+          "duration_s": 1080.3548125
+        },
+        "jev": {
+          "metrics": {
+            "development_chapter_alignment": 0.9992109767255563,
+            "scored_s": 951.3,
+            "aligned_s": 950.5494021590216,
+            "chapters": [
+              {
+                "label": "Information overload",
+                "scored_s": 17.3,
+                "aligned_s": 17.3,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 0,
+                "original_visual": "Speaker introduces visualization"
+              },
+              {
+                "label": "Billion-dollar scale",
+                "scored_s": 125.00000000000001,
+                "aligned_s": 124.24940215902171,
+                "fraction": 0.9939952172721735,
+                "first_matching_visual_lag_s": 6.750597840978298,
+                "original_visual": "Area-scaled financial boxes"
+              },
+              {
+                "label": "Media fear patterns",
+                "scored_s": 119.0,
+                "aligned_s": 119.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.107467095996242,
+                "original_visual": "Fear timelines and media peaks"
+              },
+              {
+                "label": "Data soil and Facebook breakups",
+                "scored_s": 143.0,
+                "aligned_s": 143.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.5494386620295586,
+                "original_visual": "Seasonal breakup pattern and reveal"
+              },
+              {
+                "label": "Visual literacy and sensory language",
+                "scored_s": 144.99999999999994,
+                "aligned_s": 144.99999999999994,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 5.213658083014877,
+                "original_visual": "Visual CV and sensory bandwidth graphic"
+              },
+              {
+                "label": "Relative military measures",
+                "scored_s": 116.0,
+                "aligned_s": 116.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 3.1695594080258616,
+                "original_visual": "Absolute and relative military comparisons"
+              },
+              {
+                "label": "Historical supplement evidence and curation",
+                "scored_s": 77.0,
+                "aligned_s": 77.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 4.040087605000053,
+                "original_visual": "Evidence versus popularity bubble chart"
+              },
+              {
+                "label": "Living spreadsheet images",
+                "scored_s": 39.0,
+                "aligned_s": 39.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 2.400161979970335,
+                "original_visual": "Interactive filtering of the bubble chart"
+              },
+              {
+                "label": "Political perspectives",
+                "scored_s": 97.0,
+                "aligned_s": 97.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 2.9982802719925985,
+                "original_visual": "Connected map of political ideas"
+              },
+              {
+                "label": "Information design and volcano",
+                "scored_s": 73.0,
+                "aligned_s": 73.0,
+                "fraction": 1.0,
+                "first_matching_visual_lag_s": 5.240201466967164,
+                "original_visual": "Information design conclusion and emissions area comparison"
+              }
+            ],
+            "visual_changes_during_audio": 26,
+            "ideas_displayed_during_audio": 10,
+            "prepared_ideas": 10,
+            "asr_processing_s": 472.95017406818806,
+            "asr_processing_real_time_factor": 0.43777300623464205,
+            "chunk_end_to_decision_p50_s": 0.40836210595443845,
+            "chunk_end_to_decision_p95_s": 0.7979955209884793,
+            "chunk_end_to_decision_max_s": 2.001284318015678,
+            "processed_windows": 1081,
+            "dropped_windows": 0,
+            "rejected_windows": 3,
+            "token_budget_reached_windows": 3,
+            "adviser_calls": 30,
+            "adviser_failures": 0,
+            "clear_cue_reflex_decisions": 968,
+            "misaligned_changes_within_scored_sections": [],
+            "adviser_models": [
+              "jev-1.13.0"
+            ],
+            "causality_violations": 0,
+            "scope": "Coarse within-talk development reference, authored by the implementation operator. Not independent accuracy or audience usefulness.",
+            "same_idea_view_changes": 17,
+            "same_idea_view_change_details": [
+              {
+                "at": 47.445947262021946,
+                "from_kind": "definition",
+                "to_kind": "comparison",
+                "title": "Historical figures placed side by side"
+              },
+              {
+                "at": 50.31684073200449,
+                "from_kind": "comparison",
+                "to_kind": "definition",
+                "title": "The Billion Dollar o-Gram"
+              },
+              {
+                "at": 85.52998908702284,
+                "from_kind": "definition",
+                "to_kind": "comparison",
+                "title": "Historical figures placed side by side"
+              },
+              {
+                "at": 88.31262222200166,
+                "from_kind": "comparison",
+                "to_kind": "definition",
+                "title": "The Billion Dollar o-Gram"
+              },
+              {
+                "at": 748.382303868013,
+                "from_kind": "definition",
+                "to_kind": "evidence",
+                "title": "Historical supplement evidence and curation"
+              },
+              {
+                "at": 758.3373074930278,
+                "from_kind": "evidence",
+                "to_kind": "definition",
+                "title": "How the historical evidence visual works"
+              },
+              {
+                "at": 763.376724931004,
+                "from_kind": "definition",
+                "to_kind": "evidence",
+                "title": "Historical supplement evidence and curation"
+              },
+              {
+                "at": 766.5464178709954,
+                "from_kind": "evidence",
+                "to_kind": "definition",
+                "title": "How the historical evidence visual works"
+              },
+              {
+                "at": 775.540969676018,
+                "from_kind": "definition",
+                "to_kind": "evidence",
+                "title": "Historical supplement evidence and curation"
+              },
+              {
+                "at": 779.5984273150098,
+                "from_kind": "evidence",
+                "to_kind": "definition",
+                "title": "How the historical evidence visual works"
+              },
+              {
+                "at": 831.4622687680239,
+                "from_kind": "flow",
+                "to_kind": "definition",
+                "title": "What makes the image living"
+              },
+              {
+                "at": 867.3658982689958,
+                "from_kind": "definition",
+                "to_kind": "evidence",
+                "title": "Living spreadsheet images"
+              },
+              {
+                "at": 871.6595241020259,
+                "from_kind": "evidence",
+                "to_kind": "definition",
+                "title": "What makes the image living"
+              },
+              {
+                "at": 965.3503214969824,
+                "from_kind": "definition",
+                "to_kind": "comparison",
+                "title": "Being told versus being shown"
+              },
+              {
+                "at": 969.4259671659966,
+                "from_kind": "comparison",
+                "to_kind": "definition",
+                "title": "Ideas as information landscapes"
+              },
+              {
+                "at": 1040.5491141860257,
+                "from_kind": "definition",
+                "to_kind": "comparison",
+                "title": "Historical Icelandic emissions comparison"
+              },
+              {
+                "at": 1044.4340989660122,
+                "from_kind": "comparison",
+                "to_kind": "definition",
+                "title": "Information design's purpose"
+              }
+            ]
+          },
+          "result_sha256": "e8ab33319704e7fc653acba7fa7533d73747029d3b30f4eca44ee52e20901c34",
+          "source_url": "https://www.ted.com/talks/david_mccandless_the_beauty_of_data_visualization",
+          "asr_sha256": "6ba8161e203ba36e84546e5921505030cc93ff7133dfcca9a556196868ae6812",
+          "package_hash": "ca7b04449b255505f5e139b19056099a21471167bc1e5105347d8a6f06f50e5c",
+          "audio_sha256": "f48c4da48f7a285bfe472bc6011cc72cac02949b46a294353f62309c8e902650",
+          "preparation_sha256": "2882b440f381ea5e6c5edb8bbebbfcea72ffec1f8fc1734d1eac0902e9959e8b",
+          "duration_s": 1080.3548125
+        }
+      },
+      "comparison_json_sha256": "622048ba0953e4a1a2e929d91daa40a6b1ba649be1746e04cea0afd61bdccc0a",
+      "comparison_html_sha256": "572dae09df0a9d33ee2d2f83c313090ec61429f9b018a0ffc11f31ed6db9de24"
+    }
+  },
+  "limitations": [
+    "Complete same-talk transcript is generous semantic preparation; references authored by implementation operator, not independent.",
+    "References exclude six seconds on both sides of each section boundary; chapter percentages can conceal transition delay and intra-idea view switching.",
+    "No underlying datasets or original visual assets were provided to either preparation/follower package. Source frames were inspected only as evaluation references.",
+    "No controller, recognition or alias tuning after the new follower results; preparation clarifications precede each first replay.",
+    "Two new talks do not complete the independent multi-talk editorial corpus or establish audience comprehension.",
+    "Comparison HTML players are generated from actual renderer and saved traces; browser automation was declined, so browser layout/synchronization and physical microphone/projector timing remain unverified."
+  ],
+  "preparation_audit": {
+    "schema": "live_presenter.preparation_audit.v1",
+    "source": "mccandless",
+    "initial_valid_concepts": 5,
+    "expanded_request": "Failed exact-quotation validation",
+    "long_quote_repair": {
+      "status": "Failed quotation validation",
+      "operator_message_characters": 10748,
+      "app_message_limit": 5000,
+      "qualification": "Operator supplied an overlong request; the app stored only its first 5000 characters."
+    },
+    "compact_quote_repair": {
+      "status": "Succeeded, ten Copilot concepts",
+      "operator_message_characters": 3848
+    },
+    "source_review_correction": "Mystery dataset and Facebook reveal are the same example; corrected summary and comparison labels before any follower output.",
+    "automatic_preparation_success": false,
+    "runtime_changes": false
+  },
+  "paced_sivers": {
+    "schema": "live_presenter.paced_audio_probe.v1",
+    "source_url": "https://www.ted.com/talks/derek_sivers_how_to_start_a_movement",
+    "source_audio_sha256": "228ec6e6c7a441aade263a3f384dee4358e15590e439bc1891ca301220dc0fa0",
+    "package_hash": "dc0007c64aa6cf05e2fe5c20a1dd21f7dc998272ed01c56f2c2ee7f08d4a30d5",
+    "asr": "openai-whisper tiny.en, CPU, 4 threads, 48 tokens, 2 s subprocess deadline",
+    "fingerprints": {
+      "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+      "server.py": "abaf72765d79276130006a6a7bbf2fa8a4adee01c8f11fbc3b194ba68f69f9d1",
+      "engine.py": "cdef7066fabb754b7a54111036467fbd49da3182ad3489eac1f1775f1d33f963",
+      "recording.py": "14ce7e3f3d02443538106b7741a171d5bed37853cdc15d612123f7314433f3b3",
+      "reflex.py": "ef35942bb5a6d345dfdeb35337c48d2d30070fac69e6222bba26455baa82b261",
+      "live_probe.py": "0126d87971d89fea318ce25ccd6eadd0e45e3035d684317578c7a78730b22725"
+    },
+    "capture_fingerprints": {
+      "microphone.js": "5b3aee08b7f6bbd6a1cd1e6379d607b6f00a6e240c75c1dca9b7c892c42b32b7",
+      "pcm-worklet.js": "fc394d4e7794dd4f7cfebfd3b052d91e1144ac73e913d4620cc1152c6530f1df",
+      "stage.js": "f6265579e85da54421ce01d4498fb44b86f0ca87afb2cadfda7be86164b405d9",
+      "studio.js": "66bc82c59ad6d6c17fe07010b1e23772cfe0d76f7d4945555964ebd3f6ada958"
+    },
+    "offset_s": 0,
+    "duration_s": 172,
+    "elapsed_s": 172.21789068501676,
+    "model_ready_s": 3.5822247689939104,
+    "use_jev": true,
+    "timing_model": "Measured wall time, one-second PCM arrivals over authenticated loopback HTTP.",
+    "microphone_capture_used": false,
+    "browser_used": false,
+    "physical_projector_used": false,
+    "metrics": {
+      "processed": 172,
+      "dropped": 0,
+      "rejected": 5,
+      "timeouts": 0,
+      "stage_observer_errors": 0,
+      "expired_windows": 0,
+      "received_to_decision_p50_s": 0.405858148005791,
+      "received_to_decision_p95_s": 0.9103235630027484,
+      "received_to_decision_max_s": 1.945482791023096,
+      "ideas_observed": 5,
+      "visual_changes_observed": 6
+    },
+    "observed_switch_latencies": [
+      {
+        "seq": 16,
+        "scene_id": "concept_f3cfda6b1d07_0",
+        "audio_end_s": 17.0,
+        "observed_at_s": 17.462295817007544,
+        "chunk_end_to_stage_api_s": 0.4622958170075435
+      },
+      {
+        "seq": 21,
+        "scene_id": "concept_b5c885f43db9_0",
+        "audio_end_s": 22.0,
+        "observed_at_s": 22.376667268021265,
+        "chunk_end_to_stage_api_s": 0.37666726802126504
+      },
+      {
+        "seq": 24,
+        "scene_id": "concept_f3cfda6b1d07_0",
+        "audio_end_s": 25.0,
+        "observed_at_s": 25.687384458025917,
+        "chunk_end_to_stage_api_s": 0.6873844580259174
+      },
+      {
+        "seq": 54,
+        "scene_id": "concept_1a22f9491773_0",
+        "audio_end_s": 55.0,
+        "observed_at_s": 55.20713163202163,
+        "chunk_end_to_stage_api_s": 0.20713163202162832
+      },
+      {
+        "seq": 72,
+        "scene_id": "concept_b5c885f43db9_0",
+        "audio_end_s": 73.0,
+        "observed_at_s": 73.55033429400646,
+        "chunk_end_to_stage_api_s": 0.5503342940064613
+      },
+      {
+        "seq": 107,
+        "scene_id": "concept_8285d62d0154_0",
+        "audio_end_s": 108.0,
+        "observed_at_s": 108.41671468902496,
+        "chunk_end_to_stage_api_s": 0.4167146890249569
+      }
+    ],
+    "final_scene_id": "concept_8285d62d0154_0",
+    "limitations": [
+      "WAV excerpt feeds the actual local audio API at wall-clock pace; no simulated decoder costs.",
+      "No browser capture/permission/paint or physical microphone/projector measurement.",
+      "Same-talk transcript supplied as advance preparation; no independent editorial accuracy assessment.",
+      "Shared machine; excludes up to one second of audio collection and time needed to hear a distinctive cue."
+    ],
+    "result_sha256": "f0be09a2d6f1205110b9a6687f7640f0e637313b0a00da385e69cadc68f6e299",
+    "execution_note": "Probe emitted final metrics after cleanup and persisted the complete 172-update artifact; outer command reported exit 143. No remaining probe process. Measurement completeness is verified from the saved worker counts and stage observations; do not interpret the wrapper exit as a clean process status.",
+    "observed_stage_topic_alignment": {
+      "fraction": 0.962076549942673,
+      "scored_s": 87.30000000000001,
+      "aligned_s": 83.98928280999536,
+      "reference_sha256": "eddd1a85c1159ed7e785d5532b0a090ab31713d36907d03cc2ada27e65afab71",
+      "basis": "Actual read-only stage observation times, same previously fixed reference and exclusions; no simulated decisions."
+    },
+    "shutdown_diagnostic": {
+      "duration_s": 1,
+      "exit_code": 0,
+      "result_sha256": "1ba79439df72befc14b152a2f83e3b53087dd224742893e3a565b31a2cfdd8dd",
+      "qualification": "Separate one-second shutdown check completed cleanly; not included as a talk-quality or full-run timing result."
+    }
+  },
+  "findings": [
+    "Sivers first-pass local trace briefly selects the momentum idea at 22.87 s and returns to the first-follower idea at 26.04 s. Its high aggregate chapter alignment conceals that wrong switch.",
+    "McCandless initial valid five-idea draft omits three substantial topics. All five prepared ideas appear, but coverage of the full talk remains poor.",
+    "Operator-assisted ten-idea preparation greatly improves coarse topic following without runtime changes, but not source-graphic fidelity.",
+    "Expanded McCandless local trace has ten within-idea view changes, including six alternations between explanatory and evidence cards during supplement curation. Such changes need editorial evaluation despite correct topic labels.",
+    "At the volcano comparison the expanded local trace retains a generic information-design definition, so the right chapter label does not imply the most useful specific scene is displayed.",
+    "Original crowd footage, financial areas, temporal peaks, relative scales, evidence map and worldview diagram carry visual evidence absent from these transcript-only packages."
+  ]
+}

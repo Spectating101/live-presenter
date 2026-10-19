@@ -1,0 +1,51 @@
+{
+  "schema": "live_presenter.expanded_video_plan.v1",
+  "created_utc": "2026-10-17T16:00:41.519338+00:00",
+  "base_commit": "bfeebe9f9b826eac343cd16f318d6e65533e825d",
+  "frozen_code": {
+    "engine.py": "cdef7066fabb754b7a54111036467fbd49da3182ad3489eac1f1775f1d33f963",
+    "reflex.py": "ef35942bb5a6d345dfdeb35337c48d2d30070fac69e6222bba26455baa82b261",
+    "language.py": "88a6b267389ccd7695ef55b134cda60f61277cef25774224599adcae10ae2c82",
+    "recording.py": "14ce7e3f3d02443538106b7741a171d5bed37853cdc15d612123f7314433f3b3",
+    "live_audio.py": "b67f398efe1e1830b6c1e41cc24cc68927a6a086039453786e805bba9df90902",
+    "live_probe.py": "0126d87971d89fea318ce25ccd6eadd0e45e3035d684317578c7a78730b22725"
+  },
+  "new_sources": [
+    "https://www.ted.com/talks/david_mccandless_the_beauty_of_data_visualization",
+    "https://www.ted.com/talks/derek_sivers_how_to_start_a_movement"
+  ],
+  "preparation_condition": "Complete untimed transcript in advance. No original video frames, caption timings, datasets or images supplied to the follower. Operator may clarify ambiguity before approval.",
+  "recognition": {
+    "model": "tiny.en",
+    "chunk_s": 1,
+    "window_s": 4,
+    "max_tokens": 48,
+    "bounded": true,
+    "threads": 4
+  },
+  "evaluation": {
+    "modes": [
+      "local prepared reflex",
+      "optional Jev prepared reflex"
+    ],
+    "audio_queue": "latest available simulated from measured recognition costs",
+    "reference": "Operator-authored sections fixed before inspecting follower results; six-second boundary exclusion, source-dependent overlaps declared.",
+    "visual_review": "Sample original frames before replay; record whether prepared visuals preserve required relationships/evidence. Qualitative implementation-operator review, not audience study.",
+    "checks": [
+      "causality violations",
+      "missing ideas",
+      "late section transitions",
+      "misaligned scene changes",
+      "unnecessary view switching",
+      "missing visual evidence or supplied datasets"
+    ],
+    "no_tuning_on_new_outputs": true,
+    "browser_verification": "Previously declined; compare saved traces and native original frames, generate local players without browser automation."
+  },
+  "limits": [
+    "Two additional development tests, not a representative corpus.",
+    "Shared complete transcript is generous semantic preparation; absent datasets/images constrain visual fidelity.",
+    "The original presentation is a reference rather than the only valid design.",
+    "No source assets, transcripts or credentials will be committed."
+  ]
+}
