@@ -1,0 +1,190 @@
+{
+  "as_of": "2026-10-20",
+  "method": "Public GitHub search; repository metadata, trees, licenses, README and selected implementation inspection. No candidate installed or executed. Tree hashes are not commit hashes.",
+  "scope": "Targeted survey, not exhaustive GitHub coverage. Performance statements are upstream claims, not measurements here.",
+  "local_graphics": "PCI inventory reports Intel UHD Graphics 630; no NVIDIA adapter shown.",
+  "repositories": [
+    {
+      "repository": "ACADEE/Voice-to-Diagram",
+      "url": "https://github.com/ACADEE/Voice-to-Diagram",
+      "default_branch": "claude/voice-diagram-generator-011c9BU5BJCuuuFWZBvAao14",
+      "created_at": "2025-12-05T16:38:13Z",
+      "pushed_at": "2025-12-05T18:20:28Z",
+      "archived": false,
+      "github_license_id": null,
+      "git_tree_sha": null,
+      "inspected_files": {
+        "README.md": "2db38c47aeb7865843f9b1401d332f2d68f170efb74f31e64305db83f217c4fe"
+      }
+    },
+    {
+      "repository": "Betakontext/slAIdshow",
+      "url": "https://github.com/Betakontext/slAIdshow",
+      "default_branch": "main",
+      "created_at": "2026-06-05T21:06:36Z",
+      "pushed_at": "2026-09-04T07:55:05Z",
+      "archived": false,
+      "github_license_id": null,
+      "git_tree_sha": null,
+      "inspected_files": {
+        "README.md": "d08fe5d65d1e9f0d8aee541fec82648d5f15b1d75778083a5bca5c6bae1ca9f3"
+      }
+    },
+    {
+      "repository": "KoljaB/RealtimeSTT",
+      "url": "https://github.com/KoljaB/RealtimeSTT",
+      "default_branch": "master",
+      "created_at": "2023-08-29T17:58:28Z",
+      "pushed_at": "2026-10-18T21:21:01Z",
+      "archived": false,
+      "github_license_id": "MIT",
+      "git_tree_sha": "418c51d59ce38a75138e3eecb501b8c26e1cbfde",
+      "inspected_files": {
+        "LICENSE": "bb7881916bddc6666a4bb8f44375b9e7282c845112823883c846aa1c3dbf6cc9",
+        "README.md": "df086c0dd639d56d81d4d48f82597affb37edded4e18dcbb2a54de8492fdac00",
+        "RealtimeSTT--core--realtime_text_stabilizer.py": "38fa612be1a1f6bdfb160ab4ced7cb00c9f0022219f1ea5fc2df2f663e19fddd",
+        "docs--licenses.md": "447e9ddea3e906081cc8ee41e8e187846846e1da81da01f7b74b4723712bd4c0"
+      }
+    },
+    {
+      "repository": "academa-labs/manimgx",
+      "url": "https://github.com/academa-labs/manimgx",
+      "default_branch": "main",
+      "created_at": "2026-10-05T20:57:05Z",
+      "pushed_at": "2026-10-15T19:34:42Z",
+      "archived": false,
+      "github_license_id": "MIT",
+      "git_tree_sha": "cfd33af5aa7cc0d6aa7dfe13919744e2124629dc",
+      "inspected_files": {
+        "LICENSE": "aa82d4b9d3e24f7a836ca5df84e198211b1df7b6225058b69dc4a6373a4deffb",
+        "README.md": "61d095caae17a1fcffd018788ef9ba0b3135aa7214671a73c2fa24178c0d3a88",
+        "docs--content--reference--rendering--from-python.md": "c048e1cf7e375a0d12c8ddebbfa068aa7d7f296ca75b65c075d1958ad825bd46"
+      }
+    },
+    {
+      "repository": "docling-project/docling",
+      "url": "https://github.com/docling-project/docling",
+      "default_branch": "main",
+      "created_at": "2024-07-09T07:50:26Z",
+      "pushed_at": "2026-10-19T15:59:04Z",
+      "archived": false,
+      "github_license_id": "MIT",
+      "git_tree_sha": "d01c9c0991920924cf17f6b8366079ac035ffc38",
+      "inspected_files": {
+        "LICENSE": "edb765d1e3e60d0c7a7d5fba5f2bb2c3c29f7465cecb5c22cf1185c884954e4c",
+        "README.md": "ce605634509dc87d79182131ad001e5fddf6053963b9045b971c6e87e6b9bfa1",
+        "docs--examples--export_figures.py": "585958ef1f03b12ccd9dd193577a8df9d942872b0fcab194f6b6ecdd6cc383e0"
+      }
+    },
+    {
+      "repository": "illuin-tech/colpali",
+      "url": "https://github.com/illuin-tech/colpali",
+      "default_branch": "main",
+      "created_at": "2024-06-20T16:14:06Z",
+      "pushed_at": "2026-09-21T23:54:12Z",
+      "archived": false,
+      "github_license_id": "MIT",
+      "git_tree_sha": "97487f8871ff4d5d2284411fe61bdcd2cfe99894",
+      "inspected_files": {
+        "LICENSE": "00971d5f2329e778f05085eebf3f0a72dd626b7b448f8c8549997420cc633932",
+        "README.md": "7fee6d4bdf5771caef5a7cd5699af89ec38f116f877df154e11d60ba20fe3a31"
+      }
+    },
+    {
+      "repository": "jlia0/RealityTalk",
+      "url": "https://github.com/jlia0/RealityTalk",
+      "default_branch": "master",
+      "created_at": "2022-03-30T03:45:16Z",
+      "pushed_at": "2023-06-12T15:05:51Z",
+      "archived": false,
+      "github_license_id": "AGPL-3.0",
+      "git_tree_sha": "5913eac852ca47bedd44cf32bf0b5f757018b8d5",
+      "inspected_files": {
+        "LICENSE": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
+        "README.md": "c8badd847f76d4dbe9a026a7e4bbb8d785066fff5068959d7d56de0ba584c7d6",
+        "package.json": "a124385b33fe1041b36fbfa6b69021b7b3b04f4ff4a6ce03fb23f9f1fd6eed03",
+        "server.js": "f6e3e9cd63e514c0fea5dccde7d52b763fba9e27136793210567a67e055ac0de",
+        "spacy-listen.py": "b9a62e2eeae73a5cfe52cf33ba4aa31c9aa5b306e6e37b9866ecbfdb3177c582"
+      }
+    },
+    {
+      "repository": "moonshine-ai/moonshine",
+      "url": "https://github.com/moonshine-ai/moonshine",
+      "default_branch": "main",
+      "created_at": "2024-10-04T22:10:28Z",
+      "pushed_at": "2026-10-02T17:52:19Z",
+      "archived": false,
+      "github_license_id": "NOASSERTION",
+      "git_tree_sha": "234f60faa0eb388b01cdf7e60aca232af37aefda",
+      "inspected_files": {
+        "LICENSE": "fa7d1174dd8af6a7cd280be20b80d10095ed4c19b5b20b61a7715c3ad790dc5f",
+        "README.md": "d666f3f97157caf3e769e2555e9b2929a3dbb25a3e123efff950f4fd346f8904"
+      }
+    },
+    {
+      "repository": "pipecat-ai/pipecat",
+      "url": "https://github.com/pipecat-ai/pipecat",
+      "default_branch": "main",
+      "created_at": "2023-12-27T12:59:00Z",
+      "pushed_at": "2026-10-19T19:01:11Z",
+      "archived": false,
+      "github_license_id": "BSD-2-Clause",
+      "git_tree_sha": "6b3539f8f903cfc73b00bae91f342916c36874c3",
+      "inspected_files": {
+        "LICENSE": "e31a733ecb79cbffafd5474e964e5eca15e0a0876a42b1d7253b51b198eb61aa",
+        "README.md": "6be8886279cea2148f7627bd4be9c575188cc4415d71c50b76c7149485afa613",
+        "examples--function-calling--function-calling-anthropic-async-stream.py": "adefcfb5c34fff691915735054cee04bfb23eaed692c776bc0a66ec52503e788",
+        "examples--realtime--realtime-gemini-live-async-tool.py": "66168997612adb71be852c0064b26e2a9724317f40217b1c4c16cfa790bc314e"
+      }
+    },
+    {
+      "repository": "ramsrigouthamg/zeroprep",
+      "url": "https://github.com/ramsrigouthamg/zeroprep",
+      "default_branch": "main",
+      "created_at": "2026-07-18T09:49:45Z",
+      "pushed_at": "2026-07-21T17:51:46Z",
+      "archived": false,
+      "github_license_id": "MIT",
+      "git_tree_sha": "bd76e659b4a31d7001a663c496377fc89e9c1b07",
+      "inspected_files": {
+        "LICENSE": "b1c39bedd9e79048d2f71fcb10c22acac6df862a9a21a7cdc5211187204701bb",
+        "README.md": "64b3af79c8936570412d321be83bfa90584163809d8b17538182e63ad3cdd09a",
+        "THIRD_PARTY_NOTICES.md": "bda9bdc42228ba7ece3787d4665c0ff4b7890a09b6a6ccff73f090164b2777a9",
+        "app--api--imagery--route.ts": "864e4cdd708fb0732064fecf015a4a11644449d7c7178c92dc4860c7cbd1bd37",
+        "app--api--realtime--route.ts": "45cf57215f91c0bb31d08ce172de261160e91a6286696c4c8bda7619a8859bf5",
+        "app--page.tsx": "033001ab3c889a9c3ee3043f12040c5e50ee12c73f2360694ce03b4c41a4afb1",
+        "lib--presentation-assets.ts": "7b997761eab0393375e22635091cbde613ca91f7f5f482e3e1d7af18c0f92869"
+      }
+    },
+    {
+      "repository": "searxng/searxng",
+      "url": "https://github.com/searxng/searxng",
+      "default_branch": "master",
+      "created_at": "2021-04-12T15:18:15Z",
+      "pushed_at": "2026-10-19T11:33:56Z",
+      "archived": false,
+      "github_license_id": "AGPL-3.0",
+      "git_tree_sha": null,
+      "inspected_files": {}
+    },
+    {
+      "repository": "timegravity/live-visuals",
+      "url": "https://github.com/timegravity/live-visuals",
+      "default_branch": "main",
+      "created_at": "2026-08-16T07:22:26Z",
+      "pushed_at": "2026-08-25T14:22:08Z",
+      "archived": false,
+      "github_license_id": "MIT",
+      "git_tree_sha": "dff561fc8c296c8d48c3dc0463c2b320945fecd9",
+      "inspected_files": {
+        "LICENSE": "3bd61165476bc4332e6f426417d19e3b2d8130ef7ea8c6f1eefa211b7cb59286",
+        "README.md": "6f8ebe507b3357df033d5e5905f672b724979d86924b568f61c74abd00c13484",
+        "prompt_builder.py": "78874ba6cd5817cd6127b3e854cd989d72196d412533e5172a8bde7d50e5a4ef",
+        "renderers.py": "09a733f3559df612efbdf9886a67fc078bd90ac49028a949a15e07cfc169c089",
+        "requirements.txt": "c24d69c6ed9ca54a7dfd7ddc278fbe7df3fa068e47ffc2158d57d42f4a62a9a5",
+        "run.sh": "de6a80cf4f6ab86eec2ca2578042757469ff65fbd115789ac90b64088ee256f1",
+        "web_app.py": "4f54963826ad5e9bab8893a5fbce274684b282ecaf9091402c241cdc59d3978d"
+      }
+    }
+  ]
+}
