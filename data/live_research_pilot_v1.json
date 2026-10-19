@@ -1,0 +1,679 @@
+{
+  "schema": "live_presenter.live_research_pilot.v1",
+  "date": "2026-10-19",
+  "implementation_commit": "edbf084a01c409a1587b178bb6de02e8423df445",
+  "implementation_fingerprints": {
+    "engine.py": "90ab04e7049279987dc353d361f27a1881b868c95c9bbba7d39d684aeddd027c",
+    "research.py": "860936e90c32d4a12c300aee7cd3cb567a68024653b9f5e1aa77137674a31a42",
+    "research_sources.py": "502775146e4c80c4ad1763d3d335af29c0f415c5e8064d8ac167cc16f9768e26",
+    "research_bridge.py": "5aa2e549684e4315d0f16e22260c642eeed1742f1ce42330c8f4b2d0ca93bf50",
+    "server.py": "327d8deb085bbe2c17843b5b82c232df0200828d178669d8459b5a2b334e4136"
+  },
+  "prepared_notes": "A pump circulates liquid through a hot component and a radiator. The radiator transfers heat to surrounding air. These notes describe a pumped cooling loop.",
+  "unprepared_questions": {
+    "standalone": "What about heat pipes and phase change instead of this pumped cooling loop?",
+    "connected_agent": "How do thermoelectric Peltier coolers move heat without circulating liquid?"
+  },
+  "observations": [
+    {
+      "id": "initial_standalone_development",
+      "private_artifact": "artifacts/live_research_builtin/result.json",
+      "artifact_sha256": "c7dfb6bf638599648abc44754d5de88e4835886cff8aef72ad24be01b0a6259b",
+      "mode": "builtin_public_sources",
+      "status": "ready",
+      "elapsed_s": 16.903108398022596,
+      "transcript_http_return_s": 0.002736684982664883,
+      "stage_kind": "image",
+      "stage_title": "Heat Pipe Mechanism.svg",
+      "retrieved_on_stage": true,
+      "cache_hit": false,
+      "prepared_material_sha256": "4347c7cd2d9bb311ddc31316e6a1eff20ee9c8b762ba45cded6cca4f33042b5a",
+      "package_hash": "5b2e3149c5fee0f8552b3eb2694ac15784e6d36b3ff0d4e2c9b178012fb5a740",
+      "approval_unchanged": true,
+      "source_material_count": 1,
+      "browser_used": false,
+      "physical_audio_used": false,
+      "stage_dwell_s": 0,
+      "independent_review": false,
+      "code_fingerprints": {
+        "engine.py": "90ab04e7049279987dc353d361f27a1881b868c95c9bbba7d39d684aeddd027c",
+        "research.py": "64bedbf7e8eeeee87b0e4d46e94bb1e24c29f9a02a426bbdea48ac504016595a",
+        "research_sources.py": "502775146e4c80c4ad1763d3d335af29c0f415c5e8064d8ac167cc16f9768e26",
+        "research_bridge.py": "28e980f03f80437fa0578ea13eaae7b9bccdbcb0b64fa1c3df52d62b86a0bdba",
+        "server.py": "327d8deb085bbe2c17843b5b82c232df0200828d178669d8459b5a2b334e4136"
+      },
+      "classifier_calls": [
+        {
+          "questions": [
+            "scope",
+            "query"
+          ],
+          "elapsed_s": 0.28463639895198867,
+          "model": "jev-1.13.0",
+          "ok": true
+        },
+        {
+          "questions": [
+            "source"
+          ],
+          "elapsed_s": 0.24733069102512673,
+          "model": "jev-1.13.0",
+          "ok": true
+        },
+        {
+          "questions": [
+            "image"
+          ],
+          "elapsed_s": 0.32085727498633787,
+          "model": "jev-1.13.0",
+          "ok": true
+        }
+      ],
+      "sources": [
+        {
+          "scene_title": "Heat Pipe Mechanism.svg",
+          "kind": "image",
+          "web_source": {
+            "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+            "provider": "Wikipedia",
+            "license": "CC BY-SA 4.0",
+            "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "query": "heat pipes",
+            "retrieved": true,
+            "retrieved_at": 1792398005.1542609,
+            "source_revision_id": 1368764634,
+            "source_text_sha256": "18c8d3b9e32ec5c62320cb76199b28242727e66341eddce34f6a31afb060b2d3",
+            "presenter_reviewed": false,
+            "relevance_confidence": 0.84,
+            "image_url": "https://commons.wikimedia.org/wiki/File:Heat_Pipe_Mechanism.svg",
+            "artist": "Referenced image created by Zootalures , vector created by Offnfopt",
+            "image_license": "CC BY-SA 3.0",
+            "image_license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+            "image_relevance_confidence": 1.0,
+            "pixels_semantically_verified": false
+          },
+          "asset_sha256": "e3914e73e9c479ee6c89e675ef5efcd39a0bbe5e7d82c6299985f98afd2d1103",
+          "asset_width": 960,
+          "asset_height": 687
+        },
+        {
+          "scene_title": "Heat pipe",
+          "kind": "evidence",
+          "web_source": {
+            "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+            "provider": "Wikipedia",
+            "license": "CC BY-SA 4.0",
+            "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "query": "heat pipes",
+            "retrieved": true,
+            "retrieved_at": 1792398005.1542609,
+            "source_revision_id": 1368764634,
+            "source_text_sha256": "18c8d3b9e32ec5c62320cb76199b28242727e66341eddce34f6a31afb060b2d3",
+            "presenter_reviewed": false,
+            "relevance_confidence": 0.84
+          },
+          "asset_sha256": null,
+          "asset_width": null,
+          "asset_height": null
+        }
+      ],
+      "history": [
+        {
+          "completed_at": 1792398011.5329812,
+          "query": "heat pipes",
+          "status": "ready",
+          "package_hash": "5b2e3149c5fee0f8552b3eb2694ac15784e6d36b3ff0d4e2c9b178012fb5a740",
+          "displayed_automatically": true,
+          "sources": [
+            {
+              "scene_id": "web_a30f8560c8c7fd22_image_e3914e73e9c4",
+              "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+              "image_url": "https://commons.wikimedia.org/wiki/File:Heat_Pipe_Mechanism.svg",
+              "asset_sha256": "e3914e73e9c479ee6c89e675ef5efcd39a0bbe5e7d82c6299985f98afd2d1103",
+              "quote_sha256": "a530c81ba477efd651922864ce053c5ce6e9a83edb6448669b1a46348c9b3cf3"
+            },
+            {
+              "scene_id": "web_a30f8560c8c7fd22",
+              "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+              "image_url": null,
+              "asset_sha256": null,
+              "quote_sha256": "a530c81ba477efd651922864ce053c5ce6e9a83edb6448669b1a46348c9b3cf3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "connected_agent_late_result",
+      "private_artifact": "artifacts/live_research_bridge/result.json",
+      "artifact_sha256": "252885ad4c5028f8e88cc4361fdace2efeb635f7247f8b83315167ca1dbd9d09",
+      "mode": "connected_agent",
+      "status": "ready",
+      "elapsed_s": 28.4813953100238,
+      "transcript_http_return_s": 0.00932881300104782,
+      "stage_kind": "definition",
+      "stage_title": "Cooling notes.md",
+      "retrieved_on_stage": false,
+      "cache_hit": false,
+      "prepared_material_sha256": "4347c7cd2d9bb311ddc31316e6a1eff20ee9c8b762ba45cded6cca4f33042b5a",
+      "package_hash": "5b2e3149c5fee0f8552b3eb2694ac15784e6d36b3ff0d4e2c9b178012fb5a740",
+      "approval_unchanged": true,
+      "source_material_count": 1,
+      "browser_used": false,
+      "physical_audio_used": false,
+      "stage_dwell_s": 0,
+      "independent_review": false,
+      "code_fingerprints": {
+        "engine.py": "90ab04e7049279987dc353d361f27a1881b868c95c9bbba7d39d684aeddd027c",
+        "research.py": "64bedbf7e8eeeee87b0e4d46e94bb1e24c29f9a02a426bbdea48ac504016595a",
+        "research_sources.py": "502775146e4c80c4ad1763d3d335af29c0f415c5e8064d8ac167cc16f9768e26",
+        "research_bridge.py": "28e980f03f80437fa0578ea13eaae7b9bccdbcb0b64fa1c3df52d62b86a0bdba",
+        "server.py": "327d8deb085bbe2c17843b5b82c232df0200828d178669d8459b5a2b334e4136"
+      },
+      "classifier_calls": [],
+      "sources": [],
+      "history": [
+        {
+          "completed_at": 1792398072.5016708,
+          "query": "How do thermoelectric Peltier coolers move heat without circulating liquid?",
+          "status": "ready",
+          "package_hash": "5b2e3149c5fee0f8552b3eb2694ac15784e6d36b3ff0d4e2c9b178012fb5a740",
+          "displayed_automatically": false,
+          "sources": [
+            {
+              "scene_id": "web_agent_5b9d829c97b9410f",
+              "url": "https://www.nasa.gov/smallsat-institute/sst-soa/thermal-control/",
+              "image_url": null,
+              "asset_sha256": null,
+              "quote_sha256": "b9dbb26123b76fb2428b35dc5c528a67281179c401f8e80efa3b52a0f95b3036"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "connected_agent_warm_repeat",
+      "private_artifact": "artifacts/live_research_bridge/cached-repeat.json",
+      "artifact_sha256": "6c77c5c9d216de56b181fd28717964455a81f4e216cd9d99cfdabf0982e17b57",
+      "mode": "connected_agent_warm_cache",
+      "status": "ready",
+      "elapsed_s": 0.014468006964307278,
+      "transcript_http_return_s": null,
+      "stage_kind": "evidence",
+      "stage_title": "NASA: thermoelectric coolers",
+      "retrieved_on_stage": true,
+      "cache_hit": true,
+      "prepared_material_sha256": null,
+      "package_hash": "5b2e3149c5fee0f8552b3eb2694ac15784e6d36b3ff0d4e2c9b178012fb5a740",
+      "approval_unchanged": null,
+      "source_material_count": null,
+      "browser_used": false,
+      "physical_audio_used": false,
+      "stage_dwell_s": 0,
+      "independent_review": false,
+      "code_fingerprints": null,
+      "classifier_calls": [],
+      "sources": [
+        {
+          "scene_title": "NASA: thermoelectric coolers",
+          "kind": "evidence",
+          "web_source": {
+            "url": "https://www.nasa.gov/smallsat-institute/sst-soa/thermal-control/",
+            "provider": "Connected research agent",
+            "retrieved": true,
+            "presenter_reviewed": false,
+            "retrieval_attestation": "operator_agent",
+            "independently_verified_by_app": false
+          },
+          "asset_sha256": null,
+          "asset_width": null,
+          "asset_height": null
+        }
+      ]
+    },
+    {
+      "id": "committed_standalone_timeout",
+      "private_artifact": "artifacts/live_research_checkpoint/result.json",
+      "artifact_sha256": "d3358d1e98700563e62f6af1aa15cb3b8ce8751531528e599ccf96d72133a0ef",
+      "mode": "builtin_public_sources",
+      "status": "error",
+      "elapsed_s": 25.040895792015363,
+      "transcript_http_return_s": 0.003356611996423453,
+      "stage_kind": "definition",
+      "stage_title": "Cooling notes.md",
+      "retrieved_on_stage": false,
+      "cache_hit": false,
+      "prepared_material_sha256": "4347c7cd2d9bb311ddc31316e6a1eff20ee9c8b762ba45cded6cca4f33042b5a",
+      "package_hash": "5b2e3149c5fee0f8552b3eb2694ac15784e6d36b3ff0d4e2c9b178012fb5a740",
+      "approval_unchanged": true,
+      "source_material_count": 1,
+      "browser_used": false,
+      "physical_audio_used": false,
+      "stage_dwell_s": 0,
+      "independent_review": false,
+      "code_fingerprints": {
+        "engine.py": "90ab04e7049279987dc353d361f27a1881b868c95c9bbba7d39d684aeddd027c",
+        "research.py": "860936e90c32d4a12c300aee7cd3cb567a68024653b9f5e1aa77137674a31a42",
+        "research_sources.py": "502775146e4c80c4ad1763d3d335af29c0f415c5e8064d8ac167cc16f9768e26",
+        "research_bridge.py": "5aa2e549684e4315d0f16e22260c642eeed1742f1ce42330c8f4b2d0ca93bf50",
+        "server.py": "327d8deb085bbe2c17843b5b82c232df0200828d178669d8459b5a2b334e4136"
+      },
+      "classifier_calls": [],
+      "sources": [],
+      "history": [
+        {
+          "completed_at": 1792398550.6530905,
+          "query": "",
+          "status": "error",
+          "package_hash": "5b2e3149c5fee0f8552b3eb2694ac15784e6d36b3ff0d4e2c9b178012fb5a740",
+          "displayed_automatically": false,
+          "sources": []
+        }
+      ]
+    },
+    {
+      "id": "committed_standalone_instrumented_retry",
+      "private_artifact": "artifacts/live_research_diagnostic/result.json",
+      "artifact_sha256": "d064e6afc3eda503487f8859149d6f6fda8ab45155fce4e92333edd57a7ad585",
+      "mode": "builtin_public_sources",
+      "status": "ready",
+      "elapsed_s": 14.058157149993349,
+      "transcript_http_return_s": 0.0027015479863621294,
+      "stage_kind": "image",
+      "stage_title": "Heat Pipe Mechanism.svg",
+      "retrieved_on_stage": true,
+      "cache_hit": false,
+      "prepared_material_sha256": "4347c7cd2d9bb311ddc31316e6a1eff20ee9c8b762ba45cded6cca4f33042b5a",
+      "package_hash": "5b2e3149c5fee0f8552b3eb2694ac15784e6d36b3ff0d4e2c9b178012fb5a740",
+      "approval_unchanged": true,
+      "source_material_count": 1,
+      "browser_used": false,
+      "physical_audio_used": false,
+      "stage_dwell_s": 0,
+      "independent_review": false,
+      "code_fingerprints": {
+        "engine.py": "90ab04e7049279987dc353d361f27a1881b868c95c9bbba7d39d684aeddd027c",
+        "research.py": "860936e90c32d4a12c300aee7cd3cb567a68024653b9f5e1aa77137674a31a42",
+        "research_sources.py": "502775146e4c80c4ad1763d3d335af29c0f415c5e8064d8ac167cc16f9768e26",
+        "research_bridge.py": "5aa2e549684e4315d0f16e22260c642eeed1742f1ce42330c8f4b2d0ca93bf50",
+        "server.py": "327d8deb085bbe2c17843b5b82c232df0200828d178669d8459b5a2b334e4136"
+      },
+      "classifier_calls": [
+        {
+          "questions": [
+            "scope",
+            "query"
+          ],
+          "elapsed_s": 0.24020990100689232,
+          "model": "jev-1.13.0",
+          "ok": true
+        },
+        {
+          "questions": [
+            "source"
+          ],
+          "elapsed_s": 0.5115832310402766,
+          "model": "jev-1.13.0",
+          "ok": true
+        },
+        {
+          "questions": [
+            "image"
+          ],
+          "elapsed_s": 8.050817442010157,
+          "ok": false
+        },
+        {
+          "questions": [
+            "image"
+          ],
+          "elapsed_s": 1.3713790529873222,
+          "model": "jev-1.13.0",
+          "ok": true
+        }
+      ],
+      "sources": [
+        {
+          "scene_title": "Heat Pipe Mechanism.svg",
+          "kind": "image",
+          "web_source": {
+            "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+            "provider": "Wikipedia",
+            "license": "CC BY-SA 4.0",
+            "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "query": "heat pipes",
+            "retrieved": true,
+            "retrieved_at": 1792398576.8674026,
+            "source_revision_id": 1368764634,
+            "source_text_sha256": "18c8d3b9e32ec5c62320cb76199b28242727e66341eddce34f6a31afb060b2d3",
+            "presenter_reviewed": false,
+            "relevance_confidence": 0.88,
+            "image_url": "https://commons.wikimedia.org/wiki/File:Heat_Pipe_Mechanism.svg",
+            "artist": "Referenced image created by Zootalures , vector created by Offnfopt",
+            "image_license": "CC BY-SA 3.0",
+            "image_license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+            "image_relevance_confidence": 1.0,
+            "pixels_semantically_verified": false
+          },
+          "asset_sha256": "e3914e73e9c479ee6c89e675ef5efcd39a0bbe5e7d82c6299985f98afd2d1103",
+          "asset_width": 960,
+          "asset_height": 687
+        },
+        {
+          "scene_title": "Heat pipe",
+          "kind": "evidence",
+          "web_source": {
+            "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+            "provider": "Wikipedia",
+            "license": "CC BY-SA 4.0",
+            "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "query": "heat pipes",
+            "retrieved": true,
+            "retrieved_at": 1792398576.8674026,
+            "source_revision_id": 1368764634,
+            "source_text_sha256": "18c8d3b9e32ec5c62320cb76199b28242727e66341eddce34f6a31afb060b2d3",
+            "presenter_reviewed": false,
+            "relevance_confidence": 0.88
+          },
+          "asset_sha256": null,
+          "asset_width": null,
+          "asset_height": null
+        }
+      ],
+      "history": [
+        {
+          "completed_at": 1792398587.207669,
+          "query": "heat pipes",
+          "status": "ready",
+          "package_hash": "5b2e3149c5fee0f8552b3eb2694ac15784e6d36b3ff0d4e2c9b178012fb5a740",
+          "displayed_automatically": true,
+          "sources": [
+            {
+              "scene_id": "web_a30f8560c8c7fd22_image_e3914e73e9c4",
+              "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+              "image_url": "https://commons.wikimedia.org/wiki/File:Heat_Pipe_Mechanism.svg",
+              "asset_sha256": "e3914e73e9c479ee6c89e675ef5efcd39a0bbe5e7d82c6299985f98afd2d1103",
+              "quote_sha256": "a530c81ba477efd651922864ce053c5ce6e9a83edb6448669b1a46348c9b3cf3"
+            },
+            {
+              "scene_id": "web_a30f8560c8c7fd22",
+              "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+              "image_url": null,
+              "asset_sha256": null,
+              "quote_sha256": "a530c81ba477efd651922864ce053c5ce6e9a83edb6448669b1a46348c9b3cf3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reproducible_cli_late_result",
+      "private_artifact": "artifacts/live_research_reproducible_cli/result.json",
+      "artifact_sha256": "ca00dbfc3fee0242d0c2d43474909d89815b9bf54f5552c364c6491a33a63548",
+      "mode": "builtin_public_sources",
+      "status": "ready",
+      "elapsed_s": 22.33654688898241,
+      "transcript_http_return_s": 0.0034016770077869296,
+      "stage_kind": "definition",
+      "stage_title": "Cooling notes.md",
+      "retrieved_on_stage": false,
+      "cache_hit": false,
+      "prepared_material_sha256": "4347c7cd2d9bb311ddc31316e6a1eff20ee9c8b762ba45cded6cca4f33042b5a",
+      "package_hash": "5b2e3149c5fee0f8552b3eb2694ac15784e6d36b3ff0d4e2c9b178012fb5a740",
+      "approval_unchanged": true,
+      "source_material_count": 1,
+      "browser_used": false,
+      "physical_audio_used": false,
+      "stage_dwell_s": 0,
+      "independent_review": false,
+      "code_fingerprints": {
+        "engine.py": "90ab04e7049279987dc353d361f27a1881b868c95c9bbba7d39d684aeddd027c",
+        "research.py": "860936e90c32d4a12c300aee7cd3cb567a68024653b9f5e1aa77137674a31a42",
+        "research_sources.py": "502775146e4c80c4ad1763d3d335af29c0f415c5e8064d8ac167cc16f9768e26",
+        "research_bridge.py": "5aa2e549684e4315d0f16e22260c642eeed1742f1ce42330c8f4b2d0ca93bf50",
+        "server.py": "327d8deb085bbe2c17843b5b82c232df0200828d178669d8459b5a2b334e4136"
+      },
+      "classifier_calls": [
+        {
+          "questions": [
+            "scope",
+            "query"
+          ],
+          "elapsed_s": 0.5553118259995244,
+          "model": "jev-1.13.0",
+          "ok": true
+        },
+        {
+          "questions": [
+            "source"
+          ],
+          "elapsed_s": 2.507758851046674,
+          "model": "jev-1.13.0",
+          "ok": true
+        },
+        {
+          "questions": [
+            "image"
+          ],
+          "elapsed_s": 0.45762862398987636,
+          "model": "jev-1.13.0",
+          "ok": true
+        }
+      ],
+      "sources": [
+        {
+          "scene_title": "Heat Pipe Mechanism.svg",
+          "kind": "image",
+          "web_source": {
+            "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+            "provider": "Wikipedia",
+            "license": "CC BY-SA 4.0",
+            "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "query": "heat pipes",
+            "retrieved": true,
+            "retrieved_at": 1792398742.4660423,
+            "source_revision_id": 1368764634,
+            "source_text_sha256": "18c8d3b9e32ec5c62320cb76199b28242727e66341eddce34f6a31afb060b2d3",
+            "presenter_reviewed": false,
+            "relevance_confidence": 0.88,
+            "image_url": "https://commons.wikimedia.org/wiki/File:Heat_Pipe_Mechanism.svg",
+            "artist": "Referenced image created by Zootalures , vector created by Offnfopt",
+            "image_license": "CC BY-SA 3.0",
+            "image_license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+            "image_relevance_confidence": 1.0,
+            "pixels_semantically_verified": false
+          },
+          "asset_sha256": "e3914e73e9c479ee6c89e675ef5efcd39a0bbe5e7d82c6299985f98afd2d1103"
+        },
+        {
+          "scene_title": "Heat pipe",
+          "kind": "evidence",
+          "web_source": {
+            "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+            "provider": "Wikipedia",
+            "license": "CC BY-SA 4.0",
+            "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "query": "heat pipes",
+            "retrieved": true,
+            "retrieved_at": 1792398742.4660423,
+            "source_revision_id": 1368764634,
+            "source_text_sha256": "18c8d3b9e32ec5c62320cb76199b28242727e66341eddce34f6a31afb060b2d3",
+            "presenter_reviewed": false,
+            "relevance_confidence": 0.88
+          },
+          "asset_sha256": null
+        }
+      ],
+      "history": [
+        {
+          "completed_at": 1792398745.6697097,
+          "query": "heat pipes",
+          "status": "ready",
+          "package_hash": "5b2e3149c5fee0f8552b3eb2694ac15784e6d36b3ff0d4e2c9b178012fb5a740",
+          "displayed_automatically": false,
+          "sources": [
+            {
+              "scene_id": "web_a30f8560c8c7fd22_image_e3914e73e9c4",
+              "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+              "image_url": "https://commons.wikimedia.org/wiki/File:Heat_Pipe_Mechanism.svg",
+              "asset_sha256": "e3914e73e9c479ee6c89e675ef5efcd39a0bbe5e7d82c6299985f98afd2d1103",
+              "quote_sha256": "a530c81ba477efd651922864ce053c5ce6e9a83edb6448669b1a46348c9b3cf3"
+            },
+            {
+              "scene_id": "web_a30f8560c8c7fd22",
+              "url": "https://en.wikipedia.org/wiki/Heat_pipe",
+              "image_url": null,
+              "asset_sha256": null,
+              "quote_sha256": "a530c81ba477efd651922864ce053c5ce6e9a83edb6448669b1a46348c9b3cf3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "diagnostic_provider_timings": [
+    {
+      "function": "choose_query",
+      "event": "start"
+    },
+    {
+      "function": "assess",
+      "event": "start"
+    },
+    {
+      "function": "assess",
+      "event": "done",
+      "elapsed_s": 0.24025487003382295
+    },
+    {
+      "function": "choose_query",
+      "event": "done",
+      "elapsed_s": 0.24076560995308682
+    },
+    {
+      "function": "wiki",
+      "event": "start"
+    },
+    {
+      "function": "download",
+      "event": "start"
+    },
+    {
+      "function": "commons",
+      "event": "start"
+    },
+    {
+      "function": "download",
+      "event": "start"
+    },
+    {
+      "function": "papers",
+      "event": "start"
+    },
+    {
+      "function": "download",
+      "event": "start"
+    },
+    {
+      "function": "download",
+      "event": "done",
+      "elapsed_s": 0.9968810019781813
+    },
+    {
+      "function": "wiki",
+      "event": "done",
+      "elapsed_s": 0.9976304200245067
+    },
+    {
+      "function": "download",
+      "event": "done",
+      "elapsed_s": 1.459238164999988
+    },
+    {
+      "function": "commons",
+      "event": "done",
+      "elapsed_s": 1.459920236025937
+    },
+    {
+      "function": "download",
+      "event": "done",
+      "elapsed_s": 2.57415438600583
+    },
+    {
+      "function": "papers",
+      "event": "done",
+      "elapsed_s": 2.575426997966133
+    },
+    {
+      "function": "assess",
+      "event": "start"
+    },
+    {
+      "function": "assess",
+      "event": "done",
+      "elapsed_s": 0.5116312599857338
+    },
+    {
+      "function": "commons",
+      "event": "start"
+    },
+    {
+      "function": "download",
+      "event": "start"
+    },
+    {
+      "function": "download",
+      "event": "done",
+      "elapsed_s": 0.32682509103324264
+    },
+    {
+      "function": "commons",
+      "event": "done",
+      "elapsed_s": 0.3277276479639113
+    },
+    {
+      "function": "assess",
+      "event": "start"
+    },
+    {
+      "function": "assess",
+      "event": "done",
+      "elapsed_s": 9.42223099200055
+    },
+    {
+      "function": "download",
+      "event": "start"
+    },
+    {
+      "function": "download",
+      "event": "done",
+      "elapsed_s": 0.5308269889792427
+    }
+  ],
+  "other_preserved_development_failures": [
+    {
+      "probe": "copilot-spectator web_search/web_fetch",
+      "outcome": "quota_exceeded HTTP 402; wrapper exit 0 did not establish success"
+    },
+    {
+      "probe": "copilot-ly web_search/web_fetch",
+      "outcome": "quota_exceeded HTTP 402"
+    },
+    {
+      "probe": "initial Jev planning requests with two-second request timeout",
+      "outcome": "Timeouts observed; later retry/request budget changed before checkpoint."
+    }
+  ],
+  "interpretation": [
+    "Development probes on known queries, with evolving code; not an independent holdout or a reliability estimate.",
+    "Connected-agent source was searched/opened by an active Codex operator after request; no unattended general browsing worker was proven.",
+    "Source/image relevance and audience usefulness were not independently scored. Browser paint and physical audio were not measured.",
+    "Cold discovery can exceed the topic freshness window or hard deadline. Fast cached selection does not establish fast cold research."
+  ],
+  "offline_verification": {
+    "python_tests": 140,
+    "node_tests": 6,
+    "browser_module_syntax": "passed"
+  },
+  "reproduction_command": "python3 live_research_pilot.py --out-dir artifacts/a-new-directory"
+}

@@ -4,6 +4,12 @@ This is the new local product path in `presenter/`. It runs independently of the
 missing historical v1–v10 checkpoint. It is a functional prototype; its browser
 layout and physical microphone/projector behavior have not yet been verified.
 
+Optional browsing/procurement for related material absent from the prepared
+package is described in `LIVE_RESEARCH.md`. It adds a separate, visibly labeled
+retrieved-source overlay when enabled; the prepared-only behavior below remains
+the default. Start with `make studio-research` or `make studio-research-agent`
+and enable Live research during rehearsal.
+
 ```bash
 make studio
 ```
