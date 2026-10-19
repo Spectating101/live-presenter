@@ -53,12 +53,30 @@ def synthesize(folder):
     return rows
 
 
-def run(folder,asr_python):
+def recorded_audio(config,folder):
+    source=Path(config['audio_path'])
+    if file_hash(source)!=config['audio_sha256']:raise ValueError('The pinned recording changed.')
+    with wave.open(str(source),'rb') as wav:
+        if (wav.getnchannels(),wav.getsampwidth(),wav.getframerate())!=(1,2,16000):
+            raise ValueError('Use mono 16 kHz signed 16-bit PCM.')
+        wav.setpos(int(config['offset_s']*16000));count=int(config['duration_s']*16000);data=wav.readframes(count)
+        if len(data)!=count*2:raise ValueError('The excerpt exceeds the recording.')
+    with wave.open(str(folder/'audio.wav'),'wb') as wav:
+        wav.setparams((1,2,16000,0,'NONE','not compressed'));wav.writeframes(data)
+    return copy.deepcopy(config['segments'])
+
+
+def run(folder,asr_python,fixture_path=None):
     folder=folder.absolute();folder.mkdir(parents=True,exist_ok=True,mode=0o700)
     if any((folder/name).exists() for name in ('result.json','started.json')):
         raise ValueError('Use a new output directory; recorded attempts are preserved.')
     save(folder/'started.json',{'started_at':time.time(),'git_commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()})
-    script=synthesize(folder);save(folder/'withheld-script.json',script)
+    config=json.loads(fixture_path.read_text()) if fixture_path else None
+    title,brief,notes=(config['title'],config['brief'],config['notes']) if config else (TITLE,BRIEF,NOTES)
+    script=recorded_audio(config,folder) if config else synthesize(folder)
+    speech=('Recorded TED audio; no synthetic speech' if config else
+            'FFmpeg libflite slt synthetic English speech; separately synthesized paragraphs concatenated without added pauses')
+    save(folder/'withheld-script.json',script)
     load_jev_env()
     server=make_server(Store(folder/'studio'),port=0,use_jev=False,research_web=True,
                        audio_decoder=SubprocessRecognizer(asr_python))
@@ -72,8 +90,8 @@ def run(folder,asr_python):
     stop=threading.Event();observer=None;events=[];scenes={};observer_errors=[];rows={};sent={};samples=[]
     try:
         begun=time.monotonic()
-        p=call('/api/projects',{'title':TITLE,'brief':BRIEF,'audience':'Engineering students','provider':'outline',
-                              'sources':[{'name':'Pump notes.md','text':NOTES}]})
+        p=call('/api/projects',{'title':title,'brief':brief,'audience':'General adult audience' if config else 'Engineering students','provider':'outline',
+                              'sources':[{'name':'Brief notes.md' if config else 'Pump notes.md','text':notes}]})
         pid=p['id'];url='/api/projects/'+pid
         while p['job']['status']=='working' and time.monotonic()-begun<40:
             time.sleep(.05);p=call(url)
@@ -81,7 +99,7 @@ def run(folder,asr_python):
         preparation_s=time.monotonic()-begun
         save(folder/'prepared-project.json',p)
         prepared_text=' '.join(unit['text'] for source in p['sources'] for unit in source['units']).lower()
-        withheld_terms=['heat pipe','thermoelectric','sourdough']
+        withheld_terms=config.get('withheld_terms',[]) if config else ['heat pipe','thermoelectric','sourdough']
         if any(term in prepared_text for term in withheld_terms):
             raise ValueError('A detour appeared in preparation; this attempt cannot claim it was unprepared.')
         p=call(url+'/approve',{'revision':p['revision'],'reviewed':True});approval=p['approval']['package_hash']
@@ -133,9 +151,9 @@ def run(folder,asr_python):
         assert p['approval']['package_hash']==approval
         result={'schema':'live_presenter.researched_rehearsal.v1','git_commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
             'code_fingerprints':{name:file_hash(Path(__file__).with_name(name)) for name in ('engine.py','planning.py','research.py','research_sources.py','web_research.py','preparation_research.py','live_audio.py','server.py','researched_demo.py')},
-            'input':{'title':TITLE,'brief':BRIEF,'supplied_notes':NOTES,'supplied_notes_sha256':hashlib.sha256(NOTES.encode()).hexdigest(),
+            'input':{'title':title,'brief':brief,'supplied_notes':notes,'supplied_notes_sha256':hashlib.sha256(notes.encode()).hexdigest(),
                 'future_speech_supplied_to_preparation':False,'withheld_terms_absent':withheld_terms,'audio_sha256':file_hash(wav),
-                'speech':'FFmpeg libflite slt synthetic English speech; separately synthesized paragraphs concatenated without added pauses'},
+                'speech':speech,'fixture':config,'fixture_sha256':file_hash(fixture_path) if fixture_path else None},
             'preparation_s':preparation_s,'preparation_research':p.get('preparation_research'),'prepared_package_hash':approval,
             'prepared_source_count':len(p['sources']),'prepared_scene_count':len(p['approval']['package']['scenes']),
             'approval_unchanged_during_rehearsal':True,'wall_origin':wall_origin,'elapsed_s':time.monotonic()-origin,
@@ -144,7 +162,7 @@ def run(folder,asr_python):
             'worker':{k:v for k,v in state.items() if k not in {'stream_id','generation','updates','last_seen'}},
             'observer_errors':observer_errors,'browser_used':False,'physical_microphone_used':False,'independent_quality_review':False,
             'operator_interventions_during_speech':0,'online_results_injected_by_operator':0,'stage_dwell_s':2.5,
-            'limitations':['Synthetic and development-authored script, not a human or independent holdout.',
+            'limitations':(['Synthetic and development-authored script, not a human or independent holdout.'] if not config else config['limitations'])+[
                 'Real paced PCM HTTP, local tiny.en ASR, unattended web requests and stage API; excludes browser paint and physical microphone/projector.',
                 'Source outline preparation is extractive; a functioning generative preparation conversation was unavailable because Copilot accounts were quota-blocked.',
                 'External search caches may already contain development queries; this is not a cold-provider service benchmark.']}
@@ -163,8 +181,9 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out-dir',type=Path,required=True)
     parser.add_argument('--asr-python',type=Path,default=Path('.venv-asr/bin/python'))
+    parser.add_argument('--fixture-json',type=Path,help='Pinned real-audio fixture; omit for the synthetic detour script')
     args=parser.parse_args()
-    result=run(args.out_dir,args.asr_python)
+    result=run(args.out_dir,args.asr_python,args.fixture_json)
     print(json.dumps({'elapsed_s':result['elapsed_s'],'stage_changes':len(result['stage_events']),
                      'research_completions':len(result['research_history']),'result':str(args.out_dir/'result.json')}),flush=True)
 

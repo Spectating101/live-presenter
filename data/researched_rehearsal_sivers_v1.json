@@ -1,0 +1,31 @@
+{
+  "schema": "live_presenter.rehearsal_audio_fixture.v1",
+  "title": "Leadership and group participation",
+  "brief": "Explain how leadership and collective participation can help people coordinate a new group effort. The audience is new to the subject.",
+  "notes": "A leader may propose a new direction. People decide whether to join a group effort. Collective participation matters when a group begins to act.",
+  "audio_path": "artifacts/recorded_talks/sivers/audio.wav",
+  "audio_sha256": "228ec6e6c7a441aade263a3f384dee4358e15590e439bc1891ca301220dc0fa0",
+  "source_url": "https://www.ted.com/talks/derek_sivers_how_to_start_a_movement",
+  "source_title": "How to start a movement",
+  "offset_s": 0,
+  "duration_s": 120,
+  "withheld_terms": [],
+  "segments": [
+    {
+      "id": "sivers_human_audio",
+      "condition": "real_recording_development",
+      "start_s": 0,
+      "end_s": 120,
+      "topic_terms": [
+        "leader",
+        "follower",
+        "movement"
+      ]
+    }
+  ],
+  "limitations": [
+    "This recording was used in earlier development; this condition is not a held-out talk.",
+    "Only the brief and notes, followed by autonomous preparation research, are supplied before the audio. The full recording transcript is not supplied.",
+    "No claim that all spoken subjects are absent from the automatically researched preparation."
+  ]
+}

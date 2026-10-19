@@ -27,7 +27,7 @@ def summarize(result):
                            *(r['quote'] for r in scene.get('source_refs',[]))]).lower()
             start=max(section['start_s'],event['at_s']);end=min(section['end_s'],events[index+1]['at_s'] if index+1<len(events) else duration)
             if end<=start:continue
-            if any(term in text for term in TERMS[section['id']]):
+            if any(term in text for term in section.get('topic_terms',TERMS.get(section['id'],()))):
                 visible_s+=end-start;hits.append({'at_s':start,'scene_id':event['scene_id'],
                     'fresh_retrieval':bool(scene.get('web_source') and not scene['web_source'].get('presenter_reviewed')),
                     'url':scene.get('web_source',{}).get('url')})
@@ -41,18 +41,18 @@ def summarize(result):
         'research_completions':len(result['research_history']),'automatically_displayed_research':sum(r['displayed_automatically'] for r in result['research_history']),
         'stage_changes':max(0,len(events)-1),'worker':result['worker'],'observer_errors':result['observer_errors'],
         'segments':segments,'evaluation':'Lexical checks of actual scene title, quotation and image description. Query strings are excluded. No independent factual, visual or audience-quality judgment.',
-        'browser_used':False,'physical_microphone_used':False,'speech':'synthetic',
+        'browser_used':False,'physical_microphone_used':False,'speech':result['input']['speech'],
         'limitations':result['limitations']}
 
 
-def frame(scene,destination):
+def frame(scene,destination,*,recorded=False):
     from PIL import Image, ImageDraw, ImageFont, ImageOps
     image=Image.new('RGB',(1280,720),'#f5f6f0');draw=ImageDraw.Draw(image)
     regular='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf';bold='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
     font=lambda size,strong=False:ImageFont.truetype(bold if strong else regular,size)
     origin=scene.get('web_source',{})
     label='PREPARED VISUAL' if not origin else 'RESEARCHED BEFORE TALK · REVIEWED' if origin.get('presenter_reviewed') else 'RETRIEVED DURING TALK · PROVISIONAL'
-    draw.text((38,18),'STAGE API RECONSTRUCTION · SYNTHETIC SPEECH · NOT A SCREEN RECORDING',font=font(15),fill='#53675c')
+    draw.text((38,18),'STAGE API RECONSTRUCTION · '+('RECORDED TED AUDIO' if recorded else 'SYNTHETIC SPEECH')+' · NOT A SCREEN RECORDING',font=font(15),fill='#53675c')
     draw.rounded_rectangle((24,52,1256,690),radius=16,fill='white',outline='#dce3dc',width=2)
     draw.text((48,68),label,font=font(17,True),fill='#2d6657')
     title=scene.get('title','').replace('_',' ')
@@ -82,7 +82,7 @@ def report(folder,*,video=False):
     folder=folder.absolute();result=json.loads((folder/'result.json').read_text());summary=summarize(result)
     save(folder/'summary.json',summary)
     events=result['stage_events'];scenes=result['scenes'];frames=folder/'frames';frames.mkdir(exist_ok=True)
-    for index,event in enumerate(events):frame(scenes[event['scene_id']],frames/f'{index:03d}.png')
+    for index,event in enumerate(events):frame(scenes[event['scene_id']],frames/f'{index:03d}.png',recorded=bool(result['input'].get('fixture')))
     if video and events:
         with wave.open(str(folder/'audio.wav'),'rb') as wav:duration=wav.getnframes()/wav.getframerate()
         lines=['ffconcat version 1.0']
@@ -105,7 +105,7 @@ def report(folder,*,video=False):
 <title>Researched rehearsal</title><style>body{{font:18px/1.5 system-ui;max-width:1100px;margin:2rem auto;padding:0 1rem;background:#f5f6f0;color:#173a30}}
 video,img{{width:100%}}section{{background:white;padding:1rem;border-radius:12px;margin:1rem 0}}td,th{{text-align:left;padding:.6rem;border-bottom:1px solid #ccd5ce}}a{{color:#235f80}}</style>
 <h1>Continuous researched rehearsal</h1><p>Actual paced audio → local ASR → unattended web research → stage API.</p>
-<p><strong>Synthetic speech and reconstructed API visuals. Browser paint, physical microphone and independent quality were not tested.</strong></p>
+<p><strong>{esc(result['input']['speech'])}; reconstructed API visuals. Browser paint, physical microphone and independent quality were not tested.</strong></p>
 {media}<section><h2>Supplied brief and notes</h2><p>{esc(result['input']['brief'])}</p><p>{esc(result['input']['supplied_notes'])}</p>
 <p>Preparation took {result['preparation_s']:.2f}s and produced {result['prepared_source_count']} sources / {result['prepared_scene_count']} scenes.
 The detour script was withheld from preparation. Operator interventions during speech: {result['operator_interventions_during_speech']}.</p></section>
