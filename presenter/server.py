@@ -242,7 +242,8 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
                 elif action == 'default-scene':
                     result = studio.default_scene(pid,body.get('scene_id'))
                 elif action == "control":
-                    result = studio.control(pid, body.get("action"), body.get("scene_id"), body.get('enabled'), body.get('annotation_id'))
+                    result = studio.control(pid, body.get("action"), body.get("scene_id"), body.get('enabled'), body.get('annotation_id'),
+                                            body.get('style'))
                     if research and body.get('action')!='start':research.invalidate(pid)
                     if audio:
                         audio.invalidate(pid)

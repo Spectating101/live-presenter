@@ -19,7 +19,7 @@ class VisualOutput:
     """Read-only projection of an approved running explanation.
 
     Unsupported prose templates hold the last valid visual in this package.
-    Stop or revoked/changed approval clears the output. No draft can leak
+    Stop, a return to the speaker or revoked/changed approval clears the output. No draft can leak
     through the native path just because it can draw an image.
     """
     def __init__(self):
@@ -48,7 +48,10 @@ class VisualOutput:
             else:
                 scene = (live.get('research_scene') if live.get('research_enabled') else None) or next(
                     (s for s in package['scenes'] if s['id'] == live['current_scene_id']), None)
-                if scene and scene['kind'] in VISUAL_KINDS:
+                if scene is None and live['current_scene_id'] is None:
+                    self.scene = self.attention = None
+                    self.reason = 'Attention returned to the speaker; output cleared.'
+                elif scene and scene['kind'] in VISUAL_KINDS:
                     self.scene = copy.deepcopy(scene)
                     focus = live.get('attention')
                     self.attention = copy.deepcopy(focus) if focus and focus['scene_id'] == scene['id'] else None

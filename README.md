@@ -29,6 +29,7 @@ research lane for evaluating causal visual editing and an advisory learned polic
 - `make native-test` — test native output and attention offscreen
 - `make native-speech SPEECH_OUT=artifacts/new_attempt` — record real paced speech recognition driving native visuals, headlessly; see [results and detour limits](NATIVE_OUTPUT.md#speech-to-visuals-and-a-fresh-detour)
 - [Upstream integrations](REUSE_INTEGRATION.md) — optional Docling figure intake and the evaluated RealtimeSTT stabilizer, with measured limits
+- [Presentation benchmark](PRESENTATION_BENCHMARK.md) — how edited talks, keynotes and lectures balance the speaker and visuals, the new `speaker_led` style and a held-out look/listen signal from Jev
 - `make studio` — run the new preparation-first local app; open its terminal access URL
 - `STUDIO.md` — intake, clarification, visual review, approval, rehearsal and projector guide
 - `RECORDED_TALKS.md` — real audio replay, original-video comparison and measured pilot limitations

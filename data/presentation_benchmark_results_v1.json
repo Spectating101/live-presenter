@@ -1,0 +1,919 @@
+{
+  "schema": "live_presenter.presentation_benchmark_results.v1",
+  "label_key": "2db025ffd520ff86",
+  "labels": {
+    "speaker": "The presenter is the main subject and is not handling an object. No projected screen content is readable.",
+    "speaker_with_object": "The presenter is the main subject and is holding, pointing at or demonstrating a physical object, prop or experiment. No projected screen content is readable.",
+    "board": "Handwriting or drawing on a blackboard, whiteboard or paper is the main subject, with or without the presenter.",
+    "fullscreen_visual": "The whole frame is presented content: a slide, chart, photo, diagram, video clip or computer screen shown edge to edge. No stage, room or projector screen border is visible.",
+    "stage_with_screen": "A shot of the stage or room in which a projector screen showing readable content is prominent. The presenter may be small, partly visible or absent.",
+    "audience": "The audience is the main subject.",
+    "other": "A title card, logo, credits, blank or transition frame."
+  },
+  "content_labels": [
+    "fullscreen_visual",
+    "stage_with_screen"
+  ],
+  "recordings": [
+    {
+      "id": "ted_rosling_washing_machine",
+      "genre": "ted_balanced",
+      "status": "analyzed",
+      "media": {
+        "extractor": "TedTalk",
+        "media_id": "1101",
+        "channel": "Hans Rosling",
+        "video_sha256": "44bb12cf3f5c076b358147c894a2b8219173a9b4cf6d54663514069712dc4a47"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 74,
+        "frames": 140,
+        "frame_width": 512
+      },
+      "classifier_models": [
+        "jev-1.14.0"
+      ],
+      "profile": {
+        "duration_s": 538.66,
+        "share": {
+          "speaker": 0.2315,
+          "speaker_with_object": 0.3237,
+          "board": 0.0,
+          "fullscreen_visual": 0.1749,
+          "stage_with_screen": 0.2431,
+          "audience": 0.0268,
+          "other": 0.0
+        },
+        "content_share": 0.4181,
+        "full_visual_episodes": {
+          "n": 16,
+          "median": 4.69,
+          "p25": 4.12,
+          "p75": 7.26,
+          "max": 13.98,
+          "total": 94.23
+        },
+        "full_visual_per_min": 1.78,
+        "content_episodes": {
+          "n": 19,
+          "median": 8.01,
+          "p25": 5.22,
+          "p75": 12.58,
+          "max": 47.95,
+          "total": 225.19
+        },
+        "content_per_min": 2.12,
+        "returns_between_content": {
+          "n": 18,
+          "median": 12.15,
+          "p25": 5.35,
+          "p75": 18.02,
+          "max": 70.82,
+          "total": 313.47
+        },
+        "changes_within_full_visuals_per_visual_min": 1.27,
+        "low_confidence_share": 0.0862
+      }
+    },
+    {
+      "id": "ted_duarte_structure",
+      "genre": "ted_balanced",
+      "status": "analyzed",
+      "media": {
+        "extractor": "TedTalk",
+        "media_id": "1347",
+        "channel": "Nancy Duarte",
+        "video_sha256": "529733ab7cf8f70e79e32a69abe2c65e04d2889f9e47a4a8b7754f06f3d8af33"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 88,
+        "frames": 264,
+        "frame_width": 512
+      },
+      "classifier_models": [
+        "jev-1.14.0"
+      ],
+      "profile": {
+        "duration_s": 1080.94,
+        "share": {
+          "speaker": 0.349,
+          "speaker_with_object": 0.0925,
+          "board": 0.0,
+          "fullscreen_visual": 0.0549,
+          "stage_with_screen": 0.5036,
+          "audience": 0.0,
+          "other": 0.0
+        },
+        "content_share": 0.5586,
+        "full_visual_episodes": {
+          "n": 7,
+          "median": 9.59,
+          "p25": 6.42,
+          "p75": 9.74,
+          "max": 13.33,
+          "total": 59.36
+        },
+        "full_visual_per_min": 0.39,
+        "content_episodes": {
+          "n": 45,
+          "median": 10.61,
+          "p25": 8.61,
+          "p75": 16.52,
+          "max": 39.34,
+          "total": 603.76
+        },
+        "content_per_min": 2.5,
+        "returns_between_content": {
+          "n": 44,
+          "median": 9.84,
+          "p25": 7.55,
+          "p75": 12.63,
+          "max": 24.89,
+          "total": 477.17
+        },
+        "changes_within_full_visuals_per_visual_min": 0.0,
+        "low_confidence_share": 0.1366
+      }
+    },
+    {
+      "id": "ted_gates_mosquitos",
+      "genre": "ted_balanced",
+      "status": "analyzed",
+      "media": {
+        "extractor": "TedTalk",
+        "media_id": "451",
+        "channel": "Bill Gates",
+        "video_sha256": "e5811ab4553162988410be7e6aaba582e40cbbfcd8b0e24af3f8ff5742a031eb"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 87,
+        "frames": 284,
+        "frame_width": 512
+      },
+      "classifier_models": [
+        "jev-1.14.0"
+      ],
+      "profile": {
+        "duration_s": 1203.49,
+        "share": {
+          "speaker": 0.6988,
+          "speaker_with_object": 0.0217,
+          "board": 0.0,
+          "fullscreen_visual": 0.1595,
+          "stage_with_screen": 0.1014,
+          "audience": 0.0187,
+          "other": 0.0
+        },
+        "content_share": 0.2609,
+        "full_visual_episodes": {
+          "n": 14,
+          "median": 12.28,
+          "p25": 8.5,
+          "p75": 15.08,
+          "max": 29.82,
+          "total": 191.93
+        },
+        "full_visual_per_min": 0.7,
+        "content_episodes": {
+          "n": 16,
+          "median": 14.74,
+          "p25": 11.4,
+          "p75": 26.87,
+          "max": 42.38,
+          "total": 313.98
+        },
+        "content_per_min": 0.8,
+        "returns_between_content": {
+          "n": 15,
+          "median": 47.3,
+          "p25": 25.23,
+          "p75": 63.98,
+          "max": 140.27,
+          "total": 804.64
+        },
+        "changes_within_full_visuals_per_visual_min": 0.63,
+        "low_confidence_share": 0.0384
+      }
+    },
+    {
+      "id": "ted_rosling_best_stats",
+      "genre": "ted_visual_heavy",
+      "status": "analyzed",
+      "media": {
+        "extractor": "TedTalk",
+        "media_id": "92",
+        "channel": "Hans Rosling",
+        "video_sha256": "a4840690bb74cac04a5231c421353aedcd46fac36f5803fa9cc3e855c570f191"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 82,
+        "frames": 279,
+        "frame_width": 512
+      },
+      "classifier_models": [
+        "jev-1.14.0"
+      ],
+      "profile": {
+        "duration_s": 1176.46,
+        "share": {
+          "speaker": 0.24,
+          "speaker_with_object": 0.0,
+          "board": 0.0,
+          "fullscreen_visual": 0.2588,
+          "stage_with_screen": 0.499,
+          "audience": 0.0022,
+          "other": 0.0
+        },
+        "content_share": 0.7578,
+        "full_visual_episodes": {
+          "n": 24,
+          "median": 12.66,
+          "p25": 4.54,
+          "p75": 15.7,
+          "max": 33.01,
+          "total": 304.52
+        },
+        "full_visual_per_min": 1.22,
+        "content_episodes": {
+          "n": 36,
+          "median": 13.46,
+          "p25": 5.38,
+          "p75": 26.63,
+          "max": 137.97,
+          "total": 891.53
+        },
+        "content_per_min": 1.84,
+        "returns_between_content": {
+          "n": 35,
+          "median": 4.81,
+          "p25": 4.23,
+          "p75": 9.52,
+          "max": 24.46,
+          "total": 282.38
+        },
+        "changes_within_full_visuals_per_visual_min": 0.79,
+        "low_confidence_share": 0.0408
+      }
+    },
+    {
+      "id": "ted_mccandless_data_visualization",
+      "genre": "ted_visual_heavy",
+      "status": "analyzed",
+      "media": {
+        "extractor": "TedTalk",
+        "media_id": "937",
+        "channel": "David McCandless",
+        "video_sha256": "7927957e8c852905a9487a8d816992182275731f5dcab5ba29c03127d356b6d8"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 104,
+        "frames": 267,
+        "frame_width": 512
+      },
+      "classifier_models": [
+        "jev-1.14.0"
+      ],
+      "profile": {
+        "duration_s": 1080.38,
+        "share": {
+          "speaker": 0.2319,
+          "speaker_with_object": 0.1638,
+          "board": 0.0,
+          "fullscreen_visual": 0.3921,
+          "stage_with_screen": 0.2123,
+          "audience": 0.0,
+          "other": 0.0
+        },
+        "content_share": 0.6044,
+        "full_visual_episodes": {
+          "n": 34,
+          "median": 9.24,
+          "p25": 6.4,
+          "p75": 18.14,
+          "max": 32.52,
+          "total": 423.57
+        },
+        "full_visual_per_min": 1.89,
+        "content_episodes": {
+          "n": 32,
+          "median": 15.52,
+          "p25": 9.72,
+          "p75": 23.82,
+          "max": 89.64,
+          "total": 652.96
+        },
+        "content_per_min": 1.78,
+        "returns_between_content": {
+          "n": 31,
+          "median": 10.92,
+          "p25": 5.98,
+          "p75": 16.88,
+          "max": 47.64,
+          "total": 427.42
+        },
+        "changes_within_full_visuals_per_visual_min": 0.85,
+        "low_confidence_share": 0.0675
+      }
+    },
+    {
+      "id": "ted_gore_climate",
+      "genre": "ted_visual_heavy",
+      "status": "analyzed",
+      "media": {
+        "extractor": "TedTalk",
+        "media_id": "243",
+        "channel": "Al Gore",
+        "video_sha256": "417b47481bf2df683a90e0bd5f201dbe3df4b5988ece7685038e6997f6070940"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 90,
+        "frames": 375,
+        "frame_width": 512
+      },
+      "classifier_models": [
+        "jev-1.14.0"
+      ],
+      "profile": {
+        "duration_s": 1654.61,
+        "share": {
+          "speaker": 0.4036,
+          "speaker_with_object": 0.0143,
+          "board": 0.0,
+          "fullscreen_visual": 0.1888,
+          "stage_with_screen": 0.382,
+          "audience": 0.0113,
+          "other": 0.0
+        },
+        "content_share": 0.5709,
+        "full_visual_episodes": {
+          "n": 24,
+          "median": 11.68,
+          "p25": 6.27,
+          "p75": 17.69,
+          "max": 33.14,
+          "total": 312.43
+        },
+        "full_visual_per_min": 0.87,
+        "content_episodes": {
+          "n": 48,
+          "median": 14.02,
+          "p25": 4.82,
+          "p75": 25.6,
+          "max": 90.75,
+          "total": 944.56
+        },
+        "content_per_min": 1.74,
+        "returns_between_content": {
+          "n": 47,
+          "median": 9.46,
+          "p25": 4.81,
+          "p75": 21.09,
+          "max": 53.95,
+          "total": 690.91
+        },
+        "changes_within_full_visuals_per_visual_min": 0.0,
+        "low_confidence_share": 0.0426
+      }
+    },
+    {
+      "id": "ted_robinson_creativity",
+      "genre": "no_slides_control",
+      "status": "analyzed",
+      "media": {
+        "extractor": "TedTalk",
+        "media_id": "66",
+        "channel": "Sir Ken Robinson",
+        "video_sha256": "3f372d8709789d527b84e92e3d1a58e19dc1636b36f504ce0247c9ceaa2bcd56"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 44,
+        "frames": 251,
+        "frame_width": 512
+      },
+      "classifier_models": [
+        "jev-1.14.0"
+      ],
+      "profile": {
+        "duration_s": 1151.85,
+        "share": {
+          "speaker": 0.9638,
+          "speaker_with_object": 0.0,
+          "board": 0.0,
+          "fullscreen_visual": 0.0033,
+          "stage_with_screen": 0.0173,
+          "audience": 0.0156,
+          "other": 0.0
+        },
+        "content_share": 0.0206,
+        "full_visual_episodes": {
+          "n": 1,
+          "median": 3.82,
+          "p25": 3.82,
+          "p75": 3.82,
+          "max": 3.82,
+          "total": 3.82
+        },
+        "full_visual_per_min": 0.05,
+        "content_episodes": {
+          "n": 5,
+          "median": 3.82,
+          "p25": 3.14,
+          "p75": 4.94,
+          "max": 9.82,
+          "total": 23.72
+        },
+        "content_per_min": 0.26,
+        "returns_between_content": {
+          "n": 4,
+          "median": 85.93,
+          "p25": 67.74,
+          "p75": 299.26,
+          "max": 907.04,
+          "total": 1124.25
+        },
+        "changes_within_full_visuals_per_visual_min": 0.0,
+        "low_confidence_share": 0.0
+      }
+    },
+    {
+      "id": "keynote_jobs_iphone_2007",
+      "genre": "product_keynote",
+      "status": "analyzed",
+      "media": {
+        "extractor": "youtube",
+        "media_id": "7l-Pa0uCod0",
+        "channel": "AppleEventsVideos",
+        "video_sha256": "e20503b93dfc1a7c637966e6c568237e5dbc10d58603c0c32b6f30c34f9d81d8"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 297,
+        "frames": 1419,
+        "frame_width": 512
+      },
+      "classifier_models": [
+        "jev-1.14.0"
+      ],
+      "profile": {
+        "duration_s": 6325.16,
+        "share": {
+          "speaker": 0.1361,
+          "speaker_with_object": 0.1354,
+          "board": 0.0,
+          "fullscreen_visual": 0.1821,
+          "stage_with_screen": 0.5292,
+          "audience": 0.008,
+          "other": 0.0092
+        },
+        "content_share": 0.7113,
+        "full_visual_episodes": {
+          "n": 95,
+          "median": 8.28,
+          "p25": 4.5,
+          "p75": 14.68,
+          "max": 84.4,
+          "total": 1151.77
+        },
+        "full_visual_per_min": 0.9,
+        "content_episodes": {
+          "n": 178,
+          "median": 12.17,
+          "p25": 4.88,
+          "p75": 26.0,
+          "max": 258.84,
+          "total": 4499.32
+        },
+        "content_per_min": 1.69,
+        "returns_between_content": {
+          "n": 177,
+          "median": 4.91,
+          "p25": 4.39,
+          "p75": 9.78,
+          "max": 212.77,
+          "total": 1798.4
+        },
+        "changes_within_full_visuals_per_visual_min": 1.88,
+        "low_confidence_share": 0.074
+      }
+    },
+    {
+      "id": "lecture_winston_how_to_speak",
+      "genre": "lecture_slides_board",
+      "status": "analyzed",
+      "media": {
+        "extractor": "youtube",
+        "media_id": "Unzc731iCUY",
+        "channel": "MIT OpenCourseWare",
+        "video_sha256": "23ca0a4247ef1de2023a0c3a2681e3b72e2cbfd541e95c492b274fff6e7b8dd7"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 311,
+        "frames": 920,
+        "frame_width": 512
+      },
+      "classifier_models": [],
+      "profile": {
+        "duration_s": 3822.26,
+        "share": {
+          "speaker": 0.3222,
+          "speaker_with_object": 0.164,
+          "board": 0.3887,
+          "fullscreen_visual": 0.0869,
+          "stage_with_screen": 0.0208,
+          "audience": 0.0138,
+          "other": 0.0035
+        },
+        "content_share": 0.1077,
+        "full_visual_episodes": {
+          "n": 35,
+          "median": 9.21,
+          "p25": 6.31,
+          "p75": 12.15,
+          "max": 20.75,
+          "total": 332.3
+        },
+        "full_visual_per_min": 0.55,
+        "content_episodes": {
+          "n": 40,
+          "median": 9.56,
+          "p25": 6.32,
+          "p75": 14.29,
+          "max": 21.32,
+          "total": 411.72
+        },
+        "content_per_min": 0.63,
+        "returns_between_content": {
+          "n": 39,
+          "median": 11.08,
+          "p25": 6.59,
+          "p75": 20.99,
+          "max": 1256.75,
+          "total": 3410.54
+        },
+        "changes_within_full_visuals_per_visual_min": 0.0,
+        "low_confidence_share": 0.3374
+      }
+    },
+    {
+      "id": "lecture_lewin_pendulums",
+      "genre": "lecture_demonstration",
+      "status": "analyzed",
+      "media": {
+        "extractor": "youtube",
+        "media_id": "tNpuTx7UQbw",
+        "channel": "Lectures by Walter Lewin. They will make you ♥ Physics.",
+        "video_sha256": "e1925a4c4399e8ec2de0825b0f68fdab55ff4d94257f62eac312fae694a2c690"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 178,
+        "frames": 661,
+        "frame_width": 512
+      },
+      "classifier_models": [
+        "jev-1.14.0"
+      ],
+      "profile": {
+        "duration_s": 2861.24,
+        "share": {
+          "speaker": 0.0476,
+          "speaker_with_object": 0.2213,
+          "board": 0.7018,
+          "fullscreen_visual": 0.0,
+          "stage_with_screen": 0.0,
+          "audience": 0.0294,
+          "other": 0.0
+        },
+        "content_share": 0.0,
+        "full_visual_episodes": null,
+        "full_visual_per_min": 0.0,
+        "content_episodes": null,
+        "content_per_min": 0.0,
+        "returns_between_content": null,
+        "changes_within_full_visuals_per_visual_min": 0,
+        "low_confidence_share": 0.1485
+      }
+    },
+    {
+      "id": "public_lecture_ri_christmas_2024",
+      "genre": "public_science_lecture",
+      "status": "analyzed",
+      "media": {
+        "extractor": "youtube",
+        "media_id": "FP3-Vq3NiO4",
+        "channel": "The Royal Institution",
+        "video_sha256": "111243efa8112413cf28a20630fe8907570b1449f22553f9083ee1bd35c0a4b0"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 787,
+        "frames": 1093,
+        "frame_width": 512
+      },
+      "classifier_models": [
+        "jev-1.14.0"
+      ],
+      "profile": {
+        "duration_s": 3556.06,
+        "share": {
+          "speaker": 0.1894,
+          "speaker_with_object": 0.3631,
+          "board": 0.0427,
+          "fullscreen_visual": 0.0728,
+          "stage_with_screen": 0.1797,
+          "audience": 0.1437,
+          "other": 0.0086
+        },
+        "content_share": 0.2524,
+        "full_visual_episodes": {
+          "n": 52,
+          "median": 4.6,
+          "p25": 3.51,
+          "p75": 5.95,
+          "max": 13.6,
+          "total": 258.78
+        },
+        "full_visual_per_min": 0.88,
+        "content_episodes": {
+          "n": 151,
+          "median": 4.36,
+          "p25": 3.2,
+          "p75": 7.36,
+          "max": 46.04,
+          "total": 897.71
+        },
+        "content_per_min": 2.55,
+        "returns_between_content": {
+          "n": 150,
+          "median": 7.88,
+          "p25": 3.84,
+          "p75": 15.52,
+          "max": 166.2,
+          "total": 2626.78
+        },
+        "changes_within_full_visuals_per_visual_min": 0.23,
+        "low_confidence_share": 0.3396
+      }
+    },
+    {
+      "id": "lecture_pausch_last_lecture",
+      "genre": "inspirational_lecture",
+      "status": "analyzed",
+      "media": {
+        "extractor": "youtube",
+        "media_id": "ji5_MqicxSo",
+        "channel": "Carnegie Mellon University",
+        "video_sha256": "666fbe43a21f5abb2f80694e6f83eb1abd5bde27410489ad4be392a219fd91b5"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 265,
+        "frames": 1058,
+        "frame_width": 512
+      },
+      "classifier_models": [
+        "jev-1.14.0"
+      ],
+      "profile": {
+        "duration_s": 4586.86,
+        "share": {
+          "speaker": 0.291,
+          "speaker_with_object": 0.2686,
+          "board": 0.0007,
+          "fullscreen_visual": 0.3399,
+          "stage_with_screen": 0.0434,
+          "audience": 0.0541,
+          "other": 0.0024
+        },
+        "content_share": 0.3833,
+        "full_visual_episodes": {
+          "n": 82,
+          "median": 16.67,
+          "p25": 9.79,
+          "p75": 26.0,
+          "max": 72.54,
+          "total": 1559.05
+        },
+        "full_visual_per_min": 1.07,
+        "content_episodes": {
+          "n": 90,
+          "median": 15.31,
+          "p25": 9.4,
+          "p75": 25.77,
+          "max": 137.27,
+          "total": 1758.14
+        },
+        "content_per_min": 1.18,
+        "returns_between_content": {
+          "n": 89,
+          "median": 15.05,
+          "p25": 7.44,
+          "p75": 37.17,
+          "max": 229.3,
+          "total": 2823.71
+        },
+        "changes_within_full_visuals_per_visual_min": 1.65,
+        "low_confidence_share": 0.186
+      }
+    },
+    {
+      "id": "seminar_mcconnell_scientific_presentations",
+      "genre": "academic_seminar",
+      "status": "analyzed",
+      "media": {
+        "extractor": "youtube",
+        "media_id": "Hp7Id3Yb9XQ",
+        "channel": "Science Communication Lab",
+        "video_sha256": "e4fe7f959580d4432a77e3373a28a728891e97e5f01a81098d91456be2e46fe9"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 0,
+        "frames": 506,
+        "frame_width": 512
+      },
+      "classifier_models": [
+        "jev-1.14.0"
+      ],
+      "profile": {
+        "duration_s": 2528.98,
+        "share": {
+          "speaker": 0.0,
+          "speaker_with_object": 0.0,
+          "board": 0.0,
+          "fullscreen_visual": 0.2134,
+          "stage_with_screen": 0.7826,
+          "audience": 0.0,
+          "other": 0.004
+        },
+        "content_share": 0.996,
+        "full_visual_episodes": {
+          "n": 60,
+          "median": 5.0,
+          "p25": 5.0,
+          "p75": 10.0,
+          "max": 44.98,
+          "total": 539.78
+        },
+        "full_visual_per_min": 1.42,
+        "content_episodes": {
+          "n": 1,
+          "median": 2518.99,
+          "p25": 2518.99,
+          "p75": 2518.99,
+          "max": 2518.99,
+          "total": 2518.99
+        },
+        "content_per_min": 0.02,
+        "returns_between_content": null,
+        "changes_within_full_visuals_per_visual_min": 0.0,
+        "low_confidence_share": 0.7628
+      }
+    },
+    {
+      "id": "conference_strange_loop_concatenative",
+      "genre": "technical_conference",
+      "status": "analyzed",
+      "media": {
+        "extractor": "youtube",
+        "media_id": "umSuLpjFUf8",
+        "channel": "Strange Loop Conference",
+        "video_sha256": "b34330b59aafadc7d322c7031a2847c5dad647d64beba3b127574b3f88c3eac9"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 16,
+        "frames": 493,
+        "frame_width": 512
+      },
+      "classifier_models": [
+        "jev-1.14.0"
+      ],
+      "profile": {
+        "duration_s": 2430.0,
+        "share": {
+          "speaker": 0.0,
+          "speaker_with_object": 0.0108,
+          "board": 0.0,
+          "fullscreen_visual": 0.1722,
+          "stage_with_screen": 0.8113,
+          "audience": 0.0,
+          "other": 0.0056
+        },
+        "content_share": 0.9836,
+        "full_visual_episodes": {
+          "n": 55,
+          "median": 4.98,
+          "p25": 4.96,
+          "p75": 9.93,
+          "max": 29.92,
+          "total": 418.48
+        },
+        "full_visual_per_min": 1.36,
+        "content_episodes": {
+          "n": 6,
+          "median": 20.54,
+          "p25": 5.66,
+          "p75": 34.55,
+          "max": 2304.64,
+          "total": 2390.03
+        },
+        "content_per_min": 0.15,
+        "returns_between_content": {
+          "n": 5,
+          "median": 8.74,
+          "p25": 4.61,
+          "p75": 8.8,
+          "max": 8.8,
+          "total": 35.36
+        },
+        "changes_within_full_visuals_per_visual_min": 0.29,
+        "low_confidence_share": 0.7008
+      }
+    },
+    {
+      "id": "data_rosling_200_countries",
+      "genre": "data_narration",
+      "status": "analyzed",
+      "media": {
+        "extractor": "youtube",
+        "media_id": "jbkSRLYSojo",
+        "channel": "BBC",
+        "video_sha256": "ed770aec02bf57ea9e8ab05f9f64bdca5a8e6749d822e63c3d3024937b65798a"
+      },
+      "method": {
+        "cut_threshold": 0.3,
+        "max_sample_gap_s": 5.0,
+        "cuts": 29,
+        "frames": 74,
+        "frame_width": 512
+      },
+      "classifier_models": [
+        "jev-1.14.0"
+      ],
+      "profile": {
+        "duration_s": 287.42,
+        "share": {
+          "speaker": 0.2141,
+          "speaker_with_object": 0.0305,
+          "board": 0.0,
+          "fullscreen_visual": 0.0636,
+          "stage_with_screen": 0.6524,
+          "audience": 0.0139,
+          "other": 0.0255
+        },
+        "content_share": 0.7159,
+        "full_visual_episodes": {
+          "n": 4,
+          "median": 4.62,
+          "p25": 3.8,
+          "p75": 5.39,
+          "max": 7.5,
+          "total": 18.27
+        },
+        "full_visual_per_min": 0.84,
+        "content_episodes": {
+          "n": 11,
+          "median": 13.26,
+          "p25": 7.87,
+          "p75": 30.22,
+          "max": 46.8,
+          "total": 205.77
+        },
+        "content_per_min": 2.3,
+        "returns_between_content": {
+          "n": 10,
+          "median": 3.38,
+          "p25": 3.03,
+          "p75": 5.45,
+          "max": 24.15,
+          "total": 58.93
+        },
+        "changes_within_full_visuals_per_visual_min": 6.57,
+        "low_confidence_share": 0.3283
+      }
+    }
+  ]
+}

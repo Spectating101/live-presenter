@@ -27,6 +27,16 @@ class Conflict(ValueError):
     pass
 
 
+# How a talk balances the speaker and the screen. "persist" keeps the last
+# visual until another replaces it (slide-deck behavior). "speaker_led" starts
+# on the speaker and returns attention to the speaker once speech stops
+# supporting the visual; release_after_s is calibrated against edited talks.
+STYLES = {
+    'persist': {'open_with_visual': True, 'release_after_s': None},
+    'speaker_led': {'open_with_visual': False, 'release_after_s': 6.0},
+}
+
+
 class DeadlineAdviser:
     """At most one outstanding advisory call; late results have no authority."""
     def __init__(self):
@@ -59,6 +69,7 @@ class DeadlineAdviser:
 def fresh_live():
     return {"active": False, "locked": False, "adviser_enabled": False, "reflex_enabled": False, "current_scene_id": None, "history": [],
             'research_enabled':False,'research_scene':None,'research':{},'attention':None,'last_focus_change':0,
+            'style':'persist','last_support':0,
             "transcript": [], "last_seq": -1, "generation": uuid.uuid4().hex, "last_change": 0,
             "candidate_id": None, "candidate_count": 0, "decision": {"action": "HOLD", "reason": "Start a rehearsal after approving the material."}}
 
@@ -75,6 +86,7 @@ def reset_live(project):
     project['live']['adviser_enabled'] = previous.get('adviser_enabled', False)
     project['live']['reflex_enabled'] = previous.get('reflex_enabled', False)
     project['live']['research_enabled'] = previous.get('research_enabled',False)
+    project['live']['style'] = previous.get('style','persist')
 
 
 def clear_candidate(live):
@@ -276,11 +288,11 @@ class Studio:
             raise Conflict("This material has no current, intact approval.")
         return a["package"]
 
-    def control(self, pid, action, scene_id=None, enabled=None, annotation_id=None):
+    def control(self, pid, action, scene_id=None, enabled=None, annotation_id=None, style=None):
         with self.store.change(pid) as p:
             package = self.package(p)
             live, scenes = p["live"], package["scenes"]
-            if action not in {'start','adviser','reflex','research','stop'} and not live['active']:
+            if action not in {'start','adviser','reflex','research','stop','style'} and not live['active']:
                 raise Conflict('Start the rehearsal before using stage controls.')
             if action == "start":
                 if live['active']:
@@ -290,12 +302,24 @@ class Studio:
                 live["active"] = True
                 self.cue_index(p)
                 live["locked"] = False
-                if live["current_scene_id"] is None:
+                if STYLES[live.get('style','persist')]['open_with_visual']:
                     self.show(live, choose_scene(package,package['concepts'][0]['id'])["id"], "Presenter started the rehearsal.")
+                else:
+                    live['decision'] = {'action':'HOLD','reason':'The speaker has the stage until a visual is needed.'}
             elif action == "stop":
                 reset_live(p)
                 live = p['live']
                 live['decision'] = {'action':'HOLD','reason':'Rehearsal stopped.'}
+            elif action == 'style':
+                if style not in STYLES:
+                    raise ValueError('Choose a known presentation style.')
+                clear_candidate(live)
+                live['style'] = style
+                live['generation'] = uuid.uuid4().hex
+            elif action == 'clear':
+                clear_candidate(live)
+                live['generation'] = uuid.uuid4().hex
+                self.release(live, 'Presenter returned attention to the speaker.')
             elif action == "hold":
                 clear_candidate(live)
                 live['generation'] = uuid.uuid4().hex
@@ -362,6 +386,15 @@ class Studio:
             live["current_scene_id"] = scene_id
             live["last_change"] = self.clock()
         live["decision"] = {"action": "SHOW", "scene_id": scene_id, "reason": reason}
+
+    def release(self, live, reason):
+        """Clear the screen so attention returns to the speaker."""
+        if live['current_scene_id']:
+            live['history'].append(live['current_scene_id'])
+            live['history'] = live['history'][-100:]
+        live.update(current_scene_id=None, research_scene=None, attention=None, last_focus_change=0,
+                    last_change=self.clock())
+        live['decision'] = {'action':'CLEAR', 'reason':reason}
 
     def focus(self, live, scene, annotation_id, reason):
         live['attention'] = {'scene_id': scene['id'], 'annotation_id': annotation_id}
@@ -469,6 +502,10 @@ class Studio:
             live["candidate_id"] = candidate
             live["recommendation"] = recommendation
             current_scene = next((s for s in package['scenes'] if s['id'] == live['current_scene_id']), None)
+            candidate_scene = next((s for s in package['scenes'] if s['id'] == candidate), None)
+            if current_scene and (current_scene['concept_id'] in recommendation.get('supported_concepts', [])
+                                  or (candidate_scene and candidate_scene['concept_id'] == current_scene['concept_id'])):
+                live['last_support'] = self.clock()
             reason = ("Several prepared ideas could fit; retaining the stage until the meaning is clearer."
                       if recommendation.get('supported_concepts') else "No supported prepared visual for this utterance; retaining the stage.")
             if live["locked"]:
@@ -500,6 +537,11 @@ class Studio:
                     return p
                 else:
                     reason = "Possible match prepared backstage; waiting for stronger support."
+            release_after = STYLES[live.get('style','persist')]['release_after_s']
+            if (not live['locked'] and release_after is not None and (live['current_scene_id'] or live.get('research_scene'))
+                    and self.clock() - max(live.get('last_support', 0), live['last_change']) >= release_after):
+                self.release(live, 'Speech moved on from the visual; attention returns to the speaker.')
+                return p
             live["decision"] = {"action": "WARM" if candidate else "HOLD", "reason": reason}
         return self.store.read(pid)
 

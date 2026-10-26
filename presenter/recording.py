@@ -24,7 +24,7 @@ import wave
 
 from research_evidence_v10 import json_hash
 from jev_credentials_v10 import load_jev_env
-from .engine import Store, Studio, jev_adviser
+from .engine import STYLES, Store, Studio, jev_adviser
 from .materials import ingest
 
 
@@ -330,15 +330,16 @@ def preparation_inputs(folder, project, source):
     return declared
 
 
-def replay(folder, asr_path, *, mode='local', output=None, reflex=False, fresh=False):
+def replay(folder, asr_path, *, mode='local', output=None, reflex=False, fresh=False, style='persist'):
     if mode not in {'local','jev'}:
         raise ValueError('Unknown replay mode.')
-    tag = mode + ('-reflex' if reflex else '') + ('-fresh' if fresh else '')
+    tag = mode + ('-reflex' if reflex else '') + ('-fresh' if fresh else '') + ('' if style == 'persist' else '-' + style)
     with recording_store(Path(folder) / ('replay-' + tag)) as store:
-        return _replay(folder, asr_path, mode=mode, output=output, store=store, reflex=reflex, tag=tag, fresh=fresh)
+        return _replay(folder, asr_path, mode=mode, output=output, store=store, reflex=reflex, tag=tag, fresh=fresh,
+                       style=style)
 
 
-def _replay(folder, asr_path, *, mode, output, store, reflex, tag, fresh):
+def _replay(folder, asr_path, *, mode, output, store, reflex, tag, fresh, style='persist'):
     folder, asr_path = Path(folder), Path(asr_path)
     controller_hash = file_hash(Path(__file__).with_name('engine.py'))
     runner_hash = file_hash(__file__)
@@ -360,6 +361,7 @@ def _replay(folder, asr_path, *, mode, output, store, reflex, tag, fresh):
     store.save(copy.deepcopy(original))
     clock = ReplayClock()
     studio = Studio(store, live_assessor=jev_adviser if mode == 'jev' else None, clock=clock)
+    studio.control(pid, 'style', style=style)
     p = studio.control(pid, 'start')
     if reflex:
         p = studio.control(pid, 'reflex', enabled=True)
@@ -368,7 +370,7 @@ def _replay(folder, asr_path, *, mode, output, store, reflex, tag, fresh):
             raise ValueError('No existing Jev credential is available. Use local mode or configure JEV_ENV_FILE.')
         p = studio.control(pid, 'adviser', enabled=True)
     clock.set(0)
-    events = [{'at': 0, 'scene_id': p['live']['current_scene_id'], 'reason': 'Approved opening visual.'}]
+    events = [{'at': 0, 'scene_id': p['live']['current_scene_id'], 'reason': p['live']['decision']['reason']}]
     rows, dropped, stage_available = [], [], 0
     for seq, chunk, asr_started, asr_available, skipped in schedule_chunks(asr['chunks'], fresh):
         # ASR and stage are separate serial workers. No complete chunk is
@@ -388,7 +390,7 @@ def _replay(folder, asr_path, *, mode, output, store, reflex, tag, fresh):
         if p['live']['current_scene_id'] != before:
             events.append({'at': stage_available, 'scene_id': p['live']['current_scene_id'], 'reason': p['live']['decision']['reason']})
         print(f'Replay {chunk["end"]:.0f}s → {row["decision"]["action"]} · delay {row["audio_to_decision_s"]:.2f}s', flush=True)
-    result = {'schema': 'live_presenter.recorded_replay.v1', 'mode': mode, 'complete': True,
+    result = {'schema': 'live_presenter.recorded_replay.v1', 'mode': mode, 'complete': True, 'style': style,
               'reflex_enabled': reflex,
               'audio_queue_policy': 'latest_available' if fresh else 'all_windows', 'dropped_windows': dropped,
               'source': source,
@@ -577,6 +579,7 @@ def main():
     run.add_argument('--reflex', action='store_true')
     run.add_argument('--fresh', action='store_true', help='Simulate selecting latest available audio after a stall')
     run.add_argument('--out', type=Path)
+    run.add_argument('--style', choices=sorted(STYLES), default='persist')
     report = sub.add_parser('report')
     report.add_argument('--folder', type=Path, required=True)
     report.add_argument('--reflex', action='store_true')
@@ -591,7 +594,8 @@ def main():
         p = prepare_recording(args.folder, args.provider)
         print(json.dumps({'project_id':p['id'], 'revision':p['revision'], 'job':p['job'], 'plan':p['plan']}, indent=2))
     elif args.command == 'run':
-        replay(args.folder, args.asr, mode=args.mode, reflex=args.reflex, fresh=args.fresh, output=args.out)
+        replay(args.folder, args.asr, mode=args.mode, reflex=args.reflex, fresh=args.fresh, output=args.out,
+               style=args.style)
     elif args.command == 'approve':
         with recording_store(args.folder / 'studio') as store:
             pid = json.loads((args.folder / 'project.json').read_text())['project_id']

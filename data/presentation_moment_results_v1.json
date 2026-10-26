@@ -1,0 +1,246 @@
+{
+  "moment_key": "c25d57040c9ebe83",
+  "moments": {
+    "look": "The words point the audience at something to see right now: a number, chart, comparison, map, picture, place, person or object that the speaker is showing or describing concretely.",
+    "listen": "The speaker is telling a story, giving an opinion, joking, addressing the audience or making a general point. Watching the speaker is enough.",
+    "transition": "A greeting, thanks, filler or a move between topics."
+  },
+  "text_stream": "official captions (upper bound)",
+  "policy": {
+    "on": 0.5,
+    "keep": 0.3,
+    "release_s": 6.0,
+    "min_dwell_s": 3.0
+  },
+  "calibration_mean_kappa": 0.407,
+  "talks": {
+    "ted_rosling_washing_machine": {
+      "role": "calibration",
+      "cues": 199,
+      "seconds": 538,
+      "edit_content_share": 0.4238,
+      "stage_visual_share": 0.4275,
+      "agreement": 0.71,
+      "kappa": 0.407,
+      "speaker_time_left_clear": 0.7452,
+      "edit_fullscreen_episodes_covered": "11/16",
+      "stage_visual_episodes": {
+        "n": 12,
+        "median": 10.93,
+        "p25": 9.47,
+        "p75": 18.56,
+        "max": 59.3,
+        "total": 231.93
+      }
+    },
+    "ted_duarte_structure": {
+      "role": "held_out",
+      "cues": 431,
+      "seconds": 1080,
+      "edit_content_share": 0.5574,
+      "stage_visual_share": 0.3963,
+      "agreement": 0.5593,
+      "kappa": 0.139,
+      "speaker_time_left_clear": 0.6841,
+      "edit_fullscreen_episodes_covered": "3/7",
+      "stage_visual_episodes": {
+        "n": 21,
+        "median": 17.0,
+        "p25": 9.68,
+        "p75": 25.04,
+        "max": 54.96,
+        "total": 427.73
+      }
+    },
+    "ted_gates_mosquitos": {
+      "role": "held_out",
+      "cues": 350,
+      "seconds": 1203,
+      "edit_content_share": 0.2635,
+      "stage_visual_share": 0.35,
+      "agreement": 0.6226,
+      "kappa": 0.1204,
+      "speaker_time_left_clear": 0.6851,
+      "edit_fullscreen_episodes_covered": "9/14",
+      "stage_visual_episodes": {
+        "n": 31,
+        "median": 10.0,
+        "p25": 7.0,
+        "p75": 16.5,
+        "max": 41.0,
+        "total": 421.0
+      }
+    },
+    "ted_gore_climate": {
+      "role": "held_out",
+      "cues": 370,
+      "seconds": 1654,
+      "edit_content_share": 0.5689,
+      "stage_visual_share": 0.3428,
+      "agreement": 0.6215,
+      "kappa": 0.2745,
+      "speaker_time_left_clear": 0.8233,
+      "edit_fullscreen_episodes_covered": "20/24",
+      "stage_visual_episodes": {
+        "n": 20,
+        "median": 13.0,
+        "p25": 8.0,
+        "p75": 25.75,
+        "max": 179.0,
+        "total": 567.0
+      }
+    },
+    "ted_mccandless_data_visualization": {
+      "role": "held_out",
+      "cues": 439,
+      "seconds": 1080,
+      "edit_content_share": 0.6037,
+      "stage_visual_share": 0.6602,
+      "agreement": 0.6898,
+      "kappa": 0.3355,
+      "speaker_time_left_clear": 0.5374,
+      "edit_fullscreen_episodes_covered": "29/34",
+      "stage_visual_episodes": {
+        "n": 23,
+        "median": 17.0,
+        "p25": 9.0,
+        "p75": 39.5,
+        "max": 190.0,
+        "total": 713.0
+      }
+    },
+    "ted_rosling_best_stats": {
+      "role": "held_out",
+      "cues": 383,
+      "seconds": 1176,
+      "edit_content_share": 0.7568,
+      "stage_visual_share": 0.7381,
+      "agreement": 0.7415,
+      "kappa": 0.3156,
+      "speaker_time_left_clear": 0.507,
+      "edit_fullscreen_episodes_covered": "22/24",
+      "stage_visual_episodes": {
+        "n": 21,
+        "median": 26.0,
+        "p25": 16.5,
+        "p75": 45.27,
+        "max": 140.53,
+        "total": 869.13
+      }
+    },
+    "ted_robinson_creativity": {
+      "role": "held_out",
+      "cues": 427,
+      "seconds": 1151,
+      "edit_content_share": 0.0209,
+      "stage_visual_share": 0.0791,
+      "agreement": 0.9088,
+      "kappa": 0.0558,
+      "speaker_time_left_clear": 0.9237,
+      "edit_fullscreen_episodes_covered": "0/1",
+      "stage_visual_episodes": {
+        "n": 9,
+        "median": 8.86,
+        "p25": 7.49,
+        "p75": 9.58,
+        "max": 21.86,
+        "total": 90.74
+      }
+    },
+    "keynote_jobs_iphone_2007": {
+      "role": "held_out",
+      "cues": 2385,
+      "seconds": 6325,
+      "edit_content_share": 0.7108,
+      "stage_visual_share": 0.6122,
+      "agreement": 0.6256,
+      "kappa": 0.173,
+      "speaker_time_left_clear": 0.5232,
+      "edit_fullscreen_episodes_covered": "71/93",
+      "stage_visual_episodes": {
+        "n": 119,
+        "median": 19.12,
+        "p25": 11.72,
+        "p75": 37.64,
+        "max": 204.32,
+        "total": 3874.85
+      }
+    },
+    "lecture_pausch_last_lecture": {
+      "role": "held_out",
+      "cues": 2131,
+      "seconds": 4586,
+      "edit_content_share": 0.3838,
+      "stage_visual_share": 0.2388,
+      "agreement": 0.585,
+      "kappa": 0.0554,
+      "speaker_time_left_clear": 0.781,
+      "edit_fullscreen_episodes_covered": "49/80",
+      "stage_visual_episodes": {
+        "n": 87,
+        "median": 10.26,
+        "p25": 7.54,
+        "p75": 14.42,
+        "max": 51.36,
+        "total": 1092.83
+      }
+    },
+    "public_lecture_ri_christmas_2024": {
+      "role": "held_out",
+      "cues": 1419,
+      "seconds": 3556,
+      "edit_content_share": 0.2528,
+      "stage_visual_share": 0.6032,
+      "agreement": 0.4764,
+      "kappa": 0.0497,
+      "speaker_time_left_clear": 0.4151,
+      "edit_fullscreen_episodes_covered": "41/52",
+      "stage_visual_episodes": {
+        "n": 68,
+        "median": 16.52,
+        "p25": 11.24,
+        "p75": 39.54,
+        "max": 181.4,
+        "total": 2143.48
+      }
+    },
+    "data_rosling_200_countries": {
+      "role": "held_out",
+      "cues": 55,
+      "seconds": 287,
+      "edit_content_share": 0.7108,
+      "stage_visual_share": 0.6516,
+      "agreement": 0.6063,
+      "kappa": 0.0972,
+      "speaker_time_left_clear": 0.4217,
+      "edit_fullscreen_episodes_covered": "1/4",
+      "stage_visual_episodes": {
+        "n": 6,
+        "median": 23.09,
+        "p25": 12.86,
+        "p75": 42.11,
+        "max": 78.57,
+        "total": 186.45
+      }
+    },
+    "lecture_winston_how_to_speak": {
+      "role": "held_out",
+      "cues": 1372,
+      "seconds": 3822,
+      "edit_content_share": 0.1068,
+      "stage_visual_share": 0.3833,
+      "agreement": 0.6565,
+      "kappa": 0.1585,
+      "speaker_time_left_clear": 0.6529,
+      "edit_fullscreen_episodes_covered": "24/35",
+      "stage_visual_episodes": {
+        "n": 65,
+        "median": 15.28,
+        "p25": 8.32,
+        "p75": 26.56,
+        "max": 114.36,
+        "total": 1468.68
+      }
+    }
+  }
+}

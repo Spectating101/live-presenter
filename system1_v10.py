@@ -139,10 +139,13 @@ class JevBackend:
         self.model, self.base_url, self.timeout_s = model, base_url.rstrip("/"), timeout_s
 
     def _call(self, method: str, path: str, body: Optional[dict]) -> dict:
+        headers = {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}
+        if body is not None and body.get("assets"):
+            # Images are an experimental TypeSafe feature; it requires an explicit opt-in header.
+            headers["TypeSafe-Danger-Zone-Images"] = "true"
         req = urllib.request.Request(
             self.base_url + path, method=method,
-            data=None if body is None else json.dumps(body).encode(),
-            headers={"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"})
+            data=None if body is None else json.dumps(body).encode(), headers=headers)
         try:
             with urllib.request.urlopen(req, timeout=self.timeout_s) as r:
                 data = json.loads(r.read(1_000_001))
@@ -158,9 +161,11 @@ class JevBackend:
     async def models(self) -> List[dict]:
         return (await asyncio.to_thread(self._call, "GET", "/v1/models", None)).get("models", [])
 
-    async def ask(self, state, questions) -> System1Response:
+    async def ask(self, state, questions, assets: Optional[Mapping[str, Mapping[str, str]]] = None) -> System1Response:
         t0 = time.perf_counter()
         body = {"state": state, "model": self.model, "questions": dict(questions)}
+        if assets:
+            body["assets"] = dict(assets)
         try:
             raw = await asyncio.wait_for(asyncio.to_thread(self._call, "POST", "/v1/systemone", body), self.timeout_s)
         except TimeoutError:
