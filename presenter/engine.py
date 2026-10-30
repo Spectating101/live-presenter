@@ -15,6 +15,7 @@ import secrets
 
 from research_evidence_v10 import json_hash
 from system1_v10 import JevBackend, System1Error
+from .attention import past_context
 from .materials import ingest
 from .planning import CopilotPreparation, PlanError, source_outline
 from .language import tokens
@@ -27,13 +28,21 @@ class Conflict(ValueError):
     pass
 
 
+# Sized for one slide deck: every slide is one material held inline in the approved package.
+MAX_MATERIALS = 48
+MAX_IMAGE_CHARS = 8_000_000
+
+
 # How a talk balances the speaker and the screen. "persist" keeps the last
 # visual until another replaces it (slide-deck behavior). "speaker_led" starts
 # on the speaker and returns attention to the speaker once speech stops
-# supporting the visual; release_after_s is calibrated against edited talks.
+# supporting the visual. With Jev's moment signal, look_on gates a new visual and
+# look_keep renews a visible one, for look_release_s; these were chosen on one talk
+# through the real engine, see PRESENTATION_BENCHMARK.md. release_after_s is the
+# topic-only fallback when the signal is unavailable.
 STYLES = {
     'persist': {'open_with_visual': True, 'release_after_s': None},
-    'speaker_led': {'open_with_visual': False, 'release_after_s': 6.0},
+    'speaker_led': {'open_with_visual': False, 'release_after_s': 6.0, 'look_on': .5, 'look_keep': .3, 'look_release_s': 6.0},
 }
 
 
@@ -69,7 +78,7 @@ class DeadlineAdviser:
 def fresh_live():
     return {"active": False, "locked": False, "adviser_enabled": False, "reflex_enabled": False, "current_scene_id": None, "history": [],
             'research_enabled':False,'research_scene':None,'research':{},'attention':None,'last_focus_change':0,
-            'style':'persist','last_support':0,
+            'style':'persist','last_support':0,'pinned':False,
             "transcript": [], "last_seq": -1, "generation": uuid.uuid4().hex, "last_change": 0,
             "candidate_id": None, "candidate_count": 0, "decision": {"action": "HOLD", "reason": "Start a rehearsal after approving the material."}}
 
@@ -139,12 +148,12 @@ class Store:
             raise ValueError("Unknown preparation provider.")
         if not sources:
             raise ValueError("Add source material first.")
-        if len(sources) > 8 or sum(s["characters"] for s in sources) > 130_000:
-            raise ValueError("Use at most 8 materials and 130,000 extracted characters per presentation.")
+        if len(sources) > MAX_MATERIALS or sum(s["characters"] for s in sources) > 130_000:
+            raise ValueError(f"Use at most {MAX_MATERIALS} materials and 130,000 extracted characters per presentation.")
         if len({s['id'] for s in sources}) != len(sources):
             raise ValueError("The same material was supplied twice.")
-        if sum(len(s.get('asset',{}).get('data_url','')) for s in sources) > 2_000_000:
-            raise ValueError('Keep supplied images under 1.5 MB combined before encoding.')
+        if sum(len(s.get('asset',{}).get('data_url','')) for s in sources) > MAX_IMAGE_CHARS:
+            raise ValueError('Keep supplied images under 6 MB combined before encoding.')
         project = {"id": uuid.uuid4().hex, "title": title[:120] or "Untitled presentation", "brief": brief[:3000],
                    "audience": audience[:500], "sources": sources, "provider": provider, "revision": 0,
                    "plan_revision": -1, "plan": None, "approval": None, "messages": [],
@@ -160,11 +169,13 @@ class Store:
 
 
 class Studio:
-    def __init__(self, store, *, planner=None, live_assessor=None, dwell_s=2.5, clock=None):
+    def __init__(self, store, *, planner=None, live_assessor=None, moment_assessor=None, dwell_s=2.5, clock=None):
         self.store = store
         self.planner = planner or CopilotPreparation()
         self.live_assessor = live_assessor
         self.deadline_adviser = DeadlineAdviser()
+        self.moment_assessor = moment_assessor
+        self.moment_adviser = DeadlineAdviser()
         self.dwell_s = dwell_s
         self.clock = clock or time.time
         self.cue_indexes = {}
@@ -272,11 +283,11 @@ class Studio:
             if p['live']['active'] or p['job']['status'] == 'working':
                 raise Conflict('Stop the rehearsal or wait for preparation before adding material.')
             combined = p['sources'] + sources
-            if (len(combined) > 8 or sum(s['characters'] for s in combined) > 130_000
+            if (len(combined) > MAX_MATERIALS or sum(s['characters'] for s in combined) > 130_000
                     or len({s['id'] for s in combined}) != len(combined)):
-                raise ValueError('Use at most 8 distinct materials and 130,000 extracted characters.')
-            if sum(len(s.get('asset',{}).get('data_url','')) for s in combined) > 2_000_000:
-                raise ValueError('Keep supplied images under 1.5 MB combined before encoding.')
+                raise ValueError(f'Use at most {MAX_MATERIALS} distinct materials and 130,000 extracted characters.')
+            if sum(len(s.get('asset',{}).get('data_url','')) for s in combined) > MAX_IMAGE_CHARS:
+                raise ValueError('Keep supplied images under 6 MB combined before encoding.')
             p.update(sources=combined, revision=p['revision'] + 1, approval=None, live=fresh_live())
         return self.prepare(pid)
 
@@ -358,16 +369,19 @@ class Studio:
                 self.focus(live, scene, annotation_id, 'Presenter directed attention within the current visual.')
             elif action in {"next", "back", "show"}:
                 ids = [s["id"] for s in scenes]
-                current = next((s for s in scenes if s['id'] == live['current_scene_id']), scenes[0])
+                # From the speaker, "next" continues after whatever was last on screen.
+                shown = live['current_scene_id'] or (live['history'][-1] if live['history'] else None)
+                current = next((s for s in scenes if s['id'] == shown), None)
                 concepts = [c['id'] for c in package['concepts']]
-                next_concept = concepts[min(len(concepts) - 1, concepts.index(current['concept_id']) + 1)]
+                next_concept = concepts[min(len(concepts) - 1, concepts.index(current['concept_id']) + 1)] if current else concepts[0]
                 target = scene_id if action == 'show' else (live['history'].pop() if action == 'back' and live['history'] else
-                         choose_scene(package,next_concept)['id'] if action == 'next' else current['id'])
+                         choose_scene(package,next_concept)['id'] if action == 'next' else (current or scenes[0])['id'])
                 if target not in ids:
                     raise ValueError("That visual is not in the approved package.")
                 clear_candidate(live)
                 live['generation'] = uuid.uuid4().hex
                 self.show(live, target, "Presenter selected a prepared visual.", remember=action != 'back')
+                live['pinned'] = True  # The presenter asked for this; speech alone does not take it away.
             else:
                 raise ValueError("Unknown stage control.")
             if action!='start':
@@ -375,6 +389,7 @@ class Studio:
         return self.store.read(pid)
 
     def show(self, live, scene_id, reason, *, remember=True):
+        live['pinned'] = False
         if live.get('research_scene') or scene_id != live['current_scene_id']:
             live['attention'] = None
             live['last_focus_change'] = 0
@@ -393,8 +408,38 @@ class Studio:
             live['history'].append(live['current_scene_id'])
             live['history'] = live['history'][-100:]
         live.update(current_scene_id=None, research_scene=None, attention=None, last_focus_change=0,
-                    last_change=self.clock())
+                    last_change=self.clock(), pinned=False)
         live['decision'] = {'action':'CLEAR', 'reason':reason}
+
+    def release_due(self, live):
+        style = STYLES[live.get('style','persist')]
+        release_after = style.get('look_release_s') if live.get('signal_live') else style['release_after_s']
+        return (not live['locked'] and not live.get('pinned') and release_after is not None and bool(live['current_scene_id'] or live.get('research_scene'))
+                and self.clock() - max(live.get('last_support', 0), live['last_change']) >= release_after)
+
+    def idle(self, pid, generation):
+        """Audio arrived with no new words: a pause still returns the screen to the speaker."""
+        live = self.store.read(pid)['live']
+        if not live['active'] or live['generation'] != generation or not self.release_due(live):
+            return
+        with self.store.change(pid) as p:
+            live = p['live']
+            if live['active'] and live['generation'] == generation and self.release_due(live):
+                self.release(live, 'The speaker paused; attention returns to the speaker.')
+
+    def read_moment(self, utterance, earlier, expires_at):
+        """Jev's look/listen signal, bounded so it can never hold up speech. Failure means no signal."""
+        budget = .8 if expires_at is None else min(.8, max(0, expires_at-self.clock()-.02))
+        try:
+            moment = self.moment_adviser.ask(lambda _, words: self.moment_assessor(words, earlier), None, utterance, budget)
+            if (not isinstance(moment, dict) or not isinstance(moment.get('look'), (int, float))
+                    or not math.isfinite(moment['look']) or not 0 <= moment['look'] <= 1):
+                raise ValueError('Malformed moment signal')
+            return moment
+        except (System1Error, OSError, TimeoutError, ValueError, TypeError, KeyError, AttributeError) as error:
+            # System1Error text carries only a status, never a response body or key.
+            return {'error': 'Look/listen signal unavailable; following prepared topics for this window.',
+                    'cause': (type(error).__name__+': '+str(error))[:120]}
 
     def focus(self, live, scene, annotation_id, reason):
         live['attention'] = {'scene_id': scene['id'], 'annotation_id': annotation_id}
@@ -443,6 +488,9 @@ class Studio:
             live["transcript"] = live["transcript"][-150:]
             session = live["generation"]
             use_adviser = live.get('adviser_enabled', False)
+            style = STYLES[live.get('style','persist')]
+            use_moment = self.moment_assessor is not None and style['release_after_s'] is not None
+            earlier = past_context(live['transcript'][:-1], self.clock())
             index = self.cue_index(p) if live.get('reflex_enabled', False) else None
             current = next((s for s in package['scenes'] if s['id']==live['current_scene_id']),None)
             context = {'current_concept_id':current['concept_id'] if current else None,
@@ -487,6 +535,8 @@ class Studio:
                 recommendation['advice'] = {'error':'Live adviser output was invalid; retaining the stage.'}
             except (System1Error, OSError, TimeoutError):
                 recommendation["advice"] = {"error": "Live adviser unavailable; using conservative prepared-content matching."}
+        if use_moment:
+            recommendation['moment'] = self.read_moment(utterance, earlier, expires_at)
         with self.store.change(pid) as p:
             self.package(p)
             live = p["live"]
@@ -503,8 +553,21 @@ class Studio:
             live["recommendation"] = recommendation
             current_scene = next((s for s in package['scenes'] if s['id'] == live['current_scene_id']), None)
             candidate_scene = next((s for s in package['scenes'] if s['id'] == candidate), None)
-            if current_scene and (current_scene['concept_id'] in recommendation.get('supported_concepts', [])
-                                  or (candidate_scene and candidate_scene['concept_id'] == current_scene['concept_id'])):
+            look = (recommendation.get('moment') or {}).get('look')
+            live['signal_live'] = look is not None
+            if use_moment:
+                stats = live.setdefault('moment_stats', {'ok':0, 'failed':0, 'last_cause':None})
+                stats['ok' if look is not None else 'failed'] += 1
+                if look is None:
+                    stats['last_cause'] = recommendation['moment']['cause']
+            if look is not None:
+                if look >= style['look_keep']:
+                    live['last_support'] = self.clock()
+                elif self.release_due(live):
+                    self.release(live, 'Jev judged this a moment for the speaker; attention returns to the speaker.')
+                    return p
+            elif current_scene and (current_scene['concept_id'] in recommendation.get('supported_concepts', [])
+                                    or (candidate_scene and candidate_scene['concept_id'] == current_scene['concept_id'])):
                 live['last_support'] = self.clock()
             reason = ("Several prepared ideas could fit; retaining the stage until the meaning is clearer."
                       if recommendation.get('supported_concepts') else "No supported prepared visual for this utterance; retaining the stage.")
@@ -529,7 +592,9 @@ class Studio:
                     live['decision'] = {'action':'HOLD', 'reason':'Retaining the current illustration and attention.'}
                     return p
             if not live['locked'] and candidate and recommendation["score"] >= .45:
-                if self.clock() - live["last_change"] < self.dwell_s:
+                if look is not None and look < style['look_on'] and candidate != live['current_scene_id']:
+                    reason = 'A prepared visual is ready, but this is a moment for the speaker.'
+                elif self.clock() - live["last_change"] < self.dwell_s:
                     reason = "Current visual is still inside its minimum display time."
                 elif recommendation["confirmed"] or (not index and (
                         recommendation["score"] >= .88 or live["candidate_count"] >= 2)):
@@ -537,9 +602,7 @@ class Studio:
                     return p
                 else:
                     reason = "Possible match prepared backstage; waiting for stronger support."
-            release_after = STYLES[live.get('style','persist')]['release_after_s']
-            if (not live['locked'] and release_after is not None and (live['current_scene_id'] or live.get('research_scene'))
-                    and self.clock() - max(live.get('last_support', 0), live['last_change']) >= release_after):
+            if self.release_due(live):
                 self.release(live, 'Speech moved on from the visual; attention returns to the speaker.')
                 return p
             live["decision"] = {"action": "WARM" if candidate else "HOLD", "reason": reason}

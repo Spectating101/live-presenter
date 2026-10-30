@@ -6,8 +6,10 @@ NATIVE_PY ?= .venv-native/bin/python
 NATIVE_OUT ?= artifacts/native_motion_v1
 SPEECH_OUT ?= artifacts/native_speech_probe
 
-.PHONY: help test pilot eval-mock eval-jev bench clean verify doctor corpus-acquire corpus-audit corpus-jobs studio studio-local studio-research studio-research-agent studio-researched native-preview native-test native-speech
+.PHONY: talk-setup talk-check help test pilot eval-mock eval-jev bench clean verify doctor corpus-acquire corpus-audit corpus-jobs studio studio-local studio-research studio-research-agent studio-researched native-preview native-test native-speech
 help:
+	@echo "make talk-setup  install the speech and display environments for a live talk"
+	@echo "make talk-check  check microphone tools, recognition, Jev and displays (opens nothing, records nothing)"
 	@echo "make native-preview  export a visual-only native motion sample headlessly (optional .venv-native)"
 	@echo "make native-test     run native backend/Qt checks offscreen"
 	@echo "make native-speech   real-paced speech recognition to native video, headlessly; choose a fresh SPEECH_OUT"
@@ -26,6 +28,17 @@ help:
 	@echo "make corpus-acquire  download 30 NASA caption candidates (network; rights review pending)"
 	@echo "make corpus-audit    audit acquired candidates without claiming training readiness"
 	@echo "make corpus-jobs     create independent oracle-editor prompts (does not run models)"
+
+talk-setup:
+	test -x .venv-native/bin/python || $(PY) -m venv .venv-native
+	.venv-native/bin/python -m pip install -q -r requirements-native.txt
+	test -x .venv-asr/bin/python || $(PY) -m venv .venv-asr
+	.venv-asr/bin/python -m pip install -q torch --index-url https://download.pytorch.org/whl/cpu
+	.venv-asr/bin/python -m pip install -q -r requirements-recorded-audio.txt
+	.venv-asr/bin/python -c "import whisper; whisper.load_model('tiny.en', device='cpu')"
+
+talk-check:
+	$(NATIVE_PY) -m presenter.talk --check
 
 test:
 	$(PY) -m unittest discover -p "test_*.py"

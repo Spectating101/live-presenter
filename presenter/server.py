@@ -18,6 +18,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse, parse_qs
 
 from jev_credentials_v10 import load_jev_env
+from .attention import jev_moment
 from .engine import Conflict, Store, Studio, jev_adviser
 from .materials import ingest
 from .live_audio import LiveAudio, SubprocessRecognizer
@@ -98,7 +99,8 @@ def make_server(store, host="127.0.0.1", port=8765, *, planner=None, use_jev=Tru
     def project_view(p):
         return {**public_project(p),'stage_access':stage_token(p['id'])}
 
-    studio = Studio(store, planner=planner, live_assessor=jev_adviser if use_jev else None, dwell_s=dwell_s)
+    studio = Studio(store, planner=planner, live_assessor=jev_adviser if use_jev else None,
+                    moment_assessor=jev_moment if use_jev else None, dwell_s=dwell_s)
     audio = LiveAudio(studio, audio_decoder,stabilize_text=stabilize_text) if audio_decoder else None
     if research_web:
         research_backend=research_backend or ResearchProcess(command=[sys.executable,'-m','presenter.web_research'])

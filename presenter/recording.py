@@ -24,6 +24,7 @@ import wave
 
 from research_evidence_v10 import json_hash
 from jev_credentials_v10 import load_jev_env
+from .attention import jev_moment
 from .engine import STYLES, Store, Studio, jev_adviser
 from .materials import ingest
 
@@ -256,6 +257,13 @@ def _prepare_recording(folder, provider, store):
     return p
 
 
+class WaitingAdviser:
+    """Replay runs windows faster than speech, so one slow call would otherwise look busy to many.
+    Wait for it instead; the replay clock charges the measured time to the stage."""
+    def ask(self, assessor, package, utterance, timeout):
+        return assessor(package, utterance)
+
+
 class ReplayClock:
     """Advance an audio clock without sleeping, retaining measured processing time."""
     def __init__(self):
@@ -360,7 +368,9 @@ def _replay(folder, asr_path, *, mode, output, store, reflex, tag, fresh, style=
     # Evaluation copies the approved project, never modifies an active workspace.
     store.save(copy.deepcopy(original))
     clock = ReplayClock()
-    studio = Studio(store, live_assessor=jev_adviser if mode == 'jev' else None, clock=clock)
+    studio = Studio(store, live_assessor=jev_adviser if mode == 'jev' else None,
+                    moment_assessor=jev_moment if mode == 'jev' else None, clock=clock)
+    studio.moment_adviser = WaitingAdviser()
     studio.control(pid, 'style', style=style)
     p = studio.control(pid, 'start')
     if reflex:
@@ -381,6 +391,9 @@ def _replay(folder, asr_path, *, mode, output, store, reflex, tag, fresh, style=
         before = p['live']['current_scene_id']
         if chunk['text'].strip():
             p = studio.transcript(pid, chunk['text'], seq, generation=p['live']['generation'])
+        else:
+            studio.idle(pid, p['live']['generation'])
+            p = store.read(pid)
         stage_available = clock()
         row = {**chunk, 'seq': seq, 'asr_started_at': asr_started, 'asr_available_at': asr_available, 'decision_started_at': started,
                'decision_completed_at': stage_available, 'audio_to_decision_s': stage_available - chunk['end'],

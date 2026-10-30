@@ -20,18 +20,9 @@ import sys
 
 from jev_credentials_v10 import load_jev_env
 from system1_v10 import JevBackend, System1Error
+from .attention import MOMENT_KEY, MOMENTS, STATE, cue_questions
 from .edit_benchmark import CATALOG, ROOT, compare_intervals, load_catalog
 from .recording import save
-
-MOMENTS = {
-    'look': 'The words point the audience at something to see right now: a number, chart, comparison, map, '
-            'picture, place, person or object that the speaker is showing or describing concretely.',
-    'listen': 'The speaker is telling a story, giving an opinion, joking, addressing the audience or making a '
-              'general point. Watching the speaker is enough.',
-    'transition': 'A greeting, thanks, filler or a move between topics.',
-}
-MOMENT_KEY = hashlib.sha256(json.dumps(MOMENTS, sort_keys=True).encode()).hexdigest()[:16]
-STATE = 'Captions from a live presentation, heard in order. Only the words so far are known.'
 
 
 def parse_vtt(text):
@@ -57,16 +48,6 @@ def parse_vtt(text):
 def stamp(value):
     parts = [float(p) for p in value.replace(',', '.').split(':')]
     return sum(p * 60 ** i for i, p in enumerate(reversed(parts)))
-
-
-def cue_questions(cues, indices, context=2):
-    questions = {}
-    for i in indices:
-        before = ' '.join(c[2] for c in cues[max(0, i - context):i])
-        questions[f'c{i}'] = {'type': 'choice', 'criteria': MOMENTS,
-                              'instructions': (f'Earlier: "{before}" ' if before else '')
-                              + f'Now the speaker says: "{cues[i][2]}". What does this latest part call for?'}
-    return questions
 
 
 async def classify_cues(cues, backend, *, cache=None, batch=20, workers=3, retries=3):

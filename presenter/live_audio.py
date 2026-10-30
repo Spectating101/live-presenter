@@ -276,6 +276,8 @@ class LiveAudio:
                     p = self.studio.transcript(s['pid'], text, None, generation=s['generation'],
                         expires_at=time.time()+expires-decoded_at)
                     s.update(last_committed_text=text,last_committed_seq=seq)
+                else:
+                    self.studio.idle(s['pid'],s['generation'])
                 completed = self.clock()
                 with self.condition:
                     if self.session is s and s['status'] != 'stopped' and self.valid(s):

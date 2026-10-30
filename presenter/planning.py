@@ -12,6 +12,10 @@ from .materials import chart_data, identity, normalized
 from .explanation import explanation_need, validate_annotations
 
 
+# The prompt asks a model for at most 12; a supplied deck can have one per slide.
+MAX_CONCEPTS = 48
+
+
 class PlanError(ValueError):
     pass
 
@@ -32,7 +36,7 @@ def validate_plan(raw, project):
     datasets = {s["id"]: s["dataset"] for s in project["sources"] if s["dataset"]}
     assets = {s['id']:s for s in project['sources'] if s.get('asset')}
     concepts, scenes, used = [], [], set()
-    for concept in raw.get("concepts", [])[:12]:
+    for concept in raw.get("concepts", [])[:MAX_CONCEPTS]:
         title = text(concept.get("title"), 100)
         refs = []
         for ref in concept.get("source_refs", [])[:6]:

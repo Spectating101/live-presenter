@@ -127,5 +127,41 @@ has something worth showing. Captions are an upper bound: exact words with no
 recognition errors or delay. The next steps are to drive the engine's
 `speaker_led` release from this signal, combine it with the availability of a
 prepared or retrieved visual, and repeat the evaluation on past-only speech
-recognition windows. No audience or comprehension claim follows from these
+recognition windows; the live-stage section below does this. No audience or comprehension claim follows from these
 agreement scores.
+
+## The live stage
+
+In `speaker_led` style the engine now asks Jev this same question on every
+recognition window, with a 0.8-second limit. A visual appears only when the
+words match a prepared visual and P(look) ≥ 0.5. It stays while P(look) ≥ 0.3
+and returns to the speaker six seconds after the last such window, including
+during a pause. Jev cannot pick or invent a visual, and Hold, Clear and manual
+choices outrank it. If a call fails, that window follows prepared topics
+instead (a six-second topic-based release).
+
+`presenter.talk` ran each recording at real speed through local `tiny.en`, live
+Jev and offscreen native output. Results are in
+`data/presentation_live_attention_v1.json`.
+
+| Recording | Role | Edit content | Screen on | Speaker time left clear | Kappa | Edit full-screen episodes covered |
+|---|---|---:|---:|---:|---:|---:|
+| Rosling, washing machine (7 visuals) | policy chosen here | 42% | 33% | 78% | 0.27 | 6/16 |
+| McCandless (17 visuals) | held out | 60% | 60% | 51% | 0.19 | 24/34 |
+
+Across both runs, capture to decision took a median of about 0.87 seconds in the
+final 120 windows of each (p95 1.23–1.31), Jev answered 96–98% of windows, and at most one
+of 1,618 audio windows was dropped.
+
+**The test favors the system in one way.** These decks are frames from the same
+talks, cued with words from their captions. A speaker's own deck may match their
+words less closely. Conditions also exclude a microphone, a room, a human
+rehearsal and a physical projector. McCandless's visuals also run long (median
+40 seconds, against 15.5 in the edit).
+
+**A rejected setting.** A simulation on Rosling's recognition windows suggested
+stricter values (0.6, 0.4, three seconds) with 35% screen time. Through the real
+engine, which also requires a matching visual, they gave 10% screen time and kappa 0.10 on Rosling,
+so the simulation was not a reliable guide and the original values were kept.
+That setting's held-out McCandless run (kappa 0.23, 36% screen) scored higher,
+but the choice was made on Rosling alone. Two talks cannot separate these settings.

@@ -3,11 +3,13 @@ from pathlib import Path
 import tempfile
 import unittest
 
+from presenter.attention import past_context
 from presenter.engine import STYLES, Store, Studio
 from presenter.materials import ingest
 from presenter.native_output import VisualOutput
 from presenter.planning import source_outline
 from presenter.server import EXAMPLE
+from system1_v10 import System1Error
 
 
 class Clock:
@@ -97,6 +99,19 @@ class PresentationStyleTests(unittest.TestCase):
         self.assertIsNone(p['live']['current_scene_id'])
         self.assertEqual(p['live']['decision']['action'], 'CLEAR')
 
+    def test_presenter_choice_is_not_released_by_speech_and_next_resumes_after_a_clear(self):
+        self.start('speaker_led')
+        first = self.store.read(self.pid)['approval']['package']['scenes'][0]['concept_id']
+        p = self.studio.control(self.pid, 'next')
+        shown = p['live']['current_scene_id']
+        scenes = {s['id']: s for s in p['approval']['package']['scenes']}
+        self.assertEqual(scenes[shown]['concept_id'], first)
+        p = self.say('An unrelated aside about the weather.', after_s=60)
+        self.assertEqual(p['live']['current_scene_id'], shown)
+        self.assertEqual(self.studio.control(self.pid, 'clear')['live']['pinned'], False)
+        p = self.studio.control(self.pid, 'next')
+        self.assertNotEqual(scenes[p['live']['current_scene_id']]['concept_id'], first)
+
     def test_style_is_validated_and_survives_stop(self):
         with self.assertRaises(ValueError):
             self.studio.control(self.pid, 'style', style='cinematic')
@@ -105,6 +120,107 @@ class PresentationStyleTests(unittest.TestCase):
         p = self.studio.control(self.pid, 'start')
         self.assertEqual(p['live']['style'], 'speaker_led')
         self.assertIsNone(p['live']['current_scene_id'])
+
+
+class LookSignalTests(PresentationStyleTests):
+    """Jev's look/listen signal gates visuals that exist; it never invents one."""
+    def setUp(self):
+        super().setUp()
+        self.look = 0.9
+        self.earlier = []
+        def assessor(words, earlier):
+            self.earlier.append(list(earlier))
+            if isinstance(self.look, Exception):
+                raise self.look
+            return {'look': self.look}
+        self.studio.moment_assessor = assessor
+
+    def show_visual(self):
+        self.look = .9
+        self.start('speaker_led')
+        return self.say(self.concepts[1]['title'])['live']['current_scene_id']
+
+    # Topic-only behavior inherited from the base class is covered there, not with a signal.
+    test_visual_returns_to_the_speaker_after_speech_moves_on = None
+    test_continued_support_keeps_the_visual = None
+    test_hold_prevents_automatic_release_and_clear_is_a_manual_control = None
+    test_speaker_led_starts_on_the_speaker_and_shows_when_speech_needs_a_visual = None
+
+    def test_listen_keeps_a_matching_visual_backstage(self):
+        self.look = .1
+        self.start('speaker_led')
+        p = self.say(self.concepts[1]['title'])
+        self.assertIsNone(p['live']['current_scene_id'])
+        self.assertEqual(p['live']['decision']['action'], 'WARM')
+        self.assertIn('moment for the speaker', p['live']['decision']['reason'])
+
+    def test_look_without_a_prepared_visual_shows_nothing(self):
+        self.start('speaker_led')
+        p = self.say('Look at this strange unrelated purple giraffe.')
+        self.assertIsNone(p['live']['current_scene_id'])
+
+    def test_listen_releases_even_while_the_topic_still_matches(self):
+        release = STYLES['speaker_led']['look_release_s']
+        shown = self.show_visual()
+        self.look = .1
+        p = self.say(self.concepts[1]['title'], after_s=release / 2)
+        self.assertEqual(p['live']['current_scene_id'], shown)
+        p = self.say(self.concepts[1]['title'], after_s=release / 2)
+        self.assertIsNone(p['live']['current_scene_id'])
+        self.assertEqual(p['live']['decision']['action'], 'CLEAR')
+
+    def test_look_renews_a_visual_on_an_unrelated_topic(self):
+        release = STYLES['speaker_led']['look_release_s']
+        shown = self.show_visual()
+        self.look = STYLES['speaker_led']['look_keep']
+        for _ in range(4):
+            p = self.say('And look at this part here on the left.', after_s=release * .75)
+        self.assertEqual(p['live']['current_scene_id'], shown)
+
+    def test_failed_signal_falls_back_to_topics_in_both_directions(self):
+        self.look = System1Error('down')
+        self.start('speaker_led')
+        p = self.say(self.concepts[1]['title'])
+        self.assertIsNotNone(p['live']['current_scene_id'])
+        self.assertIn('error', p['live']['recommendation']['moment'])
+        p = self.say('Let me tell you a story about my grandmother.', after_s=STYLES['speaker_led']['release_after_s'])
+        self.assertIsNone(p['live']['current_scene_id'])
+
+    def test_malformed_signal_counts_as_no_signal(self):
+        self.look = float('nan')
+        self.start('speaker_led')
+        p = self.say(self.concepts[1]['title'])
+        self.assertIn('error', p['live']['recommendation']['moment'])
+
+    def test_hold_beats_the_signal(self):
+        shown = self.show_visual()
+        self.studio.control(self.pid, 'hold')
+        self.look = .1
+        p = self.say('A story.', after_s=30)
+        self.assertEqual(p['live']['current_scene_id'], shown)
+
+    def test_persist_style_never_calls_jev_for_timing(self):
+        self.look = .1
+        self.start('persist')
+        p = self.say(self.concepts[1]['title'])
+        self.assertEqual(self.earlier, [])
+        self.assertNotIn('moment', p['live']['recommendation'])
+
+    def test_a_pause_returns_to_the_speaker_without_new_words(self):
+        shown = self.show_visual()
+        generation = self.store.read(self.pid)['live']['generation']
+        self.clock.now += 1
+        self.studio.idle(self.pid, generation)
+        self.assertEqual(self.store.read(self.pid)['live']['current_scene_id'], shown)
+        self.clock.now += STYLES['speaker_led']['look_release_s']
+        self.studio.idle(self.pid, generation)
+        self.assertIsNone(self.store.read(self.pid)['live']['current_scene_id'])
+        self.studio.idle(self.pid, 'an older rehearsal')
+
+    def test_context_skips_overlapping_recognition_windows(self):
+        rows = [{'text': f'w{i}', 'at': 1000.0 + i} for i in range(12)]
+        self.assertEqual(past_context(rows, 1012.0), ['w4', 'w8'])
+        self.assertEqual(past_context(rows[:1], 1001.0), [])
 
 
 if __name__ == '__main__':

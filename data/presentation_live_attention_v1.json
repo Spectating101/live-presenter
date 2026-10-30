@@ -1,0 +1,90 @@
+{
+  "schema": "live_presenter.live_attention.v1",
+  "policy": {
+    "look_on": 0.5,
+    "look_keep": 0.3,
+    "look_release_s": 6.0,
+    "chosen_on": "ted_rosling_washing_machine through the real engine"
+  },
+  "conditions": "presenter.talk at real speed from recorded audio, offscreen; local tiny.en, live Jev. Decks are frames from the same talk with cue words from its captions, so deck coverage is favorable. Not a microphone, human rehearsal or projector measurement.",
+  "talks": {
+    "rosling": {
+      "role": "calibration",
+      "duration_s": 538,
+      "edit_content": 0.4238,
+      "screen_on": 0.3271,
+      "kappa": 0.2701,
+      "speaker_time_clear": 0.7839,
+      "fullscreen_covered": "6/16",
+      "visual_episodes": 5,
+      "median_visual_s": 17.9,
+      "moment_stats": {
+        "ok": 471,
+        "failed": 18,
+        "last_cause": "TimeoutError: Live adviser is busy or its input expired."
+      },
+      "windows": {
+        "received": 538,
+        "processed": 536,
+        "dropped": 1,
+        "rejected": 6,
+        "timeouts": 0,
+        "expired": 1
+      },
+      "capture_to_decision_last120": {
+        "p50": 0.87,
+        "p95": 1.31
+      },
+      "deck_visuals": 7
+    },
+    "mccandless": {
+      "role": "held_out",
+      "duration_s": 1080,
+      "edit_content": 0.6037,
+      "screen_on": 0.6009,
+      "kappa": 0.1863,
+      "speaker_time_clear": 0.5117,
+      "fullscreen_covered": "24/34",
+      "visual_episodes": 12,
+      "median_visual_s": 39.7,
+      "moment_stats": {
+        "ok": 944,
+        "failed": 21,
+        "last_cause": "TimeoutError: Live adviser is busy or its input expired."
+      },
+      "windows": {
+        "received": 1080,
+        "processed": 1079,
+        "dropped": 0,
+        "rejected": 3,
+        "timeouts": 0,
+        "expired": 0
+      },
+      "capture_to_decision_last120": {
+        "p50": 0.86,
+        "p95": 1.23
+      },
+      "deck_visuals": 17
+    }
+  },
+  "rejected_policy": {
+    "policy": {
+      "look_on": 0.6,
+      "look_keep": 0.4,
+      "look_release_s": 3.0
+    },
+    "reason": "Chosen by simulation without the visual-exists gate; through the real engine it nearly emptied the screen on the calibration talk.",
+    "talks": {
+      "rosling": {
+        "screen_on": 0.1041,
+        "kappa": 0.0953,
+        "speaker_time_clear": 0.9323
+      },
+      "mccandless": {
+        "screen_on": 0.3583,
+        "kappa": 0.2287,
+        "speaker_time_clear": 0.7944
+      }
+    }
+  }
+}
