@@ -1,0 +1,324 @@
+{
+ "schema": "live_presenter.rehearsal.v1",
+ "conditions": "presenter.talk at real speed from each recording audio, four at once on one six-core machine, offscreen, local tiny.en, live Jev. Decks are frames from the talk, cued only by OCR of the frame. No human, microphone, room or projector.",
+ "pick_confidence": 0.85,
+ "threshold_set_sample": {
+  "correct_picks_at_threshold": "25/25 picks during slide time, 25/150 moments",
+  "picks_during_speaker_time": "7/147",
+  "median_ms": "220-298"
+ },
+ "talks": {
+  "ted_rosling_washing_machine": {
+   "role": "held_out",
+   "min": 9.0,
+   "visuals": 12,
+   "used": 4,
+   "edit": 0.4238,
+   "screen": 0.2342,
+   "kappa": 0.1586,
+   "clear": 0.829,
+   "covered": "5/16",
+   "episodes": 4,
+   "med_s": 29.5,
+   "stats": {
+    "ok": 402,
+    "failed": 16,
+    "last_cause": "TimeoutError: Live advice exceeded the current audio deadline."
+   },
+   "win": {
+    "received": 538,
+    "processed": 474,
+    "dropped": 63,
+    "expired": 63
+   },
+   "p50": 1.55,
+   "p95": 2.05
+  },
+  "ted_mccandless_data_visualization": {
+   "role": "held_out",
+   "min": 18.0,
+   "visuals": 27,
+   "used": 11,
+   "edit": 0.6033,
+   "screen": 0.4856,
+   "kappa": 0.1358,
+   "clear": 0.6005,
+   "covered": "22/34",
+   "episodes": 11,
+   "med_s": 31.0,
+   "stats": {
+    "ok": 610,
+    "failed": 14,
+    "last_cause": "TimeoutError: Live advice exceeded the current audio deadline."
+   },
+   "win": {
+    "received": 1080,
+    "processed": 853,
+    "dropped": 226,
+    "expired": 215
+   },
+   "p50": 1.52,
+   "p95": 2.09
+  },
+  "ted_rosling_best_stats": {
+   "role": "held_out",
+   "min": 19.6,
+   "visuals": 20,
+   "used": 9,
+   "edit": 0.7568,
+   "screen": 0.6029,
+   "kappa": 0.1462,
+   "clear": 0.5315,
+   "covered": "18/24",
+   "episodes": 13,
+   "med_s": 32.9,
+   "stats": {
+    "ok": 603,
+    "failed": 14,
+    "last_cause": "TimeoutError: Live adviser is busy or its input expired."
+   },
+   "win": {
+    "received": 1176,
+    "processed": 871,
+    "dropped": 304,
+    "expired": 293
+   },
+   "p50": 1.75,
+   "p95": 2.13
+  },
+  "lecture_winston_how_to_speak": {
+   "role": "held_out",
+   "min": 15.0,
+   "visuals": 2,
+   "used": 1,
+   "edit": 0.0156,
+   "screen": 0.0145,
+   "kappa": -0.0152,
+   "clear": 0.9853,
+   "covered": "0/2",
+   "episodes": 1,
+   "med_s": 12.8,
+   "stats": {
+    "ok": 688,
+    "failed": 20,
+    "last_cause": "TimeoutError: Live advice exceeded the current audio deadline."
+   },
+   "win": {
+    "received": 899,
+    "processed": 895,
+    "dropped": 4,
+    "expired": 4
+   },
+   "p50": 1.16,
+   "p95": 1.66
+  },
+  "data_rosling_200_countries": {
+   "role": "held_out",
+   "min": 4.8,
+   "visuals": 3,
+   "used": 1,
+   "edit": 0.7108,
+   "screen": 0.1603,
+   "kappa": 0.1116,
+   "clear": 0.9639,
+   "covered": "1/4",
+   "episodes": 1,
+   "med_s": 46.3,
+   "stats": {
+    "ok": 237,
+    "failed": 9,
+    "last_cause": "TimeoutError: Live advice exceeded the current audio deadline."
+   },
+   "win": {
+    "received": 287,
+    "processed": 272,
+    "dropped": 14,
+    "expired": 9
+   },
+   "p50": 1.39,
+   "p95": 2.0
+  },
+  "ted_gates_mosquitos": {
+   "role": "threshold_set",
+   "min": 20.0,
+   "visuals": 14,
+   "used": 4,
+   "edit": 0.2644,
+   "screen": 0.1243,
+   "kappa": -0.002,
+   "clear": 0.8753,
+   "covered": "2/14",
+   "episodes": 7,
+   "med_s": 17.3,
+   "stats": {
+    "ok": 952,
+    "failed": 43,
+    "last_cause": "TimeoutError: Live adviser is busy or its input expired."
+   },
+   "win": {
+    "received": 1200,
+    "processed": 1105,
+    "dropped": 94,
+    "expired": 94
+   },
+   "p50": 1.31,
+   "p95": 1.79
+  },
+  "ted_gore_climate": {
+   "role": "threshold_set",
+   "min": 20.0,
+   "visuals": 20,
+   "used": 8,
+   "edit": 0.5771,
+   "screen": 0.3086,
+   "kappa": 0.2188,
+   "clear": 0.8284,
+   "covered": "15/24",
+   "episodes": 6,
+   "med_s": 49.7,
+   "stats": {
+    "ok": 805,
+    "failed": 19,
+    "last_cause": "TimeoutError: Live advice exceeded the current audio deadline."
+   },
+   "win": {
+    "received": 1200,
+    "processed": 1110,
+    "dropped": 88,
+    "expired": 86
+   },
+   "p50": 0.96,
+   "p95": 1.56
+  },
+  "ted_duarte_structure": {
+   "role": "threshold_set",
+   "min": 18.0,
+   "visuals": 7,
+   "used": 4,
+   "edit": 0.557,
+   "screen": 0.2095,
+   "kappa": 0.0317,
+   "clear": 0.8096,
+   "covered": "3/7",
+   "episodes": 9,
+   "med_s": 22.2,
+   "stats": {
+    "ok": 976,
+    "failed": 28,
+    "last_cause": "TimeoutError: Live advice exceeded the current audio deadline."
+   },
+   "win": {
+    "received": 1080,
+    "processed": 1055,
+    "dropped": 24,
+    "expired": 27
+   },
+   "p50": 0.88,
+   "p95": 1.01
+  },
+  "keynote_jobs_iphone_2007": {
+   "role": "threshold_set",
+   "min": 15.0,
+   "visuals": 7,
+   "used": 4,
+   "edit": 0.5473,
+   "screen": 0.2091,
+   "kappa": 0.2198,
+   "clear": 0.9189,
+   "covered": "3/10",
+   "episodes": 5,
+   "med_s": 19.6,
+   "stats": {
+    "ok": 685,
+    "failed": 18,
+    "last_cause": "TimeoutError: Live advice exceeded the current audio deadline."
+   },
+   "win": {
+    "received": 899,
+    "processed": 870,
+    "dropped": 28,
+    "expired": 28
+   },
+   "p50": 1.3,
+   "p95": 1.88
+  },
+  "lecture_pausch_last_lecture": {
+   "role": "threshold_set",
+   "min": 15.0,
+   "visuals": 17,
+   "used": 4,
+   "edit": 0.4194,
+   "screen": 0.0756,
+   "kappa": 0.0386,
+   "clear": 0.9387,
+   "covered": "3/20",
+   "episodes": 7,
+   "med_s": 8.8,
+   "stats": {
+    "ok": 720,
+    "failed": 7,
+    "last_cause": "TimeoutError: Live advice exceeded the current audio deadline."
+   },
+   "win": {
+    "received": 899,
+    "processed": 882,
+    "dropped": 17,
+    "expired": 17
+   },
+   "p50": 1.12,
+   "p95": 1.78
+  },
+  "public_lecture_ri_christmas_2024": {
+   "role": "threshold_set",
+   "min": 15.0,
+   "visuals": 11,
+   "used": 2,
+   "edit": 0.2892,
+   "screen": 0.059,
+   "kappa": 0.0189,
+   "clear": 0.9452,
+   "covered": "2/20",
+   "episodes": 2,
+   "med_s": 26.3,
+   "stats": {
+    "ok": 749,
+    "failed": 14,
+    "last_cause": "TimeoutError: Live adviser is busy or its input expired."
+   },
+   "win": {
+    "received": 899,
+    "processed": 863,
+    "dropped": 36,
+    "expired": 36
+   },
+   "p50": 1.07,
+   "p95": 1.99
+  },
+  "control_robinson_gates_deck": {
+   "role": "control_wrong_deck",
+   "min": 19.0,
+   "visuals": 14,
+   "used": 0,
+   "edit": 0.0193,
+   "screen": 0.0,
+   "kappa": 0.0,
+   "clear": 1.0,
+   "covered": "0/1",
+   "episodes": 0,
+   "med_s": null,
+   "stats": {
+    "ok": 851,
+    "failed": 45,
+    "last_cause": "TimeoutError: Live adviser is busy or its input expired."
+   },
+   "win": {
+    "received": 1140,
+    "processed": 1061,
+    "dropped": 78,
+    "expired": 73
+   },
+   "p50": 1.29,
+   "p95": 2.02
+  }
+ }
+}

@@ -28,6 +28,11 @@ class Conflict(ValueError):
     pass
 
 
+class AudioExpired(Conflict):
+    """One late window. The next one replaces it; the stream carries on."""
+
+
+PRESENTER_CLEAR_QUIET_S = 5.0
 # Sized for one slide deck: every slide is one material held inline in the approved package.
 MAX_MATERIALS = 48
 MAX_IMAGE_CHARS = 8_000_000
@@ -42,7 +47,8 @@ MAX_IMAGE_CHARS = 8_000_000
 # topic-only fallback when the signal is unavailable.
 STYLES = {
     'persist': {'open_with_visual': True, 'release_after_s': None},
-    'speaker_led': {'open_with_visual': False, 'release_after_s': 6.0, 'look_on': .5, 'look_keep': .3, 'look_release_s': 6.0},
+    'speaker_led': {'open_with_visual': False, 'release_after_s': 6.0, 'look_on': .5, 'look_keep': .3, 'look_release_s': 6.0,
+                    'pick_confidence': .85},
 }
 
 
@@ -169,13 +175,16 @@ class Store:
 
 
 class Studio:
-    def __init__(self, store, *, planner=None, live_assessor=None, moment_assessor=None, dwell_s=2.5, clock=None):
+    def __init__(self, store, *, planner=None, live_assessor=None, moment_assessor=None, visual_assessor=None,
+                 dwell_s=2.5, clock=None):
         self.store = store
         self.planner = planner or CopilotPreparation()
         self.live_assessor = live_assessor
         self.deadline_adviser = DeadlineAdviser()
         self.moment_assessor = moment_assessor
         self.moment_adviser = DeadlineAdviser()
+        self.visual_assessor = visual_assessor
+        self.visual_adviser = DeadlineAdviser()
         self.dwell_s = dwell_s
         self.clock = clock or time.time
         self.cue_indexes = {}
@@ -331,6 +340,8 @@ class Studio:
                 clear_candidate(live)
                 live['generation'] = uuid.uuid4().hex
                 self.release(live, 'Presenter returned attention to the speaker.')
+                # The listening window still holds the words that brought the visual up.
+                live['quiet_until'] = self.clock() + PRESENTER_CLEAR_QUIET_S
             elif action == "hold":
                 clear_candidate(live)
                 live['generation'] = uuid.uuid4().hex
@@ -441,6 +452,21 @@ class Studio:
             return {'error': 'Look/listen signal unavailable; following prepared topics for this window.',
                     'cause': (type(error).__name__+': '+str(error))[:120]}
 
+    def read_visual(self, package, recommendation, utterance, earlier, expires_at, confidence_needed):
+        """At a "look" moment with no word match, Jev may name one of the presenter's own visuals.
+
+        A confident answer becomes a candidate under the usual Hold and dwell rules. A low-confidence
+        answer, an unknown id or any failure leaves the stage alone."""
+        budget = .8 if expires_at is None else min(.8, max(0, expires_at-self.clock()-.02))
+        try:
+            pick = self.visual_adviser.ask(lambda _, words: self.visual_assessor(words, earlier), None, utterance, budget)
+            recommendation['visual_pick'] = {k:pick.get(k) for k in ('scene_id','confidence')}
+            if (pick.get('scene_id') in {s['id'] for s in package['scenes']}
+                    and isinstance(pick.get('confidence'), (int, float)) and pick['confidence'] >= confidence_needed):
+                recommendation.update(scene_id=pick['scene_id'], score=1.0, confirmed=True, method='jev_saw_visual')
+        except (System1Error, OSError, TimeoutError, ValueError, TypeError, KeyError, AttributeError, IndexError) as error:
+            recommendation['visual_pick'] = {'cause':(type(error).__name__+': '+str(error))[:120]}
+
     def focus(self, live, scene, annotation_id, reason):
         live['attention'] = {'scene_id': scene['id'], 'annotation_id': annotation_id}
         live['last_focus_change'] = self.clock()
@@ -478,7 +504,7 @@ class Studio:
             if generation != live["generation"]:
                 raise Conflict("This transcript belongs to an older rehearsal session.")
             if expires_at is not None and self.clock() > expires_at:
-                raise Conflict('This audio has expired.')
+                raise AudioExpired('This audio has expired.')
             if seq is None:
                 seq = live['last_seq'] + 1  # Internal PCM worker allocates under the project lock.
             if not final or seq <= live["last_seq"]:
@@ -537,6 +563,9 @@ class Studio:
                 recommendation["advice"] = {"error": "Live adviser unavailable; using conservative prepared-content matching."}
         if use_moment:
             recommendation['moment'] = self.read_moment(utterance, earlier, expires_at)
+            if (self.visual_assessor and not recommendation.get('scene_id')
+                    and recommendation['moment'].get('look', 0) >= style['look_on']):
+                self.read_visual(package, recommendation, utterance, earlier, expires_at, style['pick_confidence'])
         with self.store.change(pid) as p:
             self.package(p)
             live = p["live"]
@@ -592,7 +621,9 @@ class Studio:
                     live['decision'] = {'action':'HOLD', 'reason':'Retaining the current illustration and attention.'}
                     return p
             if not live['locked'] and candidate and recommendation["score"] >= .45:
-                if look is not None and look < style['look_on'] and candidate != live['current_scene_id']:
+                if self.clock() < live.get('quiet_until', 0):
+                    reason = 'The presenter just cleared the screen.'
+                elif look is not None and look < style['look_on'] and candidate != live['current_scene_id']:
                     reason = 'A prepared visual is ready, but this is a moment for the speaker.'
                 elif self.clock() - live["last_change"] < self.dwell_s:
                     reason = "Current visual is still inside its minimum display time."

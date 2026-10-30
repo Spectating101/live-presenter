@@ -25,7 +25,7 @@ research lane for evaluating causal visual editing and an advisory learned polic
 
 ## Start here
 
-- **Give a talk:** `make talk-setup`, `make talk-check`, then `.venv-native/bin/python -m presenter.talk deck.pdf photo.jpg numbers.csv --env-file /path/to/credentials.env`. Each slide, image and numeric column becomes a visual, your microphone drives it, and the screen returns to you between visuals. `--help` covers cue words and keys. Not yet tried with a physical microphone or projector; see the [measured results](PRESENTATION_BENCHMARK.md#the-live-stage)
+- **Give a talk:** `make talk-setup`, `make talk-check`, then `.venv-native/bin/python -m presenter.talk deck.pdf photo.jpg numbers.csv --env-file /path/to/credentials.env`. Each slide, image and numeric column becomes a visual, your microphone drives it, Jev matches speech to your slides, and the screen returns to you between visuals. `--help` covers cue words and keys. Not yet tried with a real person, physical microphone or projector; see the [measured results](PRESENTATION_BENCHMARK.md#without-caption-help)
 - `make native-preview` — export the native visual-only motion sample without using the screen (optional native dependencies)
 - `make native-test` — test native output and attention offscreen
 - `make native-speech SPEECH_OUT=artifacts/new_attempt` — record real paced speech recognition driving native visuals, headlessly; see [results and detour limits](NATIVE_OUTPUT.md#speech-to-visuals-and-a-fresh-detour)

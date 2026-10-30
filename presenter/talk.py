@@ -3,8 +3,9 @@
     python -m presenter.talk deck.pdf photo.jpg numbers.csv
 
 Each slide, image and numeric column becomes one visual, shown exactly as supplied.
-Your microphone drives local speech recognition; the screen stays on you until the
-words match a visual and Jev judges the moment one to look at, then returns to you.
+Your microphone drives local speech recognition. The screen stays on you until Jev
+judges the moment one to look at and either your words match a visual or Jev, seeing
+your visuals, is confident which one you mean. Then it returns to you.
 
 Add spoken cue words beside a file: photo.txt for photo.jpg, or lines like
 "7: mosquito net trial" in deck.txt for slide 7 of deck.pdf. Keys on the visual
@@ -25,7 +26,7 @@ import time
 
 from jev_credentials_v10 import load_jev_env
 from system1_v10 import System1Error
-from .attention import jev_moment
+from .attention import VisualMatcher, jev_moment
 from .engine import STYLES, Conflict, Store, Studio, jev_adviser
 from .live_audio import LiveAudio, SubprocessRecognizer
 from .materials import identity, ingest
@@ -137,6 +138,25 @@ class DeckPlanner:
         return deck_plan(project)
 
 
+def thumbnail(data_url):
+    """A small JPEG for Jev; 512 wide stays above its 280-pixel minimum on either side for slide shapes."""
+    result = subprocess.run(['ffmpeg','-nostdin','-hide_banner','-loglevel','error','-i','pipe:0','-vf','scale=512:-2',
+                             '-q:v','6','-f','image2pipe','-c:v','mjpeg','pipe:1'],
+                            input=base64.b64decode(data_url.split(',',1)[1]),capture_output=True,timeout=20,check=True)
+    return result.stdout
+
+
+def build_matcher(project):
+    """Jev's view of the approved deck: a picture for each image, the title for each chart."""
+    visuals = []
+    for scene in project['approval']['package']['scenes']:
+        if scene['kind'] == 'image':
+            visuals.append((scene['id'], thumbnail(scene['asset']['data_url']), scene['title']))
+        elif scene['kind'] == 'chart':
+            visuals.append((scene['id'], None, scene['title']))
+    return VisualMatcher(visuals)
+
+
 def prepare_talk(store, paths, *, moment_assessor=None, live_assessor=None, style='speaker_led', title='Live talk', dwell_s=2.5):
     sources = load_sources(paths)
     studio = Studio(store, planner=DeckPlanner(), moment_assessor=moment_assessor, live_assessor=live_assessor, dwell_s=dwell_s)
@@ -207,6 +227,26 @@ class Capture(threading.Thread):
             self.process.terminate()
 
 
+def use_bundled_display_libraries():
+    """Qt needs libxcb-cursor on X11; make talk-setup unpacks it here when the system lacks it."""
+    folder = Path(sys.prefix)/'system-libs'/'usr'/'lib'/'x86_64-linux-gnu'
+    current = os.environ.get('LD_LIBRARY_PATH', '')
+    if folder.is_dir() and str(folder) not in current.split(':'):
+        # The loader reads this only at startup, so restart with it set.
+        os.environ['LD_LIBRARY_PATH'] = ':'.join(filter(None, [str(folder), current]))
+        os.execv(sys.executable, [sys.executable, '-m', 'presenter.talk', *sys.argv[1:]])
+
+
+def probe_display():
+    """Qt aborts the whole process when a display cannot load, so try it in a child first. Opens no window."""
+    code = 'from PySide6.QtWidgets import QApplication as A;a=A([]);print(len(a.screens()))'
+    result = subprocess.run([sys.executable, '-c', code], capture_output=True, text=True, timeout=30)
+    if result.returncode:
+        missing = re.search(r'(xcb-cursor\S*|libxcb\S+)', result.stderr)
+        return False, ('Missing '+missing.group(1)+'. Run make talk-setup.') if missing else 'The display would not start.'
+    return True, ''
+
+
 def preflight(args, *, asr_python, qt_screens=None):
     """Everything that can quietly ruin a talk, checked before it starts."""
     rows = []
@@ -236,7 +276,9 @@ def preflight(args, *, asr_python, qt_screens=None):
             check('Jev timing', True, f'{(time.perf_counter()-begun)*1000:.0f} ms round trip')
         except (System1Error, OSError, KeyError) as error:
             check('Jev timing', False, type(error).__name__+'; the screen falls back to prepared topics.', required=False)
-    if qt_screens is not None:
+    if os.environ.get('QT_QPA_PLATFORM') == 'offscreen' and getattr(args,'check',False):
+        check('Display', False, 'Not tested: no desktop in this shell. Run this check from your desktop.', required=False)
+    elif qt_screens is not None:
         names = ', '.join(f'{i}: {s.name()} {s.size().width()}x{s.size().height()}' for i,s in enumerate(qt_screens))
         check('Display', bool(qt_screens), names or 'No display found.')
     return rows
@@ -285,6 +327,12 @@ def main():
         parser.error('--export needs --audio-file; it never records a microphone.')
     if args.export or args.check and 'DISPLAY' not in os.environ and 'WAYLAND_DISPLAY' not in os.environ:
         os.environ['QT_QPA_PLATFORM'] = 'offscreen'
+    use_bundled_display_libraries()
+    if not args.export and os.environ.get('QT_QPA_PLATFORM') != 'offscreen':
+        shown, why = probe_display()
+        if not shown:
+            print('FAIL  Display: '+why, flush=True)
+            return 1
     from .native import qt_types
     QApplication, VisualSurface, QTimer = qt_types()
     from PySide6.QtCore import QEvent, QObject, Qt
@@ -301,7 +349,9 @@ def main():
     store = Store(args.data_dir/time.strftime('%Y%m%d-%H%M%S'))
     studio, pid = prepare_talk(store, args.materials, title=args.title, style=args.style,
                                moment_assessor=jev_moment if jev_ok else None, live_assessor=jev_adviser if jev_ok else None)
-    scenes = store.read(pid)['approval']['package']['scenes']
+    scenes = [s for s in store.read(pid)['approval']['package']['scenes'] if s['kind'] != 'evidence']
+    if jev_ok:
+        studio.visual_assessor = build_matcher(store.read(pid))
     print(f'{len(scenes)} visuals ready. The screen is on you until one is needed.', flush=True)
     # Decision time grows with the saved package (about 190 ms at 4 MB on the development machine).
     if store.path(pid).stat().st_size > HEAVY_PACKAGE_BYTES:
@@ -320,6 +370,8 @@ def main():
             studio.control(pid, action, **values)
         except (Conflict, ValueError) as error:
             print('Stage: '+str(error), flush=True)
+        # Every control starts a new stage generation; audio must follow it or speech goes dead.
+        capture.stream = audio.rebind(pid)
 
     class Keys(QObject):
         def eventFilter(self, _, event):
@@ -364,8 +416,8 @@ def main():
             if origin is None:
                 return  # Still warming up; the stage cannot change until audio starts.
             state = audio.snapshot(pid)
-            if state.get('status') == 'error':
-                print('Speech recognition failed; restarting it. Keys still work.', flush=True)
+            if state.get('status') in {'error', 'stopped'} and not capture.finished.is_set():
+                print('Speech recognition stopped; restarting it. Keys still work.', flush=True)
                 audio.stop(pid, capture.stream['stream_id'])
                 begin_stream()
             if capture.finished.is_set():

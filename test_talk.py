@@ -1,13 +1,16 @@
 """The one-command talk: supplied files become visuals; audio drives them; nothing opens a window."""
+import base64
 from pathlib import Path
 import shutil
 import struct
 import sys
 import tempfile
 import time
+from types import SimpleNamespace
 import unittest
 import zlib
 
+from presenter.attention import MATCH_GROUP, VisualMatcher
 from presenter.engine import Store, Studio
 from presenter.live_audio import LiveAudio
 from presenter.native_output import VisualOutput
@@ -147,6 +150,35 @@ class TalkTests(unittest.TestCase):
         self.assertGreaterEqual(len(decoder.windows), 4)
         self.assertLessEqual(max(decoder.windows), 128000)
 
+    def test_speech_keeps_driving_the_stage_after_a_key_press(self):
+        store, studio, pid = self.prepare()
+        p = studio.control(pid, 'start')
+        decoder = Decoder()
+        audio = LiveAudio(studio, decoder)
+        session = audio.start(pid, p['live']['generation'])
+        def send(seq, stream):
+            audio.submit(pid, {'stream_id':stream['stream_id'],'generation':stream['generation'],'seq':seq,
+                               'end_sample':(seq+1)*16000,'age_s':0,'pcm':base64.b64encode(bytes(min(seq+1,4)*32000)).decode()})
+        def settle(count):
+            deadline = time.monotonic()+3
+            while len(decoder.windows) < count and time.monotonic() < deadline:
+                time.sleep(.01)
+            time.sleep(.05)
+        send(0, session)
+        settle(1)
+        studio.control(pid, 'hold')
+        rebound = audio.rebind(pid)
+        self.assertEqual(rebound['stream_id'], session['stream_id'])
+        self.assertEqual(rebound['generation'], store.read(pid)['live']['generation'])
+        studio.control(pid, 'resume')
+        rebound = audio.rebind(pid)
+        self.assertEqual(rebound['status'], 'ready')
+        decoder.text = 'energy use across the whole world'
+        send(1, rebound)
+        settle(2)
+        audio.close()
+        self.assertEqual(store.read(pid)['live']['transcript'][-1]['text'], decoder.text)
+
     def test_a_dead_recorder_is_reported_not_raised(self):
         store, studio, pid = self.prepare()
         p = studio.control(pid, 'start')
@@ -169,6 +201,32 @@ class TalkTests(unittest.TestCase):
         self.assertEqual(choose_screen(['laptop', 'projector'], 0), 'laptop')
         with self.assertRaises(ValueError):
             choose_screen(['laptop'], 3)
+
+    def test_matcher_sends_pictures_and_maps_the_answer_back_to_the_visual(self):
+        class Backend:
+            def __init__(self):
+                self.calls = []
+
+            async def ask(self, state, questions, assets):
+                self.calls.append((questions, assets))
+                answer = SimpleNamespace(value='v1', probabilities={'v1':.9, 'none':.1})
+                return SimpleNamespace(answers={'pick':answer})
+        backend = Backend()
+        matcher = VisualMatcher([('a', b'one', 'A'), ('b', b'two', 'B'), ('c', None, 'Energy chart')], backend)
+        self.assertEqual(matcher('look at this', ['earlier']), {'scene_id':'b', 'confidence':.9})
+        questions, assets = backend.calls[0]
+        self.assertEqual(len(assets), 2)
+        self.assertIn('earlier look at this', questions['pick']['instructions'])
+        self.assertIn('Energy chart', questions['pick']['criteria']['v2'])
+
+    def test_large_decks_are_asked_in_groups_and_the_most_confident_wins(self):
+        class Backend:
+            async def ask(self, state, questions, assets):
+                first = 'v0' if len(assets) == MATCH_GROUP else 'none'
+                answer = SimpleNamespace(value=first, probabilities={first:.8})
+                return SimpleNamespace(answers={'pick':answer})
+        matcher = VisualMatcher([(f's{i}', bytes([i]), str(i)) for i in range(MATCH_GROUP+3)], Backend())
+        self.assertEqual(matcher('words')['scene_id'], 's0')
 
     def test_spoken_phrases_are_short_and_bounded(self):
         phrases = spoken_phrases('Energy use across the whole world grew 22% since 2000 ' * 10)

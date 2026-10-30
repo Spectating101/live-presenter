@@ -32,6 +32,8 @@ help:
 talk-setup:
 	test -x .venv-native/bin/python || $(PY) -m venv .venv-native
 	.venv-native/bin/python -m pip install -q -r requirements-native.txt
+	# Qt's X11 backend needs libxcb-cursor; unpack it into the environment, no root needed.
+	ldconfig -p | grep -q libxcb-cursor.so.0 || test -d .venv-native/system-libs/usr/lib || (mkdir -p .venv-native/system-libs && cd .venv-native/system-libs && apt-get download libxcb-cursor0 && dpkg -x libxcb-cursor0_*.deb .)
 	test -x .venv-asr/bin/python || $(PY) -m venv .venv-asr
 	.venv-asr/bin/python -m pip install -q torch --index-url https://download.pytorch.org/whl/cpu
 	.venv-asr/bin/python -m pip install -q -r requirements-recorded-audio.txt

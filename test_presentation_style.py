@@ -4,7 +4,7 @@ import tempfile
 import unittest
 
 from presenter.attention import past_context
-from presenter.engine import STYLES, Store, Studio
+from presenter.engine import PRESENTER_CLEAR_QUIET_S, STYLES, Store, Studio
 from presenter.materials import ingest
 from presenter.native_output import VisualOutput
 from presenter.planning import source_outline
@@ -112,6 +112,15 @@ class PresentationStyleTests(unittest.TestCase):
         p = self.studio.control(self.pid, 'next')
         self.assertNotEqual(scenes[p['live']['current_scene_id']]['concept_id'], first)
 
+    def test_clear_is_not_undone_by_words_still_in_the_listening_window(self):
+        self.start('speaker_led')
+        self.say(self.concepts[1]['title'])
+        self.studio.control(self.pid, 'clear')
+        p = self.say(self.concepts[1]['title'], after_s=1)
+        self.assertIsNone(p['live']['current_scene_id'])
+        p = self.say(self.concepts[1]['title'], after_s=PRESENTER_CLEAR_QUIET_S)
+        self.assertIsNotNone(p['live']['current_scene_id'])
+
     def test_style_is_validated_and_survives_stop(self):
         with self.assertRaises(ValueError):
             self.studio.control(self.pid, 'style', style='cinematic')
@@ -216,6 +225,49 @@ class LookSignalTests(PresentationStyleTests):
         self.studio.idle(self.pid, generation)
         self.assertIsNone(self.store.read(self.pid)['live']['current_scene_id'])
         self.studio.idle(self.pid, 'an older rehearsal')
+
+    def jev_sees(self, *pick):
+        calls = []
+        def assessor(words, earlier):
+            calls.append(words)
+            if isinstance(pick[0], Exception):
+                raise pick[0]
+            return {'scene_id':pick[0], 'confidence':pick[1]}
+        self.studio.visual_assessor = assessor
+        return calls
+
+    def scene_of(self, concept):
+        return next(s['id'] for s in self.store.read(self.pid)['approval']['package']['scenes'] if s['concept_id'] == concept['id'])
+
+    def test_jev_seeing_a_visual_brings_it_up_with_no_word_match(self):
+        self.jev_sees(self.scene_of(self.concepts[1]), .9)
+        self.start('speaker_led')
+        p = self.say('Look at this strange unrelated purple giraffe.')
+        self.assertEqual(p['live']['current_scene_id'], self.scene_of(self.concepts[1]))
+        self.assertEqual(p['live']['recommendation']['method'], 'jev_saw_visual')
+
+    def test_unconfident_unknown_or_failed_picks_show_nothing(self):
+        for pick in [(self.scene_of(self.concepts[1]), .84), ('not_in_this_deck', .99), (None, 0.0), (System1Error('down'),)]:
+            self.jev_sees(*pick)
+            self.start('speaker_led')
+            p = self.say('Look at this strange unrelated purple giraffe.')
+            self.assertIsNone(p['live']['current_scene_id'], pick)
+            self.studio.control(self.pid, 'stop')
+
+    def test_jev_is_not_asked_to_pick_when_the_moment_is_for_the_speaker(self):
+        calls = self.jev_sees(self.scene_of(self.concepts[1]), .99)
+        self.look = .1
+        self.start('speaker_led')
+        p = self.say('Let me tell you about my grandmother.')
+        self.assertEqual(calls, [])
+        self.assertIsNone(p['live']['current_scene_id'])
+
+    def test_hold_beats_a_confident_pick(self):
+        self.jev_sees(self.scene_of(self.concepts[1]), .99)
+        self.start('speaker_led')
+        self.studio.control(self.pid, 'hold')
+        p = self.say('Look at this strange unrelated purple giraffe.')
+        self.assertIsNone(p['live']['current_scene_id'])
 
     def test_context_skips_overlapping_recognition_windows(self):
         rows = [{'text': f'w{i}', 'at': 1000.0 + i} for i in range(12)]

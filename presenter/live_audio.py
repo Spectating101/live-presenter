@@ -14,7 +14,7 @@ import sys
 import threading
 import time
 
-from .engine import Conflict
+from .engine import AudioExpired, Conflict
 
 
 def repeated_window_tail(previous, current, gap):
@@ -148,6 +148,18 @@ class LiveAudio:
             self.condition.notify_all()
             return self.snapshot(pid)
 
+    def rebind(self, pid):
+        """A stage control started a new generation. Keep the loaded recognizer and listen on; words
+        decoded before the control are discarded, so they cannot undo it."""
+        with self.condition:
+            s = self.session
+            if not s or s['pid'] != pid or s['status'] in {'stopped','error'}:
+                return self.snapshot(pid)
+            s['generation'] = self.studio.store.read(pid)['live']['generation']
+            s['epoch'] = s.get('epoch', 0) + 1
+            s['pending'] = None
+            return self.snapshot(pid)
+
     def bound(self, pid, stream_id, generation=None):
         s = self.session
         if not s or s['pid'] != pid or s['stream_id'] != stream_id:
@@ -254,12 +266,14 @@ class LiveAudio:
                     job, pcm = None, b''
                     continue
                 s['status'] = 'decoding'
+                epoch = s.get('epoch', 0)
             begun = self.clock()
             try:
                 result = self.decoder.recognize(pcm)
                 decoded_at = self.clock()
                 with self.condition:
-                    current = self.session is s and s['status'] != 'stopped' and self.valid(s)
+                    current = (self.session is s and s['status'] != 'stopped' and self.valid(s)
+                               and s.get('epoch', 0) == epoch)
                 if not current or decoded_at > expires:
                     with self.condition:
                         s['dropped'] += 1
@@ -272,12 +286,13 @@ class LiveAudio:
                 if s.get('text_stabilizer'):
                     text,stability=s['text_stabilizer'].observe(text,seq,pcm,received,decoded_at)
                 suppressed=repeated_window_tail(s['last_committed_text'],text,seq-s['last_committed_seq'])
+                generation = s['generation']
                 if text.strip() and not suppressed:
-                    p = self.studio.transcript(s['pid'], text, None, generation=s['generation'],
+                    p = self.studio.transcript(s['pid'], text, None, generation=generation,
                         expires_at=time.time()+expires-decoded_at)
                     s.update(last_committed_text=text,last_committed_seq=seq)
                 else:
-                    self.studio.idle(s['pid'],s['generation'])
+                    self.studio.idle(s['pid'],generation)
                 completed = self.clock()
                 with self.condition:
                     if self.session is s and s['status'] != 'stopped' and self.valid(s):
@@ -298,7 +313,10 @@ class LiveAudio:
                 with self.condition:
                     if self.session is s and s['status'] != 'stopped':
                         s['dropped'] += 1
-                        if isinstance(error, TimeoutError):
+                        if isinstance(error, AudioExpired):
+                            s['expired'] += 1
+                            s['status'] = 'ready'
+                        elif isinstance(error, TimeoutError):
                             s['timeouts'] += 1
                             s['status'] = 'loading'
                         elif isinstance(error, Conflict):

@@ -136,12 +136,14 @@ In `speaker_led` style the engine now asks Jev this same question on every
 recognition window, with a 0.8-second limit. A visual appears only when the
 words match a prepared visual and P(look) ≥ 0.5. It stays while P(look) ≥ 0.3
 and returns to the speaker six seconds after the last such window, including
-during a pause. Jev cannot pick or invent a visual, and Hold, Clear and manual
-choices outrank it. If a call fails, that window follows prepared topics
+during a pause. At a "look" moment with no word match, Jev is also shown the
+presenter's own visuals and may name one at confidence ≥ 0.85; see
+[Without caption help](#without-caption-help). Jev cannot invent a visual, and Hold, Clear and
+manual choices outrank it. If a call fails, that window follows prepared topics
 instead (a six-second topic-based release).
 
 `presenter.talk` ran each recording at real speed through local `tiny.en`, live
-Jev and offscreen native output. Results are in
+Jev and offscreen native output, using word matching alone. Results are in
 `data/presentation_live_attention_v1.json`.
 
 | Recording | Role | Edit content | Screen on | Speaker time left clear | Kappa | Edit full-screen episodes covered |
@@ -165,3 +167,60 @@ engine, which also requires a matching visual, they gave 10% screen time and kap
 so the simulation was not a reliable guide and the original values were kept.
 That setting's held-out McCandless run (kappa 0.23, 36% screen) scored higher,
 but the choice was made on Rosling alone. Two talks cannot separate these settings.
+
+## Without caption help
+
+The table above overstates what word matching can do: its deck cues came from the
+talk's own captions. A speaker's deck carries only what is printed on it. So each
+talk was rerun with frames cued **only by OCR of the frame**, which on 480p video is
+noisier than the clean text of a real PDF. Word matching alone then almost
+stopped working: 0–3 visuals ever shown, kappa -0.08 to 0.09 across five talks.
+
+Jev can look at the slides. Asked which of a talk's visuals the caption words
+were about (up to 20 images per call, about 250 ms), on six talks:
+
+| Confidence at least | Right slide, of 150 slide-time moments | Precision of picks in slide time | Picks in 147 speaker-time moments |
+|---:|---:|---:|---:|
+| none | 45 | 45/73 | 34 |
+| 0.70 | 34 | 34/38 | 11 |
+| 0.85 | 25 | 25/25 | 7 |
+| 0.95 | 17 | 17/17 | 5 |
+
+A speaker-time pick is not always wrong, because the camera can stay on someone
+discussing a slide. The live stage uses 0.85. Twelve real-speed runs followed, four at a time, with results in
+`data/presentation_rehearsal_v1.json`:
+
+| Recording (minutes) | Role | Deck | Ever shown | Edit content | Screen on | Speaker left clear | Kappa |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Rosling, washing machine (9) | held out | 12 | 4 | 42% | 23% | 83% | 0.16 |
+| McCandless (18) | held out | 27 | 11 | 60% | 49% | 60% | 0.14 |
+| Rosling, best stats (20) | held out | 20 | 9 | 76% | 60% | 53% | 0.15 |
+| Winston (15) | held out | 2 | 1 | 2% | 1% | 99% | -0.02 |
+| Rosling, 200 countries (5) | held out | 3 | 1 | 71% | 16% | 96% | 0.11 |
+| Gore (20) | threshold set | 20 | 8 | 58% | 31% | 83% | 0.22 |
+| Jobs keynote (15) | threshold set | 7 | 4 | 55% | 21% | 92% | 0.22 |
+| Pausch (15) | threshold set | 17 | 4 | 42% | 8% | 94% | 0.04 |
+| Duarte (18) | threshold set | 7 | 4 | 56% | 21% | 81% | 0.03 |
+| Royal Institution (15) | threshold set | 11 | 2 | 29% | 6% | 95% | 0.02 |
+| Gates (20) | threshold set | 14 | 4 | 26% | 12% | 88% | 0.00 |
+
+**Control:** Robinson's no-slide talk with Gates's deck, 19 minutes: nothing shown.
+
+The system now errs toward the speaker. It rarely shows a visual when it should
+not, and it often misses one the edit showed. Kappa stays modest, and the edit is
+one valid choice among many. Decision time rose under this load: the median from
+capture to decision reached 1.5–1.8 seconds on the largest decks, and up to 25% of
+audio windows expired. Alone, with the 27-visual deck, the median was 1.31 seconds
+(p95 2.07).
+
+**Virtual-display rehearsal.** A full run on a virtual X display used room-degraded
+audio (band-limited, echo, pink noise) and real key events. It exposed two defects
+that silenced speech for the rest of a talk, one after any key press and one after
+a single late audio window; both are fixed. A failure drill cut Jev's network for
+60 seconds, then killed the recognizer, then the audio source: the talk continued
+on topics, restarted recognition, and ended cleanly with a report.
+
+**Still untested:** a real person, a physical microphone in a room, a physical
+projector, and choosing between two real displays. `arecord` delivered PipeWire
+audio at real speed in a six-second check, separately from a full talk. No audience or
+comprehension claim follows.

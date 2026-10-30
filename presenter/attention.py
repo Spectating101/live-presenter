@@ -1,10 +1,12 @@
 """Jev's live judgment of whether a moment calls for the screen or the speaker.
 
 The label definitions are shared with the offline evaluation in moment.py so the
-benchmark and the live stage ask the same question. The signal only gates a visual
-that already exists; it cannot choose or invent one.
+benchmark and the live stage ask the same question. Jev can also look at the
+presenter's own supplied visuals and say which one the words are about; it can never
+invent a visual, and only a confident answer at a "look" moment reaches the stage.
 """
 import asyncio
+import base64
 import hashlib
 import json
 
@@ -53,3 +55,42 @@ def jev_moment(utterance, earlier=()):
     answer = response.answers[f'c{last}']
     return {'look': answer.probabilities['look'], 'value': answer.value,
             'model': response.model, 'latency_ms': response.latency_ms}
+
+
+MATCH_GROUP = 24
+
+
+class VisualMatcher:
+    """Asks Jev which supplied visual the speaker is talking about, from the pictures themselves."""
+    def __init__(self, visuals, backend=None):
+        # visuals: (scene_id, jpeg_bytes or None, title). Pictures are 280-1568 px per side, as Jev requires.
+        self.visuals, self.backend = list(visuals), backend
+
+    def question(self, group, words):
+        assets, criteria = {}, {'none':'The speaker is not talking about anything shown in these visuals.'}
+        for i, (_, jpeg, title) in enumerate(group):
+            if jpeg:
+                ref = 'img-' + hashlib.sha256(jpeg).hexdigest()[:20]
+                assets[ref] = {'type':'image', 'format':'jpg', 'data_base64':base64.b64encode(jpeg).decode()}
+                criteria[f'v{i}'] = f'The speaker is talking about what this slide shows: {ref}'
+            else:
+                criteria[f'v{i}'] = f'The speaker is talking about this chart: {title}'
+        return {'pick':{'type':'choice', 'criteria':criteria, 'instructions':
+                        f'A presenter has these slides ready. They just said: "{words}". '
+                        'Which slide, if any, shows what they are talking about right now?'}}, assets
+
+    async def ask_all(self, words):
+        backend = self.backend or JevBackend(timeout_s=1.2)
+        groups = [self.visuals[i:i+MATCH_GROUP] for i in range(0, len(self.visuals), MATCH_GROUP)]
+        async def one(group):
+            questions, assets = self.question(group, words)
+            answer = (await backend.ask(STATE, questions, assets)).answers['pick']
+            if answer.value == 'none':
+                return None, 0.0
+            return group[int(answer.value[1:])][0], answer.probabilities.get(answer.value, 0.0)
+        return await asyncio.gather(*(one(group) for group in groups))
+
+    def __call__(self, utterance, earlier=()):
+        words = ' '.join([*earlier, utterance])
+        scene_id, confidence = max(asyncio.run(self.ask_all(words)), key=lambda pick: pick[1])
+        return {'scene_id':scene_id, 'confidence':confidence}
