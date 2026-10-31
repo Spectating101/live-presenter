@@ -290,3 +290,31 @@ reduces that risk without removing it. Treat this mode as experimental and do no
 it unattended on air. A rundown of a program's prepared graphics would likely do
 better than OCR cues, but that is untested.
 
+## One reviewer's ratings
+
+Every automatic show from the deck runs above and the news runs (95 in all) was
+rated from the shown image and the actual words from 14 seconds before to 5 seconds
+after: good, right slide but mistimed, or wrong. The development agent did this rating, so it
+is one reviewer's judgment, not an audience's. Ratings are in
+`data/presentation_self_review_v1.json`.
+
+| | Good | Mistimed | Wrong |
+|---|---:|---:|---:|
+| Own deck (90) | 76 | 6 | 8 |
+| No deck, news (5) | 4 | 0 | 1 |
+| All (95) | 80 (84%) | 6 | 9 |
+
+Five of the nine wrong shows were one Rosling slide listing pairs of country names,
+which word matching brought up whenever he named countries during his chart. Two
+more were a Duarte slide re-shown while she discussed a speech that had no slide.
+In five cases a slide cleared and returned within 3–8 seconds, a visible blink. In four
+of those five the returning slide was right.
+
+Requiring Jev, shown the deck, to agree before switching between slides would have blocked three
+wrong switches but also four good ones among 15 switches. That evidence is too thin, so it was not adopted.
+
+**Real hardware check.** On the development machine's desktop the pre-talk check found
+the display (1920×1080) and Jev (about 250 ms), but the microphone input delivered
+exact silence: muted, or no microphone connected. The check previously passed anyway.
+It now listens for two seconds, keeps no audio, and fails a silent input.
+

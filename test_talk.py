@@ -8,13 +8,14 @@ import tempfile
 import time
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 import zlib
 
 from presenter.attention import MATCH_GROUP, VisualMatcher
 from presenter.engine import Store, Studio
 from presenter.live_audio import LiveAudio
 from presenter.native_output import VisualOutput
-from presenter.talk import Capture, build_matcher, capture_command, choose_screen, deck_plan, load_sources, prepare_talk, spoken_phrases
+from presenter.talk import Capture, build_matcher, capture_command, microphone_level, preflight, choose_screen, deck_plan, load_sources, prepare_talk, spoken_phrases
 
 
 def png(red=0):
@@ -195,6 +196,25 @@ class TalkTests(unittest.TestCase):
         self.assertIn('-re', command)
         self.assertEqual(command[0], 'ffmpeg')
         self.assertEqual(command[-1], '-')
+
+    def recorder(self, script):
+        return [sys.executable, '-c', 'import sys,struct\n'+script]
+
+    def test_microphone_level_tells_silence_from_sound(self):
+        silent = microphone_level(self.recorder('sys.stdout.buffer.write(bytes(32000))'))
+        self.assertEqual(silent['peak'], 0)
+        sound = microphone_level(self.recorder('sys.stdout.buffer.write(struct.pack("<16000h",*([400,-400]*8000)))'))
+        self.assertEqual(sound['peak'], 400)
+        self.assertIsNone(microphone_level(self.recorder('pass')))
+
+    def test_preflight_fails_a_muted_microphone(self):
+        args = SimpleNamespace(audio_file=None, mic_device=None, no_jev=True, check=True)
+        with patch('presenter.talk.capture_command', return_value=self.recorder('sys.stdout.buffer.write(bytes(32000))')):
+            rows = preflight(args, asr_python=sys.executable)
+        mic = next(r for r in rows if r['check'] == 'Microphone')
+        self.assertFalse(mic['ok'])
+        self.assertTrue(mic['required'])
+        self.assertIn('muted', mic['detail'])
 
     def test_projector_is_the_last_screen_unless_chosen(self):
         self.assertEqual(choose_screen(['laptop', 'projector'], None), 'projector')

@@ -9,7 +9,7 @@ SPEECH_OUT ?= artifacts/native_speech_probe
 .PHONY: talk-setup talk-check help test pilot eval-mock eval-jev bench clean verify doctor corpus-acquire corpus-audit corpus-jobs studio studio-local studio-research studio-research-agent studio-researched native-preview native-test native-speech
 help:
 	@echo "make talk-setup  install the speech and display environments for a live talk"
-	@echo "make talk-check  check microphone tools, recognition, Jev and displays (opens nothing, records nothing)"
+	@echo "make talk-check  check microphone tools, recognition, Jev and displays (opens no window; a 2 s microphone level check keeps no audio)"
 	@echo "make native-preview  export a visual-only native motion sample headlessly (optional .venv-native)"
 	@echo "make native-test     run native backend/Qt checks offscreen"
 	@echo "make native-speech   real-paced speech recognition to native video, headlessly; choose a fresh SPEECH_OUT"

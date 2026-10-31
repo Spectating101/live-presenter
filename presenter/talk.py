@@ -12,8 +12,10 @@ Add spoken cue words beside a file: photo.txt for photo.jpg, or lines like
 window: Space clear, H hold/resume, N/PageDown next, B/PageUp back, Escape end.
 """
 import argparse
+import array
 import base64
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -40,6 +42,8 @@ MAX_IMAGE_BYTES = 512_000
 HEAVY_PACKAGE_BYTES = 10_000_000
 RESEARCH_REQUESTS = 200
 AUDIO_FLOWING_S = 2.0
+MIC_CHECK_S = 2.0
+QUIET_RMS = 3
 WHISPER_MODEL = Path.home()/'.cache'/'whisper'/'tiny.en.pt'
 
 
@@ -258,6 +262,20 @@ def probe_display():
     return True, ''
 
 
+def microphone_level(command, seconds=MIC_CHECK_S):
+    """Listen briefly and report only the level. No audio is kept."""
+    try:
+        result = subprocess.run(command, capture_output=True, timeout=seconds)
+        data = result.stdout
+    except subprocess.TimeoutExpired as stopped:
+        data = stopped.stdout or b''
+    samples = array.array('h', data[:len(data)//2*2])
+    if not samples:
+        return None
+    rms = math.sqrt(sum(x*x for x in samples)/len(samples))
+    return {'rms':round(rms,1), 'peak':max(abs(x) for x in samples), 'dbfs':round(20*math.log10(max(rms,1)/32768),1)}
+
+
 def preflight(args, *, asr_python, qt_screens=None):
     """Everything that can quietly ruin a talk, checked before it starts."""
     rows = []
@@ -271,7 +289,19 @@ def preflight(args, *, asr_python, qt_screens=None):
     check('Speech model', WHISPER_MODEL.exists(), str(WHISPER_MODEL) if WHISPER_MODEL.exists() else 'Downloaded on first use; needs internet once.', required=False)
     try:
         command = capture_command(audio_file=getattr(args,'audio_file',None), device=getattr(args,'mic_device',None))
-        check('Audio input', True, command[0])
+        if getattr(args,'audio_file',None):
+            check('Audio input', True, command[0])
+        else:
+            # A muted or missing microphone records exact zeros, and the talk would hear nothing.
+            heard = microphone_level(command)
+            if heard is None:
+                check('Microphone', False, f'{command[0]} delivered no audio. Check that a microphone is connected.')
+            elif heard['peak'] == 0:
+                check('Microphone', False, 'Silent: the input is muted or no microphone is connected. Check Settings → Sound → Input.')
+            elif heard['rms'] < QUIET_RMS:
+                check('Microphone', False, f"Very quiet ({heard['dbfs']} dBFS); raise the input volume.", required=False)
+            else:
+                check('Microphone', True, f"{command[0]}, level {heard['dbfs']} dBFS")
     except ValueError as error:
         check('Audio input', False, str(error))
     for tool, reason in [('ffmpeg','oversized images'),('pdftoppm','PDF slides'),('pdftotext','PDF slide words')]:
@@ -318,7 +348,7 @@ def choose_screen(screens, wanted):
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('materials', nargs='*', type=Path, help='PDF slides, PNG/JPEG images, CSV/TSV numbers')
-    parser.add_argument('--check', action='store_true', help='Check this machine and exit; opens no window and does not record.')
+    parser.add_argument('--check', action='store_true', help='Check this machine and exit. Opens no window; listens to the microphone for two seconds and keeps no audio.')
     parser.add_argument('--title', default='Live talk')
     parser.add_argument('--style', choices=sorted(STYLES), default='speaker_led')
     parser.add_argument('--screen', type=int, help='Which display shows the visuals; defaults to the last one.')

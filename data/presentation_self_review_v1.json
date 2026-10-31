@@ -1,0 +1,676 @@
+{
+ "schema": "live_presenter.self_review.v1",
+ "reviewer": "The development agent (one reviewer, not an audience). Judged each automatic show from the shown image and the original captions (speech recognition where none existed) from 14 s before to 5 s after.",
+ "scale": {
+  "good": "right visual for what is being said",
+  "late": "right slide, timing off",
+  "wrong": "unrelated or distracting"
+ },
+ "ratings": [
+  {
+   "n": 0,
+   "tid": "data_rosling_200_countries",
+   "mode": "deck",
+   "t": 146.1,
+   "rate": "good"
+  },
+  {
+   "n": 1,
+   "tid": "keynote_jobs_iphone_2007",
+   "mode": "deck",
+   "t": 198.1,
+   "rate": "good"
+  },
+  {
+   "n": 2,
+   "tid": "keynote_jobs_iphone_2007",
+   "mode": "deck",
+   "t": 442.9,
+   "rate": "good"
+  },
+  {
+   "n": 3,
+   "tid": "keynote_jobs_iphone_2007",
+   "mode": "deck",
+   "t": 488.8,
+   "rate": "good"
+  },
+  {
+   "n": 4,
+   "tid": "keynote_jobs_iphone_2007",
+   "mode": "deck",
+   "t": 775.4,
+   "rate": "good"
+  },
+  {
+   "n": 5,
+   "tid": "keynote_jobs_iphone_2007",
+   "mode": "deck",
+   "t": 800.1,
+   "rate": "good"
+  },
+  {
+   "n": 6,
+   "tid": "lecture_pausch_last_lecture",
+   "mode": "deck",
+   "t": 52.0,
+   "rate": "good"
+  },
+  {
+   "n": 7,
+   "tid": "lecture_pausch_last_lecture",
+   "mode": "deck",
+   "t": 298.4,
+   "rate": "good"
+  },
+  {
+   "n": 8,
+   "tid": "lecture_pausch_last_lecture",
+   "mode": "deck",
+   "t": 449.6,
+   "rate": "late"
+  },
+  {
+   "n": 9,
+   "tid": "lecture_pausch_last_lecture",
+   "mode": "deck",
+   "t": 528.0,
+   "rate": "good"
+  },
+  {
+   "n": 10,
+   "tid": "lecture_pausch_last_lecture",
+   "mode": "deck",
+   "t": 564.2,
+   "rate": "good"
+  },
+  {
+   "n": 11,
+   "tid": "lecture_pausch_last_lecture",
+   "mode": "deck",
+   "t": 759.7,
+   "rate": "good"
+  },
+  {
+   "n": 12,
+   "tid": "lecture_pausch_last_lecture",
+   "mode": "deck",
+   "t": 852.1,
+   "rate": "good"
+  },
+  {
+   "n": 13,
+   "tid": "lecture_winston_how_to_speak",
+   "mode": "deck",
+   "t": 233.2,
+   "rate": "good"
+  },
+  {
+   "n": 14,
+   "tid": "public_lecture_ri_christmas_2024",
+   "mode": "deck",
+   "t": 322.4,
+   "rate": "good"
+  },
+  {
+   "n": 15,
+   "tid": "public_lecture_ri_christmas_2024",
+   "mode": "deck",
+   "t": 628.2,
+   "rate": "good"
+  },
+  {
+   "n": 16,
+   "tid": "ted_duarte_structure",
+   "mode": "deck",
+   "t": 104.4,
+   "rate": "good"
+  },
+  {
+   "n": 17,
+   "tid": "ted_duarte_structure",
+   "mode": "deck",
+   "t": 225.2,
+   "rate": "good"
+  },
+  {
+   "n": 18,
+   "tid": "ted_duarte_structure",
+   "mode": "deck",
+   "t": 310.7,
+   "rate": "good"
+  },
+  {
+   "n": 19,
+   "tid": "ted_duarte_structure",
+   "mode": "deck",
+   "t": 393.3,
+   "rate": "late"
+  },
+  {
+   "n": 20,
+   "tid": "ted_duarte_structure",
+   "mode": "deck",
+   "t": 563.1,
+   "rate": "good"
+  },
+  {
+   "n": 21,
+   "tid": "ted_duarte_structure",
+   "mode": "deck",
+   "t": 703.4,
+   "rate": "late"
+  },
+  {
+   "n": 22,
+   "tid": "ted_duarte_structure",
+   "mode": "deck",
+   "t": 733.2,
+   "rate": "wrong"
+  },
+  {
+   "n": 23,
+   "tid": "ted_duarte_structure",
+   "mode": "deck",
+   "t": 752.0,
+   "rate": "wrong"
+  },
+  {
+   "n": 24,
+   "tid": "ted_duarte_structure",
+   "mode": "deck",
+   "t": 1055.7,
+   "rate": "good"
+  },
+  {
+   "n": 25,
+   "tid": "ted_gates_mosquitos",
+   "mode": "deck",
+   "t": 81.1,
+   "rate": "good"
+  },
+  {
+   "n": 26,
+   "tid": "ted_gates_mosquitos",
+   "mode": "deck",
+   "t": 313.4,
+   "rate": "good"
+  },
+  {
+   "n": 27,
+   "tid": "ted_gates_mosquitos",
+   "mode": "deck",
+   "t": 592.7,
+   "rate": "good"
+  },
+  {
+   "n": 28,
+   "tid": "ted_gates_mosquitos",
+   "mode": "deck",
+   "t": 764.5,
+   "rate": "good"
+  },
+  {
+   "n": 29,
+   "tid": "ted_gates_mosquitos",
+   "mode": "deck",
+   "t": 796.2,
+   "rate": "good"
+  },
+  {
+   "n": 30,
+   "tid": "ted_gates_mosquitos",
+   "mode": "deck",
+   "t": 814.1,
+   "rate": "late"
+  },
+  {
+   "n": 31,
+   "tid": "ted_gates_mosquitos",
+   "mode": "deck",
+   "t": 851.7,
+   "rate": "good"
+  },
+  {
+   "n": 32,
+   "tid": "ted_gore_climate",
+   "mode": "deck",
+   "t": 311.7,
+   "rate": "good"
+  },
+  {
+   "n": 33,
+   "tid": "ted_gore_climate",
+   "mode": "deck",
+   "t": 420.1,
+   "rate": "late"
+  },
+  {
+   "n": 34,
+   "tid": "ted_gore_climate",
+   "mode": "deck",
+   "t": 437.6,
+   "rate": "good"
+  },
+  {
+   "n": 35,
+   "tid": "ted_gore_climate",
+   "mode": "deck",
+   "t": 529.5,
+   "rate": "good"
+  },
+  {
+   "n": 36,
+   "tid": "ted_gore_climate",
+   "mode": "deck",
+   "t": 573.1,
+   "rate": "good"
+  },
+  {
+   "n": 37,
+   "tid": "ted_gore_climate",
+   "mode": "deck",
+   "t": 708.3,
+   "rate": "good"
+  },
+  {
+   "n": 38,
+   "tid": "ted_gore_climate",
+   "mode": "deck",
+   "t": 862.0,
+   "rate": "good"
+  },
+  {
+   "n": 39,
+   "tid": "ted_gore_climate",
+   "mode": "deck",
+   "t": 997.1,
+   "rate": "good"
+  },
+  {
+   "n": 40,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 15.3,
+   "rate": "wrong"
+  },
+  {
+   "n": 41,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 36.3,
+   "rate": "good"
+  },
+  {
+   "n": 42,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 133.2,
+   "rate": "good"
+  },
+  {
+   "n": 43,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 181.9,
+   "rate": "good"
+  },
+  {
+   "n": 44,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 352.5,
+   "rate": "good"
+  },
+  {
+   "n": 45,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 421.6,
+   "rate": "good"
+  },
+  {
+   "n": 46,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 549.1,
+   "rate": "good"
+  },
+  {
+   "n": 47,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 628.1,
+   "rate": "good"
+  },
+  {
+   "n": 48,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 655.6,
+   "rate": "good"
+  },
+  {
+   "n": 49,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 688.7,
+   "rate": "good"
+  },
+  {
+   "n": 50,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 756.5,
+   "rate": "good"
+  },
+  {
+   "n": 51,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 895.6,
+   "rate": "good"
+  },
+  {
+   "n": 52,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 907.5,
+   "rate": "good"
+  },
+  {
+   "n": 53,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 934.1,
+   "rate": "good"
+  },
+  {
+   "n": 54,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 1047.0,
+   "rate": "good"
+  },
+  {
+   "n": 55,
+   "tid": "ted_mccandless_data_visualization",
+   "mode": "deck",
+   "t": 1052.7,
+   "rate": "good"
+  },
+  {
+   "n": 56,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 48.6,
+   "rate": "good"
+  },
+  {
+   "n": 57,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 156.4,
+   "rate": "good"
+  },
+  {
+   "n": 58,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 186.3,
+   "rate": "good"
+  },
+  {
+   "n": 59,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 201.4,
+   "rate": "good"
+  },
+  {
+   "n": 60,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 367.2,
+   "rate": "good"
+  },
+  {
+   "n": 61,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 398.4,
+   "rate": "good"
+  },
+  {
+   "n": 62,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 522.0,
+   "rate": "good"
+  },
+  {
+   "n": 63,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 621.5,
+   "rate": "wrong"
+  },
+  {
+   "n": 64,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 632.3,
+   "rate": "good"
+  },
+  {
+   "n": 65,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 670.8,
+   "rate": "wrong"
+  },
+  {
+   "n": 66,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 717.7,
+   "rate": "good"
+  },
+  {
+   "n": 67,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 723.3,
+   "rate": "wrong"
+  },
+  {
+   "n": 68,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 730.3,
+   "rate": "good"
+  },
+  {
+   "n": 69,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 742.8,
+   "rate": "wrong"
+  },
+  {
+   "n": 70,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 832.8,
+   "rate": "wrong"
+  },
+  {
+   "n": 71,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 920.5,
+   "rate": "good"
+  },
+  {
+   "n": 72,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 983.7,
+   "rate": "good"
+  },
+  {
+   "n": 73,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 1012.3,
+   "rate": "good"
+  },
+  {
+   "n": 74,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 1051.9,
+   "rate": "good"
+  },
+  {
+   "n": 75,
+   "tid": "ted_rosling_best_stats",
+   "mode": "deck",
+   "t": 1147.4,
+   "rate": "good"
+  },
+  {
+   "n": 76,
+   "tid": "ted_rosling_washing_machine",
+   "mode": "deck",
+   "t": 95.1,
+   "rate": "good"
+  },
+  {
+   "n": 77,
+   "tid": "ted_rosling_washing_machine",
+   "mode": "deck",
+   "t": 139.7,
+   "rate": "good"
+  },
+  {
+   "n": 78,
+   "tid": "ted_rosling_washing_machine",
+   "mode": "deck",
+   "t": 224.2,
+   "rate": "good"
+  },
+  {
+   "n": 79,
+   "tid": "ted_rosling_washing_machine",
+   "mode": "deck",
+   "t": 305.3,
+   "rate": "good"
+  },
+  {
+   "n": 80,
+   "tid": "news_pbs_newshour_2026_10_30",
+   "mode": "no deck",
+   "t": 994.6,
+   "rate": "good"
+  },
+  {
+   "n": 81,
+   "tid": "news_pbs_newshour_2026_10_30",
+   "mode": "no deck",
+   "t": 1084.9,
+   "rate": "good"
+  },
+  {
+   "n": 82,
+   "tid": "news_pbs_newshour_2026_10_30",
+   "mode": "no deck",
+   "t": 1093.4,
+   "rate": "good"
+  },
+  {
+   "n": 83,
+   "tid": "news_pbs_crew13_live",
+   "mode": "no deck",
+   "t": 2865.6,
+   "rate": "good"
+  },
+  {
+   "n": 84,
+   "tid": "news_dw_live2_2026_10_31",
+   "mode": "no deck",
+   "t": 773.0,
+   "rate": "wrong"
+  },
+  {
+   "n": 85,
+   "tid": "news_pbs_newshour_2026_10_30",
+   "mode": "deck",
+   "t": 184.3,
+   "rate": "good"
+  },
+  {
+   "n": 86,
+   "tid": "news_pbs_newshour_2026_10_30",
+   "mode": "deck",
+   "t": 217.6,
+   "rate": "late"
+  },
+  {
+   "n": 87,
+   "tid": "news_pbs_newshour_2026_10_30",
+   "mode": "deck",
+   "t": 606.4,
+   "rate": "good"
+  },
+  {
+   "n": 88,
+   "tid": "news_pbs_newshour_2026_10_30",
+   "mode": "deck",
+   "t": 907.8,
+   "rate": "good"
+  },
+  {
+   "n": 89,
+   "tid": "news_pbs_newshour_2026_10_30",
+   "mode": "deck",
+   "t": 965.2,
+   "rate": "good"
+  },
+  {
+   "n": 90,
+   "tid": "news_pbs_newshour_2026_10_30",
+   "mode": "deck",
+   "t": 1060.2,
+   "rate": "good"
+  },
+  {
+   "n": 91,
+   "tid": "news_pbs_newshour_2026_10_30",
+   "mode": "deck",
+   "t": 1073.2,
+   "rate": "good"
+  },
+  {
+   "n": 92,
+   "tid": "news_dw_live_2026_10_31",
+   "mode": "deck",
+   "t": 149.8,
+   "rate": "good"
+  },
+  {
+   "n": 93,
+   "tid": "news_dw_live_2026_10_31",
+   "mode": "deck",
+   "t": 796.4,
+   "rate": "good"
+  },
+  {
+   "n": 94,
+   "tid": "news_dw_live_2026_10_31",
+   "mode": "deck",
+   "t": 877.4,
+   "rate": "good"
+  }
+ ]
+}
