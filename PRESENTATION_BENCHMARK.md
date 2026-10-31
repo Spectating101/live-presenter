@@ -245,3 +245,48 @@ on topics, restarted recognition, and ended cleanly with a report.
 projector, and choosing between two real displays. `arecord` delivered PipeWire
 audio at real speed in a six-second check, separately from a full talk. No audience or
 comprehension claim follows.
+
+## Live news: how far it goes without a deck
+
+News removes the prepared deck, so it tests finding something to show from speech
+alone. Each run lasted 20 minutes at real speed, and DW's stream was also run as it
+aired. Results are in `data/presentation_rehearsal_v1.json`. In the portions run,
+editors showed content 35% (DW), 56% (PBS) and 80% (Crew-13) of the time. The mode
+was designed and adjusted on these same recordings, so this is development evidence.
+
+With the original lookup gates, nothing appeared in any run, for three reasons: the
+"related to the talk" check rejects most news topics, automatic images required a
+pixel check that never ran, and a few seconds of words rarely name a subject. So with
+no deck, `presenter.talk --research` now uses an open-topic mode:
+
+- Sensitivity replaces relevance. Nothing is looked up automatically while Jev judges
+  the coverage sensitive (war, deaths, violence, disasters with victims and the like)
+  at probability 0.2 or above.
+- About 20 seconds of words name the topic, and the encyclopedia article is the source.
+- Jev looks at up to five of the article's pictures, and the best must score at least
+  0.85. In a check on 15 topics, wrong pictures from the right article scored as low as 0.07.
+- Pictures carry an on-screen credit: "Archive image", artist, license, Wikimedia Commons.
+
+| Recording | Mode | Shows | Screen on | Notes |
+|---|---|---:|---:|---|
+| DW, live as it aired | No deck | 1 | 2% | Wrong: a report cover. Document scans are now excluded, but that fix has not had its own live run |
+| DW, earlier capture | No deck | 0 | 0% | Sensitive coverage stopped most lookups |
+| PBS News Hour | No deck | 3 (2 subjects) | 3% | Netanyahu during an Israeli election story; World Series trophy during the parade story |
+| Crew-13 coverage | No deck | 1 | 1% | A Dragon capsule, while Dragon was being discussed |
+| Robinson (no slides) | No deck | 0 | 0% | False-alarm control: nothing shown |
+| DW, earlier capture | Own graphics, OCR cues | 3 | 3% | Two graphics used, of 22 |
+| PBS News Hour | Own graphics, OCR cues | 6 | 10% | Six graphics used, of 27 |
+
+Speech to checked picture took about 3 seconds. No-deck runs lost at most 2 of 1,200
+audio windows, including on the real live stream; the deck runs lost 10–17% with two
+large decks running at once.
+
+**What this shows.** The tool does not replace a news control room. Editors filled far
+more of the airtime, largely with same-day footage and made-for-air graphics that no
+encyclopedia holds. It mostly stays quiet rather than wrong: one false show in about
+100 minutes of no-deck audio. It can add a relevant reference picture of a named
+person, place or thing. An archive picture can still mislead in news, and the credit
+reduces that risk without removing it. Treat this mode as experimental and do not use
+it unattended on air. A rundown of a program's prepared graphics would likely do
+better than OCR cues, but that is untested.
+

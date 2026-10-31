@@ -392,5 +392,175 @@
     }
    }
   }
+ },
+ "news": {
+  "conditions": "Real speed, offscreen, local tiny.en, live Jev. open_live ran on the DW stream as it aired; open_dw is an earlier capture of it replayed. No-deck runs had only a one-line brief. Pictures: Wikimedia Commons lead images checked by Jev at probability 0.85 or above.",
+  "no_deck": {
+   "open_dw": {
+    "min": 20.0,
+    "shows": 0,
+    "screen": 0.0,
+    "edit": 0.3495,
+    "kappa": 0.0,
+    "clear": 1.0,
+    "lookups": {
+     "request_count": 0,
+     "assessment_count": 52,
+     "status": "no_match"
+    },
+    "scopes": {
+     "sensitive": 34,
+     "null": 16
+    },
+    "pic_s": null,
+    "pic_scores": 0,
+    "pass_pic": 0,
+    "audio": "1199/1200"
+   },
+   "open_pbs": {
+    "min": 20.0,
+    "shows": 3,
+    "screen": 0.026,
+    "edit": 0.5596,
+    "kappa": 0.0063,
+    "clear": 0.9773,
+    "lookups": {
+     "request_count": 21,
+     "assessment_count": 67,
+     "status": "no_match"
+    },
+    "scopes": {
+     "sensitive": 31,
+     "open_topic": 14,
+     "null": 5
+    },
+    "pic_s": 3.6,
+    "pic_scores": 5,
+    "pass_pic": 3,
+    "audio": "1199/1199"
+   },
+   "open_crew13": {
+    "min": 20.0,
+    "shows": 1,
+    "screen": 0.007,
+    "edit": 0.8023,
+    "kappa": 0.0029,
+    "clear": 1.0,
+    "lookups": {
+     "request_count": 73,
+     "assessment_count": 109,
+     "status": "no_match"
+    },
+    "scopes": {
+     "open_topic": 30,
+     "null": 20
+    },
+    "pic_s": 2.9,
+    "pic_scores": 6,
+    "pass_pic": 1,
+    "audio": "1198/1200"
+   },
+   "open_robinson": {
+    "min": 19.2,
+    "shows": 0,
+    "screen": 0.0,
+    "edit": 0.0209,
+    "kappa": 0.0,
+    "clear": 1.0,
+    "lookups": {
+     "request_count": 15,
+     "assessment_count": 37,
+     "status": "no_match"
+    },
+    "scopes": {
+     "null": 20,
+     "open_topic": 15,
+     "sensitive": 2
+    },
+    "pic_s": null,
+    "pic_scores": 0,
+    "pass_pic": 0,
+    "audio": "1151/1151"
+   },
+   "open_live": {
+    "min": 20.0,
+    "shows": 1,
+    "screen": 0.018,
+    "edit": null,
+    "kappa": null,
+    "clear": null,
+    "lookups": {
+     "request_count": 28,
+     "assessment_count": 61,
+     "status": "no_match"
+    },
+    "scopes": {
+     "open_topic": 21,
+     "null": 9,
+     "sensitive": 20
+    },
+    "pic_s": 3.0,
+    "pic_scores": 2,
+    "pass_pic": 1,
+    "audio": "1199/1200"
+   }
+  },
+  "own_graphics_deck": {
+   "news_dw_live_2026_10_31": {
+    "min": 20.0,
+    "visuals": 22,
+    "used": 2,
+    "edit": 0.3495,
+    "screen": 0.0259,
+    "kappa": 0.0521,
+    "clear": 0.9885,
+    "episodes": 3,
+    "med_s": 10.1,
+    "covered": "2/30",
+    "win": {
+     "received": 1200,
+     "processed": 1076,
+     "dropped": 122,
+     "expired": 115
+    },
+    "p50": 1.46,
+    "p95": 2.12,
+    "well_timed": 2,
+    "shows": 3
+   },
+   "news_pbs_newshour_2026_10_30": {
+    "min": 20.0,
+    "visuals": 27,
+    "used": 6,
+    "edit": 0.5596,
+    "screen": 0.0976,
+    "kappa": 0.0564,
+    "clear": 0.9375,
+    "episodes": 6,
+    "med_s": 14.8,
+    "covered": "6/39",
+    "win": {
+     "received": 1199,
+     "processed": 996,
+     "dropped": 202,
+     "expired": 191
+    },
+    "p50": 1.64,
+    "p95": 2.14,
+    "well_timed": 4,
+    "shows": 7
+   }
+  },
+  "old_gates_shows": {
+   "dw_live": 0,
+   "pbs": 0,
+   "crew13": 0,
+   "robinson": 0
+  },
+  "editor_full_screen_share": {
+   "dw": 0.34,
+   "pbs_all": 0.21,
+   "crew13_all": 0.7
+  }
  }
 }

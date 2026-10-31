@@ -213,12 +213,27 @@ def qt_types():
                 p.drawLine(QPointF(w*.957,y1),QPointF(w*.97,y1))
                 p.drawLine(QPointF(w*.957,end),QPointF(w*.97,end))
 
+        def draw_credit(self, p, frame):
+            """A fetched picture is not the presenter's own: say it may be old, and credit it as its license requires."""
+            source=self.scene.get('web_source')
+            if not source or not source.get('image_license'):
+                return
+            parts=['Archive image',source.get('artist'),source['image_license'],'Wikimedia Commons']
+            p.setFont(self.make_font(max(13,self.height()*.021)))
+            fm=QFontMetricsF(p.font())
+            text=fm.elidedText(' · '.join(filter(None,parts)),Qt.TextElideMode.ElideMiddle,frame.width()-24)
+            box=QRectF(frame.left(),frame.bottom()-fm.height()-12,fm.horizontalAdvance(text)+24,fm.height()+12)
+            p.fillRect(box,QColor(0,0,0,170))
+            p.setPen(QColor('#ffffff'))
+            p.drawText(box,Qt.AlignmentFlag.AlignCenter,text)
+
         def draw_image(self, p):
             image=self.images[self.scene['asset']['sha256']]
             scale=min(self.width()/image.width(),self.height()/image.height())
             width,height=image.width()*scale,image.height()*scale
             frame=QRectF((self.width()-width)/2,(self.height()-height)/2,width,height)
             p.drawImage(frame,image)
+            self.draw_credit(p,frame)
             target=next((t for t in self.scene.get('annotations',[]) if t['id']==(self.attention or {}).get('annotation_id')),None)
             if not target:
                 return

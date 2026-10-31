@@ -523,7 +523,7 @@ class Studio:
                        'recent_utterances':[r['text'] for r in live['transcript'][-4:-1]
                                             if self.clock()-r['at'] <= 8]}
         recommendation = index.match(utterance, preferred_kind(utterance)) if index else recommend(package, utterance)
-        if self.research:
+        if self.research and not use_moment:
             self.research.observe(pid,utterance,recommendation,generation=session,seq=seq)
         if self.live_assessor and use_adviser and (not index or (
                 not recommendation.get('reflex_ready') and recommendation.get('supported_concepts'))):
@@ -563,6 +563,9 @@ class Studio:
                 recommendation["advice"] = {"error": "Live adviser unavailable; using conservative prepared-content matching."}
         if use_moment:
             recommendation['moment'] = self.read_moment(utterance, earlier, expires_at)
+            # Speaker-first: go looking for new material only at moments that call for a visual.
+            if self.research and recommendation['moment'].get('look', 1) >= style['look_on']:
+                self.research.observe(pid,utterance,recommendation,generation=session,seq=seq)
             if (self.visual_assessor and not recommendation.get('scene_id')
                     and recommendation['moment'].get('look', 0) >= style['look_on']):
                 self.read_visual(package, recommendation, utterance, earlier, expires_at, style['pick_confidence'])

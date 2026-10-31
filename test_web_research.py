@@ -27,6 +27,45 @@ class Backend:
     def run(self,context,cancel):self.contexts.append(copy.deepcopy(context));return response()
 
 
+class OpenTopic(unittest.TestCase):
+    """No deck: sensitivity replaces relevance, and a picture must pass a look at its pixels."""
+    context={'title':'News','brief':'News.','concepts':[{'title':'News','summary':'Live coverage.','aliases':[]}],
+             'utterance':'Lake Baikal in Siberia is very deep.','recent_past':[],'open_topic':True}
+    def asker(self,**values):
+        calls=[]
+        def assess(state,questions,assets=None):
+            name=next(iter(questions));calls.append(name)
+            if name=='query':
+                value=next(k for k,v in questions[name]['criteria'].items() if v=='Lake Baikal')
+                answer=SimpleNamespace(value=value,confidence=.9)
+            else:answer=SimpleNamespace(value=values[name],confidence=.9)
+            return SimpleNamespace(answers={name:answer},model='jev')
+        return assess,calls
+    def test_ordinary_topic_passes_without_the_relevance_gate(self):
+        assess,calls=self.asker(sensitive=.03)
+        with patch.object(web.sources,'assess',assess):
+            self.assertEqual(web.sources.choose_query(self.context)['query'],'Lake Baikal')
+        self.assertNotIn('related',calls)
+    def test_sensitive_coverage_brings_up_nothing(self):
+        assess,_=self.asker(sensitive=web.sources.SENSITIVE_LIMIT)
+        with patch.object(web.sources,'assess',assess):
+            self.assertIsNone(web.sources.choose_query(self.context))
+    def asset(self,**extra):
+        return {'width':800,'height':600,'sha256':'a'*64,'mime':'image/jpeg','data_url':'data:image/jpeg;base64,AAAA',**extra}
+    def test_document_scans_are_not_picture_candidates(self):
+        article={'title':'Lake Baikal','pageimage':'Report.pdf','images':['File:Scan.djvu','File:Shore.jpg','File:Logo.svg']}
+        with patch.object(web.sources,'wiki',return_value=[article]),patch.object(web.sources,'commons',return_value=[]) as commons:
+            web.lead_pictures('Lake Baikal')
+        self.assertEqual(commons.call_args.args[1],['Shore.jpg'])
+
+    def test_picture_score_reads_only_sizes_jev_accepts(self):
+        assess,calls=self.asker(shows=.9)
+        with patch.object(web.sources,'assess',assess):
+            self.assertEqual(web.picture_score(self.asset(),'Lake Baikal',self.context),.9)
+            self.assertEqual(web.picture_score(self.asset(width=200),'Lake Baikal',self.context),0.0)
+        self.assertEqual(calls,['shows'])
+
+
 class PublicFetch(unittest.TestCase):
     def addresses(self,*values):return [(socket.AF_INET,socket.SOCK_STREAM,6,'',(v,443)) for v in values]
     def test_dns_rejects_private_loopback_and_mixed_public_private_hosts(self):

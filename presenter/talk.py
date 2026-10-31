@@ -18,6 +18,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import tempfile
@@ -32,10 +33,13 @@ from .live_audio import LiveAudio, SubprocessRecognizer
 from .materials import identity, ingest
 from .native_output import VisualOutput
 from .planning import validate_plan
+from .research import LiveResearch, ResearchProcess
 
 SLIDE_WIDTH = 1280
 MAX_IMAGE_BYTES = 512_000
 HEAVY_PACKAGE_BYTES = 10_000_000
+RESEARCH_REQUESTS = 200
+AUDIO_FLOWING_S = 2.0
 WHISPER_MODEL = Path.home()/'.cache'/'whisper'/'tiny.en.pt'
 
 
@@ -74,8 +78,11 @@ def slide_sources(path, folder):
     return sources
 
 
-def load_sources(paths):
+def load_sources(paths, brief=''):
     sources, seen = [], set()
+    if brief:  # No deck: one line on what the talk covers gives live research its context.
+        sources.append(ingest('brief.txt', brief.encode()))
+        seen.add(sources[0]['id'])
     with tempfile.TemporaryDirectory(prefix='presenter-talk-') as folder:
         for path in map(Path, paths):
             if not path.is_file():
@@ -87,10 +94,10 @@ def load_sources(paths):
                 found = slide_sources(path, pages)
             elif suffix in {'.png','.jpg','.jpeg'}:
                 found = [image_file(path, sidecar_cues(path), folder)]
-            elif suffix in {'.csv','.tsv'}:
+            elif suffix in {'.csv','.tsv','.txt','.md'}:
                 found = [ingest(path.name, path.read_bytes())]
             else:
-                raise ValueError(f'{path.name}: use PDF slides, PNG or JPEG images, or CSV/TSV numbers.')
+                raise ValueError(f'{path.name}: use PDF slides, PNG or JPEG images, CSV/TSV numbers or text notes.')
             for source in found:
                 if source['id'] not in seen:  # A repeated slide is one visual.
                     seen.add(source['id'])
@@ -128,6 +135,8 @@ def deck_plan(project):
                 spoken = re.sub(r'[-_]+',' ',column)
                 add(f'{spoken} ({label})', f'{spoken} {label} '+' '.join(str(r[data['columns'][0]]) for r in data['rows'][:6]),
                     unit, {'kind':'chart','dataset_id':data['id'],'x':data['columns'][0],'y':column})
+        elif len(' '.join(unit['text'].split())) >= 12:  # Notes give context; the output has nothing to draw for them.
+            add(unit['heading'], ' '.join(unit['text'].split())[:500], unit, {'kind':'evidence'})
     return validate_plan({'title':project['title'],'audience':project['audience'],'takeaway':project['brief'],
                           'understanding':'Your supplied slides, images and tables, shown as supplied.',
                           'questions':[],'concepts':concepts}, project)
@@ -157,8 +166,8 @@ def build_matcher(project):
     return VisualMatcher(visuals)
 
 
-def prepare_talk(store, paths, *, moment_assessor=None, live_assessor=None, style='speaker_led', title='Live talk', dwell_s=2.5):
-    sources = load_sources(paths)
+def prepare_talk(store, paths, *, moment_assessor=None, live_assessor=None, style='speaker_led', title='Live talk', dwell_s=2.5, brief=''):
+    sources = load_sources(paths, brief)
     studio = Studio(store, planner=DeckPlanner(), moment_assessor=moment_assessor, live_assessor=live_assessor, dwell_s=dwell_s)
     # The planner slot takes the deck builder; the "outline" provider would bypass it for the generic outline.
     p = store.create(title=title, brief=title, audience='The people in the room', sources=sources)
@@ -173,7 +182,7 @@ def prepare_talk(store, paths, *, moment_assessor=None, live_assessor=None, styl
 
 def capture_command(*, audio_file=None, device=None, offset_s=0, duration_s=None):
     if audio_file:  # Same path as a microphone, delivered at real speed.
-        return ['ffmpeg','-nostdin','-hide_banner','-loglevel','error','-re','-ss',str(offset_s),'-i',str(audio_file),
+        return ['ffmpeg','-nostdin','-hide_banner','-loglevel','error','-re',*(['-ss',str(offset_s)] if offset_s else []),'-i',str(audio_file),
                 *(['-t',str(duration_s)] if duration_s else []),'-ar','16000','-ac','1','-f','s16le','-']
     if shutil.which('arecord'):
         return ['arecord','-q','-f','S16_LE','-r','16000','-c','1','-t','raw',*(['-D',device] if device else [])]
@@ -191,6 +200,7 @@ class Capture(threading.Thread):
         self.stream = None
         self.finished = threading.Event()
         self.error = None
+        self.last_audio = 0
 
     def run(self):
         try:
@@ -201,6 +211,7 @@ class Capture(threading.Thread):
                 if len(second) < 32000:
                     break
                 pcm = (pcm+second)[-128000:]
+                self.last_audio = time.monotonic()
                 age = max(0, time.monotonic()-(origin+seq+1))
                 stream = self.stream
                 if stream and age < self.audio.max_age_s:
@@ -284,6 +295,10 @@ def preflight(args, *, asr_python, qt_screens=None):
     return rows
 
 
+def jev_available(rows):
+    return any(r['check'] == 'Jev timing' and r['ok'] for r in rows)
+
+
 def print_preflight(rows):
     for row in rows:
         mark = 'ok  ' if row['ok'] else ('FAIL' if row['required'] else 'warn')
@@ -300,12 +315,6 @@ def choose_screen(screens, wanted):
     return screens[wanted]
 
 
-def describe(project, scene_id):
-    plan = project['approval']['package']
-    scene = next((s for s in plan['scenes'] if s['id'] == scene_id), None)
-    return scene['title'] if scene else 'speaker'
-
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('materials', nargs='*', type=Path, help='PDF slides, PNG/JPEG images, CSV/TSV numbers')
@@ -318,7 +327,9 @@ def main():
     parser.add_argument('--env-file', help='Existing credentials file holding the Jev key.')
     parser.add_argument('--asr-python', type=Path, default=Path('.venv-asr/bin/python'))
     parser.add_argument('--data-dir', type=Path, default=Path('artifacts/talks'))
-    parser.add_argument('--audio-file', type=Path, help='Rehearse from a recording at real speed instead of a microphone.')
+    parser.add_argument('--audio-file', help='Rehearse from a recording or stream URL at real speed instead of a microphone.')
+    parser.add_argument('--brief', default='', help='One line on the subject; with --research, this can replace a deck.')
+    parser.add_argument('--research', action='store_true', help='Experimental: fetch unreviewed public web images at "look" moments.')
     parser.add_argument('--offset-s', type=float, default=0)
     parser.add_argument('--duration-s', type=float)
     parser.add_argument('--export', type=Path, help='Run offscreen from --audio-file; save each visual change and a report here.')
@@ -343,15 +354,26 @@ def main():
         return 0 if ready else 1
     if not ready:
         return 1
-    if not args.materials:
-        parser.error('Name at least one slide deck, image or table.')
-    jev_ok = any(r['check'] == 'Jev timing' and r['ok'] for r in rows)
+    if not args.materials and not args.brief:
+        parser.error('Name at least one slide deck, image or table, or give a --brief.')
+    if args.research and not jev_available(rows):
+        parser.error('--research needs Jev.')
+    jev_ok = jev_available(rows)
     store = Store(args.data_dir/time.strftime('%Y%m%d-%H%M%S'))
     studio, pid = prepare_talk(store, args.materials, title=args.title, style=args.style,
-                               moment_assessor=jev_moment if jev_ok else None, live_assessor=jev_adviser if jev_ok else None)
+                               moment_assessor=jev_moment if jev_ok else None, live_assessor=jev_adviser if jev_ok else None, brief=args.brief)
     scenes = [s for s in store.read(pid)['approval']['package']['scenes'] if s['kind'] != 'evidence']
-    if jev_ok:
-        studio.visual_assessor = build_matcher(store.read(pid))
+    matcher = build_matcher(store.read(pid)) if jev_ok else None
+    if matcher and matcher.visuals:
+        studio.visual_assessor = matcher
+    research = None
+    if args.research:
+        # A rehearsal's budget of twelve lookups would be gone in minutes of live coverage.
+        research = LiveResearch(studio, ResearchProcess(command=[sys.executable,'-m','presenter.web_research']),
+                                max_requests=RESEARCH_REQUESTS, max_assessments=RESEARCH_REQUESTS*5,
+                                open_topic=not args.materials)
+        studio.research = research
+        studio.control(pid, 'research', enabled=True)
     print(f'{len(scenes)} visuals ready. The screen is on you until one is needed.', flush=True)
     # Decision time grows with the saved package (about 190 ms at 4 MB on the development machine).
     if store.path(pid).stat().st_size > HEAVY_PACKAGE_BYTES:
@@ -364,6 +386,7 @@ def main():
         args.export.mkdir(parents=True, exist_ok=True)
     capture = None
     events, origin, previous_mtime = [], None, None
+    stall_reported = False
 
     def act(action, **values):
         try:
@@ -400,26 +423,36 @@ def main():
         if capture:
             capture.close()
         audio.close()
+        if research:
+            research.close()
         p = store.read(pid)
-        report = {'schema':'live_presenter.talk.v1','materials':[m.name for m in args.materials],'style':args.style,
+        report = {'schema':'live_presenter.talk.v1','materials':[m.name for m in args.materials],'brief':args.brief,'style':args.style,
                   'jev_timing':jev_ok,'audio_file':str(args.audio_file) if args.audio_file else None,
                   'duration_s':time.monotonic()-origin if origin else 0,'preflight':rows,'events':events,
-                  'audio':audio.snapshot(pid),'moment_stats':p['live'].get('moment_stats'),'transcript':p['live']['transcript']}
+                  'audio':audio.snapshot(pid),'moment_stats':p['live'].get('moment_stats'),'research_history':p.get('research_history',[]),
+                  'research_counts':{k:p['live'].get('research',{}).get(k) for k in ('request_count','assessment_count','status')},
+                  'transcript':p['live']['transcript']}
         (store.root/'talk-report.json').write_text(json.dumps(report, indent=2, default=str))
         if args.export:
             (args.export/'report.json').write_text(json.dumps(report, indent=2, default=str))
         print('Saved '+str(store.root/'talk-report.json'), flush=True)
 
     def tick():
-        nonlocal previous_mtime
+        nonlocal previous_mtime, stall_reported
         try:
             if origin is None:
                 return  # Still warming up; the stage cannot change until audio starts.
             state = audio.snapshot(pid)
+            # A silent microphone also stops the stream, and reloading the recognizer would not bring
+            # sound back. Restart once audio is flowing again.
             if state.get('status') in {'error', 'stopped'} and not capture.finished.is_set():
-                print('Speech recognition stopped; restarting it. Keys still work.', flush=True)
-                audio.stop(pid, capture.stream['stream_id'])
-                begin_stream()
+                if time.monotonic()-capture.last_audio < AUDIO_FLOWING_S:
+                    print('Audio is back; restarting speech recognition.', flush=True)
+                    audio.stop(pid, capture.stream['stream_id'])
+                    begin_stream()
+                elif not stall_reported:
+                    print('No audio is arriving. Keys still work; listening resumes when sound returns.', flush=True)
+                stall_reported = time.monotonic()-capture.last_audio >= AUDIO_FLOWING_S
             if capture.finished.is_set():
                 if capture.error:
                     print('Audio stopped: '+capture.error+' Keys still work.', flush=True)
@@ -436,7 +469,7 @@ def main():
             if output.accept(p):
                 surface.present(output, received)
                 at = time.monotonic()-origin
-                row = {'at_s':round(at,2),'scene_id':(output.scene or {}).get('id'),'visual':describe(p, (output.scene or {}).get('id')),
+                row = {'at_s':round(at,2),'scene_id':(output.scene or {}).get('id'),'visual':(output.scene or {}).get('title') or 'speaker','web_source':(output.scene or {}).get('web_source'),
                        'attention':output.attention,'decision':p['live']['decision'],
                        'moment':(p['live'].get('recommendation') or {}).get('moment'),
                        'heard':[r['text'] for r in p['live']['transcript'][-1:]]}
@@ -473,6 +506,9 @@ def main():
             return 1
         app.processEvents()
         time.sleep(.02)
+    # Ending from outside (Ctrl-C, a time limit, a closed terminal) still saves the talk's report.
+    for signum in (signal.SIGINT, signal.SIGTERM):
+        signal.signal(signum, lambda *_: app.quit())
     origin = time.monotonic()
     capture.start()
     print('Listening.', flush=True)

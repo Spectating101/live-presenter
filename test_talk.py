@@ -14,7 +14,7 @@ from presenter.attention import MATCH_GROUP, VisualMatcher
 from presenter.engine import Store, Studio
 from presenter.live_audio import LiveAudio
 from presenter.native_output import VisualOutput
-from presenter.talk import Capture, capture_command, choose_screen, deck_plan, load_sources, prepare_talk, spoken_phrases
+from presenter.talk import Capture, build_matcher, capture_command, choose_screen, deck_plan, load_sources, prepare_talk, spoken_phrases
 
 
 def png(red=0):
@@ -227,6 +227,27 @@ class TalkTests(unittest.TestCase):
                 return SimpleNamespace(answers={'pick':answer})
         matcher = VisualMatcher([(f's{i}', bytes([i]), str(i)) for i in range(MATCH_GROUP+3)], Backend())
         self.assertEqual(matcher('words')['scene_id'], 's0')
+
+    def test_a_brief_alone_can_start_a_talk_with_nothing_to_show(self):
+        store = Store(self.root/'brief')
+        studio, pid = prepare_talk(store, [], dwell_s=0, brief='Live coverage of the day\'s news stories.')
+        p = studio.control(pid, 'start')
+        output = VisualOutput()
+        p = studio.transcript(pid, 'the live coverage of the news stories today', 0, generation=p['live']['generation'])
+        output.accept(p)
+        self.assertIsNone(output.scene)
+        self.assertEqual(build_matcher(p).visuals, [])
+
+    def test_research_runs_only_at_look_moments_when_jev_judges_them(self):
+        store, studio, pid = self.prepare()
+        heard = []
+        studio.research = SimpleNamespace(observe=lambda *a, **k: heard.append(a[1]))
+        studio.moment_assessor = lambda words, earlier: {'look': .1 if 'story' in words else .9}
+        p = studio.control(pid, 'start')
+        studio.transcript(pid, 'a story about my grandmother', 0, generation=p['live']['generation'])
+        self.assertEqual(heard, [])
+        studio.transcript(pid, 'look at the storm over Lisbon', 1, generation=p['live']['generation'])
+        self.assertEqual(heard, ['look at the storm over Lisbon'])
 
     def test_spoken_phrases_are_short_and_bounded(self):
         phrases = spoken_phrases('Energy use across the whole world grew 22% since 2000 ' * 10)

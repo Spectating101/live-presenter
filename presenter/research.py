@@ -14,6 +14,7 @@ import time
 import uuid
 
 from .language import tokens,STOP
+from .attention import past_context
 from .explanation import explanation_need, presentation_fit, focus_target, chart_comparison, attention_targets
 
 
@@ -80,7 +81,8 @@ def empty_research():
 
 
 class LiveResearch:
-    def __init__(self,studio,backend=None,*,clock=time.time,cooldown_s=6,fresh_s=20):
+    def __init__(self,studio,backend=None,*,clock=time.time,cooldown_s=6,fresh_s=20,max_requests=12,max_assessments=60,open_topic=False):
+        self.max_requests,self.max_assessments,self.open_topic=max_requests,max_assessments,open_topic
         self.studio,self.store,self.backend=studio,studio.store,backend or ResearchProcess()
         self.clock,self.cooldown_s,self.fresh_s=clock,cooldown_s,fresh_s
         self.condition=threading.Condition();self.pending=None;self.active=None;self.closed=False
@@ -120,6 +122,8 @@ class LiveResearch:
         known=tokens(' '.join(c['title']+' '+c['summary']+' '+' '.join(c['aliases']) for c in package['concepts']))
         known |= tokens(' '.join(phrase for scene in package['scenes'] for target in attention_targets(scene) for phrase in target['cue_phrases']))
         recent=[r['text'] for r in live['transcript'][-4:-1] if self.clock()-r['at']<=8]
+        if self.open_topic:  # With no deck, about twenty seconds of words is all that names the subject.
+            recent=past_context(live['transcript'][:-1],self.clock(),count=4)
         from .research_sources import spoken_context
         topic_speech=spoken_context({'utterance':utterance,'recent_past':recent})
         novel=tokens(topic_speech)-known-{'compared','instead','please','find','show','explain','could','would','about','tell'}
@@ -165,15 +169,15 @@ class LiveResearch:
         with self.condition:cached=self.cache.get(cache_key)
         exact=bool(cached and now-cached[0]<300)
         warm=exact or bool(reuse)
-        if research.get('request_count',0)>=12 and not warm:
+        if research.get('request_count',0)>=self.max_requests and not warm:
             with self.store.change(pid) as current:current['live']['research'].update(status='limit',message='This rehearsal has used its twelve research requests. Prepared following continues.')
             return
-        if research.get('assessment_count',0)>=60 and not exact:
+        if research.get('assessment_count',0)>=self.max_assessments and not exact:
             with self.store.change(pid) as current:current['live']['research'].update(status='limit',message='This rehearsal reached its sixty topic assessments. Prepared following continues.')
             return
         request_id=uuid.uuid4().hex
         context={'title':package['title'],'brief':p['brief'],'concepts':[{k:c[k] for k in ('title','summary','aliases')} for c in package['concepts']],
-                 'utterance':utterance[:600],'recent_past':recent}
+                 'utterance':utterance[:600],'recent_past':recent,'open_topic':self.open_topic}
         need = explanation_need(topic_speech, p.get('audience', ''))
         current_scene = next((s for s in package['scenes'] if s['id'] == live['current_scene_id']), None)
         current_concept = next((c for c in package['concepts'] if current_scene and c['id'] == current_scene['concept_id']), {})
