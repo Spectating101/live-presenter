@@ -213,6 +213,27 @@ capture to decision reached 1.5–1.8 seconds on the largest decks, and up to 25
 audio windows expired. Alone, with the 27-visual deck, the median was 1.31 seconds
 (p95 2.07).
 
+**Did it pick the right slide at the right time?** Kappa cannot say, but each deck
+image came from a known moment in its talk. A show counts as well timed when it
+falls within 30 seconds of that moment. A later show may still be a fair callback, so
+this is a lower bound. Three versions ran on all twelve recordings at real speed.
+The rule was fixed before the last run: most well-timed shows on the threshold
+talks, at least 60% accuracy, nothing on the wrong-deck control. Held-out talks
+were reported and not used to choose.
+
+| Version | Threshold talks: well timed | Held out: well timed | Held-out speaker left clear (median) | Wrong-deck control |
+|---|---:|---:|---:|---:|
+| **This window, 0.85 (kept)** | **27/38 (71%)** | 24/42 (57%) | 83% | nothing shown |
+| About 20 s of words, 0.85, two windows agree | 21/30 (70%) | 18/30 (60%) | 96% | nothing shown |
+| About 20 s of words, 0.70, two windows agree | 25/35 (71%) | 21/36 (58%) | 68% | nothing shown |
+
+Offline, about 20 seconds of words doubled correct picks (25 to 52 of 150), and one
+question per slide, the pattern in TypeSafe's Intelliprompter cookbook, did worse
+than one question across all slides. Neither the extra words nor agreement between
+windows improved real-speed accuracy, so the simplest version stayed. Differences of
+this size on these samples are not strong evidence. Treat about 60–70% well-timed
+as the current level, and offline scores as a poor predictor of live behavior.
+
 **Virtual-display rehearsal.** A full run on a virtual X display used room-degraded
 audio (band-limited, echo, pink noise) and real key events. It exposed two defects
 that silenced speech for the rest of a talk, one after any key press and one after

@@ -320,5 +320,77 @@
    "p50": 1.29,
    "p95": 2.02
   }
+ },
+ "variant_comparison": {
+  "rule": "Fixed before the last run: most well-timed shows on the threshold talks, at least 60% accuracy, nothing shown on the wrong-deck control. Held-out talks are reported, not used to choose. Well-timed means within 30 seconds of where the original talk used that slide.",
+  "chosen": "single window, 0.85, no agreement",
+  "results": {
+   "single window, 0.85, no agreement": {
+    "threshold": {
+     "well_timed": 27,
+     "total": 38,
+     "accuracy": 0.71,
+     "kappa": 0.035,
+     "clear": 0.897,
+     "screen": 0.167
+    },
+    "held_out": {
+     "well_timed": 24,
+     "total": 42,
+     "accuracy": 0.57,
+     "kappa": 0.136,
+     "clear": 0.829,
+     "screen": 0.234
+    },
+    "control": {
+     "used": 0,
+     "screen": 0.0
+    }
+   },
+   "20s, 0.85, two agree": {
+    "threshold": {
+     "well_timed": 21,
+     "total": 30,
+     "accuracy": 0.7,
+     "kappa": 0.078,
+     "clear": 0.944,
+     "screen": 0.111
+    },
+    "held_out": {
+     "well_timed": 18,
+     "total": 30,
+     "accuracy": 0.6,
+     "kappa": 0.125,
+     "clear": 0.958,
+     "screen": 0.132
+    },
+    "control": {
+     "used": 0,
+     "screen": 0.0
+    }
+   },
+   "20s, 0.70, two agree": {
+    "threshold": {
+     "well_timed": 25,
+     "total": 35,
+     "accuracy": 0.71,
+     "kappa": 0.023,
+     "clear": 0.875,
+     "screen": 0.181
+    },
+    "held_out": {
+     "well_timed": 21,
+     "total": 36,
+     "accuracy": 0.58,
+     "kappa": 0.136,
+     "clear": 0.678,
+     "screen": 0.437
+    },
+    "control": {
+     "used": 0,
+     "screen": 0.0
+    }
+   }
+  }
  }
 }
